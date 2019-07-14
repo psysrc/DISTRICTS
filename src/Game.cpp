@@ -1,5 +1,8 @@
 #include "Game.h"
 
+using std::cout;
+using std::endl;
+
 Game::Game() {
 	gameOver = false;
 

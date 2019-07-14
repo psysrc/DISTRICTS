@@ -7,10 +7,13 @@
 //============================================================================
 
 #include <iostream>
-#include <stdio.h>
 #include "Game.h"
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::ws;
 
 void startNewGame();
 void quitMessage();
