@@ -1,8 +1,20 @@
 #ifndef TILE_H_
 #define TILE_H_
 
+enum TileProperty {
+	Tree,
+	Water,
+	WoodenWall,
+	WoodenFloor,
+	Plains,
+	Bush,
+	Rocky,
+	IronOre
+};
+
 class Tile {
 private:
+	TileProperty properties[5];
 	int xCoord, yCoord;
 public:
 	Tile();
