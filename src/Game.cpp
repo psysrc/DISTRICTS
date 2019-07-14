@@ -6,13 +6,13 @@ using std::endl;
 Game::Game() {
 	gameOver = false;
 
-	map = new Map();
+	district = new District();
 
 	cout << "New game created." << endl;
 }
 
 Game::~Game() {
-	delete map;
+	delete district;
 }
 
 void Game::play() {

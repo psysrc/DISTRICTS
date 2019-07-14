@@ -2,12 +2,12 @@
 #define GAME_H_
 
 #include <iostream>
-#include "Map.h"
+#include "District.h"
 
 class Game {
 private:
 	bool gameOver;
-	Map* map;
+	District* district;
 public:
 	Game();
 	~Game();
