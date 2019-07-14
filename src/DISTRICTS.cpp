@@ -12,6 +12,17 @@
 using namespace std;
 
 int main() {
-	cout << "Hello World, " << endl << "Welcome to DISTRICTS." << endl; // prints Hello World
+	cout << "Welcome to DISTRICTS." << endl << endl;
+
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			cout << "# ";
+		}
+
+		cout << endl;
+	}
+
+	cout << endl << "Here's a starting map, sort of." << endl;
+
 	return 0;
 }
