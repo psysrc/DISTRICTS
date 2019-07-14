@@ -7,3 +7,7 @@ Game::Game() {
 Game::~Game() {
 
 }
+
+void Game::play() {
+
+}

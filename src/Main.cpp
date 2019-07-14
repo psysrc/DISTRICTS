@@ -8,18 +8,17 @@
 
 #include <iostream>
 #include <stdio.h>
+#include "Game.h"
 
 using namespace std;
 
 void startNewGame();
-void loadGame();
-void quit();
+void quitMessage();
 
 int main() {
 	cout << "Welcome to DISTRICTS." << endl << endl << "Please select an option." << endl << endl;
 
 	cout << "(1) New Game" << endl;
-	cout << "(2) Load Game" << endl;
 	cout << "(0) Quit" << endl << endl;
 
 	bool invalidSelection;
@@ -34,10 +33,8 @@ int main() {
 		// Perform the action, or wait for more input if not valid
 		if (inputText == "1")
 			startNewGame();
-		else if (inputText == "2")
-			loadGame();
 		else if (inputText == "0") {
-			quit();
+			quitMessage();
 		}
 		else {
 			cout << "Invalid selection. Please select an option from the menu above." << endl;
@@ -51,12 +48,11 @@ int main() {
 
 void startNewGame() {
 	cout << "Starting a new game..." << endl;
+
+	Game newGame;
+	newGame.play();
 }
 
-void loadGame() {
-	cout << "Loading a saved game..." << endl;
-}
-
-void quit() {
+void quitMessage() {
 	cout << "Quitting..." << endl;
 }
