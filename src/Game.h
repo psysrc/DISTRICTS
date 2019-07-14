@@ -3,10 +3,14 @@
 
 #include <iostream>
 #include <stdio.h>
+#include "Map.h"
 
 using namespace std;
 
 class Game {
+private:
+	bool gameOver;
+	Map* map;
 public:
 	Game();
 	~Game();
