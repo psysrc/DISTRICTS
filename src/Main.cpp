@@ -6,6 +6,7 @@
 // Description : A procedurally generated base building game.
 //============================================================================
 
+#include "Constants.h"
 #include <iostream>
 #include "Game.h"
 
@@ -50,7 +51,8 @@ int main() {
 }
 
 void startNewGame() {
-	cout << "Starting a new game..." << endl;
+	if (DEBUG)
+		cout << "Starting a new game..." << endl;
 
 	Game newGame;
 	newGame.play();

@@ -1,3 +1,4 @@
+#include "Constants.h"
 #include "Game.h"
 
 using std::cout;
@@ -8,7 +9,8 @@ Game::Game() {
 
 	district = new District();
 
-	cout << "New game created." << endl;
+	if (DEBUG)
+		cout << "New game created." << endl;
 }
 
 Game::~Game() {
@@ -16,8 +18,13 @@ Game::~Game() {
 }
 
 void Game::play() {
+	int i = 10000;
+
 	// Game loop
 	while (!gameOver) {
-
+		if (i--)
+			gameOver = true;
 	}
+
+	cout << "Game Over." << endl;
 }
