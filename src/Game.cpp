@@ -16,7 +16,8 @@ Game::~Game() {
 }
 
 void Game::play() {
-	// Initialise game (create map, etc)
-
 	// Game loop
+	while (!gameOver) {
+
+	}
 }
