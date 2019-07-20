@@ -4,12 +4,8 @@
 enum TileProperty {
 	Tree,
 	Water,
-	WoodenWall,
-	WoodenFloor,
-	Plains,
-	Bush,
-	Rocky,
-	IronOre
+	Grass,
+	Stone
 };
 
 class Tile {
