@@ -39,7 +39,7 @@ void District::simulate() {
 		c->takeAction();
 	}
 
-	// Simulate the rest of the district
+	// TODO: Simulate the rest of the district
 }
 
 /*
@@ -48,7 +48,14 @@ void District::simulate() {
 string District::draw() {
 	std::stringstream ss;
 
-	ss << "This is placeholder text for a drawing of the '" << districtName << "' district." << endl;
+	// Draw the N*N grid of tiles
+	for (int i = 0; i < DISTRICT_SIZE; i++) {
+		for (int j = 0; j < DISTRICT_SIZE; j++) {
+			ss << tiles[i][j].draw() << " ";
+		}
+
+		ss << endl;
+	}
 
 	return ss.str();
 }
