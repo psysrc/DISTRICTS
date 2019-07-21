@@ -18,12 +18,14 @@ Game::~Game() {
 }
 
 void Game::play() {
-	int i = 10000;
-
 	// Game loop
 	while (!gameOver) {
-		if (i--)
-			gameOver = true;
+		// If user has paused:
+		// 	Wait for their input
+		// 	If they provide input (without unpausing), process it
+		// Otherwise continue:
+		// Wait for some milliseconds
+		// Simulate a game tick
 	}
 
 	cout << "Game Over." << endl;
