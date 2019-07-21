@@ -6,6 +6,7 @@
 #include "Citizen.h"
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 using std::cout;
 using std::endl;
@@ -16,7 +17,7 @@ using std::vector;
 
 class District {
 private:
-	string name;
+	string districtName;
 	Tile** tiles;
 	vector<Citizen*> citizens;
 public:
@@ -24,6 +25,7 @@ public:
 	District(string name);
 	~District();
 	void simulate();
+	string draw();
 	string getName();
 };
 

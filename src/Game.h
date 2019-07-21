@@ -14,6 +14,7 @@ public:
 	Game();
 	~Game();
 	void play();
+	void drawGameState();
 	void gameOver();
 };
 

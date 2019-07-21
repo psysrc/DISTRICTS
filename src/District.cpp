@@ -4,7 +4,7 @@ District::District() : District("unnamed") {
 
 }
 
-District::District(string name) : name(name) {
+District::District(string name) : districtName(name) {
 	// Define a contiguous memory space for the n*n grid of tiles
 	tiles = new Tile*[DISTRICT_SIZE];
 	tiles[0] = new Tile[DISTRICT_SIZE * DISTRICT_SIZE];
@@ -42,6 +42,17 @@ void District::simulate() {
 	// Simulate the rest of the district
 }
 
+/*
+ * Used by the game to draw the district to the screen when required.
+ */
+string District::draw() {
+	std::stringstream ss;
+
+	ss << "This is placeholder text for a drawing of the '" << districtName << "' district." << endl;
+
+	return ss.str();
+}
+
 string District::getName() {
-	return name;
+	return districtName;
 }

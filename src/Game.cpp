@@ -19,6 +19,9 @@ Game::~Game() {
 	delete district;
 }
 
+/*
+ * Defines the game loop while the game is still being played (game isn't over).
+ */
 void Game::play() {
 	// Game loop
 	while (!gameIsOver) {
@@ -33,10 +36,18 @@ void Game::play() {
 
 		district->simulate();	// Simulate a game tick
 
-		// TODO: Render the game state to the console
+		// TODO: Render the game state
+		drawGameState();
 	}
 
 	gameOver();
+}
+
+/*
+ * Draws the current state of the game.
+ */
+void Game::drawGameState() {
+	cout << district->draw() << endl;
 }
 
 /*
