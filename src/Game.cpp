@@ -32,6 +32,8 @@ void Game::play() {
 			cout << "Simulating district " << district->getName() << endl;
 
 		district->simulate();	// Simulate a game tick
+
+		// TODO: Render the game state to the console
 	}
 
 	cout << "Game Over." << endl;
