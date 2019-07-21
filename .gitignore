@@ -31,8 +31,3 @@
 *.out
 *.app
 
-# Eclipse files
-.settings/*
-.cproject
-.project
-
