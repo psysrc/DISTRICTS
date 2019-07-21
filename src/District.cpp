@@ -1,6 +1,10 @@
 #include "District.h"
 
-District::District() {
+District::District() : District("unnamed") {
+
+}
+
+District::District(string name) : name(name) {
 	// Define a contiguous memory space for the n*n grid of tiles
 	tiles = new Tile*[DISTRICT_SIZE];
 	tiles[0] = new Tile[DISTRICT_SIZE * DISTRICT_SIZE];
@@ -30,10 +34,14 @@ void District::simulate() {
 	// Simulate all citizens
 	for (Citizen* c : citizens) {
 		if (DEBUG)
-			cout << "Simulating citizen " << c->toString() << endl;
+			cout << "Simulating citizen " << c->getName() << endl;
 
 		c->takeAction();
 	}
 
 	// Simulate the rest of the district
+}
+
+string District::getName() {
+	return name;
 }

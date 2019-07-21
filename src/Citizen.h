@@ -3,15 +3,17 @@
 
 #include <iostream>
 
+using std::string;
+
 class Citizen {
 private:
-	std::string name;
+	string name;
 public:
-	Citizen(std::string name);
+	Citizen(string name);
 	Citizen();
 	~Citizen();
 	void takeAction();
-	std::string toString();
+	string getName();
 };
 
 #endif /* CITIZEN_H_ */

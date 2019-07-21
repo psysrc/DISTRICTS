@@ -28,6 +28,9 @@ void Game::play() {
 
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
 
+		if (DEBUG)
+			cout << "Simulating district " << district->getName() << endl;
+
 		district->simulate();	// Simulate a game tick
 	}
 

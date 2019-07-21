@@ -1,6 +1,6 @@
 #include "Citizen.h"
 
-Citizen::Citizen(std::string name) : name(name) {
+Citizen::Citizen(string name) : name(name) {
 
 }
 
@@ -20,6 +20,6 @@ void Citizen::takeAction() {
 
 }
 
-std::string Citizen::toString() {
+string Citizen::getName() {
 	return name;
 }
