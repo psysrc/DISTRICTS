@@ -8,12 +8,13 @@
 
 class Game {
 private:
-	bool gameOver;
+	bool gameIsOver;
 	District* district;
 public:
 	Game();
 	~Game();
 	void play();
+	void gameOver();
 };
 
 #endif /* GAME_H_ */

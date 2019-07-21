@@ -7,7 +7,7 @@ using namespace std::this_thread;
 using namespace std::chrono;
 
 Game::Game() {
-	gameOver = false;
+	gameIsOver = false;
 
 	district = new District();
 
@@ -21,7 +21,7 @@ Game::~Game() {
 
 void Game::play() {
 	// Game loop
-	while (!gameOver) {
+	while (!gameIsOver) {
 		// If user has paused:
 		// 	Wait for their input
 		// 	If they provide input (without unpausing), process it
@@ -36,5 +36,12 @@ void Game::play() {
 		// TODO: Render the game state to the console
 	}
 
+	gameOver();
+}
+
+/*
+ * This method is called when the game is over.
+ */
+void Game::gameOver() {
 	cout << "Game Over." << endl;
 }
