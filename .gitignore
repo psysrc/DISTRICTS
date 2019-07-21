@@ -31,3 +31,6 @@
 *.out
 *.app
 
+# DISTRICT-Specific Executable
+Debug/DISTRICTS
+
