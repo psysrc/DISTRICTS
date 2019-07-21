@@ -10,6 +10,7 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
 
 #define DISTRICT_SIZE 10
 
@@ -17,7 +18,7 @@ class District {
 private:
 	string name;
 	Tile** tiles;
-	std::vector<Citizen*> citizens;
+	vector<Citizen*> citizens;
 public:
 	District();
 	District(string name);
