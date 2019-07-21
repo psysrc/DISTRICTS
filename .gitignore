@@ -34,4 +34,5 @@
 # Eclipse files
 .settings/*
 .cproject
+.project
 
