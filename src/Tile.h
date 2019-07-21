@@ -1,6 +1,10 @@
 #ifndef TILE_H_
 #define TILE_H_
 
+#include <vector>
+
+using std::vector;
+
 enum TileProperty {
 	Tree,
 	Water,
@@ -10,7 +14,7 @@ enum TileProperty {
 
 class Tile {
 private:
-	TileProperty properties[5];
+	vector<TileProperty> properties;
 	int xCoord, yCoord;
 public:
 	Tile();
