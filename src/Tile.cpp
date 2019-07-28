@@ -37,6 +37,14 @@ int Tile::getY() {
 	return yCoord;
 }
 
+void Tile::updateProperty(TileProperty newProperty) {
+	property = newProperty;
+}
+
+TileProperty Tile::getProperty() {
+	return property;
+}
+
 /*
  * Calling this tells the tile that the supplied Citizen is now occupying this tile.
  * This also informs the supplied Citizen of the tile change via Citizen::setTile().

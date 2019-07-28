@@ -30,6 +30,8 @@ public:
 	void setCoordinates(int x, int y);
 	int getX();
 	int getY();
+	void updateProperty(TileProperty newProperty);
+	TileProperty getProperty();
 	District* getDistrict();
 	void citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
