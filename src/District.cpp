@@ -74,3 +74,11 @@ string District::draw() {
 string District::getName() {
 	return districtName;
 }
+
+Tile** District::getTiles() {
+	return tiles;
+}
+
+Tile* District::getTile(const int i, const int j) {
+	return &tiles[i][j];
+}

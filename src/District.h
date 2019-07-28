@@ -27,6 +27,8 @@ public:
 	void simulate();
 	string draw();
 	string getName();
+	Tile** getTiles();
+	Tile* getTile(const int i, const int j);
 };
 
 #endif /* DISTRICT_H_ */
