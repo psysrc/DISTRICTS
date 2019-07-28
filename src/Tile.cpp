@@ -1,15 +1,19 @@
 #include "Tile.h"
 
-Tile::Tile() : Tile(-1, -1) {
+Tile::Tile() : district(nullptr), xCoord(-1), yCoord(-1), occupyingCitizen(nullptr) {
 
-}
-
-Tile::Tile(int x, int y) : xCoord(x), yCoord(y) {
-	occupyingCitizen = nullptr;
 }
 
 Tile::~Tile() {
 
+}
+
+/*
+ * Tells the tile which district it is contained within.
+ * This should only ever be used immediately after the tile's creation!
+ */
+void Tile::setDistrict(District* dist) {
+	district = dist;
 }
 
 /*

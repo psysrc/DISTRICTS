@@ -1,9 +1,11 @@
 #ifndef DISTRICT_H_
 #define DISTRICT_H_
 
+class District;
+
 #include "Constants.h"
-#include "Tile.h"
 #include "Citizen.h"
+#include "Tile.h"
 #include <vector>
 #include <iostream>
 #include <sstream>

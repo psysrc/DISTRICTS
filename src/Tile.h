@@ -1,6 +1,9 @@
 #ifndef TILE_H_
 #define TILE_H_
 
+class Tile;
+
+#include "District.h"
 #include "Citizen.h"
 #include <vector>
 
@@ -15,14 +18,16 @@ enum TileProperty {
 
 class Tile {
 private:
+	District* district;
 	int xCoord, yCoord;
 	vector<TileProperty> properties;
 	Citizen* occupyingCitizen;
 public:
 	Tile();
-	Tile(int x, int y);
 	~Tile();
+	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
+	District* getDistrict();
 	void citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
 	string draw();
