@@ -28,6 +28,7 @@ public:
 	~Tile();
 	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
+	bool isInitialised();
 	int getX();
 	int getY();
 	void updateProperty(TileProperty newProperty);

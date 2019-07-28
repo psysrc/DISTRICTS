@@ -9,6 +9,7 @@ class District;
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <exception>
 
 using std::cout;
 using std::endl;

@@ -22,6 +22,14 @@ District::District(string name) : districtName(name) {
 		}
 	}
 
+	// Check that all tiles have been initialised
+	for (int i = 0; i < DISTRICT_SIZE; i++) {
+		for (int j = 0; j < DISTRICT_SIZE; j++) {
+			if (!tiles[i][j].isInitialised())
+				throw UninitialisedObjectException();
+		}
+	}
+
 	// Add a new citizen to tile [1, 1]
 	Citizen* newCitizen = new Citizen("Geoff");
 	citizens.push_back(newCitizen);
