@@ -20,6 +20,10 @@ District::District(string name) : districtName(name) {
 			tiles[i][j].setCoordinates(i, j);
 		}
 	}
+
+	// Add a new citizen
+	Citizen* newCitizen = new Citizen("Geoff");
+	citizens.push_back(newCitizen);
 }
 
 District::~District() {
