@@ -16,6 +16,10 @@ void Tile::setDistrict(District* dist) {
 	district = dist;
 }
 
+District* Tile::getDistrict() {
+	return district;
+}
+
 /*
  * Sets the coordinates of this tile.
  * This should only ever be used immediately after the tile's creation!
@@ -25,20 +29,35 @@ void Tile::setCoordinates(int x, int y) {
 	yCoord = y;
 }
 
-/*
- * Calling this tells the tile that the supplied Citizen is now occupying this tile.
- * This is assuming the tile is not already occupied.
- */
-void Tile::citizenEnter(Citizen* citizen) {
-	if (occupyingCitizen == nullptr)
-		occupyingCitizen = citizen;
+int Tile::getX() {
+	return xCoord;
+}
+
+int Tile::getY() {
+	return yCoord;
 }
 
 /*
- * Calling this vacates the tile of its citizen (if it has one).
+ * Calling this tells the tile that the supplied Citizen is now occupying this tile.
+ * This also informs the supplied Citizen of the tile change via Citizen::setTile().
+ * This is assuming the tile is not already occupied.
+ */
+void Tile::citizenEnter(Citizen* citizen) {
+	if (occupyingCitizen == nullptr) {
+		occupyingCitizen = citizen;
+
+		occupyingCitizen->setTile(this);
+	}
+}
+
+/*
+ * Calling this vacates the tile of its citizen (if it has one) and returns the Citizen*.
+ * This also informs the supplied citizen of the tile change via Citizen::setTile().
  */
 Citizen* Tile::citizenLeave() {
 	if (occupyingCitizen != nullptr) {
+		occupyingCitizen->setTile(nullptr);
+
 		Citizen* temp = occupyingCitizen;
 		occupyingCitizen = nullptr;
 		return temp;

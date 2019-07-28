@@ -22,10 +22,10 @@ District::District(string name) : districtName(name) {
 		}
 	}
 
-	// Add a new citizen to tile [5, 5]
+	// Add a new citizen to tile [1, 1]
 	Citizen* newCitizen = new Citizen("Geoff");
 	citizens.push_back(newCitizen);
-	tiles[5][5].citizenEnter(newCitizen);
+	tiles[1][1].citizenEnter(newCitizen);
 }
 
 District::~District() {
@@ -80,6 +80,13 @@ Tile** District::getTiles() {
 	return tiles;
 }
 
+/*
+ * Returns the tile at the given coordinates.
+ * Returns nullptr if the coordinates are out of range.
+ */
 Tile* District::getTile(const int i, const int j) {
-	return &tiles[i][j];
+	if (i < 0 || i >= DISTRICT_SIZE || j < 0 || j >= DISTRICT_SIZE)	// Check the indexes are in range
+		return nullptr;
+	else
+		return &tiles[i][j];
 }

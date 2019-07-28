@@ -18,6 +18,7 @@ public:
 	~Citizen();
 	void setTile(Tile* tile);
 	Tile* getTile();
+	District* getDistrict();
 	void takeAction();
 	string getName();
 };

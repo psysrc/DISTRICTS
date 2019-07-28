@@ -28,6 +28,8 @@ public:
 	~Tile();
 	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
+	int getX();
+	int getY();
 	District* getDistrict();
 	void citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
