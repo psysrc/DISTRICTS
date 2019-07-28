@@ -14,7 +14,7 @@ District::District(string name) : districtName(name) {
 		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
 	}
 
-	// Populate the tile grid by initialising each tile with its coordinates
+	// Populate the tile grid by initialising each tile with its coordinates and district
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
 			tiles[i][j].setDistrict(this);

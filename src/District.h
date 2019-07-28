@@ -15,7 +15,7 @@ using std::endl;
 using std::string;
 using std::vector;
 
-#define DISTRICT_SIZE 10
+#define DISTRICT_SIZE 16
 
 class District {
 private:
