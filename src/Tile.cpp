@@ -21,9 +21,27 @@ void Tile::setCoordinates(int x, int y) {
 	yCoord = y;
 }
 
+void Tile::citizenEnter(Citizen* citizen) {
+	if (occupyingCitizen == nullptr)
+		occupyingCitizen = citizen;
+}
+
+Citizen* Tile::citizenLeave() {
+	if (occupyingCitizen != nullptr) {
+		Citizen* temp = occupyingCitizen;
+		occupyingCitizen = nullptr;
+		return temp;
+	}
+
+	return nullptr;
+}
+
 /*
- * Draws this tile.
+ * Draws this tile depending on its properties.
  */
 string Tile::draw() {
-	return "#";
+	if (occupyingCitizen == nullptr)
+		return "#";
+	else
+		return "C";
 }

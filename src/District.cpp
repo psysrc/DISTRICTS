@@ -21,14 +21,21 @@ District::District(string name) : districtName(name) {
 		}
 	}
 
-	// Add a new citizen
+	// Add a new citizen to tile [5, 5]
 	Citizen* newCitizen = new Citizen("Geoff");
 	citizens.push_back(newCitizen);
+	tiles[5][5].citizenEnter(newCitizen);
 }
 
 District::~District() {
 	delete [] tiles[0];
 	delete [] tiles;
+
+	for (Citizen* c : citizens) {
+		delete c;
+	}
+
+	citizens.clear();
 }
 
 /*

@@ -23,6 +23,8 @@ public:
 	Tile(int x, int y);
 	~Tile();
 	void setCoordinates(int x, int y);
+	void citizenEnter(Citizen* citizen);
+	Citizen* citizenLeave();
 	string draw();
 };
 
