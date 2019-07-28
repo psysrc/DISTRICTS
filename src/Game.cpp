@@ -9,14 +9,14 @@ using namespace std::chrono;
 Game::Game() {
 	gameIsOver = false;
 
-	district = new District();
+	pDistrict = new District();
 
 	if (DEBUG)
 		cout << "New game created." << endl;
 }
 
 Game::~Game() {
-	delete district;
+	delete pDistrict;
 }
 
 /*
@@ -32,9 +32,9 @@ void Game::play() {
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
 
 		if (DEBUG)
-			cout << "Simulating district " << district->getName() << endl;
+			cout << "Simulating district " << pDistrict->getName() << endl;
 
-		district->simulate();	// Simulate a game tick
+		pDistrict->simulate();	// Simulate a game tick
 
 		// TODO: Render the game state
 		drawGameState();
@@ -47,7 +47,7 @@ void Game::play() {
  * Draws the current state of the game.
  */
 void Game::drawGameState() {
-	cout << district->draw() << endl;
+	cout << pDistrict->draw() << endl;
 }
 
 /*

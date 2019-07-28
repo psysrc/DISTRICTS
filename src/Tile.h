@@ -19,10 +19,10 @@ enum TileProperty {
 
 class Tile {
 private:
-	District* district;
+	District* pDistrict;
 	int xCoord, yCoord;
 	vector<TileProperty> properties;
-	Citizen* occupyingCitizen;
+	Citizen* pOccupyingCitizen;
 public:
 	Tile();
 	~Tile();

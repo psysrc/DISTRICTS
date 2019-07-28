@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : district(nullptr), xCoord(-1), yCoord(-1), occupyingCitizen(nullptr) {
+Tile::Tile() : pDistrict(nullptr), xCoord(-1), yCoord(-1), pOccupyingCitizen(nullptr) {
 
 }
 
@@ -13,11 +13,11 @@ Tile::~Tile() {
  * This should only ever be used immediately after the tile's creation!
  */
 void Tile::setDistrict(District* dist) {
-	district = dist;
+	pDistrict = dist;
 }
 
 District* Tile::getDistrict() {
-	return district;
+	return pDistrict;
 }
 
 /*
@@ -43,10 +43,10 @@ int Tile::getY() {
  * This is assuming the tile is not already occupied.
  */
 void Tile::citizenEnter(Citizen* citizen) {
-	if (occupyingCitizen == nullptr) {
-		occupyingCitizen = citizen;
+	if (pOccupyingCitizen == nullptr) {
+		pOccupyingCitizen = citizen;
 
-		occupyingCitizen->setTile(this);
+		pOccupyingCitizen->setTile(this);
 	}
 }
 
@@ -55,11 +55,11 @@ void Tile::citizenEnter(Citizen* citizen) {
  * This also informs the supplied citizen of the tile change via Citizen::setTile().
  */
 Citizen* Tile::citizenLeave() {
-	if (occupyingCitizen != nullptr) {
-		occupyingCitizen->setTile(nullptr);
+	if (pOccupyingCitizen != nullptr) {
+		pOccupyingCitizen->setTile(nullptr);
 
-		Citizen* temp = occupyingCitizen;
-		occupyingCitizen = nullptr;
+		Citizen* temp = pOccupyingCitizen;
+		pOccupyingCitizen = nullptr;
 		return temp;
 	}
 
@@ -70,7 +70,7 @@ Citizen* Tile::citizenLeave() {
  * Draws this tile depending on its properties.
  */
 string Tile::draw() {
-	if (occupyingCitizen == nullptr)
+	if (pOccupyingCitizen == nullptr)
 		return "#";
 	else
 		return "C";

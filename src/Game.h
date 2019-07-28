@@ -9,7 +9,7 @@
 class Game {
 private:
 	bool gameIsOver;
-	District* district;
+	District* pDistrict;
 public:
 	Game();
 	~Game();

@@ -10,10 +10,10 @@ using std::string;
 
 class Citizen {
 private:
-	Tile* tile;
+	Tile* pTile;
 	string citizenName;
 public:
-	Citizen(string name);
+	Citizen(const string name);
 	Citizen();
 	~Citizen();
 	void setTile(Tile* tile);

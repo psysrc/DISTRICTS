@@ -24,7 +24,7 @@ private:
 	vector<Citizen*> citizens;
 public:
 	District();
-	District(string name);
+	District(const string name);
 	~District();
 	void simulate();
 	string draw();
