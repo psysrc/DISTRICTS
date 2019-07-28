@@ -21,11 +21,18 @@ void Tile::setCoordinates(int x, int y) {
 	yCoord = y;
 }
 
+/*
+ * Calling this tells the tile that the supplied Citizen is now occupying this tile.
+ * This is assuming the tile is not already occupied.
+ */
 void Tile::citizenEnter(Citizen* citizen) {
 	if (occupyingCitizen == nullptr)
 		occupyingCitizen = citizen;
 }
 
+/*
+ * Calling this vacates the tile of its citizen (if it has one).
+ */
 Citizen* Tile::citizenLeave() {
 	if (occupyingCitizen != nullptr) {
 		Citizen* temp = occupyingCitizen;
