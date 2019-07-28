@@ -1,17 +1,23 @@
 #ifndef CITIZEN_H_
 #define CITIZEN_H_
 
+class Citizen;
+
 #include <iostream>
+#include "Tile.h"
 
 using std::string;
 
 class Citizen {
 private:
-	string name;
+	Tile* tile;
+	string citizenName;
 public:
 	Citizen(string name);
 	Citizen();
 	~Citizen();
+	void setTile(Tile* tile);
+	Tile* getTile();
 	void takeAction();
 	string getName();
 };

@@ -9,7 +9,7 @@ District::District(string name) : districtName(name) {
 	tiles = new Tile*[DISTRICT_SIZE];
 	tiles[0] = new Tile[DISTRICT_SIZE * DISTRICT_SIZE];
 
-
+	// Set up the row (i) pointers
 	for (int i = 1; i < DISTRICT_SIZE; i++) {
 		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
 	}
