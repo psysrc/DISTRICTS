@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : pDistrict(nullptr), xCoord(-1), yCoord(-1), pOccupyingCitizen(nullptr) {
+Tile::Tile() : pDistrict(nullptr), xCoord(-1), yCoord(-1), property(Plains), pOccupyingCitizen(nullptr) {
 
 }
 
@@ -70,8 +70,19 @@ Citizen* Tile::citizenLeave() {
  * Draws this tile depending on its properties.
  */
 string Tile::draw() {
-	if (pOccupyingCitizen == nullptr)
-		return "#";
-	else
+	if (pOccupyingCitizen != nullptr)
 		return "C";
+
+	switch (property) {
+	case Plains:
+		return ",";
+	case Stone:
+		return "%";
+	case Water:
+		return "~";
+	case Tree:
+		return "@";
+	}
+
+	return "?";
 }

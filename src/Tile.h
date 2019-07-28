@@ -11,17 +11,17 @@ using std::vector;
 using std::string;
 
 enum TileProperty {
-	Tree,
+	Plains,
 	Water,
-	Grass,
-	Stone
+	Stone,
+	Tree
 };
 
 class Tile {
 private:
 	District* pDistrict;
 	int xCoord, yCoord;
-	vector<TileProperty> properties;
+	TileProperty property;
 	Citizen* pOccupyingCitizen;
 public:
 	Tile();
