@@ -14,12 +14,13 @@ private:
 	District* pDistrict;
 	WINDOW* mapWindow;
 	WINDOW* activityWindow;
-//	WINDOW* debugWindow;
+	WINDOW* debugWindow;
 public:
 	Game();
 	~Game();
 	void play();
 	void displayActivityMessage(const char* str);
+	void displayDebugMessage(const char* str);
 	void UpdateUI();
 	void gameOver();
 };

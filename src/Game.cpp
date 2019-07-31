@@ -18,7 +18,7 @@ Game::Game() {
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(10, DISTRICT_SIZE * 2, DISTRICT_SIZE + 2, 0);
-//	debugWindow = newwin(5, 30, 0, (DISTRICT_SIZE * 2) + 5);
+	debugWindow = newwin(DISTRICT_SIZE, 40, 0, (DISTRICT_SIZE * 2) + 4);
 
 	scrollok(activityWindow, TRUE);
 }
@@ -28,7 +28,7 @@ Game::~Game() {
 
 	delete mapWindow;
 	delete activityWindow;
-//	delete debugWindow;
+	delete debugWindow;
 
 	endwin();	// End of Ncurses activity
 }
@@ -58,12 +58,21 @@ void Game::play() {
 }
 
 /**
- * Tells the Game to print an activity to the Activity window.
+ * Prints a string to the Activity window.
  */
 void Game::displayActivityMessage(const char* str) {
-	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the activity window
-	waddstr(activityWindow, str);	// Print the line
-	waddstr(activityWindow, "\n");	// Carriage return to scroll the window up
+	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
+	waddstr(activityWindow, str);						// Print the line
+	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
+}
+
+/**
+ * Prints a string to the Debug window.
+ */
+void Game::displayDebugMessage(const char* str) {
+	wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
+	waddstr(debugWindow, str);					// Print the line
+	waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
 }
 
 /*
