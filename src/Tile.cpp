@@ -85,20 +85,20 @@ Citizen* Tile::citizenLeave() {
 /*
  * Draws this tile depending on its properties.
  */
-string Tile::draw() {
+chtype Tile::draw() {
 	if (pOccupyingCitizen != nullptr)
-		return "C";
+		return 'C';
 
 	switch (property) {
 	case Plains:
-		return ",";
+		return ',';
 	case Stone:
-		return "%";
+		return '%';
 	case Water:
-		return "~";
+		return '~';
 	case Tree:
-		return "@";
+		return '@';
 	}
 
-	return "?";
+	return '?';
 }

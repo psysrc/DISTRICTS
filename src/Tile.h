@@ -6,6 +6,7 @@ class Tile;
 #include "District.h"
 #include "Citizen.h"
 #include <vector>
+#include <ncurses.h>
 
 using std::vector;
 using std::string;
@@ -36,7 +37,7 @@ public:
 	District* getDistrict();
 	void citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
-	string draw();
+	chtype draw();
 };
 
 #endif /* TILE_H_ */

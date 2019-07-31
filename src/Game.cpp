@@ -12,10 +12,23 @@ Game::Game() {
 
 	if (DEBUG)
 		cout << "New game created." << endl;
+
+	initscr();	// Prepare the terminal window for Ncurses-style output
+
+	// Define the windows in the terminal
+	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
+	activityWindow = newwin(5, DISTRICT_SIZE * 2, DISTRICT_SIZE, 0);
+//	debugWindow = newwin(5, 30, 0, (DISTRICT_SIZE * 2) + 5);
 }
 
 Game::~Game() {
 	delete pDistrict;
+
+	delete mapWindow;
+	delete activityWindow;
+//	delete debugWindow;
+
+	endwin();	// End of Ncurses activity
 }
 
 /*
@@ -30,28 +43,33 @@ void Game::play() {
 
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
 
-		if (DEBUG)
-			cout << "Simulating district " << pDistrict->getName() << endl;
+//		if (DEBUG)
+//			cout << "Simulating district " << pDistrict->getName() << endl;
 
 		pDistrict->simulate();	// Simulate a game tick
 
-		// TODO: Render the game state
-		drawGameState();
+		// Render the game state to the user
+		UpdateUI();
 	}
 
 	gameOver();
 }
 
 /*
- * Draws the current state of the game.
+ * Draws the current state of the game, including the current district.
  */
-void Game::drawGameState() {
-	cout << pDistrict->draw() << endl;
+void Game::UpdateUI() {
+	pDistrict->draw(mapWindow);
+
+	wrefresh(mapWindow);
 }
 
 /*
  * This method is called when the game is over.
  */
 void Game::gameOver() {
-	cout << "Game Over." << endl;
+	wmove(activityWindow, 0, 0);
+	waddstr(activityWindow, "Game Over.");
+
+	wrefresh(activityWindow);
 }

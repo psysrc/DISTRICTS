@@ -37,14 +37,15 @@ District::District(string name) : districtName(name) {
 }
 
 District::~District() {
+	// Delete the map tiles
 	delete [] tiles[0];
 	delete [] tiles;
 
-	for (Citizen* c : citizens) {
+	for (Citizen* c : citizens) {	// Delete all citizen objects
 		delete c;
 	}
 
-	citizens.clear();
+	citizens.clear();	// Delete the citizens vector
 }
 
 /*
@@ -63,21 +64,19 @@ void District::simulate() {
 }
 
 /*
- * Used by the game to draw the district to the screen when required.
+ * Draws the district to the map window when the game requires it.
  */
-string District::draw() {
-	std::stringstream ss;
+void District::draw(WINDOW* mapWindow) {
+	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
 
 	// Draw the N*N grid of tiles
+	// The cursor will automatically wrap to the next line when it reaches the end of the window
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			ss << tiles[i][j].draw() << " ";
+			waddch(mapWindow, tiles[i][j].draw());
+			waddch(mapWindow, ' ');
 		}
-
-		ss << endl;
 	}
-
-	return ss.str();
 }
 
 string District::getName() {

@@ -6,16 +6,20 @@
 #include "District.h"
 #include <chrono>
 #include <thread>
+#include <ncurses.h>
 
 class Game {
 private:
 	bool gameIsOver;
 	District* pDistrict;
+	WINDOW* mapWindow;
+	WINDOW* activityWindow;
+//	WINDOW* debugWindow;
 public:
 	Game();
 	~Game();
 	void play();
-	void drawGameState();
+	void UpdateUI();
 	void gameOver();
 };
 

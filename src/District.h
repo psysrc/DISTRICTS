@@ -10,6 +10,7 @@ class District;
 #include <iostream>
 #include <sstream>
 #include <exception>
+#include <ncurses.h>
 
 using std::cout;
 using std::endl;
@@ -28,7 +29,7 @@ public:
 	District(const string name);
 	~District();
 	void simulate();
-	string draw();
+	void draw(WINDOW* mapWindow);
 	string getName();
 	Tile** getTiles();
 	Tile* getTile(const int i, const int j);
