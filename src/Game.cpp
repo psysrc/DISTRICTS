@@ -1,4 +1,3 @@
-#include "Constants.h"
 #include "Game.h"
 
 using std::cout;
