@@ -19,6 +19,7 @@ public:
 	Game();
 	~Game();
 	void play();
+	void displayActivityMessage(const char* str);
 	void UpdateUI();
 	void gameOver();
 };

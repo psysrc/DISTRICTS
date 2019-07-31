@@ -17,8 +17,10 @@ Game::Game() {
 
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
-	activityWindow = newwin(5, DISTRICT_SIZE * 2, DISTRICT_SIZE, 0);
+	activityWindow = newwin(10, DISTRICT_SIZE * 2, DISTRICT_SIZE + 2, 0);
 //	debugWindow = newwin(5, 30, 0, (DISTRICT_SIZE * 2) + 5);
+
+	scrollok(activityWindow, TRUE);
 }
 
 Game::~Game() {
@@ -55,6 +57,15 @@ void Game::play() {
 	gameOver();
 }
 
+/**
+ * Tells the Game to print an activity to the Activity window.
+ */
+void Game::displayActivityMessage(const char* str) {
+	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the activity window
+	waddstr(activityWindow, str);	// Print the line
+	waddstr(activityWindow, "\n");	// Carriage return to scroll the window up
+}
+
 /*
  * Draws the current state of the game, including the current district.
  */
@@ -62,6 +73,7 @@ void Game::UpdateUI() {
 	pDistrict->draw(mapWindow);
 
 	wrefresh(mapWindow);
+	wrefresh(activityWindow);
 }
 
 /*
