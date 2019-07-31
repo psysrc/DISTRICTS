@@ -21,6 +21,7 @@ Game::Game() {
 	debugWindow = newwin(DISTRICT_SIZE, 40, 0, (DISTRICT_SIZE * 2) + 4);
 
 	scrollok(activityWindow, TRUE);
+	scrollok(debugWindow, TRUE);
 }
 
 Game::~Game() {
@@ -45,8 +46,8 @@ void Game::play() {
 
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
 
-//		if (DEBUG)
-//			cout << "Simulating district " << pDistrict->getName() << endl;
+		if (DEBUG)
+			displayDebugMessage("Simulating district " + pDistrict->getName());
 
 		pDistrict->simulate();	// Simulate a game tick
 
@@ -66,6 +67,10 @@ void Game::displayActivityMessage(const char* str) {
 	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
 }
 
+void Game::displayDebugMessage(std::string str) {
+	displayDebugMessage(str.c_str());
+}
+
 /**
  * Prints a string to the Debug window.
  */
@@ -83,6 +88,7 @@ void Game::UpdateUI() {
 
 	wrefresh(mapWindow);
 	wrefresh(activityWindow);
+	wrefresh(debugWindow);
 }
 
 /*

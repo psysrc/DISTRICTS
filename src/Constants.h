@@ -3,7 +3,7 @@
 
 #include <exception>
 
-#define DEBUG false
+#define DEBUG true
 
 class UninitialisedObjectException : public std::exception {
 	virtual const char* what() const noexcept

@@ -7,13 +7,9 @@ class District;
 #include "Citizen.h"
 #include "Tile.h"
 #include <vector>
-#include <iostream>
-#include <sstream>
 #include <exception>
 #include <ncurses.h>
 
-using std::cout;
-using std::endl;
 using std::string;
 using std::vector;
 

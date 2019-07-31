@@ -3,7 +3,7 @@
 
 class Citizen;
 
-#include <iostream>
+#include <string>
 #include "Tile.h"
 
 using std::string;

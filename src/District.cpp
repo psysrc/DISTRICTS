@@ -54,8 +54,9 @@ District::~District() {
 void District::simulate() {
 	// Simulate all citizens
 	for (Citizen* c : citizens) {
-		if (DEBUG)
-			cout << "Simulating citizen " << c->getName() << endl;
+		// TODO: Use Game::DisplayDebugMessage()
+//		if (DEBUG)
+//			cout << "Simulating citizen " << c->getName() << endl;
 
 		c->takeAction();
 	}
