@@ -24,6 +24,7 @@ private:
 public:
 	Game();
 	~Game();
+	void handleCommands();
 	void play();
 	void pause();
 	void displayActivityMessage(const char* str);

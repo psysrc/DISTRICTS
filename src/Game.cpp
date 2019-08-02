@@ -31,8 +31,6 @@ Game::~Game() {
 	delete mapWindow;
 	delete activityWindow;
 	delete debugWindow;
-
-	endwin();	// End of Ncurses activity
 }
 
 /*
@@ -68,7 +66,7 @@ void Game::play() {
 			// If user wants to input several commands, process those commands as necessary
 			// Wait here until the user unpauses
 
-			getch();
+			handleCommands();
 
 			unpause();
 		}
@@ -83,6 +81,27 @@ void Game::play() {
 	}
 
 	gameOver();
+}
+
+/*
+ * Handles the user inputting commands while the game is paused.
+ * This method returns back to the game loop when the user wants to unpause the game.
+ */
+void Game::handleCommands() {
+	int command = -1;
+
+	command = getch();
+
+	switch (command) {
+	case 'q':
+		gameIsOver = true;
+		break;
+	case 'a':
+		displayActivityMessage("A house has been constructed.");
+		break;
+	default:
+		displayActivityMessage("Oh dear.");
+	}
 }
 
 /*
@@ -146,4 +165,8 @@ void Game::gameOver() {
 	waddstr(activityWindow, "Game Over.");
 
 	wrefresh(activityWindow);
+
+	sleep_for(seconds(1));
+
+	endwin();	// End of Ncurses activity
 }
