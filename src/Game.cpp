@@ -7,6 +7,7 @@ using namespace std::chrono;
 
 Game::Game() {
 	gameIsOver = false;
+	gameIsPaused = false;
 
 	pDistrict = new District();
 
@@ -35,16 +36,42 @@ Game::~Game() {
 }
 
 /*
+ * This method runs in a separate thread to detect the user pausing the game.
+ *
+ */
+void* waitForPause(void* args) {
+	Game* pGame = (Game*) args;
+
+	noecho();
+	cbreak();
+
+	getch();	// Wait for user to press a key
+
+	pGame->pause();	// Pause the game when the user presses a key
+
+	return NULL;
+}
+
+/*
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
+	unpause();	// Initialise the first thread to wait for the user pausing
+
 	// Game loop
 	while (!gameIsOver) {
-		// If user has paused:
-		// 	Wait for their input
-		// 	If they provide input (without unpausing), process it
-
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
+
+		if (gameIsPaused) {
+			// Get further user input (wait for it here)
+			// If user wants to unpause, go ahead
+			// If user wants to input several commands, process those commands as necessary
+			// Wait here until the user unpauses
+
+			getch();
+
+			unpause();
+		}
 
 		if (DEBUG)
 			displayDebugMessage("Simulating district " + pDistrict->getName());
@@ -56,6 +83,26 @@ void Game::play() {
 	}
 
 	gameOver();
+}
+
+/*
+ * Tells the Game to pause so the user can input commands.
+ * Simply activates a variable to tell the game loop to wait before proceeding.
+ */
+void Game::pause() {
+	gameIsPaused = true;
+}
+
+/*
+ * Called by the Game when the user wants to resume.
+ * Creates a new thread to wait for user input again when they want to pause next time.
+ */
+void Game::unpause() {
+	gameIsPaused = false;
+
+	pthread_t pauseThread;
+
+	pthread_create(&pauseThread, NULL, waitForPause, (void*) this);
 }
 
 /**
