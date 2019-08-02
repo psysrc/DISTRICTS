@@ -79,7 +79,7 @@ void Game::play() {
 		pDistrict->simulate();	// Simulate a game tick
 
 		// Render the game state to the user
-		UpdateUI();
+		updateUI();
 	}
 
 	gameOver();
@@ -130,7 +130,7 @@ void Game::displayDebugMessage(const char* str) {
 /*
  * Draws the current state of the game, including the current district.
  */
-void Game::UpdateUI() {
+void Game::updateUI() {
 	pDistrict->draw(mapWindow);
 
 	wrefresh(mapWindow);

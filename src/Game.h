@@ -29,7 +29,7 @@ public:
 	void displayActivityMessage(const char* str);
 	void displayDebugMessage(std::string str);
 	void displayDebugMessage(const char* str);
-	void UpdateUI();
+	void updateUI();
 	void gameOver();
 };
 
