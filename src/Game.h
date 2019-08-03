@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include <iostream>
+#include <memory>
 #include "District.h"
 #include <chrono>
 #include <thread>
@@ -15,7 +16,7 @@ class Game {
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
-	District* pDistrict;
+	std::shared_ptr<District> pDistrict;
 	WINDOW* mapWindow;
 	WINDOW* activityWindow;
 	WINDOW* debugWindow;

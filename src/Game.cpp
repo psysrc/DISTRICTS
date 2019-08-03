@@ -9,7 +9,7 @@ Game::Game() {
 	gameIsOver = false;
 	gameIsPaused = false;
 
-	pDistrict = new District();
+	pDistrict = std::make_shared<District>();
 
 	if (DEBUG)
 		cout << "New game created." << endl;
@@ -26,8 +26,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-	delete pDistrict;
-
 	delete mapWindow;
 	delete activityWindow;
 	delete debugWindow;
