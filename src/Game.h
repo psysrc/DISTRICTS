@@ -20,12 +20,13 @@ private:
 	WINDOW* mapWindow;
 	WINDOW* activityWindow;
 	WINDOW* debugWindow;
+	std::unique_ptr<pthread_t> pPauseThread;
 
 	void unpause();
 public:
 	Game();
 	~Game();
-	void handleCommands();
+	int handleCommands();
 	void play();
 	void pause();
 	void displayActivityMessage(const char* str);

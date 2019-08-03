@@ -54,8 +54,10 @@ void* waitForPause(void* args) {
 void Game::play() {
 	unpause();	// Initialise the first thread to wait for the user pausing
 
+	int cmdState = 0;
+
 	// Game loop
-	while (!gameIsOver) {
+	while (!gameIsOver && cmdState != -1) {
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
 
 		if (gameIsPaused) {
@@ -64,18 +66,22 @@ void Game::play() {
 			// If user wants to input several commands, process those commands as necessary
 			// Wait here until the user unpauses
 
-			handleCommands();
+			cmdState = handleCommands();
 
-			unpause();
+			if (cmdState != -1)
+				unpause();
 		}
 
-		if (DEBUG)
-			displayDebugMessage("Simulating district " + pDistrict->getName());
+		// Don't bother running the following code if the user wants to quit (cmdState == -1)
+		if (cmdState == 0) {
+			if (DEBUG)
+				displayDebugMessage("Simulating district " + pDistrict->getName());
 
-		pDistrict->simulate();	// Simulate a game tick
+			pDistrict->simulate();	// Simulate a game tick
 
-		// Render the game state to the user
-		updateUI();
+			// Render the game state to the user
+			updateUI();
+		}
 	}
 
 	gameOver();
@@ -83,23 +89,25 @@ void Game::play() {
 
 /*
  * Handles the user inputting commands while the game is paused.
- * This method returns back to the game loop when the user wants to unpause the game.
+ * This method returns back to the game loop when the user wants to unpause the game or quit.
+ * Returns either 0 or -1 depending if the user wants to quit (-1 for quit, 0 to return to game).
  */
-void Game::handleCommands() {
+int Game::handleCommands() {
 	int command = -1;
 
 	command = getch();
 
 	switch (command) {
 	case 'q':
-		gameIsOver = true;
-		break;
+		return -1;
 	case 'a':
 		displayActivityMessage("A house has been constructed.");
 		break;
 	default:
 		displayActivityMessage("Oh dear.");
 	}
+
+	return 0;
 }
 
 /*
@@ -117,9 +125,9 @@ void Game::pause() {
 void Game::unpause() {
 	gameIsPaused = false;
 
-	pthread_t pauseThread;
+	pPauseThread = std::make_unique<pthread_t>();
 
-	pthread_create(&pauseThread, NULL, waitForPause, (void*) this);
+	pthread_create(pPauseThread.get(), NULL, waitForPause, (void*) this);
 }
 
 /**
