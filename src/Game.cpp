@@ -26,9 +26,9 @@ Game::Game() {
 }
 
 Game::~Game() {
-	delete mapWindow;
-	delete activityWindow;
-	delete debugWindow;
+	delwin(mapWindow);
+	delwin(activityWindow);
+	delwin(debugWindow);
 }
 
 /*
