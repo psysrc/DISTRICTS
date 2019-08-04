@@ -97,6 +97,9 @@ int Game::handleCommands() {
 
 	command = getch();
 
+	if (command <= 90 && command >= 65)	// If command is a capital letter (A-Z)
+		command += 32;					// Change to its lowercase letter (a-z)
+
 	switch (command) {
 	case 'q':
 		return -1;
