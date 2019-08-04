@@ -9,8 +9,7 @@
 #include <thread>
 #include <ncurses.h>
 #include <pthread.h>
-
-
+#include "PlayerCommand.h"
 
 class Game {
 private:

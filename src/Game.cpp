@@ -41,14 +41,14 @@ void* waitForPause(void* args) {
 	noecho();
 	cbreak();
 
-	int keyPress = -1;
+	int keyPress = PlayerCommand::NullCmd;
 
 	do {
 		keyPress = getch();		// Wait for user to press a key
 	}
-	while (keyPress != ' ');	// When they press <SPACE>, pause the game
+	while (keyPress != PlayerCommand::Pause);
 
-	pGame->pause();	// Pause the game when the user presses <SPACE>
+	pGame->pause();	// Pause the game when the user presses the Pause key
 
 	return NULL;
 }
@@ -98,7 +98,7 @@ void Game::play() {
  * Returns either 0 or -1 depending if the user wants to quit (-1 for quit, 0 to return to game).
  */
 int Game::handleCommands() {
-	int command = -1;
+	int command = PlayerCommand::NullCmd;
 
 	do {
 		command = getch();
@@ -107,16 +107,16 @@ int Game::handleCommands() {
 			command += 32;					// Change to its lowercase letter (a-z)
 
 		switch (command) {
-		case ' ':	// <SPACE>: Unpause
+		case PlayerCommand::Unpause:
 			break;
-		case 'q':	// Q: Quit
+		case PlayerCommand::Quit:
 			return -1;	// Tell the game loop to quit
-		case 'a':
+		case PlayerCommand::BuildHouse:
 			displayActivityMessage("A house has been constructed.");
 			break;
 		}
 	}
-	while(command != ' ');
+	while(command != PlayerCommand::Unpause);
 
 	return 0;	// Tell the game loop to unpause and continue
 }
