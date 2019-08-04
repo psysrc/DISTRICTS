@@ -182,10 +182,7 @@ void Game::updateUI() {
  * This method is called when the game is over.
  */
 void Game::gameOver() {
-	wmove(activityWindow, 0, 0);
-	waddstr(activityWindow, "Game Over.");
-
-	wrefresh(activityWindow);
+	displayActivityMessage("Game Over.");
 
 	sleep_for(seconds(1));
 
