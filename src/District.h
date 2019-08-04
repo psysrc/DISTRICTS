@@ -24,6 +24,7 @@ public:
 	District();
 	District(const string name);
 	~District();
+	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
 	void draw(WINDOW* mapWindow);
 	string getName();

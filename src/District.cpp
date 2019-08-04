@@ -89,6 +89,13 @@ District::~District() {
 }
 
 /*
+ * Creates/adds a new biome to the district at a given location, with a defined size
+ */
+void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
+	// TODO
+}
+
+/*
  * Prompts the district to simulate one game tick.
  */
 void District::simulate() {
