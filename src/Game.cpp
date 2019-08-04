@@ -41,9 +41,14 @@ void* waitForPause(void* args) {
 	noecho();
 	cbreak();
 
-	getch();	// Wait for user to press a key
+	int keyPress = -1;
 
-	pGame->pause();	// Pause the game when the user presses a key
+	do {
+		keyPress = getch();		// Wait for user to press a key
+	}
+	while (keyPress != ' ');	// When they press <SPACE>, pause the game
+
+	pGame->pause();	// Pause the game when the user presses <SPACE>
 
 	return NULL;
 }
@@ -95,22 +100,25 @@ void Game::play() {
 int Game::handleCommands() {
 	int command = -1;
 
-	command = getch();
+	do {
+		command = getch();
 
-	if (command <= 90 && command >= 65)	// If command is a capital letter (A-Z)
-		command += 32;					// Change to its lowercase letter (a-z)
+		if (command <= 90 && command >= 65)	// If command is a capital letter (A-Z)
+			command += 32;					// Change to its lowercase letter (a-z)
 
-	switch (command) {
-	case 'q':
-		return -1;
-	case 'a':
-		displayActivityMessage("A house has been constructed.");
-		break;
-	default:
-		displayActivityMessage("Oh dear.");
+		switch (command) {
+		case ' ':	// <SPACE>: Unpause
+			break;
+		case 'q':	// Q: Quit
+			return -1;	// Tell the game loop to quit
+		case 'a':
+			displayActivityMessage("A house has been constructed.");
+			break;
+		}
 	}
+	while(command != ' ');
 
-	return 0;
+	return 0;	// Tell the game loop to unpause and continue
 }
 
 /*
@@ -140,6 +148,8 @@ void Game::displayActivityMessage(const char* str) {
 	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
 	waddstr(activityWindow, str);						// Print the line
 	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
+
+	wrefresh(activityWindow);
 }
 
 void Game::displayDebugMessage(std::string str) {
@@ -153,6 +163,8 @@ void Game::displayDebugMessage(const char* str) {
 	wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
 	waddstr(debugWindow, str);					// Print the line
 	waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
+
+	wrefresh(debugWindow);
 }
 
 /*
