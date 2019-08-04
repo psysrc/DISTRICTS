@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile() : pDistrict(nullptr), xCoord(-1), yCoord(-1), property(Plains), pOccupyingCitizen(nullptr) {
+Tile::Tile() : pDistrict(nullptr), xCoord(-1), yCoord(-1), property(NullProperty), pOccupyingCitizen(nullptr) {
 
 }
 
@@ -98,7 +98,7 @@ chtype Tile::draw() {
 		return '~';
 	case Tree:
 		return '@';
+	default:
+		return '?';
 	}
-
-	return '?';
 }

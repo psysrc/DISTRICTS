@@ -12,6 +12,7 @@ using std::vector;
 using std::string;
 
 enum TileProperty {
+	NullProperty,
 	Plains,
 	Water,
 	Stone,
