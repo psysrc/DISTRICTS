@@ -34,7 +34,7 @@ void Tile::setCoordinates(int x, int y) {
  * The Tile object must not be used if it has not been initialised correctly!
  */
 bool Tile::isInitialised() {
-	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1);
+	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == NullProperty);
 }
 
 int Tile::getX() {

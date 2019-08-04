@@ -14,12 +14,52 @@ District::District(string name) : districtName(name) {
 		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
 	}
 
-	// Populate the tile grid by initialising each tile with its coordinates and district
+	// Populate the tile grid by initialising each tile with its coordinates, district and property
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
 			tiles[i][j].setDistrict(this);
 			tiles[i][j].setCoordinates(i, j);
+			tiles[i][j].updateProperty(Plains);
 		}
+	}
+
+	// TODO: Add random biomes to the district
+	/*
+	 * At least 1 stoney area
+	 * Potentially up to 4
+	 * At least 10 blocks in size
+	 * No more than 50 blocks size
+	 *
+	 * At most 1 ocean biome
+	 * Up to 3 lake biomes
+	 */
+
+	int stoneBiomes = rand() % 4 + 1;
+	int oceanBiomes = rand() % 2;
+	int lakeBiomes = rand() % 4;
+
+	while (stoneBiomes--) {
+		/*
+		 * Pick a random point in the district and add it to adjacent tiles
+		 * do:
+		 * 		Pick a random adjacent tile
+		 * 		Make it stone
+		 * 		Update adjacent tiles
+		 * until no more blocks to make
+		 */
+	}
+
+	while (oceanBiomes--) {
+		/*
+		 * Make one side of the district water
+		 * Perform same adjacency creation as stone
+		 */
+	}
+
+	while (lakeBiomes--) {
+		/*
+		 * Same as stone creation
+		 */
 	}
 
 	// Check that all tiles have been initialised
