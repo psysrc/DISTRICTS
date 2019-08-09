@@ -5,6 +5,14 @@
 
 #define DEBUG true
 
+enum TileProperty {
+	NullProperty,
+	Plains,
+	Water,
+	Stone,
+	Tree
+};
+
 class UninitialisedObjectException : public std::exception {
 	virtual const char* what() const noexcept
 	{

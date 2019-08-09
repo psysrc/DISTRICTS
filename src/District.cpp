@@ -93,6 +93,33 @@ District::~District() {
  */
 void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 	// TODO
+
+	std::vector<Tile> adjacency;
+	std::vector<Tile> converted;
+	int index = -1;
+
+	adjacency.push_back(tiles[i][j]);	// Add the specified tile to the adjacency list
+
+	while (size--) {	// While size > 0
+		index = rand() % adjacency.size();	// Index into a random tile in the adjacency list
+
+		adjacency.at(index).updateProperty(biomeProperty);	// Update the property of that tile
+
+		converted.push_back(adjacency.at(index));	// Add the tile to the converted list
+
+		adjacency.erase(adjacency.begin() + index);		// Remove the tile from the adjacency list
+
+		// TODO: Add adjacent tiles if they are not already adjacent and they are not in converted
+	}
+
+	/*
+	 * Add [i][j] to adjacency list
+	 * while (--size):
+	 * 		turn a random tile in the list to biomeProperty
+	 * 		remove tile from adjacency list
+	 * 		add tile to converted list
+	 * 		add adjacent tiles to adjacency list
+	*/
 }
 
 /*

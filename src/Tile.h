@@ -11,14 +11,6 @@ class Tile;
 using std::vector;
 using std::string;
 
-enum TileProperty {
-	NullProperty,
-	Plains,
-	Water,
-	Stone,
-	Tree
-};
-
 class Tile {
 private:
 	District* pDistrict;
