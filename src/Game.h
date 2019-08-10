@@ -28,11 +28,11 @@ public:
 	int handleCommands();
 	void play();
 	void pause();
-	void displayActivityMessage(const char* str);
-	void displayDebugMessage(std::string str);
-	void displayDebugMessage(const char* str);
-	void updateUI();
-	void gameOver();
+	void displayActivityMessage(const char* str) const;
+	void displayDebugMessage(std::string str) const;
+	void displayDebugMessage(const char* str) const;
+	void updateUI() const;
+	void gameOver() const;
 };
 
 #endif /* GAME_H_ */

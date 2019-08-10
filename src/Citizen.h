@@ -17,10 +17,10 @@ public:
 	Citizen();
 	~Citizen();
 	void setTile(Tile* tile);
-	Tile* getTile();
-	District* getDistrict();
+	Tile* getTile() const;
+	District* getDistrict() const;
 	void takeAction();
-	string getName();
+	string getName() const;
 };
 
 #endif /* CITIZEN_H_ */

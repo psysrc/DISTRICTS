@@ -163,7 +163,7 @@ void District::simulate() {
 /*
  * Draws the district to the map window when the game requires it.
  */
-void District::draw(WINDOW* mapWindow) {
+void District::draw(WINDOW* mapWindow) const {
 	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
 
 	// Draw the N*N grid of tiles
@@ -176,11 +176,11 @@ void District::draw(WINDOW* mapWindow) {
 	}
 }
 
-string District::getName() {
+string District::getName() const {
 	return districtName;
 }
 
-Tile** District::getTiles() {
+Tile** District::getTiles() const {
 	return tiles;
 }
 
@@ -188,7 +188,7 @@ Tile** District::getTiles() {
  * Returns the tile at the given coordinates.
  * Returns nullptr if the coordinates are out of range.
  */
-Tile* District::getTile(const int i, const int j) {
+Tile* District::getTile(const int i, const int j) const {
 	if (i < 0 || i >= DISTRICT_SIZE || j < 0 || j >= DISTRICT_SIZE)	// Check the indexes are in range
 		return nullptr;
 	else

@@ -25,10 +25,10 @@ public:
 	~District();
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
-	void draw(WINDOW* mapWindow);
-	string getName();
-	Tile** getTiles();
-	Tile* getTile(const int i, const int j);
+	void draw(WINDOW* mapWindow) const;
+	string getName() const;
+	Tile** getTiles() const;
+	Tile* getTile(const int i, const int j) const;
 };
 
 #endif /* DISTRICT_H_ */

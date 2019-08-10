@@ -19,11 +19,11 @@ void Citizen::setTile(Tile* tile) {
 	pTile = tile;
 }
 
-Tile* Citizen::getTile() {
+Tile* Citizen::getTile() const {
 	return pTile;
 }
 
-District* Citizen::getDistrict() {
+District* Citizen::getDistrict() const {
 	return pTile->getDistrict();
 }
 
@@ -40,6 +40,6 @@ void Citizen::takeAction() {
 	}
 }
 
-string Citizen::getName() {
+string Citizen::getName() const {
 	return citizenName;
 }

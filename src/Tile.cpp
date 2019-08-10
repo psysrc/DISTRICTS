@@ -16,7 +16,7 @@ void Tile::setDistrict(District* dist) {
 	pDistrict = dist;
 }
 
-District* Tile::getDistrict() {
+District* Tile::getDistrict() const {
 	return pDistrict;
 }
 
@@ -33,7 +33,7 @@ void Tile::setCoordinates(int x, int y) {
  * Checks whether or not this Tile has been initialised with valid data.
  * The Tile object must not be used if it has not been initialised correctly!
  */
-bool Tile::isInitialised() {
+bool Tile::isInitialised() const {
 	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == NullProperty);
 }
 
@@ -49,7 +49,7 @@ void Tile::updateProperty(TileProperty newProperty) {
 	property = newProperty;
 }
 
-TileProperty Tile::getProperty() {
+TileProperty Tile::getProperty() const {
 	return property;
 }
 
@@ -85,7 +85,7 @@ Citizen* Tile::citizenLeave() {
 /*
  * Draws this tile depending on its properties.
  */
-chtype Tile::draw() {
+chtype Tile::draw() const {
 	if (pOccupyingCitizen != nullptr)
 		return 'C';
 

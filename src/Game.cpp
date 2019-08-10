@@ -144,7 +144,7 @@ void Game::unpause() {
 /**
  * Prints a string to the Activity window.
  */
-void Game::displayActivityMessage(const char* str) {
+void Game::displayActivityMessage(const char* str) const {
 	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
 	waddstr(activityWindow, str);						// Print the line
 	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
@@ -152,14 +152,14 @@ void Game::displayActivityMessage(const char* str) {
 	wrefresh(activityWindow);
 }
 
-void Game::displayDebugMessage(std::string str) {
+void Game::displayDebugMessage(std::string str) const {
 	displayDebugMessage(str.c_str());
 }
 
 /**
  * Prints a string to the Debug window.
  */
-void Game::displayDebugMessage(const char* str) {
+void Game::displayDebugMessage(const char* str) const {
 	wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
 	waddstr(debugWindow, str);					// Print the line
 	waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
@@ -170,7 +170,7 @@ void Game::displayDebugMessage(const char* str) {
 /*
  * Draws the current state of the game, including the current district.
  */
-void Game::updateUI() {
+void Game::updateUI() const {
 	pDistrict->draw(mapWindow);
 
 	wrefresh(mapWindow);
@@ -181,7 +181,7 @@ void Game::updateUI() {
 /*
  * This method is called when the game is over.
  */
-void Game::gameOver() {
+void Game::gameOver() const {
 	displayActivityMessage("Game Over.");
 
 	sleep_for(seconds(1));
