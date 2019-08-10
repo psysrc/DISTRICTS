@@ -23,19 +23,7 @@ District::District(string name) : districtName(name) {
 		}
 	}
 
-	// TODO: Add random biomes to the district
-	/*
-	 * At least 1 stoney area
-	 * Potentially up to 4
-	 * At least 10 blocks in size
-	 * No more than 50 blocks size
-	 *
-	 * At most 1 ocean biome
-	 * Up to 3 lake biomes
-	 */
-
 	int stoneBiomes = rand() % 3 + 1;	// 1-3 stone biomes
-	int oceanBiomes = rand() % 2;		// 0-1 ocean biomes
 	int lakeBiomes = rand() % 4;		// 0-3 lake biomes
 
 	while (stoneBiomes--) {
@@ -44,13 +32,6 @@ District::District(string name) : districtName(name) {
 		int size = rand() % 26 + 5;		// 5-30 tiles in size
 
 		createBiome(ri, rj, Stone, size);
-	}
-
-	while (oceanBiomes--) {
-		/*
-		 * Make one side of the district water
-		 * Perform same adjacency creation as stone
-		 */
 	}
 
 	while (lakeBiomes--) {
