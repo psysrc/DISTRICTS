@@ -5,6 +5,8 @@
 
 #define DEBUG true
 
+#define DISTRICT_SIZE 32
+
 enum TileProperty {
 	NullProperty,
 	Plains,

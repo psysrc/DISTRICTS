@@ -13,8 +13,6 @@ class District;
 using std::string;
 using std::vector;
 
-#define DISTRICT_SIZE 32
-
 class District {
 private:
 	string districtName;
