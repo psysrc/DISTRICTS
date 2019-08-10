@@ -6,6 +6,9 @@ using namespace std::this_thread;
 using namespace std::chrono;
 
 Game::Game() {
+	// Seed the random number generator with the current system time
+	srand(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+
 	gameIsOver = false;
 	gameIsPaused = false;
 
