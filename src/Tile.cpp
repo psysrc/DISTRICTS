@@ -91,7 +91,7 @@ chtype Tile::draw() const {
 
 	switch (property) {
 	case Plains:
-		return ',';
+		return '\'';
 	case Stone:
 		return '%';
 	case Water:

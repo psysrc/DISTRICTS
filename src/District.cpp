@@ -34,14 +34,14 @@ District::District(string name) : districtName(name) {
 	 * Up to 3 lake biomes
 	 */
 
-	int stoneBiomes = rand() % 4 + 1;	// 1-4 stone biomes
-	int oceanBiomes = rand() % 2;
-	int lakeBiomes = rand() % 4;
+	int stoneBiomes = rand() % 3 + 1;	// 1-3 stone biomes
+	int oceanBiomes = rand() % 2;		// 0-1 ocean biomes
+	int lakeBiomes = rand() % 4;		// 0-3 lake biomes
 
 	while (stoneBiomes--) {
 		int ri = rand() % DISTRICT_SIZE;
 		int rj = rand() % DISTRICT_SIZE;
-		int size = rand() % 41 + 10;	// 10-50 tiles in size
+		int size = rand() % 26 + 5;		// 5-30 tiles in size
 
 		createBiome(ri, rj, Stone, size);
 	}
@@ -54,9 +54,11 @@ District::District(string name) : districtName(name) {
 	}
 
 	while (lakeBiomes--) {
-		/*
-		 * Same as stone creation
-		 */
+		int ri = rand() % DISTRICT_SIZE;
+		int rj = rand() % DISTRICT_SIZE;
+		int size = rand() % 101 + 10;	// 10-100 tiles in size
+
+		createBiome(ri, rj, Water, size);
 	}
 
 	// Check that all tiles have been initialised
@@ -133,15 +135,6 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 				}
 			}
 	}
-
-	/*
-	 * Add [i][j] to adjacency list
-	 * while (--size):
-	 * 		turn a random tile in the list to biomeProperty
-	 * 		remove tile from adjacency list
-	 * 		add tile to converted list
-	 * 		add adjacent tiles to adjacency list
-	*/
 }
 
 /*
