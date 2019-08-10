@@ -34,19 +34,16 @@ District::District(string name) : districtName(name) {
 	 * Up to 3 lake biomes
 	 */
 
-	int stoneBiomes = rand() % 4 + 1;
+	int stoneBiomes = rand() % 4 + 1;	// 1-4 stone biomes
 	int oceanBiomes = rand() % 2;
 	int lakeBiomes = rand() % 4;
 
 	while (stoneBiomes--) {
-		/*
-		 * Pick a random point in the district and add it to adjacent tiles
-		 * do:
-		 * 		Pick a random adjacent tile
-		 * 		Make it stone
-		 * 		Update adjacent tiles
-		 * until no more blocks to make
-		 */
+		int ri = rand() % DISTRICT_SIZE;
+		int rj = rand() % DISTRICT_SIZE;
+		int size = rand() % 41 + 10;	// 10-50 tiles in size
+
+		createBiome(ri, rj, Stone, size);
 	}
 
 	while (oceanBiomes--) {
@@ -92,24 +89,49 @@ District::~District() {
  * Creates/adds a new biome to the district at a given location, with a defined size
  */
 void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
-	// TODO
-
-	std::vector<Tile> adjacency;
-	std::vector<Tile> converted;
+	std::vector<Tile*> adjacency;
+	std::vector<Tile*>::iterator adjIt;
+	std::vector<Tile*> converted;
+	std::vector<Tile*>::iterator convIt;
 	int index = -1;
 
-	adjacency.push_back(tiles[i][j]);	// Add the specified tile to the adjacency list
+	adjacency.push_back(&tiles[i][j]);	// Add the specified tile to the adjacency list to start the process
 
 	while (size--) {	// While size > 0
 		index = rand() % adjacency.size();	// Index into a random tile in the adjacency list
 
-		adjacency.at(index).updateProperty(biomeProperty);	// Update the property of that tile
+		Tile& currentTile = *adjacency.at(index);	// Track the current tile we're concerned about
 
-		converted.push_back(adjacency.at(index));	// Add the tile to the converted list
+		currentTile.updateProperty(biomeProperty);	// Update the property of that tile
+
+		converted.push_back(&currentTile);	// Add the tile to the converted list
 
 		adjacency.erase(adjacency.begin() + index);		// Remove the tile from the adjacency list
 
-		// TODO: Add adjacent tiles if they are not already adjacent and they are not in converted
+		// Add adjacent tiles if they are not already adjacent and they are not in converted
+		/*
+		 * FIXME:
+		 * For the meantime neighbours are:
+		 * 				* * *
+		 * 				* * *
+		 * 				* * *
+		 * But perhaps it would be better if it were the following:
+		 * 				  *
+		 * 				* * *
+		 * 				  *
+		 */
+		for (int ai = currentTile.getX() - 1; ai - currentTile.getX() <= 1; ai++)
+			for (int aj = currentTile.getY() - 1; aj - currentTile.getY() <= 1; aj++)
+			{
+				if (ai >= 0 && ai < DISTRICT_SIZE && aj >= 0 && aj < DISTRICT_SIZE) {	// If adjacent tile is within bounds
+					// If converted and adjacency lists do not contain the tile, add it to adjacency list
+					convIt = std::find(converted.begin(), converted.end(), &tiles[ai][aj]);
+					adjIt = std::find(adjacency.begin(), adjacency.end(), &tiles[ai][aj]);
+
+					if (convIt == converted.end() && adjIt == adjacency.end())
+						adjacency.push_back(&tiles[ai][aj]);
+				}
+			}
 	}
 
 	/*

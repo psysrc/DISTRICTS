@@ -23,14 +23,15 @@ public:
 	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
 	bool isInitialised();
-	int getX();
-	int getY();
+	int getX() const;
+	int getY() const;
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty();
 	District* getDistrict();
 	void citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
 	chtype draw();
+	bool operator==(const Tile& b) const;
 };
 
 #endif /* TILE_H_ */

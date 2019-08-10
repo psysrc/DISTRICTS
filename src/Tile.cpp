@@ -37,11 +37,11 @@ bool Tile::isInitialised() {
 	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == NullProperty);
 }
 
-int Tile::getX() {
+int Tile::getX() const {
 	return xCoord;
 }
 
-int Tile::getY() {
+int Tile::getY() const {
 	return yCoord;
 }
 
@@ -101,4 +101,11 @@ chtype Tile::draw() {
 	default:
 		return '?';
 	}
+}
+
+bool Tile::operator==(const Tile& b) const {
+	if (getX() == b.getX() && getY() == b.getY())
+		return true;
+	else
+		return false;
 }

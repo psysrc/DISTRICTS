@@ -9,6 +9,7 @@ class District;
 #include <vector>
 #include <exception>
 #include <ncurses.h>
+#include <algorithm>	// std::find
 
 using std::string;
 using std::vector;
