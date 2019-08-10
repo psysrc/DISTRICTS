@@ -110,30 +110,23 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 
 		adjacency.erase(adjacency.begin() + index);		// Remove the tile from the adjacency list
 
-		// Add adjacent tiles if they are not already adjacent and they are not in converted
-		/*
-		 * FIXME:
-		 * For the meantime neighbours are:
-		 * 				* * *
-		 * 				* * *
-		 * 				* * *
-		 * But perhaps it would be better if it were the following:
-		 * 				  *
-		 * 				* * *
-		 * 				  *
-		 */
-		for (int ai = currentTile.getX() - 1; ai - currentTile.getX() <= 1; ai++)
-			for (int aj = currentTile.getY() - 1; aj - currentTile.getY() <= 1; aj++)
-			{
-				if (ai >= 0 && ai < DISTRICT_SIZE && aj >= 0 && aj < DISTRICT_SIZE) {	// If adjacent tile is within bounds
-					// If converted and adjacency lists do not contain the tile, add it to adjacency list
-					convIt = std::find(converted.begin(), converted.end(), &tiles[ai][aj]);
-					adjIt = std::find(adjacency.begin(), adjacency.end(), &tiles[ai][aj]);
+		int cx = currentTile.getX();
+		int cy = currentTile.getY();
 
-					if (convIt == converted.end() && adjIt == adjacency.end())
-						adjacency.push_back(&tiles[ai][aj]);
-				}
+		// Define the neighbour coordinates from the current tile
+		int ais[4] = {cx - 1, cx, cx, cx + 1};
+		int ajs[4] = {cy, cy - 1, cy + 1, cy};
+
+		for (int n = 0; n < 4; n++) {	// For each neighbour
+			if (ais[n] >= 0 && ais[n] < DISTRICT_SIZE && ajs[n] >= 0 && ajs[n] < DISTRICT_SIZE) {	// If adjacent tile is within bounds
+				convIt = std::find(converted.begin(), converted.end(), &tiles[ais[n]][ajs[n]]);
+				adjIt = std::find(adjacency.begin(), adjacency.end(), &tiles[ais[n]][ajs[n]]);
+
+				// If converted and adjacency lists do not contain the tile, add it to adjacency list
+				if (convIt == converted.end() && adjIt == adjacency.end())
+					adjacency.push_back(&tiles[ais[n]][ajs[n]]);
 			}
+		}
 	}
 }
 
