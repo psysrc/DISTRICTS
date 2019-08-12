@@ -91,14 +91,19 @@ chtype Tile::draw() const {
 
 	switch (property) {
 	case Plains:
+//		attron(COLOR_PAIR(1));
 		return '\'';
 	case Stone:
+//		attron(COLOR_PAIR(3));
 		return '%';
 	case Water:
+//		attron(COLOR_PAIR(2));
 		return '~';
 	case Tree:
+//		attron(COLOR_PAIR(1));
 		return '$';
 	default:
+//		attron(COLOR_PAIR(3));
 		return '?';
 	}
 }

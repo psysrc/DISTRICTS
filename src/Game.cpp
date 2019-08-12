@@ -17,7 +17,15 @@ Game::Game() {
 	if (DEBUG)
 		cout << "New game created." << endl;
 
-	initscr();	// Prepare the terminal window for Ncurses-style output
+	initscr();		// Prepare the terminal window for Ncurses-style output
+	start_color();	// Enable colour to be used in the terminal
+
+	// Define colours for the tiles
+	init_pair(1, COLOR_GREEN, COLOR_BLACK);
+	init_pair(2, COLOR_BLUE, COLOR_WHITE);
+	init_pair(3, COLOR_WHITE, COLOR_BLACK);
+
+	attron(COLOR_PAIR(2));
 
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
