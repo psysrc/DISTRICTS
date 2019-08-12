@@ -97,7 +97,7 @@ chtype Tile::draw() const {
 	case Water:
 		return '~';
 	case Tree:
-		return '@';
+		return '$';
 	default:
 		return '?';
 	}
