@@ -42,6 +42,18 @@ District::District(string name) : districtName(name) {
 		createBiome(ri, rj, Water, size);
 	}
 
+	// Every Plains tile has a chance to become a Tree tile
+	for (int i = 0; i < DISTRICT_SIZE; i++) {
+		for (int j = 0; j < DISTRICT_SIZE; j++) {
+			if (tiles[i][j].getProperty() == Plains) {
+				int treeChance = rand() % 100;
+
+				if (treeChance < 5)	// 5% chance of growing a tree
+					tiles[i][j].updateProperty(Tree);
+			}
+		}
+	}
+
 	// Check that all tiles have been initialised
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
