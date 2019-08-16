@@ -1,10 +1,6 @@
 #include "District.h"
 
-District::District() : District("unnamed") {
-
-}
-
-District::District(string name) : districtName(name) {
+District::District(const string name) : districtName(name) {
 	// Define a contiguous memory space for the n*n grid of tiles
 	tiles = new Tile*[DISTRICT_SIZE];
 	tiles[0] = new Tile[DISTRICT_SIZE * DISTRICT_SIZE];

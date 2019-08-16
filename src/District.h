@@ -20,8 +20,7 @@ private:
 	Tile** tiles;
 	vector<Citizen*> citizens;
 public:
-	District();
-	District(const string name);
+	District(const string name = "unnamed");
 	~District();
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
