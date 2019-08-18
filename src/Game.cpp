@@ -18,6 +18,12 @@ Game::Game() {
 		cout << "New game created." << endl;
 
 	initscr();		// Prepare the terminal window for Ncurses-style output
+
+	if (!has_colors()) {
+		std::cout << "Aborting: Terminal does not support colours." << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
 	start_color();	// Enable colour to be used in the terminal
 
 	// Define colours for the tiles
