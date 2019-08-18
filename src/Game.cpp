@@ -17,15 +17,35 @@ Game::Game() {
 	if (DEBUG)
 		cout << "New game created." << endl;
 
-	initscr();	// Prepare the terminal window for Ncurses-style output
+	initscr();		// Prepare the terminal window for Ncurses-style output
+
+	if (!has_colors()) {
+		std::cout << "Aborting: Terminal does not support colours." << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	start_color();	// Enable colour to be used in the terminal
+
+	use_default_colors();	// Display default terminal colours for now
+
+	// Define colour pairs for the tiles
+	init_pair(COLOUR_CITIZEN, COLOR_WHITE, COLOR_BLACK);
+	init_pair(COLOUR_PLAINS, COLOR_GREEN, COLOR_GREEN);
+	init_pair(COLOUR_WATER, COLOR_BLUE, COLOR_BLUE);
+	init_pair(COLOUR_STONE, COLOR_WHITE, COLOR_WHITE);
+	init_pair(COLOUR_UNKNOWN, COLOR_RED, COLOR_BLACK);
 
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(10, DISTRICT_SIZE * 2, DISTRICT_SIZE + 2, 0);
 	debugWindow = newwin(DISTRICT_SIZE, 40, 0, (DISTRICT_SIZE * 2) + 4);
 
+	wattron(mapWindow, A_BOLD);		// Makes the text brighter and bolder
+
 	scrollok(activityWindow, TRUE);
 	scrollok(debugWindow, TRUE);
+
+	refresh();
 }
 
 Game::~Game() {

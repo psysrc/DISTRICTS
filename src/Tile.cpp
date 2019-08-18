@@ -1,6 +1,7 @@
 #include "Tile.h"
 
-Tile::Tile() : pDistrict(nullptr), xCoord(-1), yCoord(-1), property(NullProperty), pOccupyingCitizen(nullptr) {
+Tile::Tile()
+: pDistrict(nullptr), xCoord(-1), yCoord(-1), property(NullProperty), pOccupyingCitizen(nullptr), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
 
 }
 
@@ -47,6 +48,8 @@ int Tile::getY() const {
 
 void Tile::updateProperty(TileProperty newProperty) {
 	property = newProperty;
+
+	updateVisuals();
 }
 
 TileProperty Tile::getProperty() const {
@@ -64,6 +67,8 @@ void Tile::citizenEnter(Citizen* citizen) {
 
 		pOccupyingCitizen->setTile(this);
 	}
+
+	updateVisuals();
 }
 
 /*
@@ -76,31 +81,65 @@ Citizen* Tile::citizenLeave() {
 
 		Citizen* temp = pOccupyingCitizen;
 		pOccupyingCitizen = nullptr;
+
+		updateVisuals();
+
 		return temp;
 	}
+
+	updateVisuals();
 
 	return nullptr;
 }
 
 /*
- * Draws this tile depending on its properties.
+ * Updates the symbol representation and colours for this Tile.
+ * Should be called whenever the tile's properties/characteristics change.
  */
-chtype Tile::draw() const {
-	if (pOccupyingCitizen != nullptr)
-		return 'C';
+void Tile::updateVisuals() {
+	if (pOccupyingCitizen != nullptr) {
+		drawSymbol = 'C';
+		drawColour = COLOUR_CITIZEN;
+
+		return;
+	}
 
 	switch (property) {
 	case Plains:
-		return '\'';
+		drawSymbol = ' ';
+		drawColour = COLOUR_PLAINS;
+		break;
 	case Stone:
-		return '%';
+		drawSymbol = '%';
+		drawColour = COLOUR_STONE;
+		break;
 	case Water:
-		return '~';
+		drawSymbol = '~';
+		drawColour = COLOUR_WATER;
+		break;
 	case Tree:
-		return '$';
+		drawSymbol = '$';
+		drawColour = COLOUR_PLAINS;
+		break;
 	default:
-		return '?';
+		drawSymbol = '?';
+		drawColour = COLOUR_UNKNOWN;
+		break;
 	}
+}
+
+/*
+ * Returns the draw symbol of this Tile.
+ */
+chtype Tile::getDrawSymbol() const {
+	return drawSymbol;
+}
+
+/*
+ * Returns the colour of this Tile.
+ */
+int Tile::getDrawColour() const {
+	return drawColour;
 }
 
 bool Tile::operator==(const Tile& b) const {

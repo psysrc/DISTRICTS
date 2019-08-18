@@ -7,6 +7,12 @@
 
 #define DISTRICT_SIZE 32
 
+#define COLOUR_CITIZEN 1
+#define COLOUR_WATER 2
+#define COLOUR_PLAINS 3
+#define COLOUR_STONE 4
+#define COLOUR_UNKNOWN 5
+
 enum TileProperty {
 	NullProperty,
 	Plains,

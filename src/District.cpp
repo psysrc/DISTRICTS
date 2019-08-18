@@ -145,8 +145,12 @@ void District::draw(WINDOW* mapWindow) const {
 	// The cursor will automatically wrap to the next line when it reaches the end of the window
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			waddch(mapWindow, tiles[i][j].draw());
+			int tileColour = tiles[i][j].getDrawColour();
+
+			wattron(mapWindow, COLOR_PAIR(tileColour));
+			waddch(mapWindow, tiles[i][j].getDrawSymbol());
 			waddch(mapWindow, ' ');
+			wattroff(mapWindow, COLOR_PAIR(tileColour));
 		}
 	}
 }

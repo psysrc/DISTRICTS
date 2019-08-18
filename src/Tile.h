@@ -17,6 +17,8 @@ private:
 	int xCoord, yCoord;
 	TileProperty property;
 	Citizen* pOccupyingCitizen;
+	chtype drawSymbol;
+	int drawColour;
 public:
 	Tile();
 	~Tile();
@@ -30,7 +32,9 @@ public:
 	District* getDistrict() const;
 	void citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
-	chtype draw() const;
+	chtype getDrawSymbol() const;
+	int getDrawColour() const;
+	void updateVisuals();
 	bool operator==(const Tile& b) const;
 };
 
