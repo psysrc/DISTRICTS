@@ -26,20 +26,26 @@ Game::Game() {
 
 	start_color();	// Enable colour to be used in the terminal
 
-	// Define colours for the tiles
-	init_pair(1, COLOR_GREEN, COLOR_BLACK);
-	init_pair(2, COLOR_BLUE, COLOR_WHITE);
-	init_pair(3, COLOR_WHITE, COLOR_BLACK);
+	use_default_colors();	// Display default terminal colours for now
 
-	attron(COLOR_PAIR(2));
+	// Define colour pairs for the tiles
+	init_pair(COLOUR_CITIZEN, COLOR_WHITE, COLOR_BLACK);
+	init_pair(COLOUR_PLAINS, COLOR_GREEN, COLOR_GREEN);
+	init_pair(COLOUR_WATER, COLOR_BLUE, COLOR_BLUE);
+	init_pair(COLOUR_STONE, COLOR_WHITE, COLOR_WHITE);
+	init_pair(COLOUR_UNKNOWN, COLOR_RED, COLOR_BLACK);
 
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(10, DISTRICT_SIZE * 2, DISTRICT_SIZE + 2, 0);
 	debugWindow = newwin(DISTRICT_SIZE, 40, 0, (DISTRICT_SIZE * 2) + 4);
 
+	wattron(mapWindow, A_BOLD);		// Makes the text brighter and bolder
+
 	scrollok(activityWindow, TRUE);
 	scrollok(debugWindow, TRUE);
+
+	refresh();
 }
 
 Game::~Game() {
