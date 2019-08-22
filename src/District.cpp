@@ -10,6 +10,8 @@ District::District(const string name) : districtName(name) {
 		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
 	}
 
+	// TODO: Initialise tile neighbours
+
 	// Populate the tile grid by initialising each tile with its coordinates, district and property
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {

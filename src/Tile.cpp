@@ -31,6 +31,16 @@ void Tile::setCoordinates(int x, int y) {
 }
 
 /*
+ * Sets the neighbouring tiles.
+ */
+void Tile::setNeighbourTiles(Tile* n, Tile* w, Tile* e, Tile* s) {
+	northTile = n;
+	westTile = w;
+	eastTile = e;
+	southTile = s;
+}
+
+/*
  * Checks whether or not this Tile has been initialised with valid data.
  * The Tile object must not be used if it has not been initialised correctly!
  */

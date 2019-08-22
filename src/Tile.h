@@ -15,6 +15,10 @@ class Tile {
 private:
 	District* pDistrict;
 	int xCoord, yCoord;
+	Tile* northTile = nullptr;
+	Tile* westTile = nullptr;
+	Tile* eastTile = nullptr;
+	Tile* southTile = nullptr;
 	TileProperty property;
 	Citizen* pOccupyingCitizen;
 	chtype drawSymbol;
@@ -24,6 +28,7 @@ public:
 	~Tile();
 	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
+	void setNeighbourTiles(Tile* n, Tile* w, Tile* e, Tile* s);
 	bool isInitialised() const;
 	int getX() const;
 	int getY() const;
