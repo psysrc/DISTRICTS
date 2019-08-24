@@ -39,7 +39,7 @@ public:
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
 	District* getDistrict() const;
-	void citizenEnter(Citizen* citizen);
+	bool citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
 	chtype getDrawSymbol() const;
 	int getDrawColour() const;

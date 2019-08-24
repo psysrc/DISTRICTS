@@ -13,7 +13,7 @@ Citizen::~Citizen() {
 }
 
 /*
- * Called by Tile::enterCitizen() after the citizen successfully moves to a different tile
+ * Sets the current tile the Citizen is on.
  */
 void Citizen::setTile(Tile* tile) {
 	pTile = tile;
@@ -56,15 +56,14 @@ void Citizen::move(MoveDirection direction) {
 }
 
 /*
- * Moves the Citizen to another tile.
+ * Attempts to move the Citizen to another tile.
  * NOTE: There are currently no checks done to ensure the Citizen moves in a legal way
  * 		-> i.e. the Citizen shouldn't be able to jump all over the map
  */
 void Citizen::move(Tile* const moveToTile) {
-	if (moveToTile != nullptr) {		// If the other tile is valid
-		pTile->citizenLeave();			// Leave the current tile
-		moveToTile->citizenEnter(this);	// Enter the other tile
-	}
+	if (moveToTile != nullptr)					// If the other tile is valid
+		if (moveToTile->citizenEnter(this))		// Attempt to move to the other tile
+			pTile = moveToTile;					// If successful, remember which tile we are now occupying
 }
 
 string Citizen::getName() const {

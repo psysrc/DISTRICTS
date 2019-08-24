@@ -83,28 +83,33 @@ TileProperty Tile::getProperty() const {
 }
 
 /*
- * Calling this tells the tile that the supplied Citizen is now occupying this tile.
- * This also informs the supplied Citizen of the tile change via Citizen::setTile().
- * This is assuming the tile is not already occupied.
+ * Calling this method effectively asks the tile if the Citizen can enter it.
+ * If so, the Citizen then moves to this tile. If not, nothing happens.
+ * The return value is the success of whether or not the Citizen has moved to this tile.
+ * This method informs the Citizen's old tile through Tile::citizenLeave().
  */
-void Tile::citizenEnter(Citizen* citizen) {
-	if (pOccupyingCitizen == nullptr) {
+bool Tile::citizenEnter(Citizen* citizen) {
+	if (pOccupyingCitizen == nullptr) {		// Check if this tile is already occupied first
 		pOccupyingCitizen = citizen;
 
-		pOccupyingCitizen->setTile(this);
+		Tile* const pPrevTile = citizen->getTile();
+
+		if (pPrevTile != nullptr)		// If the Citizen has come from another tile (quite likely)
+			pPrevTile->citizenLeave();	// Inform the Citizen's old tile that it has now left
 
 		updateVisuals();
+
+		return true;
 	}
+
+	return false;
 }
 
 /*
  * Calling this vacates the tile of its citizen (if it has one) and returns the Citizen*.
- * This also informs the supplied citizen of the tile change via Citizen::setTile().
  */
 Citizen* Tile::citizenLeave() {
 	if (pOccupyingCitizen != nullptr) {
-		pOccupyingCitizen->setTile(nullptr);
-
 		Citizen* temp = pOccupyingCitizen;
 		pOccupyingCitizen = nullptr;
 

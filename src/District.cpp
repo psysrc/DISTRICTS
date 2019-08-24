@@ -88,6 +88,7 @@ District::District(const string name) : districtName(name) {
 	Citizen* newCitizen = new Citizen("Geoff");
 	citizens.push_back(newCitizen);
 	tiles[1][1].citizenEnter(newCitizen);
+	newCitizen->setTile(&tiles[1][1]);
 }
 
 District::~District() {
