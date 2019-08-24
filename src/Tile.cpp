@@ -56,20 +56,22 @@ int Tile::getY() const {
 	return yCoord;
 }
 
-Tile* const Tile::getNorthTile() const {
-	return northTile;
-}
-
-Tile* const Tile::getWestTile() const {
-	return westTile;
-}
-
-Tile* const Tile::getEastTile() const {
-	return eastTile;
-}
-
-Tile* const Tile::getSouthTile() const {
-	return southTile;
+/*
+ * Returns the neighbouring tile in the given direction.
+ */
+Tile* const Tile::getNeighbourTile(MoveDirection direction) const {
+	switch (direction) {
+		case North:
+			return northTile;
+		case West:
+			return westTile;
+		case East:
+			return eastTile;
+		case South:
+			return southTile;
+		default:
+			return nullptr;
+	}
 }
 
 void Tile::updateProperty(TileProperty newProperty) {

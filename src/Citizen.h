@@ -3,12 +3,9 @@
 
 class Citizen;
 
-enum MoveDirection {
-	North, West, East, South
-};
-
 #include <string>
 #include "Tile.h"
+#include "Constants.h"
 
 using std::string;
 

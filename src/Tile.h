@@ -32,10 +32,7 @@ public:
 	bool isInitialised() const;
 	int getX() const;
 	int getY() const;
-	Tile* const getNorthTile() const;
-	Tile* const getWestTile() const;
-	Tile* const getEastTile() const;
-	Tile* const getSouthTile() const;
+	Tile* const getNeighbourTile(MoveDirection direction) const;
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
 	District* getDistrict() const;

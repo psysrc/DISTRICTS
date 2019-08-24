@@ -32,27 +32,14 @@ District* Citizen::getDistrict() const {
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
 void Citizen::takeAction() {
-	move(South);
+	move(East);
 }
 
 /*
- * Moves the Citizen to a neighbouring tile.
+ * Moves the Citizen to a neighbouring tile in a given direction.
  */
 void Citizen::move(MoveDirection direction) {
-	switch (direction) {
-		case North:
-			move(pTile->getNorthTile());
-			break;
-		case West:
-			move(pTile->getWestTile());
-			break;
-		case East:
-			move(pTile->getEastTile());
-			break;
-		case South:
-			move(pTile->getSouthTile());
-			break;
-	}
+	move(pTile->getNeighbourTile(direction));
 }
 
 /*

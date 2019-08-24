@@ -21,6 +21,10 @@ enum TileProperty {
 	Tree
 };
 
+enum MoveDirection {
+	North, West, East, South
+};
+
 class UninitialisedObjectException : public std::exception {
 	virtual const char* what() const noexcept
 	{
