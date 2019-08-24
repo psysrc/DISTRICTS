@@ -56,19 +56,19 @@ int Tile::getY() const {
 	return yCoord;
 }
 
-Tile* Tile::getNorthTile() const {
+Tile* const Tile::getNorthTile() const {
 	return northTile;
 }
 
-Tile* Tile::getWestTile() const {
+Tile* const Tile::getWestTile() const {
 	return westTile;
 }
 
-Tile* Tile::getEastTile() const {
+Tile* const Tile::getEastTile() const {
 	return eastTile;
 }
 
-Tile* Tile::getSouthTile() const {
+Tile* const Tile::getSouthTile() const {
 	return southTile;
 }
 
