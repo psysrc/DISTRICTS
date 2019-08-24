@@ -59,7 +59,7 @@ Game::~Game() {
  *
  */
 void* waitForPause(void* args) {
-	Game* pGame = (Game*) args;
+	Game* pGame = static_cast<Game*>(args);
 
 	noecho();
 	cbreak();
