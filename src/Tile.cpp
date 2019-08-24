@@ -89,20 +89,23 @@ TileProperty Tile::getProperty() const {
  * This method informs the Citizen's old tile through Tile::citizenLeave().
  */
 bool Tile::citizenEnter(Citizen* citizen) {
-	if (pOccupyingCitizen == nullptr) {		// Check if this tile is already occupied first
-		pOccupyingCitizen = citizen;
+	if (property == Water)				// Can Citizens walk on this tile?
+		return false;
 
-		Tile* const pPrevTile = citizen->getTile();
+	if (pOccupyingCitizen != nullptr)	// Is this tile already occupied?
+		return false;
 
-		if (pPrevTile != nullptr)		// If the Citizen has come from another tile (quite likely)
-			pPrevTile->citizenLeave();	// Inform the Citizen's old tile that it has now left
 
-		updateVisuals();
+	pOccupyingCitizen = citizen;
 
-		return true;
-	}
+	Tile* const pPrevTile = citizen->getTile();
 
-	return false;
+	if (pPrevTile != nullptr)		// If the Citizen has come from another tile (quite likely)
+		pPrevTile->citizenLeave();	// Inform the Citizen's old tile that it has now left
+
+	updateVisuals();
+
+	return true;
 }
 
 /*
