@@ -88,20 +88,15 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Add a new citizen to tile [1, 1]
-	Citizen* newCitizen = new Citizen("Geoff");
-	citizens.push_back(newCitizen);
-	tiles[1][1].citizenEnter(newCitizen);
-	newCitizen->setTile(&tiles[1][1]);
+	citizens.push_back(std::make_unique<Citizen>("Geoff"));
+	citizens[0]->setTile(&tiles[1][1]);
+	tiles[1][1].citizenEnter();
 }
 
 District::~District() {
 	// Delete the map tiles
 	delete [] tiles[0];
 	delete [] tiles;
-
-	for (Citizen* c : citizens) {	// Delete all citizen objects
-		delete c;
-	}
 
 	citizens.clear();	// Delete the citizens vector
 }
@@ -161,11 +156,11 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
  */
 void District::simulate() {
 	// Simulate all citizens
-	for (Citizen* c : citizens) {
+	for (std::unique_ptr<Citizen>& upC : citizens) {
 		if (DEBUG)
-			UserInterface::displayDebugMessage("Simulating citizen " + c->getName());
+			UserInterface::displayDebugMessage("Simulating citizen " + upC->getName());
 
-		c->takeAction();
+		upC->takeAction();
 	}
 
 	// TODO: Simulate the rest of the district

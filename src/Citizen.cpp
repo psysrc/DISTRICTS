@@ -48,9 +48,13 @@ void Citizen::move(MoveDirection direction) {
  * 		-> i.e. the Citizen shouldn't be able to jump all over the map
  */
 void Citizen::move(Tile* const moveToTile) {
-	if (moveToTile != nullptr)					// If the other tile is valid
-		if (moveToTile->citizenEnter(this))		// Attempt to move to the other tile
-			pTile = moveToTile;					// If successful, remember which tile we are now occupying
+	if (moveToTile != nullptr) {				// If the other tile is valid
+		if (moveToTile->citizenEnter())			// Attempt to move to the other tile
+			// If successful, remember which tile we are now occupying and inform the old tile of the change
+			pTile->citizenLeave();
+			pTile = moveToTile;
+	}
+
 }
 
 std::string Citizen::getName() const {

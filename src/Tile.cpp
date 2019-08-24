@@ -1,7 +1,7 @@
 #include "Tile.h"
 
 Tile::Tile()
-: pDistrict(nullptr), xCoord(-1), yCoord(-1), property(NullProperty), pOccupyingCitizen(nullptr), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
+: pDistrict(nullptr), xCoord(-1), yCoord(-1), occupiedByCitizen(false), property(NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
 
 }
 
@@ -85,25 +85,18 @@ TileProperty Tile::getProperty() const {
 }
 
 /*
- * Calling this method effectively asks the tile if the Citizen can enter it.
- * If so, the Citizen then moves to this tile. If not, nothing happens.
- * The return value is the success of whether or not the Citizen has moved to this tile.
- * This method informs the Citizen's old tile through Tile::citizenLeave().
+ * Calling this method effectively asks the tile if a Citizen can enter it.
+ * Returns whether or not the Citizen is now occupying this Tile.
  */
-bool Tile::citizenEnter(Citizen* citizen) {
-	if (property == Water)				// Can Citizens walk on this tile?
+bool Tile::citizenEnter() {
+	if (property == Water)		// Can Citizens walk on this tile?
 		return false;
 
-	if (pOccupyingCitizen != nullptr)	// Is this tile already occupied?
+	if (occupiedByCitizen)		// Is this tile already occupied?
 		return false;
 
 
-	pOccupyingCitizen = citizen;
-
-	Tile* const pPrevTile = citizen->getTile();
-
-	if (pPrevTile != nullptr)		// If the Citizen has come from another tile (quite likely)
-		pPrevTile->citizenLeave();	// Inform the Citizen's old tile that it has now left
+	occupiedByCitizen = true;
 
 	updateVisuals();
 
@@ -111,19 +104,13 @@ bool Tile::citizenEnter(Citizen* citizen) {
 }
 
 /*
- * Calling this vacates the tile of its citizen (if it has one) and returns the Citizen*.
+ * Calling this tells the Tile it is no longer occupied by a Citizen, if it has one.
  */
-Citizen* Tile::citizenLeave() {
-	if (pOccupyingCitizen != nullptr) {
-		Citizen* temp = pOccupyingCitizen;
-		pOccupyingCitizen = nullptr;
-
+void Tile::citizenLeave() {
+	if (occupiedByCitizen) {
+		occupiedByCitizen = false;
 		updateVisuals();
-
-		return temp;
 	}
-
-	return nullptr;
 }
 
 /*
@@ -131,7 +118,7 @@ Citizen* Tile::citizenLeave() {
  * Should be called whenever the tile's properties/characteristics change.
  */
 void Tile::updateVisuals() {
-	if (pOccupyingCitizen != nullptr) {
+	if (occupiedByCitizen) {
 		drawSymbol = 'C';
 		drawColour = COLOUR_CITIZEN;
 

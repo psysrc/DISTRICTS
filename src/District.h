@@ -15,7 +15,7 @@ class District {
 private:
 	std::string districtName;
 	Tile** tiles;
-	std::vector<Citizen*> citizens;
+	std::vector<std::unique_ptr<Citizen>> citizens;
 public:
 	District(const std::string name = "unnamed");
 	~District();
