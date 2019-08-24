@@ -92,9 +92,9 @@ void Tile::citizenEnter(Citizen* citizen) {
 		pOccupyingCitizen = citizen;
 
 		pOccupyingCitizen->setTile(this);
-	}
 
-	updateVisuals();
+		updateVisuals();
+	}
 }
 
 /*
@@ -112,8 +112,6 @@ Citizen* Tile::citizenLeave() {
 
 		return temp;
 	}
-
-	updateVisuals();
 
 	return nullptr;
 }
