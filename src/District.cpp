@@ -10,7 +10,31 @@ District::District(const string name) : districtName(name) {
 		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
 	}
 
-	// TODO: Initialise tile neighbours
+	// Initialise tile neighbours
+	for (int i = 0; i < DISTRICT_SIZE; i++) {
+		for (int j = 0; j < DISTRICT_SIZE; j++) {
+			Tile* north = nullptr;
+			Tile* west = nullptr;
+			Tile* east = nullptr;
+			Tile* south = nullptr;
+
+			// North
+			if (validTileIndex(i - 1))
+				north = &tiles[i - 1][j];
+			// West
+			if (validTileIndex(j - 1))
+				west = &tiles[i][j - 1];
+			// East
+			if (validTileIndex(j + 1))
+				east = &tiles[i][j + 1];
+			// South
+			if (validTileIndex(i + 1))
+				south = &tiles[i + 1][j];
+
+			// Set all
+			tiles[i][j].setNeighbourTiles(north, west, east, south);
+		}
+	}
 
 	// Populate the tile grid by initialising each tile with its coordinates, district and property
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
@@ -76,6 +100,13 @@ District::~District() {
 	}
 
 	citizens.clear();	// Delete the citizens vector
+}
+
+/*
+ * Returns whether or not an index into the Tiles array is valid.
+ */
+bool District::validTileIndex(const int index) const {
+	return (index >= 0 && index < DISTRICT_SIZE);
 }
 
 /*

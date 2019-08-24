@@ -33,7 +33,7 @@ void Tile::setCoordinates(int x, int y) {
 /*
  * Sets the neighbouring tiles.
  */
-void Tile::setNeighbourTiles(Tile* n, Tile* w, Tile* e, Tile* s) {
+void Tile::setNeighbourTiles(Tile* const n, Tile* const w, Tile* const e, Tile* const s) {
 	northTile = n;
 	westTile = w;
 	eastTile = e;
@@ -54,6 +54,22 @@ int Tile::getX() const {
 
 int Tile::getY() const {
 	return yCoord;
+}
+
+Tile* Tile::getNorthTile() const {
+	return northTile;
+}
+
+Tile* Tile::getWestTile() const {
+	return westTile;
+}
+
+Tile* Tile::getEastTile() const {
+	return eastTile;
+}
+
+Tile* Tile::getSouthTile() const {
+	return southTile;
 }
 
 void Tile::updateProperty(TileProperty newProperty) {

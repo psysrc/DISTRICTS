@@ -28,10 +28,14 @@ public:
 	~Tile();
 	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
-	void setNeighbourTiles(Tile* n, Tile* w, Tile* e, Tile* s);
+	void setNeighbourTiles(Tile* const n, Tile* const w, Tile* const e, Tile* const s);
 	bool isInitialised() const;
 	int getX() const;
 	int getY() const;
+	Tile* getNorthTile() const;
+	Tile* getWestTile() const;
+	Tile* getEastTile() const;
+	Tile* getSouthTile() const;
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
 	District* getDistrict() const;

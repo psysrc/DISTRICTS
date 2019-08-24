@@ -32,7 +32,7 @@ District* Citizen::getDistrict() const {
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
 void Citizen::takeAction() {
-	Tile* moveToTile = getDistrict()->getTile(pTile->getX(), pTile->getY() + 1);
+	Tile* moveToTile = pTile->getEastTile();
 
 	if (moveToTile != nullptr) {
 		pTile->citizenLeave();

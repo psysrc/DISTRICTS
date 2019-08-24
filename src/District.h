@@ -22,6 +22,7 @@ private:
 public:
 	District(const string name = "unnamed");
 	~District();
+	bool validTileIndex(const int index) const;
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
 	void draw(WINDOW* mapWindow) const;
