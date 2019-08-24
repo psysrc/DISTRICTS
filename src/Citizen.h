@@ -3,6 +3,10 @@
 
 class Citizen;
 
+enum MoveDirection {
+	North, West, East, South
+};
+
 #include <string>
 #include "Tile.h"
 
@@ -20,6 +24,8 @@ public:
 	Tile* getTile() const;
 	District* getDistrict() const;
 	void takeAction();
+	void move(MoveDirection direction);
+	void move(Tile* const moveToTile);
 	string getName() const;
 };
 

@@ -32,11 +32,38 @@ District* Citizen::getDistrict() const {
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
 void Citizen::takeAction() {
-	Tile* const moveToTile = pTile->getEastTile();
+	move(South);
+}
 
-	if (moveToTile != nullptr) {
-		pTile->citizenLeave();
-		moveToTile->citizenEnter(this);
+/*
+ * Moves the Citizen to a neighbouring tile.
+ */
+void Citizen::move(MoveDirection direction) {
+	switch (direction) {
+		case North:
+			move(pTile->getNorthTile());
+			break;
+		case West:
+			move(pTile->getWestTile());
+			break;
+		case East:
+			move(pTile->getEastTile());
+			break;
+		case South:
+			move(pTile->getSouthTile());
+			break;
+	}
+}
+
+/*
+ * Moves the Citizen to another tile.
+ * NOTE: There are currently no checks done to ensure the Citizen moves in a legal way
+ * 		-> i.e. the Citizen shouldn't be able to jump all over the map
+ */
+void Citizen::move(Tile* const moveToTile) {
+	if (moveToTile != nullptr) {		// If the other tile is valid
+		pTile->citizenLeave();			// Leave the current tile
+		moveToTile->citizenEnter(this);	// Enter the other tile
 	}
 }
 
