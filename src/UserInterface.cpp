@@ -111,8 +111,8 @@ void UserInterface::refresh() {
 /*
  * Draws the given district to the UI.
  */
-void UserInterface::drawDistrict(std::shared_ptr<District> pDistrict) {
-	Tile** districtTiles = pDistrict->getTiles();
+void UserInterface::drawDistrict(std::unique_ptr<District>& upDistrict) {
+	Tile** districtTiles = upDistrict->getTiles();
 
 	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
 

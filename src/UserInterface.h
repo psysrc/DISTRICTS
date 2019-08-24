@@ -22,7 +22,7 @@ public:
 	static void displayActivityMessage(const std::string str);
 	static void displayDebugMessage(const std::string str);
 	static void displayDebugMessage(const char* const str);
-	static void drawDistrict(std::shared_ptr<District> pDistrict);
+	static void drawDistrict(std::unique_ptr<District>& upDistrict);
 	static void refresh();
 };
 

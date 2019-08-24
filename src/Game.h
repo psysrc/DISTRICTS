@@ -14,8 +14,8 @@ class Game {
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
-	std::shared_ptr<District> pDistrict;
-	std::unique_ptr<pthread_t> pPauseThread;
+	std::unique_ptr<District> upDistrict;
+	std::unique_ptr<pthread_t> upPauseThread;
 
 	void unpause();
 public:

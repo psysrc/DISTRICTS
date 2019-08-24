@@ -10,7 +10,7 @@ Game::Game() {
 	gameIsOver = false;
 	gameIsPaused = false;
 
-	pDistrict = std::make_shared<District>();
+	upDistrict = std::make_unique<District>();
 
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;
@@ -74,11 +74,11 @@ void Game::play() {
 		// Don't bother running the following code if the user wants to quit (cmdState == -1)
 		if (cmdState == 0) {
 			if (DEBUG)
-				UserInterface::displayDebugMessage("Simulating district " + pDistrict->getName());
+				UserInterface::displayDebugMessage("Simulating district " + upDistrict->getName());
 
-			pDistrict->simulate();	// Simulate a game tick
+			upDistrict->simulate();	// Simulate a game tick
 
-			UserInterface::drawDistrict(pDistrict);		// Draw the district
+			UserInterface::drawDistrict(upDistrict);		// Draw the district
 		}
 	}
 
@@ -129,9 +129,9 @@ void Game::pause() {
 void Game::unpause() {
 	gameIsPaused = false;
 
-	pPauseThread = std::make_unique<pthread_t>();
+	upPauseThread = std::make_unique<pthread_t>();
 
-	pthread_create(pPauseThread.get(), NULL, waitForPause, (void*) this);
+	pthread_create(upPauseThread.get(), NULL, waitForPause, (void*) this);
 }
 
 /*
