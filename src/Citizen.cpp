@@ -32,7 +32,23 @@ District* Citizen::getDistrict() const {
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
 void Citizen::takeAction() {
-	move(East);
+	// The citizen will try to move in a random direction
+	switch (rand() % 4) {
+		case 0:
+			move(North);
+			break;
+		case 1:
+			move(West);
+			break;
+		case 2:
+			move(East);
+			break;
+		case 3:
+			move(South);
+			break;
+		default:
+			throw 0;
+	}
 }
 
 /*
