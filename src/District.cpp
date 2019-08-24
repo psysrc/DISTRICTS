@@ -112,9 +112,9 @@ bool District::validTileIndex(const int index) const {
  * Creates/adds a new biome to the district at a given location, with a defined size
  */
 void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
-	std::vector<Tile*> adjacency;
+	std::vector<Tile*> adjacency;			// Contains tiles adjacent to converted tiles
 	std::vector<Tile*>::iterator adjIt;
-	std::vector<Tile*> converted;
+	std::vector<Tile*> converted;			// Contains tiles already changed into the biome being generated
 	std::vector<Tile*>::iterator convIt;
 	int index = -1;
 
@@ -133,6 +133,12 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 
 		int cx = currentTile.getX();
 		int cy = currentTile.getY();
+
+
+
+		Tile* neighbours[4];
+
+		neighbours[0] =
 
 		// Define the neighbour coordinates from the current tile
 		int ais[4] = {cx - 1, cx, cx, cx + 1};
