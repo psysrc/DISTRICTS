@@ -5,7 +5,6 @@ class Tile;
 
 #include "District.h"
 #include "Citizen.h"
-#include <ncurses.h>
 
 class Tile {
 private:
@@ -17,7 +16,7 @@ private:
 	Tile* southTile = nullptr;
 	TileProperty property;
 	Citizen* pOccupyingCitizen;
-	chtype drawSymbol;
+	char drawSymbol;
 	int drawColour;
 public:
 	Tile();
@@ -34,7 +33,7 @@ public:
 	District* getDistrict() const;
 	bool citizenEnter(Citizen* citizen);
 	Citizen* citizenLeave();
-	chtype getDrawSymbol() const;
+	char getDrawSymbol() const;
 	int getDrawColour() const;
 	void updateVisuals();
 	bool operator==(const Tile& b) const;

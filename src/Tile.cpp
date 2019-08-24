@@ -165,7 +165,7 @@ void Tile::updateVisuals() {
 /*
  * Returns the draw symbol of this Tile.
  */
-chtype Tile::getDrawSymbol() const {
+char Tile::getDrawSymbol() const {
 	return drawSymbol;
 }
 
