@@ -6,9 +6,7 @@
 #include <memory>
 #include "District.h"
 #include <chrono>
-#include <thread>
-#include <ncurses.h>
-#include <pthread.h>
+#include <thread>		// sleep_for, pthread_*
 #include "PlayerCommand.h"
 #include "UserInterface.h"
 

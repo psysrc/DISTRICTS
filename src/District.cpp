@@ -1,5 +1,8 @@
 #include "District.h"
 
+using std::string;
+using std::vector;
+
 District::District(const string name) : districtName(name) {
 	// Define a contiguous memory space for the n*n grid of tiles
 	tiles = new Tile*[DISTRICT_SIZE];

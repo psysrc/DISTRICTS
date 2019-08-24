@@ -5,11 +5,7 @@ class Tile;
 
 #include "District.h"
 #include "Citizen.h"
-#include <vector>
 #include <ncurses.h>
-
-using std::vector;
-using std::string;
 
 class Tile {
 private:
