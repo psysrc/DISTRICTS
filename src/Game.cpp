@@ -16,42 +16,10 @@ Game::Game() {
 
 	if (DEBUG)
 		cout << "New game created." << endl;
-
-	initscr();		// Prepare the terminal window for Ncurses-style output
-
-	if (!has_colors()) {
-		std::cout << "Aborting: Terminal does not support colours." << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-	start_color();	// Enable colour to be used in the terminal
-
-	use_default_colors();	// Display default terminal colours for now
-
-	// Define colour pairs for the tiles
-	init_pair(COLOUR_CITIZEN, COLOR_WHITE, COLOR_BLACK);
-	init_pair(COLOUR_PLAINS, COLOR_GREEN, COLOR_GREEN);
-	init_pair(COLOUR_WATER, COLOR_BLUE, COLOR_BLUE);
-	init_pair(COLOUR_STONE, COLOR_WHITE, COLOR_WHITE);
-	init_pair(COLOUR_UNKNOWN, COLOR_RED, COLOR_BLACK);
-
-	// Define the windows in the terminal
-	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
-	activityWindow = newwin(8, DISTRICT_SIZE * 2, DISTRICT_SIZE + 1, 0);
-	debugWindow = newwin(DISTRICT_SIZE, 40, 0, (DISTRICT_SIZE * 2) + 4);
-
-	wattron(mapWindow, A_BOLD);		// Makes the text brighter and bolder
-
-	scrollok(activityWindow, TRUE);
-	scrollok(debugWindow, TRUE);
-
-	refresh();
 }
 
 Game::~Game() {
-	delwin(mapWindow);
-	delwin(activityWindow);
-	delwin(debugWindow);
+
 }
 
 /*
@@ -80,6 +48,8 @@ void* waitForPause(void* args) {
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
+	UserInterface::initialise();
+
 	unpause();	// Initialise the first thread to wait for the user pausing
 
 	int cmdState = 0;
@@ -103,12 +73,11 @@ void Game::play() {
 		// Don't bother running the following code if the user wants to quit (cmdState == -1)
 		if (cmdState == 0) {
 			if (DEBUG)
-				displayDebugMessage("Simulating district " + pDistrict->getName());
+				UserInterface::displayDebugMessage("Simulating district " + pDistrict->getName());
 
 			pDistrict->simulate();	// Simulate a game tick
 
-			// Render the game state to the user
-			updateUI();
+			UserInterface::drawDistrict(pDistrict);		// Draw the district
 		}
 	}
 
@@ -135,7 +104,7 @@ int Game::handleCommands() {
 		case PlayerCommand::Quit:
 			return -1;	// Tell the game loop to quit
 		case PlayerCommand::BuildHouse:
-			displayActivityMessage("A house has been constructed.");
+			UserInterface::displayActivityMessage("A house has been constructed.");
 			break;
 		}
 	}
@@ -164,50 +133,13 @@ void Game::unpause() {
 	pthread_create(pPauseThread.get(), NULL, waitForPause, (void*) this);
 }
 
-/**
- * Prints a string to the Activity window.
- */
-void Game::displayActivityMessage(const char* str) const {
-	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
-	waddstr(activityWindow, str);						// Print the line
-	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
-
-	wrefresh(activityWindow);
-}
-
-void Game::displayDebugMessage(std::string str) const {
-	displayDebugMessage(str.c_str());
-}
-
-/**
- * Prints a string to the Debug window.
- */
-void Game::displayDebugMessage(const char* str) const {
-	wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
-	waddstr(debugWindow, str);					// Print the line
-	waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
-
-	wrefresh(debugWindow);
-}
-
-/*
- * Draws the current state of the game, including the current district.
- */
-void Game::updateUI() const {
-	pDistrict->draw(mapWindow);
-
-	wrefresh(mapWindow);
-	wrefresh(activityWindow);
-	wrefresh(debugWindow);
-}
-
 /*
  * This method is called when the game is over.
  */
 void Game::gameOver() const {
-	displayActivityMessage("Game Over.");
+	UserInterface::displayActivityMessage("Game Over.");
 
 	sleep_for(seconds(1));
 
-	endwin();	// End of Ncurses activity
+	UserInterface::terminate();
 }

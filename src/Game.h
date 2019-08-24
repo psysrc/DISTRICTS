@@ -10,15 +10,13 @@
 #include <ncurses.h>
 #include <pthread.h>
 #include "PlayerCommand.h"
+#include "UserInterface.h"
 
 class Game {
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
 	std::shared_ptr<District> pDistrict;
-	WINDOW* mapWindow;
-	WINDOW* activityWindow;
-	WINDOW* debugWindow;
 	std::unique_ptr<pthread_t> pPauseThread;
 
 	void unpause();
@@ -28,10 +26,6 @@ public:
 	int handleCommands();
 	void play();
 	void pause();
-	void displayActivityMessage(const char* str) const;
-	void displayDebugMessage(std::string str) const;
-	void displayDebugMessage(const char* str) const;
-	void updateUI() const;
 	void gameOver() const;
 };
 

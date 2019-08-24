@@ -1,6 +1,6 @@
 #include "Citizen.h"
 
-Citizen::Citizen(string name) : pTile(nullptr), citizenName(name) {
+Citizen::Citizen(std::string name) : pTile(nullptr), citizenName(name) {
 
 }
 
@@ -53,6 +53,6 @@ void Citizen::move(Tile* const moveToTile) {
 			pTile = moveToTile;					// If successful, remember which tile we are now occupying
 }
 
-string Citizen::getName() const {
+std::string Citizen::getName() const {
 	return citizenName;
 }

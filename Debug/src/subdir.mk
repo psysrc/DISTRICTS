@@ -8,21 +8,24 @@ CPP_SRCS += \
 ../src/District.cpp \
 ../src/Game.cpp \
 ../src/Main.cpp \
-../src/Tile.cpp 
+../src/Tile.cpp \
+../src/UserInterface.cpp 
 
 OBJS += \
 ./src/Citizen.o \
 ./src/District.o \
 ./src/Game.o \
 ./src/Main.o \
-./src/Tile.o 
+./src/Tile.o \
+./src/UserInterface.o 
 
 CPP_DEPS += \
 ./src/Citizen.d \
 ./src/District.d \
 ./src/Game.d \
 ./src/Main.d \
-./src/Tile.d 
+./src/Tile.d \
+./src/UserInterface.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

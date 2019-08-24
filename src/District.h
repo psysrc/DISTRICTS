@@ -10,6 +10,7 @@ class District;
 #include <exception>
 #include <ncurses.h>
 #include <algorithm>	// std::find
+#include "UserInterface.h"
 
 using std::string;
 using std::vector;
@@ -25,7 +26,6 @@ public:
 	bool validTileIndex(const int index) const;
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
-	void draw(WINDOW* mapWindow) const;
 	string getName() const;
 	Tile** getTiles() const;
 	Tile* getTile(const int i, const int j) const;

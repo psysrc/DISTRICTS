@@ -159,34 +159,13 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 void District::simulate() {
 	// Simulate all citizens
 	for (Citizen* c : citizens) {
-		// TODO: Use Game::DisplayDebugMessage()
-//		if (DEBUG)
-//			cout << "Simulating citizen " << c->getName() << endl;
+		if (DEBUG)
+			UserInterface::displayDebugMessage("Simulating citizen " + c->getName());
 
 		c->takeAction();
 	}
 
 	// TODO: Simulate the rest of the district
-}
-
-/*
- * Draws the district to the map window when the game requires it.
- */
-void District::draw(WINDOW* mapWindow) const {
-	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
-
-	// Draw the N*N grid of tiles
-	// The cursor will automatically wrap to the next line when it reaches the end of the window
-	for (int i = 0; i < DISTRICT_SIZE; i++) {
-		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			int tileColour = tiles[i][j].getDrawColour();
-
-			wattron(mapWindow, COLOR_PAIR(tileColour));
-			waddch(mapWindow, tiles[i][j].getDrawSymbol());
-			waddch(mapWindow, ' ');
-			wattroff(mapWindow, COLOR_PAIR(tileColour));
-		}
-	}
 }
 
 string District::getName() const {

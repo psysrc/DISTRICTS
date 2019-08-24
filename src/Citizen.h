@@ -7,14 +7,12 @@ class Citizen;
 #include "Tile.h"
 #include "Constants.h"
 
-using std::string;
-
 class Citizen {
 private:
 	Tile* pTile;
-	string citizenName;
+	std::string citizenName;
 public:
-	Citizen(const string name);
+	Citizen(const std::string name);
 	Citizen();
 	~Citizen();
 	void setTile(Tile* tile);
@@ -23,7 +21,7 @@ public:
 	void takeAction();
 	void move(MoveDirection direction);
 	void move(Tile* const moveToTile);
-	string getName() const;
+	std::string getName() const;
 };
 
 #endif /* CITIZEN_H_ */
