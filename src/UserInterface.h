@@ -16,7 +16,7 @@ private:
 public:
 	UserInterface() = delete;
 	~UserInterface() = delete;
-	static void initialise();
+	static bool initialise();
 	static void terminate();
 	static void displayActivityMessage(const char* const str);
 	static void displayActivityMessage(const std::string str);

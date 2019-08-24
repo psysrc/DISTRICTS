@@ -6,15 +6,18 @@ WINDOW* UserInterface::debugWindow;
 
 /*
  * Initialises the UI in the terminal ready for a game to be displayed.
+ * Returns whether the UI initialisation succeeded or not.
  */
-void UserInterface::initialise() {
+bool UserInterface::initialise() {
 	// Prepare the terminal window for ncurses-style output
 	initscr();
 
 	// Check that the terminal supports colours
 	if (!has_colors()) {
+		endwin();
+
 		std::cout << "User Interface Error: Terminal does not support colours. Aborting." << std::endl;
-		exit(EXIT_FAILURE);
+		return false;
 	}
 
 	// Enable colour to be used in the terminal
@@ -43,6 +46,8 @@ void UserInterface::initialise() {
 	scrollok(debugWindow, TRUE);
 
 	UserInterface::refresh();
+
+	return true;
 }
 
 /*

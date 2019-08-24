@@ -1,7 +1,5 @@
 #include "Game.h"
 
-using std::cout;
-using std::endl;
 using namespace std::this_thread;
 using namespace std::chrono;
 
@@ -15,7 +13,7 @@ Game::Game() {
 	pDistrict = std::make_shared<District>();
 
 	if (DEBUG)
-		cout << "New game created." << endl;
+		std::cout << "New game created." << std::endl;
 }
 
 Game::~Game() {
@@ -48,7 +46,10 @@ void* waitForPause(void* args) {
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
-	UserInterface::initialise();
+	if (!UserInterface::initialise()) {		// Initialise the UI and check if initialisation succeeded
+		std::cout << "Could not load game due to a user interface error." << std::endl;
+		return;								// Return if UI initialisation fails
+	}
 
 	unpause();	// Initialise the first thread to wait for the user pausing
 
