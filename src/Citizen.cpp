@@ -36,7 +36,7 @@ void Citizen::takeAction() {
 }
 
 /*
- * Moves the Citizen to a neighbouring tile in a given direction.
+ * Attempts to move the Citizen to a neighbouring tile in a given direction.
  */
 void Citizen::move(MoveDirection direction) {
 	move(pTile->getNeighbourTile(direction));
