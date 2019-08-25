@@ -88,16 +88,17 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Add a new citizen and place them on a walkable tile
+	citizens.push_back(std::make_unique<Citizen>("Geoff"));
+
 	int i, j;
 
+	// Keep choosing random tiles until one is found in which the citizen can enter
 	do {
 		i = rand() % DISTRICT_SIZE;
 		j = rand() % DISTRICT_SIZE;
 	}
-	while (!tiles[i][j].citizenEnter());	// Keep choosing random tiles until one is found in which the citizen can enter
+	while (!tiles[i][j].citizenEnter(citizens[0].get()));
 
-	// Create the citizen and set their current tile
-	citizens.push_back(std::make_unique<Citizen>("Geoff"));
 	citizens[0]->setTile(&tiles[i][j]);
 }
 

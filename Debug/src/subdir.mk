@@ -8,7 +8,10 @@ CPP_SRCS += \
 ../src/District.cpp \
 ../src/Game.cpp \
 ../src/Main.cpp \
+../src/MapObject.cpp \
+../src/Sapling.cpp \
 ../src/Tile.cpp \
+../src/Tree.cpp \
 ../src/UserInterface.cpp 
 
 OBJS += \
@@ -16,7 +19,10 @@ OBJS += \
 ./src/District.o \
 ./src/Game.o \
 ./src/Main.o \
+./src/MapObject.o \
+./src/Sapling.o \
 ./src/Tile.o \
+./src/Tree.o \
 ./src/UserInterface.o 
 
 CPP_DEPS += \
@@ -24,7 +30,10 @@ CPP_DEPS += \
 ./src/District.d \
 ./src/Game.d \
 ./src/Main.d \
+./src/MapObject.d \
+./src/Sapling.d \
 ./src/Tile.d \
+./src/Tree.d \
 ./src/UserInterface.d 
 
 

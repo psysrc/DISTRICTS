@@ -65,7 +65,7 @@ void Citizen::move(MoveDirection direction) {
  */
 void Citizen::move(Tile* const moveToTile) {
 	if (moveToTile != nullptr) {				// If the other tile is valid
-		if (moveToTile->citizenEnter()) {		// Attempt to move to the other tile
+		if (moveToTile->citizenEnter(this)) {	// Attempt to move to the other tile
 			// If successful, remember which tile we are now occupying and inform the old tile of the change
 			pTile->citizenLeave();
 			pTile = moveToTile;
