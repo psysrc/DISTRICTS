@@ -4,12 +4,20 @@ Entity::Entity() : Entity("unnamed", '?') {
 
 }
 
-Entity::Entity(std::string objectName, char objectDrawSymbol) : name(objectName), drawSymbol(objectDrawSymbol) {
+Entity::Entity(std::string objectName, char objectDrawSymbol) : name(objectName), drawSymbol(objectDrawSymbol), pTile(nullptr) {
 
 }
 
 Entity::~Entity() {
 
+}
+
+void Entity::setTile(Tile* tile) {
+	pTile = tile;
+}
+
+Tile* Entity::getTile() const {
+	return pTile;
 }
 
 std::string Entity::getName() const {

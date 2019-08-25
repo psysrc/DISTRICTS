@@ -2,6 +2,7 @@
 #define SRC_SAPLING_H_
 
 #include "Entity.h"
+#include "Tile.h"
 
 class Sapling : public Entity {
 public:

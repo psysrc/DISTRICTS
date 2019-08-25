@@ -1,11 +1,13 @@
 #ifndef TILE_H_
 #define TILE_H_
 
-class Tile;
-
-#include "District.h"
 #include <memory>
+#include "Constants.h"
 #include "Entity.h"
+#include "Citizen.h"
+
+// No need to fully include
+class District;
 
 class Tile {
 private:

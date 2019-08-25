@@ -76,14 +76,18 @@ District::District(const string name) : districtName(name) {
 				if (treeChance < 5) {	// 5% chance of growing a tree
 					std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>();
 
-					if (tiles[i][j].occupy(tmpTree.get()))
+					if (tiles[i][j].occupy(tmpTree.get())) {
+						tmpTree->setTile(&tiles[i][j]);
 						entities.push_back(std::move(tmpTree));
+					}
 				}
 				else if (treeChance < 10) {	// 5% chance of growing a sapling
 					std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>();
 
-					if (tiles[i][j].occupy(tmpSapling.get()))
+					if (tiles[i][j].occupy(tmpSapling.get())) {
+						tmpSapling->setTile(&tiles[i][j]);
 						entities.push_back(std::move(tmpSapling));
+					}
 				}
 			}
 		}

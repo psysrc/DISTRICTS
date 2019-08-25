@@ -1,26 +1,11 @@
 #include "Citizen.h"
 
-Citizen::Citizen(std::string name) : Entity(name, 'C'), pTile(nullptr) {
+Citizen::Citizen(std::string name) : Entity(name, 'C') {
 
 }
 
 Citizen::~Citizen() {
 
-}
-
-/*
- * Sets the current tile the Citizen is on.
- */
-void Citizen::setTile(Tile* tile) {
-	pTile = tile;
-}
-
-Tile* Citizen::getTile() const {
-	return pTile;
-}
-
-District* Citizen::getDistrict() const {
-	return pTile->getDistrict();
 }
 
 /*
