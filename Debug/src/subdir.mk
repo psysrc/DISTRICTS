@@ -6,9 +6,9 @@
 CPP_SRCS += \
 ../src/Citizen.cpp \
 ../src/District.cpp \
+../src/Entity.cpp \
 ../src/Game.cpp \
 ../src/Main.cpp \
-../src/MapObject.cpp \
 ../src/Sapling.cpp \
 ../src/Tile.cpp \
 ../src/Tree.cpp \
@@ -17,9 +17,9 @@ CPP_SRCS += \
 OBJS += \
 ./src/Citizen.o \
 ./src/District.o \
+./src/Entity.o \
 ./src/Game.o \
 ./src/Main.o \
-./src/MapObject.o \
 ./src/Sapling.o \
 ./src/Tile.o \
 ./src/Tree.o \
@@ -28,9 +28,9 @@ OBJS += \
 CPP_DEPS += \
 ./src/Citizen.d \
 ./src/District.d \
+./src/Entity.d \
 ./src/Game.d \
 ./src/Main.d \
-./src/MapObject.d \
 ./src/Sapling.d \
 ./src/Tile.d \
 ./src/Tree.d \

@@ -1,7 +1,8 @@
 #include "Tile.h"
 
 Tile::Tile()
-: pDistrict(nullptr), xCoord(-1), yCoord(-1), pOccupyingCitizen(nullptr), property(NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
+: pDistrict(nullptr), xCoord(-1), yCoord(-1), pEntity(nullptr),
+  property(NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
 
 }
 
@@ -85,18 +86,24 @@ TileProperty Tile::getProperty() const {
 }
 
 /*
- * Calling this method effectively asks the tile if a Citizen can enter it.
- * Returns whether or not the Citizen is now occupying this Tile.
+ * Identical to Tile::occupy(Entity*) but specialised for Citizens.
+ * Checks, for example, if the citizen can walk on the tile (i.e. is it water?)
  */
 bool Tile::citizenEnter(Citizen* pCitizen) {
-	if (property == Water)				// Can Citizens walk on this tile?
+	if (property == Water)		// Can Citizens walk on this tile?
 		return false;
 
-	if (pOccupyingCitizen != nullptr)	// Is this tile already occupied?
+	return occupy(pCitizen);	// The citizen will attempt to occupy the tile
+}
+
+/*
+ * The given entity will occupy this Tile unless the tile is already occupied.
+ */
+bool Tile::occupy(Entity* pEntity) {
+	if (occupied())
 		return false;
 
-
-	pOccupyingCitizen = pCitizen;
+	this->pEntity = pEntity;
 
 	updateVisuals();
 
@@ -104,13 +111,20 @@ bool Tile::citizenEnter(Citizen* pCitizen) {
 }
 
 /*
- * Calling this tells the Tile it is no longer occupied by the Citizen, if it had one.
+ * Calling this tells the Tile it is no longer occupied by an entity, if it had one.
  */
-void Tile::citizenLeave() {
-	if (pOccupyingCitizen != nullptr) {
-		pOccupyingCitizen = nullptr;
+void Tile::vacateEntity() {
+	if (occupied()) {
+		pEntity = nullptr;
 		updateVisuals();
 	}
+}
+
+/*
+ * Returns whether or not the tile is occupied by another entity.
+ */
+bool Tile::occupied() const {
+	return (pEntity != nullptr);
 }
 
 /*
@@ -118,32 +132,23 @@ void Tile::citizenLeave() {
  * Should be called whenever the tile's properties/characteristics change.
  */
 void Tile::updateVisuals() {
-	if (pOccupyingCitizen != nullptr) {
-		drawSymbol = 'C';
-		drawColour = COLOUR_CITIZEN;
-
-		return;
-	}
+	if (pEntity != nullptr)
+		drawSymbol = pEntity->getDrawSymbol();
+	else
+		drawSymbol = ' ';
 
 	switch (property) {
 	case Plains:
-		drawSymbol = ' ';
 		drawColour = COLOUR_PLAINS;
 		break;
 	case Stone:
-		drawSymbol = '%';
 		drawColour = COLOUR_STONE;
 		break;
 	case Water:
-		drawSymbol = '~';
 		drawColour = COLOUR_WATER;
 		break;
-	case Tree:
-		drawSymbol = '$';
-		drawColour = COLOUR_PLAINS;
-		break;
 	default:
-		drawSymbol = '?';
+		drawColour = '?';
 		drawColour = COLOUR_UNKNOWN;
 		break;
 	}

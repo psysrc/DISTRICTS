@@ -18,7 +18,6 @@ enum TileProperty {
 	Plains,
 	Water,
 	Stone,
-	Tree
 };
 
 enum MoveDirection {

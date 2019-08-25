@@ -5,7 +5,7 @@ class Tile;
 
 #include "District.h"
 #include <memory>
-#include "MapObject.h"
+#include "Entity.h"
 
 class Tile {
 private:
@@ -15,8 +15,7 @@ private:
 	Tile* westTile = nullptr;
 	Tile* eastTile = nullptr;
 	Tile* southTile = nullptr;
-	Citizen* pOccupyingCitizen;
-	MapObject* pMapObject;
+	Entity* pEntity;
 	TileProperty property;
 	char drawSymbol;
 	int drawColour;
@@ -34,7 +33,9 @@ public:
 	TileProperty getProperty() const;
 	District* getDistrict() const;
 	bool citizenEnter(Citizen*);
-	void citizenLeave();
+	bool occupy(Entity*);
+	void vacateEntity();
+	bool occupied() const;
 	char getDrawSymbol() const;
 	int getDrawColour() const;
 	void updateVisuals();

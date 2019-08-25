@@ -6,22 +6,20 @@ class Citizen;
 #include <string>
 #include "Tile.h"
 #include "Constants.h"
+#include "Entity.h"
 
-class Citizen {
+class Citizen : public Entity {
 private:
 	Tile* pTile;
-	std::string citizenName;
 public:
 	Citizen(const std::string name);
-	Citizen();
-	~Citizen();
+	virtual ~Citizen();
 	void setTile(Tile* tile);
 	Tile* getTile() const;
 	District* getDistrict() const;
-	void takeAction();
+	virtual void simulate() override;
 	void move(MoveDirection direction);
 	void move(Tile* const moveToTile);
-	std::string getName() const;
 };
 
 #endif /* CITIZEN_H_ */

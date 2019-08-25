@@ -5,17 +5,21 @@ class District;
 
 #include "Constants.h"
 #include "Citizen.h"
+#include "Entity.h"
 #include "Tile.h"
 #include <vector>
 #include <algorithm>	// std::find
 #include "UserInterface.h"
 #include <string>
+#include "Tree.h"
+#include "Sapling.h"
 
 class District {
 private:
 	std::string districtName;
 	Tile** tiles;
-	std::vector<std::unique_ptr<Citizen>> citizens;
+	std::vector<std::unique_ptr<Citizen>> citizens;		// All citizens in the district
+	std::vector<std::unique_ptr<Entity>> entities;		// All entities in the district (not including citizens)
 public:
 	District(const std::string name = "unnamed");
 	~District();

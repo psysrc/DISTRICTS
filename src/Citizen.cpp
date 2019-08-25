@@ -1,10 +1,6 @@
 #include "Citizen.h"
 
-Citizen::Citizen(std::string name) : pTile(nullptr), citizenName(name) {
-
-}
-
-Citizen::Citizen() : Citizen("unnamed") {
+Citizen::Citizen(std::string name) : Entity(name, 'C'), pTile(nullptr) {
 
 }
 
@@ -31,7 +27,7 @@ District* Citizen::getDistrict() const {
  * Called once per game tick.
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
-void Citizen::takeAction() {
+void Citizen::simulate() {
 	// The citizen will try to move in a random direction
 	switch (rand() % 4) {
 		case 0:
@@ -67,13 +63,8 @@ void Citizen::move(Tile* const moveToTile) {
 	if (moveToTile != nullptr) {				// If the other tile is valid
 		if (moveToTile->citizenEnter(this)) {	// Attempt to move to the other tile
 			// If successful, remember which tile we are now occupying and inform the old tile of the change
-			pTile->citizenLeave();
+			pTile->vacateEntity();
 			pTile = moveToTile;
 		}
 	}
-
-}
-
-std::string Citizen::getName() const {
-	return citizenName;
 }

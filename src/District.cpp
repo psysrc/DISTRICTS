@@ -73,8 +73,18 @@ District::District(const string name) : districtName(name) {
 			if (tiles[i][j].getProperty() == Plains) {
 				int treeChance = rand() % 100;
 
-				if (treeChance < 5)	// 5% chance of growing a tree
-					tiles[i][j].updateProperty(Tree);
+				if (treeChance < 5) {	// 5% chance of growing a tree
+					std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>();
+
+					if (tiles[i][j].occupy(tmpTree.get()))
+						entities.push_back(std::move(tmpTree));
+				}
+				else if (treeChance < 10) {	// 5% chance of growing a sapling
+					std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>();
+
+					if (tiles[i][j].occupy(tmpSapling.get()))
+						entities.push_back(std::move(tmpSapling));
+				}
 			}
 		}
 	}
@@ -166,13 +176,13 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 void District::simulate() {
 	// Simulate all citizens
 	for (std::unique_ptr<Citizen>& upC : citizens) {
-		if (DEBUG)
-			UserInterface::displayDebugMessage("Simulating citizen " + upC->getName());
-
-		upC->takeAction();
+		upC->simulate();
 	}
 
-	// TODO: Simulate the rest of the district
+	// Simulate the rest of the district
+	for (std::unique_ptr<Entity>& upE : entities) {
+		upE->simulate();
+	}
 }
 
 string District::getName() const {
