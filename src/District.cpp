@@ -202,8 +202,8 @@ Tile** District::getTiles() const {
  * Returns nullptr if the coordinates are out of range.
  */
 Tile* District::getTile(const int i, const int j) const {
-	if (i < 0 || i >= DISTRICT_SIZE || j < 0 || j >= DISTRICT_SIZE)	// Check the indexes are in range
-		return nullptr;
-	else
+	if (validTileIndex(i) && validTileIndex(j))
 		return &tiles[i][j];
+	else
+		return nullptr;
 }
