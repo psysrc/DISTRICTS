@@ -74,7 +74,7 @@ District::District(const string name) : districtName(name) {
 				int treeChance = rand() % 100;
 
 				if (treeChance < 5) {	// 5% chance of growing a tree
-					std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>();
+					std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>(this);
 
 					if (tiles[i][j].occupy(tmpTree.get())) {
 						tmpTree->setTile(&tiles[i][j]);
@@ -82,7 +82,7 @@ District::District(const string name) : districtName(name) {
 					}
 				}
 				else if (treeChance < 10) {	// 5% chance of growing a sapling
-					std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>();
+					std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>(this);
 
 					if (tiles[i][j].occupy(tmpSapling.get())) {
 						tmpSapling->setTile(&tiles[i][j]);
@@ -102,7 +102,7 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Add a new citizen and place them on a walkable tile
-	citizens.push_back(std::make_unique<Citizen>("Geoff"));
+	citizens.push_back(std::make_unique<Citizen>(this, "Geoff"));
 
 	int i, j;
 
@@ -187,6 +187,11 @@ void District::simulate() {
 	for (std::unique_ptr<Entity>& upE : entities) {
 		upE->simulate();
 	}
+
+	// Remove all entities that need deleting
+	entities.erase(std::remove_if(entities.begin(), entities.end(), [] (std::unique_ptr<Entity>& upE) -> bool {
+		return upE->needsDeleting();
+	}), entities.end());
 }
 
 string District::getName() const {

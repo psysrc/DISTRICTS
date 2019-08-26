@@ -3,10 +3,11 @@
 
 #include "Entity.h"
 #include "Tile.h"
+#include "District.h"
 
 class Sapling : public Entity {
 public:
-	Sapling();
+	Sapling(District*);
 	virtual ~Sapling();
 	virtual void simulate() override;
 };

@@ -1,6 +1,6 @@
 #include "Citizen.h"
 
-Citizen::Citizen(std::string name) : Entity(name, 'C') {
+Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C') {
 
 }
 

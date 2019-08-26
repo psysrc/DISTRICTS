@@ -10,7 +10,7 @@ class Citizen;
 
 class Citizen : public Entity {
 public:
-	Citizen(const std::string name);
+	Citizen(District*, const std::string);
 	virtual ~Citizen();
 	virtual void simulate() override;
 	void move(MoveDirection direction);

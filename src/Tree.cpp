@@ -1,6 +1,6 @@
 #include "Tree.h"
 
-Tree::Tree() : Entity("Tree", '$') {
+Tree::Tree(District* district) : Entity(district, "Tree", '$') {
 
 }
 

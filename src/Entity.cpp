@@ -1,10 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity() : Entity("unnamed", '?') {
-
-}
-
-Entity::Entity(std::string objectName, char objectDrawSymbol) : name(objectName), drawSymbol(objectDrawSymbol), pTile(nullptr) {
+Entity::Entity(District* district, std::string objectName, char objectDrawSymbol)
+: deleteMe(false), name(objectName), drawSymbol(objectDrawSymbol), pDistrict(district), pTile(nullptr) {
 
 }
 
@@ -26,4 +23,12 @@ std::string Entity::getName() const {
 
 char Entity::getDrawSymbol() const {
 	return drawSymbol;
+}
+
+void Entity::deleteEntity() {
+	deleteMe = true;
+}
+
+bool Entity::needsDeleting() const {
+	return deleteMe;
 }

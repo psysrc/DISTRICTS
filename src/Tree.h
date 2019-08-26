@@ -5,7 +5,7 @@
 
 class Tree : public Entity {
 public:
-	Tree();
+	Tree(District*);
 	virtual ~Tree();
 	virtual void simulate() override;
 };
