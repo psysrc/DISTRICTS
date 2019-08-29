@@ -18,8 +18,9 @@ class District {
 private:
 	std::string districtName;
 	Tile** tiles;
-	std::vector<std::unique_ptr<Citizen>> citizens;		// All citizens in the district
-	std::vector<std::unique_ptr<Entity>> entities;		// All entities in the district (not including citizens)
+	std::vector<std::unique_ptr<Citizen>> citizens;			// All citizens in the district
+	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district (not including citizens)
+	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities in the district (not including citizens)
 public:
 	District(const std::string name = "unnamed");
 	~District();
@@ -43,7 +44,7 @@ E* District::makeEntity() {
 	std::unique_ptr<E> upE = std::make_unique<E>(this);
 	E* pE = upE.get();
 
-	entities.push_back(std::move(upE));
+	entitiesToAdd.push_back(std::move(upE));
 
 	return pE;
 }

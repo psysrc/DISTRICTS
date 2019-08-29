@@ -192,6 +192,10 @@ void District::simulate() {
 	entities.erase(std::remove_if(entities.begin(), entities.end(), [] (std::unique_ptr<Entity>& upE) -> bool {
 		return upE->needsDeleting();
 	}), entities.end());
+
+	// Add all entities that were created this game tick
+	entities.insert(entities.end(), std::make_move_iterator(entitiesToAdd.begin()), std::make_move_iterator(entitiesToAdd.end()));
+	entitiesToAdd.clear();
 }
 
 string District::getName() const {

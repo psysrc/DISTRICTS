@@ -2,6 +2,7 @@
 #define SRC_TREE_H_
 
 #include "Entity.h"
+#include "UserInterface.h"
 
 class Tree : public Entity {
 public:
