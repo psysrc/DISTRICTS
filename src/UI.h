@@ -13,6 +13,7 @@ private:
 	static WINDOW* mapWindow;
 	static WINDOW* activityWindow;
 	static WINDOW* debugWindow;
+	static bool initialised;
 public:
 	UI() = delete;
 	~UI() = delete;

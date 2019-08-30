@@ -12,7 +12,7 @@ CPP_SRCS += \
 ../src/Sapling.cpp \
 ../src/Tile.cpp \
 ../src/Tree.cpp \
-../src/UserInterface.cpp 
+../src/UI.cpp 
 
 OBJS += \
 ./src/Citizen.o \
@@ -23,7 +23,7 @@ OBJS += \
 ./src/Sapling.o \
 ./src/Tile.o \
 ./src/Tree.o \
-./src/UserInterface.o 
+./src/UI.o 
 
 CPP_DEPS += \
 ./src/Citizen.d \
@@ -34,7 +34,7 @@ CPP_DEPS += \
 ./src/Sapling.d \
 ./src/Tile.d \
 ./src/Tree.d \
-./src/UserInterface.d 
+./src/UI.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

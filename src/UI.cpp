@@ -3,6 +3,7 @@
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
 WINDOW* UI::debugWindow;
+bool UI::initialised = false;
 
 using std::cout;
 using std::endl;
@@ -12,6 +13,9 @@ using std::endl;
  * Returns whether the UI initialisation succeeded or not.
  */
 bool UI::initialise() {
+	if (initialised)
+		return true;
+
 	// Prepare the terminal window for ncurses-style output
 	initscr();
 
@@ -19,7 +23,7 @@ bool UI::initialise() {
 	if (!has_colors()) {
 		endwin();
 
-		std::cout << "User Interface Error: Terminal does not support colours. Aborting." << std::endl;
+		cout << "User Interface Error: Terminal does not support colours. Aborting." << endl;
 		return false;
 	}
 
@@ -50,6 +54,8 @@ bool UI::initialise() {
 
 	UI::refresh();
 
+	initialised = true;
+
 	return true;
 }
 
@@ -57,12 +63,17 @@ bool UI::initialise() {
  * Terminates the UI when the game is being closed and the user is going back to the main menu.
  */
 void UI::terminate() {
+	if (!initialised)
+		return;
+
 	// Delete the windows that were in use
 	delwin(mapWindow);
 	delwin(activityWindow);
 	delwin(debugWindow);
 
 	endwin();	// End of ncurses activity
+
+	initialised = false;
 }
 
 /**
@@ -76,11 +87,16 @@ void UI::displayActivityMessage(const std::string str) {
  * Prints a string to the Activity window.
  */
 void UI::displayActivityMessage(const char* str) {
-	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
-	waddstr(activityWindow, str);						// Print the line
-	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
+	if (initialised) {
+		wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
+		waddstr(activityWindow, str);						// Print the line
+		waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
 
-	wrefresh(activityWindow);
+		wrefresh(activityWindow);
+	}
+	else {
+		cout << str << endl;
+	}
 }
 
 /**
@@ -94,11 +110,16 @@ void UI::displayDebugMessage(std::string str) {
  * Prints a string to the Debug window.
  */
 void UI::displayDebugMessage(const char* str) {
-	wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
-	waddstr(debugWindow, str);					// Print the line
-	waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
+	if (initialised) {
+		wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
+		waddstr(debugWindow, str);					// Print the line
+		waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
 
-	wrefresh(debugWindow);
+		wrefresh(debugWindow);
+	}
+	else {
+		cout << str << endl;
+	}
 }
 
 /*
@@ -106,6 +127,9 @@ void UI::displayDebugMessage(const char* str) {
  * Normally this isn't required because every operation which affects the UI automatically triggers an update of the required windows.
  */
 void UI::refresh() {
+	if (!initialised)
+		return;
+
 	wrefresh(mapWindow);
 	wrefresh(activityWindow);
 	wrefresh(debugWindow);
@@ -115,6 +139,9 @@ void UI::refresh() {
  * Draws the given district to the UI.
  */
 void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
+	if (!initialised)
+		return;
+
 	Tile** districtTiles = upDistrict->getTiles();
 
 	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
@@ -139,6 +166,9 @@ void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
  * Displays the main menu text.
  */
 void UI::mainMenu() {
+	if (initialised)
+		return;
+
 	cout << "Welcome to DISTRICTS." << endl << endl;
 
 	cout << "Please select an option." << endl << endl;
@@ -148,6 +178,9 @@ void UI::mainMenu() {
 }
 
 void UI::badMenuSelection() {
+	if (initialised)
+		return;
+
 	cout << "Invalid selection. Please select an option from the menu above." << endl;
 }
 
