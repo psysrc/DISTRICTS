@@ -1,8 +1,8 @@
-#include "UserInterface.h"
+#include "UI.h"
 
-WINDOW* UserInterface::mapWindow;
-WINDOW* UserInterface::activityWindow;
-WINDOW* UserInterface::debugWindow;
+WINDOW* UI::mapWindow;
+WINDOW* UI::activityWindow;
+WINDOW* UI::debugWindow;
 
 using std::cout;
 using std::endl;
@@ -11,7 +11,7 @@ using std::endl;
  * Initialises the UI in the terminal ready for a game to be displayed.
  * Returns whether the UI initialisation succeeded or not.
  */
-bool UserInterface::initialise() {
+bool UI::initialise() {
 	// Prepare the terminal window for ncurses-style output
 	initscr();
 
@@ -48,7 +48,7 @@ bool UserInterface::initialise() {
 	scrollok(activityWindow, TRUE);
 	scrollok(debugWindow, TRUE);
 
-	UserInterface::refresh();
+	UI::refresh();
 
 	return true;
 }
@@ -56,7 +56,7 @@ bool UserInterface::initialise() {
 /*
  * Terminates the UI when the game is being closed and the user is going back to the main menu.
  */
-void UserInterface::terminate() {
+void UI::terminate() {
 	// Delete the windows that were in use
 	delwin(mapWindow);
 	delwin(activityWindow);
@@ -68,14 +68,14 @@ void UserInterface::terminate() {
 /**
  * Prints a string to the Activity window.
  */
-void UserInterface::displayActivityMessage(const std::string str) {
+void UI::displayActivityMessage(const std::string str) {
 	displayActivityMessage(str.c_str());
 }
 
 /**
  * Prints a string to the Activity window.
  */
-void UserInterface::displayActivityMessage(const char* str) {
+void UI::displayActivityMessage(const char* str) {
 	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
 	waddstr(activityWindow, str);						// Print the line
 	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
@@ -86,14 +86,14 @@ void UserInterface::displayActivityMessage(const char* str) {
 /**
  * Prints a string to the Debug window.
  */
-void UserInterface::displayDebugMessage(std::string str) {
+void UI::displayDebugMessage(std::string str) {
 	displayDebugMessage(str.c_str());
 }
 
 /**
  * Prints a string to the Debug window.
  */
-void UserInterface::displayDebugMessage(const char* str) {
+void UI::displayDebugMessage(const char* str) {
 	wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
 	waddstr(debugWindow, str);					// Print the line
 	waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
@@ -105,7 +105,7 @@ void UserInterface::displayDebugMessage(const char* str) {
  * Refreshes the UI with the most up-to-date information.
  * Normally this isn't required because every operation which affects the UI automatically triggers an update of the required windows.
  */
-void UserInterface::refresh() {
+void UI::refresh() {
 	wrefresh(mapWindow);
 	wrefresh(activityWindow);
 	wrefresh(debugWindow);
@@ -114,7 +114,7 @@ void UserInterface::refresh() {
 /*
  * Draws the given district to the UI.
  */
-void UserInterface::drawDistrict(std::unique_ptr<District>& upDistrict) {
+void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
 	Tile** districtTiles = upDistrict->getTiles();
 
 	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
@@ -138,7 +138,7 @@ void UserInterface::drawDistrict(std::unique_ptr<District>& upDistrict) {
 /*
  * Displays the main menu text.
  */
-void UserInterface::mainMenu() {
+void UI::mainMenu() {
 	cout << "Welcome to DISTRICTS." << endl << endl;
 
 	cout << "Please select an option." << endl << endl;
@@ -147,7 +147,7 @@ void UserInterface::mainMenu() {
 	cout << "(0) Quit" << endl << endl;
 }
 
-void UserInterface::badMenuSelection() {
+void UI::badMenuSelection() {
 	cout << "Invalid selection. Please select an option from the menu above." << endl;
 }
 

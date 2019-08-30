@@ -25,7 +25,7 @@ int main() {
 	string inputText;
 
 	do {
-		UserInterface::mainMenu();
+		UI::mainMenu();
 
 		do {
 			cin >> ws;					// Ignores leading whitespace
@@ -41,7 +41,7 @@ int main() {
 				quit = true;
 			}
 			else {
-				UserInterface::badMenuSelection();
+				UI::badMenuSelection();
 				invalidSelection = true;
 			}
 		}

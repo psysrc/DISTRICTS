@@ -8,7 +8,7 @@
 #include <chrono>
 #include <thread>		// sleep_for, pthread_*
 #include "PlayerCommand.h"
-#include "UserInterface.h"
+#include "UI.h"
 
 class Game {
 private:

@@ -1,5 +1,5 @@
-#ifndef SRC_USERINTERFACE_H_
-#define SRC_USERINTERFACE_H_
+#ifndef SRC_UI_H_
+#define SRC_UI_H_
 
 #include <string>
 #include <ncurses.h>
@@ -8,14 +8,14 @@
 #include "Constants.h"
 #include "District.h"
 
-class UserInterface {
+class UI {
 private:
 	static WINDOW* mapWindow;
 	static WINDOW* activityWindow;
 	static WINDOW* debugWindow;
 public:
-	UserInterface() = delete;
-	~UserInterface() = delete;
+	UI() = delete;
+	~UI() = delete;
 	static bool initialise();
 	static void terminate();
 	static void displayActivityMessage(const char* const str);
@@ -28,4 +28,4 @@ public:
 	static void badMenuSelection();
 };
 
-#endif /* SRC_USERINTERFACE_H_ */
+#endif /* SRC_UI_H_ */

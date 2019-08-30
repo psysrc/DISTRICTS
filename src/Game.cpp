@@ -46,7 +46,7 @@ void* waitForPause(void* args) {
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
-	if (!UserInterface::initialise()) {		// Initialise the UI and check if initialisation succeeded
+	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
 		std::cout << "Could not load game due to a user interface error." << std::endl;
 		return;								// Return if UI initialisation fails
 	}
@@ -74,11 +74,11 @@ void Game::play() {
 		// Don't bother running the following code if the user wants to quit (cmdState == -1)
 		if (cmdState == 0) {
 			if (DEBUG)
-				UserInterface::displayDebugMessage("Simulating district " + upDistrict->getName());
+				UI::displayDebugMessage("Simulating district " + upDistrict->getName());
 
 			upDistrict->simulate();	// Simulate a game tick
 
-			UserInterface::drawDistrict(upDistrict);		// Draw the district
+			UI::drawDistrict(upDistrict);		// Draw the district
 		}
 	}
 
@@ -105,7 +105,7 @@ int Game::handleCommands() {
 		case PlayerCommand::Quit:
 			return -1;	// Tell the game loop to quit
 		case PlayerCommand::BuildHouse:
-			UserInterface::displayActivityMessage("A house has been constructed.");
+			UI::displayActivityMessage("A house has been constructed.");
 			break;
 		}
 	}
@@ -138,9 +138,9 @@ void Game::unpause() {
  * This method is called when the game is over.
  */
 void Game::gameOver() const {
-	UserInterface::displayActivityMessage("Game Over.");
+	UI::displayActivityMessage("Game Over.");
 
 	sleep_for(seconds(1));
 
-	UserInterface::terminate();
+	UI::terminate();
 }
