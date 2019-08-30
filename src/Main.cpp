@@ -25,10 +25,7 @@ int main() {
 	string inputText;
 
 	do {
-		cout << "Welcome to DISTRICTS." << endl << endl << "Please select an option." << endl << endl;
-
-		cout << "(1) New Game" << endl;
-		cout << "(0) Quit" << endl << endl;
+		UserInterface::mainMenu();
 
 		do {
 			cin >> ws;					// Ignores leading whitespace
@@ -44,7 +41,7 @@ int main() {
 				quit = true;
 			}
 			else {
-				cout << "Invalid selection. Please select an option from the menu above." << endl;
+				UserInterface::badMenuSelection();
 				invalidSelection = true;
 			}
 		}

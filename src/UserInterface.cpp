@@ -4,6 +4,9 @@ WINDOW* UserInterface::mapWindow;
 WINDOW* UserInterface::activityWindow;
 WINDOW* UserInterface::debugWindow;
 
+using std::cout;
+using std::endl;
+
 /*
  * Initialises the UI in the terminal ready for a game to be displayed.
  * Returns whether the UI initialisation succeeded or not.
@@ -130,5 +133,21 @@ void UserInterface::drawDistrict(std::unique_ptr<District>& upDistrict) {
 	}
 
 	wrefresh(mapWindow);
+}
+
+/*
+ * Displays the main menu text.
+ */
+void UserInterface::mainMenu() {
+	cout << "Welcome to DISTRICTS." << endl << endl;
+
+	cout << "Please select an option." << endl << endl;
+
+	cout << "(1) New Game" << endl;
+	cout << "(0) Quit" << endl << endl;
+}
+
+void UserInterface::badMenuSelection() {
+	cout << "Invalid selection. Please select an option from the menu above." << endl;
 }
 

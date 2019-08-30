@@ -24,6 +24,8 @@ public:
 	static void displayDebugMessage(const char* const str);
 	static void drawDistrict(std::unique_ptr<District>& upDistrict);
 	static void refresh();
+	static void mainMenu();
+	static void badMenuSelection();
 };
 
 #endif /* SRC_USERINTERFACE_H_ */
