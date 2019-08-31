@@ -133,9 +133,17 @@ void Game::unpause() {
 
 	UI::pause(false);
 
-	upPauseThread = std::make_unique<pthread_t>();
+	// Set the thread's attribute to be detached
+	pthread_attr_t pauseThreadAttr;
+	pthread_attr_init(&pauseThreadAttr);
+	pthread_attr_setdetachstate(&pauseThreadAttr, PTHREAD_CREATE_DETACHED);
 
-	pthread_create(upPauseThread.get(), NULL, waitForPause, (void*) this);
+	// Create the thread
+	upPauseThread = std::make_unique<pthread_t>();
+	pthread_create(upPauseThread.get(), &pauseThreadAttr, waitForPause, (void*) this);
+
+	// Destroy attribute resources
+	pthread_attr_destroy(&pauseThreadAttr);
 }
 
 /*
