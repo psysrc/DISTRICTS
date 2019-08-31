@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "Citizen.h"
+#include <vector>
 
 // No need to fully include
 class District;
@@ -12,10 +13,7 @@ class Tile {
 private:
 	District* pDistrict;
 	int xCoord, yCoord;
-	Tile* northTile = nullptr;
-	Tile* westTile = nullptr;
-	Tile* eastTile = nullptr;
-	Tile* southTile = nullptr;
+	std::vector<Tile*> neighbourTiles;
 	Entity* pEntity;
 	TileProperty property;
 	char drawSymbol;
@@ -25,11 +23,11 @@ public:
 	~Tile();
 	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
-	void setNeighbourTiles(Tile* const n, Tile* const w, Tile* const e, Tile* const s);
+	void setNeighbourTiles(const std::vector<Tile*> neighbours);
 	bool isInitialised() const;
 	int getX() const;
 	int getY() const;
-	Tile* const getNeighbourTile(MoveDirection direction) const;
+	Tile* const getNeighbourTile(int direction) const;
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
 	District* getDistrict() const;

@@ -13,29 +13,24 @@ District::District(const string name) : districtName(name) {
 		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
 	}
 
-	// Initialise tile neighbours
+	// Initialise tile neighbours for each tile
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			Tile* north = nullptr;
-			Tile* west = nullptr;
-			Tile* east = nullptr;
-			Tile* south = nullptr;
+			std::vector<Tile*> neighbours;
+			neighbours.reserve(8);
 
-			// North
-			if (validTileIndex(i - 1))
-				north = &tiles[i - 1][j];
-			// West
-			if (validTileIndex(j - 1))
-				west = &tiles[i][j - 1];
-			// East
-			if (validTileIndex(j + 1))
-				east = &tiles[i][j + 1];
-			// South
-			if (validTileIndex(i + 1))
-				south = &tiles[i + 1][j];
+			for (int x = -1; x <= 1; x++)
+				for (int y = -1; y <= 1; y++)
+					if (!(x == 0 && y == 0)) {		// Ignore the tile we're currently calculating neighbours for
+						if (validTileIndex(i + x) && validTileIndex(j + y)) {		// Check we are within the bounds of the district
+							neighbours.push_back(&tiles[i + x][j + y]);
+						} else {
+							neighbours.push_back(nullptr);
+						}
+					}
 
-			// Set all
-			tiles[i][j].setNeighbourTiles(north, west, east, south);
+			// Set neighbour for this tile
+			tiles[i][j].setNeighbourTiles(neighbours);
 		}
 	}
 

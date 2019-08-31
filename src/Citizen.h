@@ -13,7 +13,7 @@ public:
 	Citizen(District*, const std::string);
 	virtual ~Citizen();
 	virtual void simulate() override;
-	void move(MoveDirection direction);
+	void move(int direction);
 	void move(Tile* const moveToTile);
 };
 

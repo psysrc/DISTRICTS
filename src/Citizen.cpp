@@ -14,28 +14,13 @@ Citizen::~Citizen() {
  */
 void Citizen::simulate() {
 	// The citizen will try to move in a random direction
-	switch (rand() % 4) {
-		case 0:
-			move(North);
-			break;
-		case 1:
-			move(West);
-			break;
-		case 2:
-			move(East);
-			break;
-		case 3:
-			move(South);
-			break;
-		default:
-			throw 0;
-	}
+	move(rand() % 8);
 }
 
 /*
  * Attempts to move the Citizen to a neighbouring tile in a given direction.
  */
-void Citizen::move(MoveDirection direction) {
+void Citizen::move(int direction) {
 	move(pTile->getNeighbourTile(direction));
 }
 

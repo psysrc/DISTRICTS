@@ -34,11 +34,9 @@ void Tile::setCoordinates(int x, int y) {
 /*
  * Sets the neighbouring tiles.
  */
-void Tile::setNeighbourTiles(Tile* const n, Tile* const w, Tile* const e, Tile* const s) {
-	northTile = n;
-	westTile = w;
-	eastTile = e;
-	southTile = s;
+void Tile::setNeighbourTiles(const std::vector<Tile*> neighbours) {
+	neighbourTiles.reserve(8);
+	neighbourTiles = neighbours;
 }
 
 /*
@@ -60,19 +58,8 @@ int Tile::getY() const {
 /*
  * Returns the neighbouring tile in the given direction.
  */
-Tile* const Tile::getNeighbourTile(MoveDirection direction) const {
-	switch (direction) {
-		case North:
-			return northTile;
-		case West:
-			return westTile;
-		case East:
-			return eastTile;
-		case South:
-			return southTile;
-		default:
-			return nullptr;
-	}
+Tile* const Tile::getNeighbourTile(int direction) const {
+	return neighbourTiles[direction];
 }
 
 void Tile::updateProperty(TileProperty newProperty) {
