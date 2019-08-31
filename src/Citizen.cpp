@@ -22,6 +22,11 @@ void Citizen::simulate() {
  */
 void Citizen::move(int direction) {
 	move(pTile->getNeighbourTile(direction));
+
+	// if (path exists)
+	// 		move(path->next())
+	// else
+	//		pathTo(new random tile)
 }
 
 /*
