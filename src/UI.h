@@ -13,12 +13,14 @@ private:
 	static WINDOW* mapWindow;
 	static WINDOW* activityWindow;
 	static WINDOW* debugWindow;
+	static WINDOW* pauseWindow;
 	static bool initialised;
 public:
 	UI() = delete;
 	~UI() = delete;
 	static bool initialise();
 	static void terminate();
+	static void clearAll();
 	static void displayActivityMessage(const char* const str);
 	static void displayActivityMessage(const std::string str);
 	static void displayDebugMessage(const std::string str);
@@ -27,6 +29,7 @@ public:
 	static void refresh();
 	static void mainMenu();
 	static void badMenuSelection();
+	static void pause(bool);
 };
 
 #endif /* SRC_UI_H_ */

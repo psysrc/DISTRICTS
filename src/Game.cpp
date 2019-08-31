@@ -120,6 +120,8 @@ int Game::handleCommands() {
  */
 void Game::pause() {
 	gameIsPaused = true;
+
+	UI::pause(true);
 }
 
 /*
@@ -128,6 +130,8 @@ void Game::pause() {
  */
 void Game::unpause() {
 	gameIsPaused = false;
+
+	UI::pause(false);
 
 	upPauseThread = std::make_unique<pthread_t>();
 

@@ -3,6 +3,7 @@
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
 WINDOW* UI::debugWindow;
+WINDOW* UI::pauseWindow;
 bool UI::initialised = false;
 
 using std::cout;
@@ -43,7 +44,8 @@ bool UI::initialise() {
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(8, DISTRICT_SIZE * 2, DISTRICT_SIZE + 1, 0);
-	debugWindow = newwin(DISTRICT_SIZE, 40, 0, (DISTRICT_SIZE * 2) + 4);
+	debugWindow = newwin(DISTRICT_SIZE, 30, 0, (DISTRICT_SIZE * 2) + 4);
+	pauseWindow = newwin(8, 30, DISTRICT_SIZE + 1, (DISTRICT_SIZE * 2) + 4);
 
 	// Make the map text brighter and bolder
 	wattron(mapWindow, A_BOLD);
@@ -51,6 +53,8 @@ bool UI::initialise() {
 	// Make the activity and debug windows automatically scroll up after writing to the bottom row
 	scrollok(activityWindow, TRUE);
 	scrollok(debugWindow, TRUE);
+
+	curs_set(0);	// Set the cursor to invisible
 
 	UI::refresh();
 
@@ -66,14 +70,32 @@ void UI::terminate() {
 	if (!initialised)
 		return;
 
+	clearAll();
+
 	// Delete the windows that were in use
 	delwin(mapWindow);
 	delwin(activityWindow);
 	delwin(debugWindow);
+	delwin(pauseWindow);
 
 	endwin();	// End of ncurses activity
 
 	initialised = false;
+}
+
+/*
+ * Clears all windows and refreshes them.
+ */
+void UI::clearAll() {
+	if (!initialised)
+		return;
+
+	wclear(mapWindow);
+	wclear(activityWindow);
+	wclear(debugWindow);
+	wclear(pauseWindow);
+
+	refresh();
 }
 
 /**
@@ -130,9 +152,14 @@ void UI::refresh() {
 	if (!initialised)
 		return;
 
-	wrefresh(mapWindow);
-	wrefresh(activityWindow);
-	wrefresh(debugWindow);
+	// Refresh all windows to the virtual screen
+	wnoutrefresh(mapWindow);
+	wnoutrefresh(activityWindow);
+	wnoutrefresh(debugWindow);
+	wnoutrefresh(pauseWindow);
+
+	// Refresh the physical screen from the virtual screen
+	doupdate();
 }
 
 /*
@@ -177,10 +204,29 @@ void UI::mainMenu() {
 	cout << "(0) Quit" << endl << endl;
 }
 
+/*
+ * Displays text that the user has not selected a valid option from the main menu.
+ */
 void UI::badMenuSelection() {
 	if (initialised)
 		return;
 
 	cout << "Invalid selection. Please select an option from the menu above." << endl;
+}
+
+/*
+ * Shows or hides the text indicating that the game is currently paused.
+ */
+void UI::pause(bool enable) {
+	if (enable) {
+		mvwaddstr(pauseWindow, 1, 8, "-------------");
+		mvwaddstr(pauseWindow, 2, 8, " GAME PAUSED ");
+		mvwaddstr(pauseWindow, 3, 8, "-------------");
+	}
+	else {
+		wclear(pauseWindow);
+	}
+
+	wrefresh(pauseWindow);
 }
 
