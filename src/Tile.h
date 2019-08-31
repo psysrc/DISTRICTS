@@ -1,7 +1,6 @@
 #ifndef TILE_H_
 #define TILE_H_
 
-#include <memory>
 #include "Constants.h"
 #include "Entity.h"
 #include "Citizen.h"
