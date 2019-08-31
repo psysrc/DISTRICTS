@@ -95,7 +95,7 @@ void UI::displayActivityMessage(const char* str) {
 		wrefresh(activityWindow);
 	}
 	else {
-		cout << str << endl;
+		cout << "ACTIVITY: " << str << endl;
 	}
 }
 
@@ -118,7 +118,7 @@ void UI::displayDebugMessage(const char* str) {
 		wrefresh(debugWindow);
 	}
 	else {
-		cout << str << endl;
+		cout << "DEBUG: " << str << endl;
 	}
 }
 
