@@ -1,10 +1,11 @@
 #ifndef SRC_PATHFINDING_H_
 #define SRC_PATHFINDING_H_
 
-#include "Tile.h"
 #include "Path.h"
-#include <queue>	// priority_queue
+#include <set>		// std::set
+#include <map>		// std::map
 #include <cstdlib>	// abs()
+#include "Tile.h"
 
 class PathFinding {
 public:
