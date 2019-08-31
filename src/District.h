@@ -24,7 +24,7 @@ private:
 public:
 	District(const std::string name = "unnamed");
 	~District();
-	bool validTileIndex(const int index) const;
+	static bool validTileIndex(const int index);
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
 	template <class E> E* makeEntity();

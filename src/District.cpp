@@ -122,7 +122,7 @@ District::~District() {
 /*
  * Returns whether or not an index into the Tiles array is valid.
  */
-bool District::validTileIndex(const int index) const {
+bool District::validTileIndex(const int index) {
 	return (index >= 0 && index < DISTRICT_SIZE);
 }
 

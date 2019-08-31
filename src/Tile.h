@@ -5,9 +5,8 @@
 #include "Entity.h"
 #include "Citizen.h"
 #include <vector>
-
-// No need to fully include
-class District;
+#include <stdexcept>
+#include "District.h"
 
 class Tile {
 private:

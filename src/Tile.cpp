@@ -27,6 +27,9 @@ District* Tile::getDistrict() const {
  * This should only ever be used immediately after the tile's creation!
  */
 void Tile::setCoordinates(int x, int y) {
+	if (!District::validTileIndex(x) || !District::validTileIndex(y))
+		throw std::length_error("Tile::setCoordinates(): Provided coordinates are not valid indexes");
+
 	xCoord = x;
 	yCoord = y;
 }
@@ -35,6 +38,9 @@ void Tile::setCoordinates(int x, int y) {
  * Sets the neighbouring tiles.
  */
 void Tile::setNeighbourTiles(const std::vector<Tile*> neighbours) {
+	if (neighbours.size() != 8)
+		throw std::length_error("Tile::setNeighbourTiles(): Provided vector must contain exactly 8 elements");
+
 	neighbourTiles.reserve(8);
 	neighbourTiles = neighbours;
 }
