@@ -218,6 +218,9 @@ void UI::badMenuSelection() {
  * Shows or hides the text indicating that the game is currently paused.
  */
 void UI::pause(bool enable) {
+	if (!initialised)
+		return;
+
 	if (enable) {
 		mvwaddstr(pauseWindow, 1, 8, "-------------");
 		mvwaddstr(pauseWindow, 2, 8, " GAME PAUSED ");
