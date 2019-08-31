@@ -15,6 +15,7 @@ public:
 	virtual void simulate() override;
 	void move(int direction);
 	void move(Tile* const moveToTile);
+	void pathTo(Tile*);
 };
 
 #endif /* CITIZEN_H_ */
