@@ -30,7 +30,8 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 			// TODO: Reconstruct the trail back to the start and return a Path object
 			// pLength (+1?) is the number of tiles in the path
 
-			Tile* current = next;
+			Tile* current = pathVia[next];
+			to->updateProperty(Stone);
 
 			// Go through the path and set to NullProperty to visualise the path
 			while (current != nullptr) {
@@ -70,7 +71,7 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 			if (pLengthNew < pLength[neighbour]) {
 				pathVia[neighbour] = next;			// New best path goes through 'next'
 				pLength[neighbour] = pLengthNew;	// New best path length
-				fScore[neighbour] = pLength[neighbour] + diagonalDistance(neighbour, to);	// Update the fScore
+				fScore[neighbour] = pLength[neighbour] + euclideanDistance(neighbour, to);	// Update the fScore
 
 				// Re-insert the tile to update its correct priority within the set
 				openSet.erase(neighbour);
@@ -82,9 +83,9 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 	return nullptr;		// No path exists
 }
 
-int PathFinding::diagonalDistance(Tile* from, Tile* to) {
+int PathFinding::euclideanDistance(Tile* from, Tile* to) {
 	int xDiff = abs(from->getX() - to->getX());
 	int yDiff = abs(from->getY() - to->getY());
 
-	return (xDiff > yDiff) ? xDiff : yDiff;		// max(xDiff, yDiff)
+	return sqrt((xDiff * xDiff) + (yDiff * yDiff));
 }

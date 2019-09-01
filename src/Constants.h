@@ -4,6 +4,8 @@
 #include <exception>
 
 #define DEBUG true
+#define BIOME_GEN false
+#define TREE_GEN false
 
 #define DISTRICT_SIZE 32
 

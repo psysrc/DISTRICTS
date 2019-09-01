@@ -43,45 +43,50 @@ District::District(const string name) : districtName(name) {
 		}
 	}
 
-	int stoneBiomes = rand() % 3 + 1;	// 1-3 stone biomes
-	int lakeBiomes = rand() % 4;		// 0-3 lake biomes
+	if (BIOME_GEN) {
+		// Generate biomes
+		int stoneBiomes = rand() % 3 + 1;	// 1-3 stone biomes
+		int lakeBiomes = rand() % 4;		// 0-3 lake biomes
 
-	while (stoneBiomes--) {
-		int ri = rand() % DISTRICT_SIZE;
-		int rj = rand() % DISTRICT_SIZE;
-		int size = rand() % 26 + 5;		// 5-30 tiles in size
+		while (stoneBiomes--) {
+			int ri = rand() % DISTRICT_SIZE;
+			int rj = rand() % DISTRICT_SIZE;
+			int size = rand() % 26 + 5;		// 5-30 tiles in size
 
-		createBiome(ri, rj, Stone, size);
+			createBiome(ri, rj, Stone, size);
+		}
+
+		while (lakeBiomes--) {
+			int ri = rand() % DISTRICT_SIZE;
+			int rj = rand() % DISTRICT_SIZE;
+			int size = rand() % 101 + 10;	// 10-100 tiles in size
+
+			createBiome(ri, rj, Water, size);
+		}
 	}
 
-	while (lakeBiomes--) {
-		int ri = rand() % DISTRICT_SIZE;
-		int rj = rand() % DISTRICT_SIZE;
-		int size = rand() % 101 + 10;	// 10-100 tiles in size
+	if (TREE_GEN) {
+		// Every Plains tile has a chance to grow a Tree or Sapling
+		for (int i = 0; i < DISTRICT_SIZE; i++) {
+			for (int j = 0; j < DISTRICT_SIZE; j++) {
+				if (tiles[i][j].getProperty() == Plains) {
+					int treeChance = rand() % 100;
 
-		createBiome(ri, rj, Water, size);
-	}
+					if (treeChance < 5) {	// 5% chance of growing a tree
+						std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>(this);
 
-	// Every Plains tile has a chance to become a Tree tile
-	for (int i = 0; i < DISTRICT_SIZE; i++) {
-		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			if (tiles[i][j].getProperty() == Plains) {
-				int treeChance = rand() % 100;
-
-				if (treeChance < 5) {	// 5% chance of growing a tree
-					std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>(this);
-
-					if (tiles[i][j].occupy(tmpTree.get())) {
-						tmpTree->setTile(&tiles[i][j]);
-						entities.push_back(std::move(tmpTree));
+						if (tiles[i][j].occupy(tmpTree.get())) {
+							tmpTree->setTile(&tiles[i][j]);
+							entities.push_back(std::move(tmpTree));
+						}
 					}
-				}
-				else if (treeChance < 10) {	// 5% chance of growing a sapling
-					std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>(this);
+					else if (treeChance < 10) {	// 5% chance of growing a sapling
+						std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>(this);
 
-					if (tiles[i][j].occupy(tmpSapling.get())) {
-						tmpSapling->setTile(&tiles[i][j]);
-						entities.push_back(std::move(tmpSapling));
+						if (tiles[i][j].occupy(tmpSapling.get())) {
+							tmpSapling->setTile(&tiles[i][j]);
+							entities.push_back(std::move(tmpSapling));
+						}
 					}
 				}
 			}
