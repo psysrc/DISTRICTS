@@ -15,7 +15,7 @@ public:
 	PathFinding() = delete;
 	~PathFinding() = delete;
 	static Path* findPath(Tile*, Tile*);
-	static int euclideanDistance(Tile*, Tile*);
+	static float euclideanDistance(Tile*, Tile*);
 };
 
 #endif /* SRC_PATHFINDING_H_ */

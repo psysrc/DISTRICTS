@@ -5,8 +5,8 @@
  */
 Path* PathFinding::findPath(Tile* from, Tile* to) {
 	std::map<Tile*, Tile*> pathVia;		// The immediately-preceding tile along the currently known best path
-	std::map<Tile*, int> pLength;		// Best path length currently known
-	std::map<Tile*, int> fScore;		// pLength + distance_heuristic
+	std::map<Tile*, float> pLength;		// Best path length currently known
+	std::map<Tile*, float> fScore;		// pLength + distance_heuristic
 
 	// OpenSet of all tiles left to explore (with custom lambda comparator to keep correct priority)
 	auto fScoreComp = [&fScore] (Tile* a, Tile* b) -> bool { return fScore[a] < fScore[b]; };
@@ -28,7 +28,6 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 
 		if (next == to) {	// If this is the goal
 			// TODO: Reconstruct the trail back to the start and return a Path object
-			// pLength (+1?) is the number of tiles in the path
 
 			Tile* current = pathVia[next];
 			to->updateProperty(Stone);
@@ -65,16 +64,25 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 				fScore.insert(std::make_pair(neighbour, INT_MAX));
 			}
 
-			int pLengthNew = pLength[next] + 1;		// Distance between start, next and this neighbour
+			float dist;
+
+			// If neighbour is on a diagonal, penalise its length
+			if (n == 0 || n == 2 || n == 5 || n == 7)
+				dist = 1.4;
+			else
+				dist = 1.0;
+
+			float pLengthNew = pLength[next] + dist;		// Distance between start, next and this neighbour
 
 			// If new length is better than the current best, update everything
 			if (pLengthNew < pLength[neighbour]) {
+				openSet.erase(neighbour);	// Remove the neighbour from the open set
+
 				pathVia[neighbour] = next;			// New best path goes through 'next'
 				pLength[neighbour] = pLengthNew;	// New best path length
 				fScore[neighbour] = pLength[neighbour] + euclideanDistance(neighbour, to);	// Update the fScore
 
-				// Re-insert the tile to update its correct priority within the set
-				openSet.erase(neighbour);
+				// Re-insert the tile to update its correct priority within the open set
 				openSet.insert(neighbour);
 			}
 		}
@@ -83,7 +91,7 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 	return nullptr;		// No path exists
 }
 
-int PathFinding::euclideanDistance(Tile* from, Tile* to) {
+float PathFinding::euclideanDistance(Tile* from, Tile* to) {
 	int xDiff = abs(from->getX() - to->getX());
 	int yDiff = abs(from->getY() - to->getY());
 
