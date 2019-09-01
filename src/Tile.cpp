@@ -154,7 +154,6 @@ void Tile::updateVisuals() {
 		drawColour = COLOUR_WATER;
 		break;
 	default:
-		drawColour = '?';
 		drawColour = COLOUR_UNKNOWN;
 		break;
 	}
