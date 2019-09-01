@@ -64,7 +64,7 @@ int Tile::getY() const {
 /*
  * Returns the neighbouring tile in the given direction.
  */
-Tile* const Tile::getNeighbourTile(int direction) const {
+Tile* Tile::getNeighbourTile(int direction) const {
 	return neighbourTiles[direction];
 }
 

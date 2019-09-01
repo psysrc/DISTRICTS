@@ -26,7 +26,7 @@ public:
 	bool isInitialised() const;
 	int getX() const;
 	int getY() const;
-	Tile* const getNeighbourTile(int direction) const;
+	Tile* getNeighbourTile(int direction) const;
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
 	District* getDistrict() const;
