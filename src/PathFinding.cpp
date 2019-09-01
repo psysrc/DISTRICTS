@@ -38,7 +38,7 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 				current = pathVia[current];
 			}
 
-			return nullptr;	// Temporary - will eventually return a Path object
+			return new Path(std::vector<Tile*>());		// Temporary - will eventually return a Path object
 		}
 
 		closedSet.insert(next);
@@ -46,6 +46,9 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 		// For each neighbour of this tile
 		for (int n = 0; n < 8; n++) {
 			Tile* neighbour = next->getNeighbourTile(n);
+
+			if (neighbour == nullptr)	// If this neighbour is non-existent, ignore it
+				continue;
 
 			if (closedSet.find(neighbour) != closedSet.end())	// If this neighbour is in the closed set, ignore it (already fully explored)
 				continue;

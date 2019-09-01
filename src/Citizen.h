@@ -10,6 +10,8 @@ class Citizen;
 #include "PathFinding.h"
 
 class Citizen : public Entity {
+private:
+	Path* currentPath;
 public:
 	Citizen(District*, const std::string);
 	virtual ~Citizen();

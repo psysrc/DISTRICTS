@@ -1,6 +1,6 @@
 #include "Citizen.h"
 
-Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C') {
+Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C'), currentPath(nullptr) {
 
 }
 
@@ -14,7 +14,10 @@ Citizen::~Citizen() {
  */
 void Citizen::simulate() {
 	// The citizen will try to move in a random direction
-	move(rand() % 8);
+//	move(rand() % 8);
+
+	if (currentPath == nullptr)
+		currentPath = PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
 }
 
 /*
@@ -22,8 +25,6 @@ void Citizen::simulate() {
  */
 void Citizen::move(int direction) {
 	move(pTile->getNeighbourTile(direction));
-
-	PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
 
 	// if (path exists)
 	// 		move(path->next())

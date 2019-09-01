@@ -7,6 +7,7 @@
 #include <cstdlib>	// abs()
 #include "Tile.h"
 #include <bits/stdc++.h>	// INT_MAX
+#include "UI.h"
 
 class PathFinding {
 public:

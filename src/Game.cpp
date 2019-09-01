@@ -73,9 +73,6 @@ void Game::play() {
 
 		// Don't bother running the following code if the user wants to quit (cmdState == -1)
 		if (cmdState == 0) {
-			if (DEBUG)
-				UI::displayDebugMessage("Simulating district " + upDistrict->getName());
-
 			upDistrict->simulate();	// Simulate a game tick
 
 			UI::drawDistrict(upDistrict);		// Draw the district
