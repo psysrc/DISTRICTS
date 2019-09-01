@@ -14,7 +14,7 @@ class PathFinding {
 public:
 	PathFinding() = delete;
 	~PathFinding() = delete;
-	static Path* findPath(Tile*, Tile*);
+	static std::unique_ptr<Path> findPath(Tile*, Tile*);
 	static float euclideanDistance(Tile*, Tile*);
 };
 

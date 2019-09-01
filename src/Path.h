@@ -2,7 +2,6 @@
 #define SRC_PATH_H_
 
 #include <vector>
-//#include "UI.h"
 
 class Tile;
 

@@ -1,11 +1,11 @@
 #include "Citizen.h"
 
-Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C'), pCurrentPath(nullptr) {
+Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C') {
 
 }
 
 Citizen::~Citizen() {
-	delete pCurrentPath;
+
 }
 
 /*
@@ -13,17 +13,15 @@ Citizen::~Citizen() {
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
 void Citizen::simulate() {
-	if (pCurrentPath == nullptr)
-		pCurrentPath = PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
+	if (upCurrentPath == nullptr)
+		upCurrentPath = PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
 	else {
-		Tile* nextTile = pCurrentPath->next();
+		Tile* nextTile = upCurrentPath->next();
 
 		if (nextTile != nullptr)
 			move(nextTile);
-		else {
-			delete pCurrentPath;
-			pCurrentPath = nullptr;
-		}
+		else
+			upCurrentPath = nullptr;
 	}
 }
 

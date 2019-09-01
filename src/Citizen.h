@@ -12,7 +12,7 @@ class Citizen;
 
 class Citizen : public Entity {
 private:
-	Path* pCurrentPath;
+	std::unique_ptr<Path> upCurrentPath;
 public:
 	Citizen(District*, const std::string);
 	virtual ~Citizen();

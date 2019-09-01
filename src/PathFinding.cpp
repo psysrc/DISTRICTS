@@ -3,7 +3,7 @@
 /*
  * Finds a path between 'from' and 'to'.
  */
-Path* PathFinding::findPath(Tile* from, Tile* to) {
+std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to) {
 	std::map<Tile*, Tile*> pathVia;		// The immediately-preceding tile along the currently known best path
 	std::map<Tile*, float> pLength;		// Best path length currently known
 	std::map<Tile*, float> fScore;		// pLength + distance_heuristic
@@ -41,7 +41,7 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 				current = pathVia[current];
 			}
 
-			return new Path(pathFound);
+			return std::move(std::make_unique<Path>(pathFound));
 		}
 
 		closedSet.insert(next);
