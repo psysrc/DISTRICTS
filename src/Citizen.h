@@ -7,6 +7,7 @@ class Citizen;
 #include "Tile.h"
 #include "Constants.h"
 #include "Entity.h"
+#include "PathFinding.h"
 
 class Citizen : public Entity {
 public:

@@ -6,6 +6,7 @@
 #include <map>		// std::map
 #include <cstdlib>	// abs()
 #include "Tile.h"
+#include <bits/stdc++.h>	// INT_MAX
 
 class PathFinding {
 public:

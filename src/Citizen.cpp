@@ -23,6 +23,8 @@ void Citizen::simulate() {
 void Citizen::move(int direction) {
 	move(pTile->getNeighbourTile(direction));
 
+	PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
+
 	// if (path exists)
 	// 		move(path->next())
 	// else

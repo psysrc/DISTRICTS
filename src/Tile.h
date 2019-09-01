@@ -30,6 +30,7 @@ public:
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
 	District* getDistrict() const;
+	bool walkable() const;
 	bool citizenEnter(Citizen*);
 	bool occupy(Entity*);
 	void vacateEntity();

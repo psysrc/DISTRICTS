@@ -79,11 +79,24 @@ TileProperty Tile::getProperty() const {
 }
 
 /*
+ * Returns whether or not this tile is walkable.
+ */
+bool Tile::walkable() const {
+	if (property == Water)
+		return false;
+
+	if (occupied())
+		return false;
+
+	return true;
+}
+
+/*
  * Identical to Tile::occupy(Entity*) but specialised for Citizens.
  * Checks, for example, if the citizen can walk on the tile (i.e. is it water?)
  */
 bool Tile::citizenEnter(Citizen* pCitizen) {
-	if (property == Water)		// Can Citizens walk on this tile?
+	if (!walkable())
 		return false;
 
 	return occupy(pCitizen);	// The citizen will attempt to occupy the tile
