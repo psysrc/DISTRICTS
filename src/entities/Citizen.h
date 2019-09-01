@@ -3,11 +3,11 @@
 
 class Citizen;
 
-#include "Path.h"
-#include "PathFinding.h"
+#include "pathfinding/Path.h"
+#include "pathfinding/PathFinding.h"
 #include <string>
-#include "Tile.h"
-#include "Constants.h"
+#include "game/Tile.h"
+#include "game/Constants.h"
 #include "Entity.h"
 
 class Citizen : public Entity {

@@ -2,8 +2,8 @@
 #define SRC_SAPLING_H_
 
 #include "Entity.h"
-#include "Tile.h"
-#include "District.h"
+#include "game/Tile.h"
+#include "game/District.h"
 
 class Sapling : public Entity {
 public:

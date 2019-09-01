@@ -7,7 +7,7 @@
 #include <cstdlib>			// abs()
 #include <cmath>			// sqrt(), ceil()
 #include <bits/stdc++.h>	// INT_MAX
-#include "Tile.h"
+#include "game/Tile.h"
 #include <memory>
 
 class PathFinding {

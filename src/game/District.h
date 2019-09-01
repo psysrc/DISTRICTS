@@ -4,15 +4,15 @@
 class District;
 
 #include "Constants.h"
-#include "Citizen.h"
-#include "Entity.h"
+#include "entities/Entity.h"
+#include "entities/Citizen.h"
 #include "Tile.h"
 #include <vector>
 #include <algorithm>	// std::find
 #include "UI.h"
 #include <string>
-#include "Tree.h"
-#include "Sapling.h"
+#include "entities/Tree.h"
+#include "entities/Sapling.h"
 
 class District {
 private:

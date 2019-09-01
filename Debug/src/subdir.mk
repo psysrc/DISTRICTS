@@ -9,8 +9,6 @@ CPP_SRCS += \
 ../src/Entity.cpp \
 ../src/Game.cpp \
 ../src/Main.cpp \
-../src/Path.cpp \
-../src/PathFinding.cpp \
 ../src/Sapling.cpp \
 ../src/Tile.cpp \
 ../src/Tree.cpp \
@@ -22,8 +20,6 @@ OBJS += \
 ./src/Entity.o \
 ./src/Game.o \
 ./src/Main.o \
-./src/Path.o \
-./src/PathFinding.o \
 ./src/Sapling.o \
 ./src/Tile.o \
 ./src/Tree.o \
@@ -35,8 +31,6 @@ CPP_DEPS += \
 ./src/Entity.d \
 ./src/Game.d \
 ./src/Main.d \
-./src/Path.d \
-./src/PathFinding.d \
 ./src/Sapling.d \
 ./src/Tile.d \
 ./src/Tree.d \

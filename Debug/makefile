@@ -8,7 +8,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src/subdir.mk
+-include src/pathfinding/subdir.mk
+-include src/game/subdir.mk
+-include src/entities/subdir.mk
 -include subdir.mk
 -include objects.mk
 

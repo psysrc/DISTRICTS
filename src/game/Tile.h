@@ -2,8 +2,8 @@
 #define TILE_H_
 
 #include "Constants.h"
-#include "Entity.h"
-#include "Citizen.h"
+#include "entities/Entity.h"
+#include "entities/Citizen.h"
 #include <vector>
 #include <stdexcept>
 #include "District.h"
