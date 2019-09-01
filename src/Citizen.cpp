@@ -47,12 +47,3 @@ void Citizen::move(Tile* const moveToTile) {
 	}
 }
 
-/*
- * Tells the citizen to find a path to the given tile and start moving towards it.
- */
-void Citizen::pathTo(Tile* goTo) {
-	// TODO
-	// Find a path to the tile
-	// If one cannot be found, grumble
-}
-
