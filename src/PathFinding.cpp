@@ -27,18 +27,21 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 		openSet.erase(openSet.begin());
 
 		if (next == to) {	// If this is the goal
-			// TODO: Reconstruct the trail back to the start and return a Path object
+			// Reconstruct the trail back to the start and return a Path object
+			std::vector<Tile*> pathFound;
 
-			Tile* current = pathVia[next];
-			to->updateProperty(Stone);
+			// Reserve (pathLength/1.41) objects (the minimum number of tiles that may be in this path)
+			pathFound.reserve(ceil(pLength[next] / 1.41) + 0.1);
 
-			// Go through the path and set to NullProperty to visualise the path
-			while (current != nullptr) {
-				current->updateProperty(NullProperty);
+			Tile* current = to;
+
+			// Populate the pathFound vector up to the first tile from the start
+			while (current != from) {
+				pathFound.push_back(current);
 				current = pathVia[current];
 			}
 
-			return new Path(std::vector<Tile*>());		// Temporary - will eventually return a Path object
+			return new Path(pathFound);
 		}
 
 		closedSet.insert(next);
@@ -68,7 +71,7 @@ Path* PathFinding::findPath(Tile* from, Tile* to) {
 
 			// If neighbour is on a diagonal, penalise its length
 			if (n == 0 || n == 2 || n == 5 || n == 7)
-				dist = 1.4;
+				dist = 1.41;
 			else
 				dist = 1.0;
 

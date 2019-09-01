@@ -2,13 +2,13 @@
 #define SRC_PATHFINDING_H_
 
 #include "Path.h"
-#include <set>		// std::set
-#include <map>		// std::map
-#include <cstdlib>	// abs()
-#include <cmath>	// sqrt()
+#include <set>				// std::set
+#include <map>				// std::map
+#include <cstdlib>			// abs()
+#include <cmath>			// sqrt(), ceil()
 #include <bits/stdc++.h>	// INT_MAX
 #include "Tile.h"
-#include "UI.h"
+#include <memory>
 
 class PathFinding {
 public:

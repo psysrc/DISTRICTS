@@ -3,15 +3,16 @@
 
 class Citizen;
 
+#include "Path.h"
+#include "PathFinding.h"
 #include <string>
 #include "Tile.h"
 #include "Constants.h"
 #include "Entity.h"
-#include "PathFinding.h"
 
 class Citizen : public Entity {
 private:
-	Path* currentPath;
+	Path* pCurrentPath;
 public:
 	Citizen(District*, const std::string);
 	virtual ~Citizen();
