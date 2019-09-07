@@ -78,6 +78,10 @@ District::District(const string name) : districtName(name) {
 						if (tiles[i][j].occupy(tmpTree.get())) {
 							tmpTree->setTile(&tiles[i][j]);
 							entities.push_back(std::move(tmpTree));
+
+							// Create a CutDownTree task for this tree
+							std::unique_ptr<CutDownTree> tmpCutTree = std::make_unique<CutDownTree>(this, &tiles[i][j]);
+							tasks.push_back(std::move(tmpCutTree));
 						}
 					}
 					else if (treeChance < 10) {	// 5% chance of growing a sapling
@@ -172,6 +176,17 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
 			}
 		}
 	}
+}
+
+/*
+ * Returns the most recently added task in this district.
+ * Returns nullptr if there are no tasks.
+ */
+Task* District::getLatestTask() const {
+	if (tasks.back() != nullptr)
+		return tasks.back().get();
+	else
+		return nullptr;
 }
 
 /*

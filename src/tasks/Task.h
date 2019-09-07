@@ -1,10 +1,12 @@
 #ifndef SRC_GAME_TASK_H_
 #define SRC_GAME_TASK_H_
 
-#include "game/District.h"
-#include "game/Tile.h"
 #include <string>
-#include "entities/Citizen.h"
+
+// No need to fully include
+class Tile;
+class District;
+class Citizen;
 
 class Task {
 private:

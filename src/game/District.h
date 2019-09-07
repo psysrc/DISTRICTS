@@ -14,6 +14,7 @@ class District;
 #include "entities/Tree.h"
 #include "entities/Sapling.h"
 #include "tasks/Task.h"
+#include "tasks/CutDownTree.h"
 
 class Task;
 
@@ -32,6 +33,7 @@ public:
 	static bool validTileIndex(const int index);
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
+	Task* getLatestTask() const;
 	template <class E> E* makeEntity();
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;

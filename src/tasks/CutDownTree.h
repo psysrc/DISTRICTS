@@ -3,6 +3,10 @@
 
 #include <tasks/Task.h>
 
+// No need to fully include
+class District;
+class Tile;
+
 class CutDownTree : public Task {
 public:
 	CutDownTree(District*, Tile*);

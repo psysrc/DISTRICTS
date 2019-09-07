@@ -9,10 +9,14 @@ class Citizen;
 #include "game/Tile.h"
 #include "game/Constants.h"
 #include "Entity.h"
+#include "tasks/Task.h"
+
+class Task;
 
 class Citizen : public Entity {
 private:
 	std::unique_ptr<Path> upCurrentPath;
+	Task* pCurrentTask;
 public:
 	Citizen(District*, const std::string);
 	virtual ~Citizen();

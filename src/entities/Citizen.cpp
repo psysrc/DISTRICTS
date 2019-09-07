@@ -1,6 +1,6 @@
 #include "Citizen.h"
 
-Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C') {
+Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C'), pCurrentTask(nullptr) {
 
 }
 
@@ -13,15 +13,36 @@ Citizen::~Citizen() {
  * This prompts the citizen to do something in the world (even if it's just moving about randomly).
  */
 void Citizen::simulate() {
-	if (upCurrentPath == nullptr)
-		upCurrentPath = PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
-	else {
-		Tile* nextTile = upCurrentPath->next();
+//	if (upCurrentPath == nullptr)
+//		upCurrentPath = PathFinding::findPath(pTile, pDistrict->getTile(rand() % DISTRICT_SIZE, rand() % DISTRICT_SIZE));
+//	else {
+//		Tile* nextTile = upCurrentPath->next();
+//
+//		if (nextTile != nullptr)
+//			move(nextTile);
+//		else
+//			upCurrentPath = nullptr;
+//	}
 
-		if (nextTile != nullptr)
-			move(nextTile);
-		else
-			upCurrentPath = nullptr;
+	if (pCurrentTask != nullptr && upCurrentPath.get() != nullptr) {	// Citizen has a task and knows how to get to it
+		if (pCurrentTask->citizenInRange(this)) {
+			pCurrentTask->workOn(this);
+
+			if (pCurrentTask->isCompleted())
+				pCurrentTask = nullptr;
+		}
+		else {
+			move(upCurrentPath->next());	// Move towards the task (NOTE: No nullptr checks! Shouldn't be an issue though.)
+		}
+	}
+	else {
+		pCurrentTask = pDistrict->getLatestTask();
+		upCurrentPath = PathFinding::findPath(pTile, pCurrentTask->getTile());
+
+		if (upCurrentPath.get() == nullptr) {
+			// Latest task cannot be reached
+			UI::displayActivityMessage("I can't get to the latest task! Halp pls!");
+		}
 	}
 }
 

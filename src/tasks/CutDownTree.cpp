@@ -1,4 +1,6 @@
 #include <tasks/CutDownTree.h>
+#include "entities/Tree.h"
+#include "game/Tile.h"
 
 CutDownTree::CutDownTree(District* district, Tile* tile) : Task(district, tile, "Cut down tree", 10) {
 
