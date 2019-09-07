@@ -1,0 +1,33 @@
+#ifndef SRC_GAME_TASK_H_
+#define SRC_GAME_TASK_H_
+
+#include "game/District.h"
+#include "game/Tile.h"
+#include <string>
+#include "entities/Citizen.h"
+
+class Task {
+private:
+	bool deleteMe;
+	District* pDistrict;
+	Tile* pTile;
+	std::string name;
+	bool completed;
+	int workRemaining;
+protected:
+	virtual void onCompletion() = 0;
+public:
+	Task(District*, Tile*, std::string, int);
+	virtual ~Task();
+	District* getDistrict() const { return pDistrict; }
+	Tile* getTile() const { return pTile; }
+	std::string getName() const { return name; }
+	bool isCompleted() const { return completed; }
+	int getWorkRemaining() const { return workRemaining; }
+	bool citizenInRange(Citizen*);
+	void workOn(Citizen*);
+	void deleteTask() { deleteMe = true; }
+	bool needsDeleting() const { return deleteMe; }
+};
+
+#endif /* SRC_GAME_TASK_H_ */

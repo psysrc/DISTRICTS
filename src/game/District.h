@@ -13,6 +13,9 @@ class District;
 #include <string>
 #include "entities/Tree.h"
 #include "entities/Sapling.h"
+#include "tasks/Task.h"
+
+class Task;
 
 class District {
 private:
@@ -20,7 +23,9 @@ private:
 	Tile** tiles;
 	std::vector<std::unique_ptr<Citizen>> citizens;			// All citizens in the district
 	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district (not including citizens)
-	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities in the district (not including citizens)
+	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick (not including citizens)
+	std::vector<std::unique_ptr<Task>> tasks;				// All tasks in the district
+	std::vector<std::unique_ptr<Task>> tasksToAdd;			// All tasks to add at the end of a game tick
 public:
 	District(const std::string name = "unnamed");
 	~District();
@@ -28,6 +33,7 @@ public:
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
 	template <class E> E* makeEntity();
+	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
 	Tile** getTiles() const;
 	Tile* getTile(const int i, const int j) const;
@@ -47,6 +53,22 @@ E* District::makeEntity() {
 	entitiesToAdd.push_back(std::move(upE));
 
 	return pE;
+}
+
+/*
+ * Creates a new Task in the District.
+ * Returns a pointer to the newly created Task.
+ */
+template <class T>
+T* District::makeTask(Tile* tile) {
+	static_assert(std::is_base_of<Task, T>::value, "T must extend Task");
+
+	std::unique_ptr<T> upT = std::make_unique<T>(this, tile);
+	T* pT = upT.get();
+
+	tasksToAdd.push_back(std::move(upT));
+
+	return pT;
 }
 
 #endif /* DISTRICT_H_ */

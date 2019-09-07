@@ -33,7 +33,7 @@ public:
 	bool walkable() const;
 	bool citizenEnter(Citizen*);
 	bool occupy(Entity*);
-	void vacateEntity();
+	Entity* vacateEntity();
 	bool occupied() const;
 	char getDrawSymbol() const;
 	int getDrawColour() const;

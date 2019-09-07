@@ -118,12 +118,18 @@ bool Tile::occupy(Entity* pEntity) {
 
 /*
  * Calling this tells the Tile it is no longer occupied by an entity, if it had one.
+ * Returns a pointer to the vacated entity, or nullptr if there was none.
  */
-void Tile::vacateEntity() {
+Entity* Tile::vacateEntity() {
 	if (occupied()) {
+		Entity* tmp = pEntity;
 		pEntity = nullptr;
 		updateVisuals();
+
+		return tmp;
 	}
+
+	return nullptr;
 }
 
 /*
