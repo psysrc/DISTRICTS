@@ -37,11 +37,17 @@ void Citizen::simulate() {
 	}
 	else {
 		pCurrentTask = pDistrict->getLatestTask();
-		upCurrentPath = PathFinding::findPath(pTile, pCurrentTask->getTile());
 
-		if (upCurrentPath.get() == nullptr) {
-			// Latest task cannot be reached
-			UI::displayActivityMessage("I can't get to the latest task! Halp pls!");
+		if (pCurrentTask == nullptr) {
+			UI::displayActivityMessage("Citizen has nothing to do.");
+		}
+		else {
+			upCurrentPath = PathFinding::findPath(pTile, pCurrentTask->getTile());
+
+			if (upCurrentPath.get() == nullptr) {
+				// Latest task cannot be reached
+				UI::displayActivityMessage("Citizen can't get to the latest task.");
+			}
 		}
 	}
 }
