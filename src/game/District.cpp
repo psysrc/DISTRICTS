@@ -72,19 +72,15 @@ District::District(const string name) : districtName(name) {
 				if (tiles[i][j].getProperty() == Plains) {
 					int treeChance = rand() % 100;
 
-					if (treeChance < 5) {	// 5% chance of growing a tree
+					if (treeChance < 0) {	// 5% chance of growing a tree
 						std::unique_ptr<Tree> tmpTree = std::make_unique<Tree>(this);
 
 						if (tiles[i][j].occupy(tmpTree.get())) {
 							tmpTree->setTile(&tiles[i][j]);
 							entities.push_back(std::move(tmpTree));
-
-							// Create a CutDownTree task for this tree
-							std::unique_ptr<CutDownTree> tmpCutTree = std::make_unique<CutDownTree>(this, &tiles[i][j]);
-							tasks.push_back(std::move(tmpCutTree));
 						}
 					}
-					else if (treeChance < 10) {	// 5% chance of growing a sapling
+					else if (treeChance < 2) {	// 5% chance of growing a sapling
 						std::unique_ptr<Sapling> tmpSapling = std::make_unique<Sapling>(this);
 
 						if (tiles[i][j].occupy(tmpSapling.get())) {
