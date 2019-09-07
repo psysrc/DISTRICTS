@@ -1,21 +1,14 @@
 #ifndef DISTRICT_H_
 #define DISTRICT_H_
 
-class District;
-
-#include "Constants.h"
-#include "entities/Entity.h"
-#include "entities/Citizen.h"
-#include "Tile.h"
-#include <vector>
-#include <algorithm>	// std::find
-#include "UI.h"
 #include <string>
-#include "entities/Tree.h"
-#include "entities/Sapling.h"
-#include "tasks/Task.h"
-#include "tasks/CutDownTree.h"
+#include <vector>
+#include <memory>
+#include "game/Constants.h"
 
+class Tile;
+class Citizen;
+class Entity;
 class Task;
 
 class District {

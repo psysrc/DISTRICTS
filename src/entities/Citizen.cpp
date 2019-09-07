@@ -1,5 +1,12 @@
 #include "Citizen.h"
 
+#include "tasks/Task.h"
+#include "pathfinding/Path.h"
+#include "pathfinding/PathFinding.h"
+#include "game/District.h"
+#include "game/UI.h"
+#include "game/Tile.h"
+
 Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C'), pCurrentTask(nullptr) {
 
 }

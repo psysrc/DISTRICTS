@@ -1,5 +1,12 @@
 #include "District.h"
 
+#include "game/Tile.h"
+#include "entities/Tree.h"
+#include "entities/Sapling.h"
+#include <algorithm>
+#include "tasks/Task.h"
+#include "entities/Citizen.h"
+
 using std::string;
 using std::vector;
 

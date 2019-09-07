@@ -3,6 +3,8 @@
 
 #include "Entity.h"
 
+class District;
+
 class Tree : public Entity {
 public:
 	Tree(District*);

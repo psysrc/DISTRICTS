@@ -1,5 +1,7 @@
-#include "tasks/Task.h"
+#include "Task.h"
+
 #include "entities/Citizen.h"
+#include "pathfinding/PathFinding.h"
 
 Task::Task(District* district, Tile* tile, std::string taskName, int work)
 : deleteMe(false), pDistrict(district), pTile(tile), name(taskName), completed(false), workRemaining(work) {

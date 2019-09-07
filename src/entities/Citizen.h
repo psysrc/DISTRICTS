@@ -1,16 +1,12 @@
 #ifndef CITIZEN_H_
 #define CITIZEN_H_
 
-class Citizen;
-
-#include "pathfinding/Path.h"
-#include "pathfinding/PathFinding.h"
-#include <string>
-#include "game/Tile.h"
-#include "game/Constants.h"
 #include "Entity.h"
-#include "tasks/Task.h"
+#include <memory>
+#include <string>
 
+class Path;
+class Tile;
 class Task;
 
 class Citizen : public Entity {

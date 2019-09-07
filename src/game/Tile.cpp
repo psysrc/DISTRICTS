@@ -1,5 +1,10 @@
 #include "Tile.h"
 
+#include "game/District.h"
+#include <stdexcept>
+#include "entities/Entity.h"
+#include "entities/Citizen.h"
+
 Tile::Tile()
 : pDistrict(nullptr), xCoord(-1), yCoord(-1), pEntity(nullptr),
   property(NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {

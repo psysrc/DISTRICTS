@@ -6,9 +6,10 @@
 // Description : A procedurally generated base building game.
 //============================================================================
 
-#include "Constants.h"
+#include "game/Constants.h"
 #include <iostream>
-#include "Game.h"
+#include "game/Game.h"
+#include "game/UI.h"
 
 using std::cout;
 using std::cin;

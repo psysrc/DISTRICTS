@@ -1,5 +1,14 @@
 #include "Game.h"
 
+#include <chrono>				// system_clock::
+#include "game/District.h"
+#include "game/Constants.h"
+#include <iostream>
+#include <ncurses.h>
+#include <thread>				// sleep_for(), pthread_*
+#include "game/PlayerCommand.h"
+#include "game/UI.h"
+
 using namespace std::this_thread;
 using namespace std::chrono;
 

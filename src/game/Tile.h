@@ -1,12 +1,12 @@
 #ifndef TILE_H_
 #define TILE_H_
 
-#include "Constants.h"
-#include "entities/Entity.h"
-#include "entities/Citizen.h"
 #include <vector>
-#include <stdexcept>
-#include "District.h"
+#include "game/Constants.h"
+
+class District;
+class Entity;
+class Citizen;
 
 class Tile {
 private:

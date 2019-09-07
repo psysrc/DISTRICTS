@@ -1,5 +1,12 @@
 #include "PathFinding.h"
 
+#include <map>
+#include <set>
+#include "game/Tile.h"
+#include <cmath>
+#include <bits/stdc++.h>
+#include "pathfinding/Path.h"
+
 /*
  * Finds a path between 'from' and 'to'.
  * 'strict' parameter defines whether the path *must* end with the goal node 'to'. By default this is disabled.

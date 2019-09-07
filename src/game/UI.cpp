@@ -1,5 +1,10 @@
 #include "UI.h"
 
+#include <iostream>
+#include "game/Constants.h"
+#include "game/Tile.h"
+#include "game/District.h"
+
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
 WINDOW* UI::debugWindow;

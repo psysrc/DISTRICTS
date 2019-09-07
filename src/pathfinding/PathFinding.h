@@ -1,14 +1,10 @@
 #ifndef SRC_PATHFINDING_H_
 #define SRC_PATHFINDING_H_
 
-#include "Path.h"
-#include <set>				// std::set
-#include <map>				// std::map
-#include <cstdlib>			// abs()
-#include <cmath>			// sqrt(), ceil()
-#include <bits/stdc++.h>	// INT_MAX
-#include "game/Tile.h"
 #include <memory>
+
+class Path;
+class Tile;
 
 class PathFinding {
 public:

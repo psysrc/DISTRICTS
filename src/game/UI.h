@@ -2,11 +2,10 @@
 #define SRC_UI_H_
 
 #include <string>
-#include <ncurses.h>
-#include <iostream>
 #include <memory>
-#include "Constants.h"
-#include "District.h"
+#include <ncurses.h>
+
+class District;
 
 class UI {
 private:

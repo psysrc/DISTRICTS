@@ -3,7 +3,6 @@
 
 #include <string>
 
-// No need to fully include
 class Tile;
 class District;
 class Citizen;

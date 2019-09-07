@@ -1,13 +1,10 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "Constants.h"
-#include <iostream>
-#include "District.h"
-#include <chrono>		// system_clock::now()
-#include <thread>		// sleep_for(), pthread_*
-#include "PlayerCommand.h"
-#include "UI.h"
+#include <memory>
+#include <thread>	// pthread_t
+
+class District;
 
 class Game {
 private:
