@@ -2,18 +2,35 @@
 
 /*
  * Finds a path between 'from' and 'to'.
+ * 'strict' parameter defines whether the path *must* end with the goal node 'to'. By default this is disabled.
+ * 		If strict is disabled, the returned solution can be a path to a neighbour of the goal instead.
+ * 		This can be useful if the goal tile is a Water tile next to land, or a tile with an Entity on it, for example.
  */
-std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to) {
+std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to, bool strict) {
 	std::map<Tile*, Tile*> pathVia;		// The immediately-preceding tile along the currently known best path
 	std::map<Tile*, float> pLength;		// Best path length currently known
 	std::map<Tile*, float> fScore;		// pLength + distance_heuristic
 
-	// OpenSet of all tiles left to explore (with custom lambda comparator to keep correct priority)
+	// Open set of all tiles left to explore (with custom lambda comparator to keep the correct priority)
 	auto fScoreComp = [&fScore] (Tile* a, Tile* b) -> bool { return fScore[a] < fScore[b]; };
 	std::set<Tile*, decltype(fScoreComp)> openSet(fScoreComp);
 
 	// Closed set of all explored tiles
 	std::set<Tile*> closedSet;
+
+	// Goal set of all tiles that the path can end with (if strict == true, this will only contain the 'to' tile)
+	std::set<Tile*> goalSet;
+	goalSet.insert(to);
+
+	if (!strict) {
+		// Add each valid neighbour of the goal tile
+		for (int n = 0; n < 8; n++) {
+			Tile* neighbour = to->getNeighbourTile(n);
+
+			if (neighbour != nullptr)
+				goalSet.insert(neighbour);
+		}
+	}
 
 	// Place the starting tile into the open set and other maps
 	openSet.insert(from);
@@ -26,14 +43,15 @@ std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to) {
 		Tile* next = *openSet.begin();
 		openSet.erase(openSet.begin());
 
-		if (next == to) {	// If this is the goal
+		if (goalSet.find(next) != goalSet.end()) {	// If this is a goal tile
 			// Reconstruct the trail back to the start and return a Path object
 			std::vector<Tile*> pathFound;
 
-			// Reserve (pathLength/1.41) objects (the minimum number of tiles that may be in this path)
+			// Reserve ceiling(pathLength/1.41) objects (the minimum number of tiles that may be in this path)
+			// This is purely for some extra efficiency when adding to the vector
 			pathFound.reserve(ceil(pLength[next] / 1.41) + 0.1);
 
-			Tile* current = to;
+			Tile* current = next;
 
 			// Populate the pathFound vector up to the first tile from the start
 			while (current != from) {
