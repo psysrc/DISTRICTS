@@ -183,10 +183,10 @@ void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
  * Returns nullptr if there are no tasks.
  */
 Task* District::getLatestTask() const {
-	if (tasks.back() != nullptr)
-		return tasks.back().get();
-	else
+	if (tasks.empty())
 		return nullptr;
+
+	return tasks.back().get();
 }
 
 /*
