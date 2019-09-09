@@ -13,7 +13,7 @@ using namespace std::chrono;
 
 Game::Game() {
 	// Seed the random number generator with the current system time
-	srand(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+	srand(system_clock::to_time_t(system_clock::now()));
 
 	gameIsOver = false;
 	gameIsPaused = false;
@@ -60,9 +60,28 @@ void Game::play() {
 
 	bool playerQuitting = false;
 
+	const milliseconds gameTick(250);	// Time per game tick
+	milliseconds execStart;		// Time at the start of game tick
+	milliseconds execEnd;		// Time at the end of game tick
+	milliseconds execDuration;	// Duration of the game tick
+
+	// execStart won't be calculated until the end of each pause, but each pause needs the execStart from the previous tick
+	// It therefore needs initialising here before the game loop starts
+	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+
 	// Game loop
 	while (!gameIsOver && !playerQuitting) {
-		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
+		// Get the time after game tick has been executed
+		execEnd = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+
+		// Calculate the duration of the last execution
+		execDuration = execEnd - execStart;
+
+		// Sleep long enough so that the next game tick starts after the expected delay
+		sleep_for(gameTick - execDuration);
+
+		// Get the time before the game tick is executed
+		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 		if (gameIsPaused) {
 			// Get further user input (wait for it here)
@@ -77,7 +96,7 @@ void Game::play() {
 		}
 
 		// Don't bother simulating the game if the user wants to quit
-		if (playerQuitting) {
+		if (!playerQuitting) {
 			upDistrict->simulate();	// Simulate a game tick
 
 			UI::drawDistrict(upDistrict);		// Draw the district
