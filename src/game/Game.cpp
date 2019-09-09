@@ -115,7 +115,7 @@ bool Game::handleCommands() {
 	int command = PlayerCommand::NullCmd;
 
 	do {
-		command = static_cast<int>(UI::getKeyPress());
+		command = UI::getKeyPress();
 
 		if (command <= 90 && command >= 65)	// If command is a capital letter (A-Z)
 			command += 32;					// Change to its lowercase letter (a-z)
@@ -124,7 +124,7 @@ bool Game::handleCommands() {
 		case PlayerCommand::Unpause:
 			break;
 		case PlayerCommand::Quit:
-			return -1;	// Tell the game loop to quit
+			return true;	// Tell the game loop to quit
 		case PlayerCommand::BuildHouse:
 			UI::displayActivityMessage("A house has been constructed.");
 			break;
@@ -132,7 +132,7 @@ bool Game::handleCommands() {
 	}
 	while(command != PlayerCommand::Unpause);
 
-	return 0;	// Tell the game loop to unpause and continue
+	return false;	// Tell the game loop to unpause and continue
 }
 
 /*
