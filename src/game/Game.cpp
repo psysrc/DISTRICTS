@@ -62,10 +62,10 @@ void Game::play() {
 
 	unpause();	// Initialise the first thread to wait for the user pausing
 
-	int cmdState = 0;
+	bool playerQuitting = false;
 
 	// Game loop
-	while (!gameIsOver && cmdState != -1) {
+	while (!gameIsOver && !playerQuitting) {
 		sleep_for(milliseconds(250));	// Wait for 1/4 of a second
 
 		if (gameIsPaused) {
@@ -74,14 +74,14 @@ void Game::play() {
 			// If user wants to input several commands, process those commands as necessary
 			// Wait here until the user unpauses
 
-			cmdState = handleCommands();
+			playerQuitting = handleCommands();
 
-			if (cmdState != -1)
+			if (!playerQuitting)
 				unpause();
 		}
 
-		// Don't bother running the following code if the user wants to quit (cmdState == -1)
-		if (cmdState == 0) {
+		// Don't bother simulating the game if the user wants to quit
+		if (playerQuitting) {
 			upDistrict->simulate();	// Simulate a game tick
 
 			UI::drawDistrict(upDistrict);		// Draw the district
@@ -94,9 +94,9 @@ void Game::play() {
 /*
  * Handles the user inputting commands while the game is paused.
  * This method returns back to the game loop when the user wants to unpause the game or quit.
- * Returns either 0 or -1 depending if the user wants to quit (-1 for quit, 0 to return to game).
+ * Returns whether or not the user wants to quit.
  */
-int Game::handleCommands() {
+bool Game::handleCommands() {
 	int command = PlayerCommand::NullCmd;
 
 	do {

@@ -17,7 +17,7 @@ private:
 public:
 	Game();
 	~Game();
-	int handleCommands();
+	bool handleCommands();
 	void play();
 	void pause();
 	void gameOver() const;
