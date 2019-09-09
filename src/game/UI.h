@@ -29,6 +29,7 @@ public:
 	static void mainMenu();
 	static void badMenuSelection();
 	static void pause(bool);
+	static char getKeyPress();
 };
 
 #endif /* SRC_UI_H_ */

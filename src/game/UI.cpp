@@ -60,6 +60,8 @@ bool UI::initialise() {
 	scrollok(debugWindow, TRUE);
 
 	curs_set(0);	// Set the cursor to invisible
+	noecho();		// User-pressed keys are not output to the terminal
+	cbreak();		// No input buffer - a key press is immediately returned to the program
 
 	UI::refresh();
 
@@ -236,5 +238,13 @@ void UI::pause(bool enable) {
 	}
 
 	wrefresh(pauseWindow);
+}
+
+/*
+ * Wait for a key press from the player.
+ * Returns the character that the player pressed.
+ */
+char UI::getKeyPress() {
+	return getch();
 }
 

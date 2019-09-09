@@ -4,7 +4,6 @@
 #include "game/District.h"
 #include "game/Constants.h"
 #include <iostream>
-#include <ncurses.h>
 #include <thread>				// sleep_for(), pthread_*
 #include "game/PlayerCommand.h"
 #include "game/UI.h"
@@ -36,13 +35,10 @@ Game::~Game() {
 void* waitForPause(void* args) {
 	Game* pGame = static_cast<Game*>(args);
 
-	noecho();
-	cbreak();
-
 	int keyPress = PlayerCommand::NullCmd;
 
 	do {
-		keyPress = getch();		// Wait for user to press a key
+		keyPress = UI::getKeyPress();		// Wait for user to press a key
 	}
 	while (keyPress != PlayerCommand::Pause);
 
@@ -100,7 +96,7 @@ bool Game::handleCommands() {
 	int command = PlayerCommand::NullCmd;
 
 	do {
-		command = getch();
+		command = static_cast<int>(UI::getKeyPress());
 
 		if (command <= 90 && command >= 65)	// If command is a capital letter (A-Z)
 			command += 32;					// Change to its lowercase letter (a-z)
