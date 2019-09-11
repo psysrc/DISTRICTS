@@ -3,10 +3,10 @@
 #include <chrono>				// system_clock::
 #include "game/District.h"
 #include "game/Constants.h"
+#include "game/PlayerCommand.h"
 #include <iostream>
 #include <thread>				// sleep_for(), pthread_*
-#include "game/PlayerCommand.h"
-#include "game/UI.h"
+#include "ui/UI.h"
 
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -35,12 +35,12 @@ Game::~Game() {
 void* waitForPause(void* args) {
 	Game* pGame = static_cast<Game*>(args);
 
-	int keyPress = PlayerCommand::NullCmd;
+	PlayerCommand command = NullCommand;
 
 	do {
-		keyPress = UI::getKeyPress();		// Wait for user to press a key
+		command = UI::getPlayerCommand();		// Wait for user to press a key
 	}
-	while (keyPress != PlayerCommand::Pause);
+	while (command != PauseToggle);
 
 	pGame->pause();	// Pause the game when the user presses the Pause key
 
@@ -112,27 +112,23 @@ void Game::play() {
  * Returns whether or not the user wants to quit.
  */
 bool Game::handleCommands() {
-	int command = PlayerCommand::NullCmd;
+	PlayerCommand command = NullCommand;
 
-	do {
-		command = UI::getKeyPress();
-
-		if (command <= 90 && command >= 65)	// If command is a capital letter (A-Z)
-			command += 32;					// Change to its lowercase letter (a-z)
+	while (true) {
+		command = UI::getPlayerCommand();
 
 		switch (command) {
-		case PlayerCommand::Unpause:
-			break;
-		case PlayerCommand::Quit:
+		case PauseToggle:
+			return false;	// Tell the game loop to unpause and continue
+		case Quit:
 			return true;	// Tell the game loop to quit
-		case PlayerCommand::BuildHouse:
+		case BuildHouse:
 			UI::displayActivityMessage("A house has been constructed.");
+			break;
+		default:
 			break;
 		}
 	}
-	while(command != PlayerCommand::Unpause);
-
-	return false;	// Tell the game loop to unpause and continue
 }
 
 /*

@@ -9,7 +9,7 @@
 #include "game/Constants.h"
 #include <iostream>
 #include "game/Game.h"
-#include "game/UI.h"
+#include "ui/UI.h"
 
 using std::cout;
 using std::cin;

@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <ncurses.h>
+#include "game/PlayerCommand.h"
 
 class District;
 
@@ -29,7 +30,7 @@ public:
 	static void mainMenu();
 	static void badMenuSelection();
 	static void pause(bool);
-	static char getKeyPress();
+	static PlayerCommand getPlayerCommand();
 };
 
 #endif /* SRC_UI_H_ */

@@ -4,6 +4,7 @@
 #include "game/Constants.h"
 #include "game/Tile.h"
 #include "game/District.h"
+#include "ui/CommandMappings.h"
 
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
@@ -241,10 +242,23 @@ void UI::pause(bool enable) {
 }
 
 /*
- * Wait for a key press from the player.
- * Returns the character that the player pressed.
+ * Wait for a command from the player.
  */
-char UI::getKeyPress() {
-	return getch();
+PlayerCommand UI::getPlayerCommand() {
+	char key = getch();
+
+	if (key <= 90 && key >= 65)		// If command is a capital letter (A-Z)
+		key += 32;					// Change to its lowercase letter (a-z)
+
+	switch (key) {
+	case CommandMappings::PauseToggle:
+		return PauseToggle;
+	case CommandMappings::Quit:
+		return Quit;
+	case CommandMappings::BuildHouse:
+		return BuildHouse;
+	default:
+		return NullCommand;
+	}
 }
 

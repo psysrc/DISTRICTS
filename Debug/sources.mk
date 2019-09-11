@@ -27,4 +27,5 @@ src/entities \
 src/game \
 src/pathfinding \
 src/tasks \
+src/ui \
 
