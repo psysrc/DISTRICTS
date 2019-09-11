@@ -80,9 +80,6 @@ void Game::play() {
 		// Sleep long enough so that the next game tick starts after the expected delay
 		sleep_for(gameTick - execDuration);
 
-		// Get the time before the game tick is executed
-		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-
 		if (gameIsPaused) {
 			// Get further user input (wait for it here)
 			// If user wants to unpause, go ahead
@@ -94,6 +91,9 @@ void Game::play() {
 			if (!playerQuitting)
 				unpause();
 		}
+
+		// Get the time before the game tick is executed
+		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 		// Don't bother simulating the game if the user wants to quit
 		if (!playerQuitting) {
