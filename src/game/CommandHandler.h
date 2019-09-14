@@ -3,13 +3,17 @@
 
 #include "PlayerCommand.h"
 
+class Game;
+class District;
+
 class CommandHandler {
 private:
+	static District* pDistrict;
 	static void cutDownTrees();
 public:
 	CommandHandler() = delete;
 	~CommandHandler() = delete;
-	static void handle(PlayerCommand);
+	static void handle(District*, PlayerCommand);
 };
 
 #endif /* SRC_GAME_COMMANDHANDLER_H_ */

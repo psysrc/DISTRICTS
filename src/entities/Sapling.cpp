@@ -21,8 +21,6 @@ void Sapling::simulate() {
 		pTile->occupy(tree);
 		tree->setTile(pTile);
 
-		pDistrict->makeTask<CutDownTree>(pTile);
-
 		deleteEntity();
 	}
 }

@@ -123,7 +123,7 @@ bool Game::handleCommands() {
 		else if (command == Quit)
 			return true;	// Tell the game loop to quit
 		else
-			CommandHandler::handle(command);
+			CommandHandler::handle(upDistrict.get(), command);
 	}
 }
 

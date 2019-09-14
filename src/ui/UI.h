@@ -34,7 +34,7 @@ public:
 	static void badMenuSelection();
 	static void pause(bool);
 	static PlayerCommand getPlayerCommand();
-	static Tile* selectTile(std::unique_ptr<District>&);
+	static Tile* selectTile(District*);
 };
 
 #endif /* SRC_UI_H_ */

@@ -83,6 +83,10 @@ TileProperty Tile::getProperty() const {
 	return property;
 }
 
+Entity* Tile::getEntity() const {
+	return pEntity;
+}
+
 /*
  * Returns whether or not this tile is walkable.
  */

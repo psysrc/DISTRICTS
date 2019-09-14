@@ -41,11 +41,11 @@ bool UI::initialise() {
 	use_default_colors();
 
 	// Define colour pairs for the tiles
-	init_pair(COLOUR_CITIZEN, COLOR_WHITE, COLOR_BLACK);
+	init_pair(COLOUR_UNKNOWN, COLOR_RED, COLOR_BLACK);
 	init_pair(COLOUR_PLAINS, COLOR_GREEN, COLOR_GREEN);
 	init_pair(COLOUR_WATER, COLOR_BLUE, COLOR_BLUE);
 	init_pair(COLOUR_STONE, COLOR_WHITE, COLOR_WHITE);
-	init_pair(COLOUR_UNKNOWN, COLOR_RED, COLOR_BLACK);
+	init_pair(COLOUR_HIGHLIGHTED, COLOR_WHITE, COLOR_RED);
 
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
@@ -63,6 +63,7 @@ bool UI::initialise() {
 	curs_set(0);	// Set the cursor to invisible
 	noecho();		// User-pressed keys are not output to the terminal
 	cbreak();		// No input buffer - a key press is immediately returned to the program
+	keypad(stdscr, true);	// Allows use of the arrow keys
 
 	UI::refresh();
 
@@ -278,28 +279,71 @@ PlayerCommand UI::getPlayerCommand() {
 /*
  * Prompts the user to select a tile in the district.
  */
-Tile* UI::selectTile(std::unique_ptr<District>& upDistrict) {
+Tile* UI::selectTile(District* pDistrict) {
 	displayDebugMessage("Please select a tile.");
 
 	// Start in the middle
 	int row = DISTRICT_SIZE / 2;
-	int column = (DISTRICT_SIZE / 2) * 2;
+	int column = DISTRICT_SIZE / 2;
+
+	bool returnTile = false;
+	bool cancel = false;
 
 	while (true) {
-		chtype normalDisplay = mvwinch(mapWindow, row, column);	// Remember what this grid position looked like before we highlighted it
+		// Remember what this grid position looked like before we highlighted it
+		Tile* currentTile = pDistrict->getTile(row, column);
+
+		// Remember the tile so we can get its old colour back
+		chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
 
 		// Highlight the current grid position
+		drawGridPosition(row, column, COLOUR_HIGHLIGHTED, currentTile->getDrawSymbol());
+
+		wrefresh(mapWindow);
 
 		// Get user input
-		// They will either want to move the current highlighted tile, select and return it, or cancel this select operation
+		// They will either want to move the current highlighted tile, select it, or cancel this select operation
+		int command = getch();
 
-		// revert display to normal
+		switch (command) {
+		case KEY_LEFT:
+			if (column > 0)
+				column--;
+			break;
+		case KEY_RIGHT:
+			if (column < DISTRICT_SIZE - 1)
+				column++;
+			break;
+		case KEY_UP:
+			if (row > 0)
+				row--;
+			break;
+		case KEY_DOWN:
+			if (row < DISTRICT_SIZE - 1)
+				row++;
+			break;
+		case '\n':	// ENTER
+			returnTile = true;
+			break;
+		case 'q':
+			cancel = true;
+			break;
+		default:
+			break;
+		}
 
-		// return tile if necessary
-		// cancel operation if necessary
-		// track new coordinates if necessary
+		// Revert previous grid position to normal
+		drawGridPosition(currentTile->getX(), currentTile->getY(), PAIR_NUMBER(normalDisplay), currentTile->getDrawSymbol());
+
+		// Return tile or cancel if necessary
+		if (returnTile) {
+			wrefresh(mapWindow);
+			return currentTile;
+		}
+		else if (cancel) {
+			wrefresh(mapWindow);
+			return nullptr;
+		}
 	}
-
-
 }
 

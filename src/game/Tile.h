@@ -29,6 +29,7 @@ public:
 	Tile* getNeighbourTile(int direction) const;
 	void updateProperty(TileProperty newProperty);
 	TileProperty getProperty() const;
+	Entity* getEntity() const;
 	District* getDistrict() const;
 	bool walkable() const;
 	bool citizenEnter(Citizen*);
