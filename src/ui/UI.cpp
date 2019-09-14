@@ -278,15 +278,28 @@ PlayerCommand UI::getPlayerCommand() {
 /*
  * Prompts the user to select a tile in the district.
  */
-//Tile* UI::selectTile(std::unique_ptr<District>& upDistrict) {
-//	displayDebugMessage("Please select a tile.");
-//
-//	// Start in the middle
-//	int row = DISTRICT_SIZE / 2;
-//	int column = DISTRICT_SIZE / 2;
-//
-//	Tile* currentTile = upDistrict->getTile(row, column);
-//
-//
-//}
+Tile* UI::selectTile(std::unique_ptr<District>& upDistrict) {
+	displayDebugMessage("Please select a tile.");
+
+	// Start in the middle
+	int row = DISTRICT_SIZE / 2;
+	int column = (DISTRICT_SIZE / 2) * 2;
+
+	while (true) {
+		chtype normalDisplay = mvwinch(mapWindow, row, column);	// Remember what this grid position looked like before we highlighted it
+
+		// Highlight the current grid position
+
+		// Get user input
+		// They will either want to move the current highlighted tile, select and return it, or cancel this select operation
+
+		// revert display to normal
+
+		// return tile if necessary
+		// cancel operation if necessary
+		// track new coordinates if necessary
+	}
+
+
+}
 
