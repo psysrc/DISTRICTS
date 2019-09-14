@@ -7,6 +7,7 @@
 #include "game/PlayerCommand.h"
 
 class District;
+class Tile;
 
 class UI {
 private:
@@ -26,11 +27,14 @@ public:
 	static void displayDebugMessage(const std::string str);
 	static void displayDebugMessage(const char* const str);
 	static void drawDistrict(std::unique_ptr<District>& upDistrict);
+	static void drawTile(Tile*);
+	static void drawGridPosition(int, int, int, char);
 	static void refresh();
 	static void mainMenu();
 	static void badMenuSelection();
 	static void pause(bool);
 	static PlayerCommand getPlayerCommand();
+//	static Tile* selectTile(std::unique_ptr<District>&);
 };
 
 #endif /* SRC_UI_H_ */

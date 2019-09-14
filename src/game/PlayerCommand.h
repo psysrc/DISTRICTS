@@ -5,7 +5,7 @@ enum PlayerCommand {
 	NullCommand,
 	PauseToggle,
 	Quit,
-	BuildHouse,
+	CutDownTrees,
 };
 
 #endif /* SRC_GAME_PLAYERCOMMAND_H_ */

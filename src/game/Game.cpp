@@ -7,6 +7,7 @@
 #include <iostream>
 #include <thread>				// sleep_for(), pthread_*
 #include "ui/UI.h"
+#include "game/CommandHandler.h"
 
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -117,17 +118,12 @@ bool Game::handleCommands() {
 	while (true) {
 		command = UI::getPlayerCommand();
 
-		switch (command) {
-		case PauseToggle:
+		if (command == PauseToggle)
 			return false;	// Tell the game loop to unpause and continue
-		case Quit:
+		else if (command == Quit)
 			return true;	// Tell the game loop to quit
-		case BuildHouse:
-			UI::displayActivityMessage("A house has been constructed.");
-			break;
-		default:
-			break;
-		}
+		else
+			CommandHandler::handle(command);
 	}
 }
 

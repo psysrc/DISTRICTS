@@ -13,7 +13,8 @@ public:
 
 	static const int PauseToggle = ' ';
 	static const int Quit = 'q';
-	static const int BuildHouse = 'a';
+
+	static const int CutDownTrees = 'a';
 };
 
 #endif /* SRC_COMMANDMAPPINGS_H */

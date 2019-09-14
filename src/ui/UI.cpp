@@ -179,22 +179,35 @@ void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
 
 	Tile** districtTiles = upDistrict->getTiles();
 
-	wmove(mapWindow, 0, 0);	// Move the cursor to the window origin
-
 	// Draw the N*N grid of tiles
-	// The cursor will automatically wrap to the next line when it reaches the end of the window
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			int tileColour = districtTiles[i][j].getDrawColour();
-
-			wattron(mapWindow, COLOR_PAIR(tileColour));
-			waddch(mapWindow, districtTiles[i][j].getDrawSymbol());
-			waddch(mapWindow, ' ');
-			wattroff(mapWindow, COLOR_PAIR(tileColour));
+			drawTile(&districtTiles[i][j]);
 		}
 	}
 
 	wrefresh(mapWindow);
+}
+
+/*
+ * Draws a single tile to its correct position in the map window.
+ */
+void UI ::drawTile(Tile* tile) {
+	drawGridPosition(tile->getX(), tile->getY(), tile->getDrawColour(), tile->getDrawSymbol());
+}
+
+/*
+ * Draws a colour and symbol to a particular grid position.
+ */
+void UI::drawGridPosition(int row, int column, int colourPair, char symbol) {
+	// Move the cursor to the correct position
+	wmove(mapWindow, row, column * 2);
+
+	// Draw the tile
+	wattron(mapWindow, COLOR_PAIR(colourPair));
+	waddch(mapWindow, symbol);
+	waddch(mapWindow, ' ');
+	wattroff(mapWindow, COLOR_PAIR(colourPair));
 }
 
 /*
@@ -255,10 +268,25 @@ PlayerCommand UI::getPlayerCommand() {
 		return PauseToggle;
 	case CommandMappings::Quit:
 		return Quit;
-	case CommandMappings::BuildHouse:
-		return BuildHouse;
+	case CommandMappings::CutDownTrees:
+		return CutDownTrees;
 	default:
 		return NullCommand;
 	}
 }
+
+/*
+ * Prompts the user to select a tile in the district.
+ */
+//Tile* UI::selectTile(std::unique_ptr<District>& upDistrict) {
+//	displayDebugMessage("Please select a tile.");
+//
+//	// Start in the middle
+//	int row = DISTRICT_SIZE / 2;
+//	int column = DISTRICT_SIZE / 2;
+//
+//	Tile* currentTile = upDistrict->getTile(row, column);
+//
+//
+//}
 
