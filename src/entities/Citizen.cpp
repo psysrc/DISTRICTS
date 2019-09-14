@@ -43,7 +43,7 @@ void Citizen::simulate() {
 		}
 	}
 	else {
-		pCurrentTask = pDistrict->getLatestTask();
+		pCurrentTask = pDistrict->getOldestTask();
 
 		if (pCurrentTask == nullptr) {
 			UI::displayActivityMessage("Citizen has nothing to do.");

@@ -193,6 +193,17 @@ Task* District::getLatestTask() const {
 }
 
 /*
+ * Returns the oldest task created in this district.
+ * Returns nullptr if there are no tasks.
+ */
+Task* District::getOldestTask() const {
+	if (tasks.empty())
+		return nullptr;
+
+	return tasks.front().get();
+}
+
+/*
  * Prompts the district to simulate one game tick.
  */
 void District::simulate() {

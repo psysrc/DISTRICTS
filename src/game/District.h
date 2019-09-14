@@ -27,6 +27,7 @@ public:
 	void createBiome(int i, int j, TileProperty biomeProperty, int size);
 	void simulate();
 	Task* getLatestTask() const;
+	Task* getOldestTask() const;
 	template <class E> E* makeEntity();
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
