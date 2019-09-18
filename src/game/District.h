@@ -9,7 +9,10 @@
 class Tile;
 class Citizen;
 class Entity;
+
+namespace Tasks {
 class Task;
+}
 
 class District {
 private:
@@ -18,16 +21,16 @@ private:
 	std::vector<std::unique_ptr<Citizen>> citizens;			// All citizens in the district
 	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district (not including citizens)
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick (not including citizens)
-	std::vector<std::unique_ptr<Task>> tasks;				// All tasks in the district
-	std::vector<std::unique_ptr<Task>> tasksToAdd;			// All tasks to add at the end of a game tick
+	std::vector<std::unique_ptr<Tasks::Task>> tasks;				// All tasks in the district
+	std::vector<std::unique_ptr<Tasks::Task>> tasksToAdd;			// All tasks to add at the end of a game tick
 public:
 	District(const std::string name = "unnamed");
 	~District();
 	static bool validTileIndex(const int index);
-	void createBiome(int i, int j, TileProperty biomeProperty, int size);
+	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void simulate();
-	Task* getLatestTask() const;
-	Task* getOldestTask() const;
+	Tasks::Task* getLatestTask() const;
+	Tasks::Task* getOldestTask() const;
 	template <class E> E* makeEntity();
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
@@ -57,7 +60,7 @@ E* District::makeEntity() {
  */
 template <class T>
 T* District::makeTask(Tile* tile) {
-	static_assert(std::is_base_of<Task, T>::value, "T must extend Task");
+	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
 
 	std::unique_ptr<T> upT = std::make_unique<T>(this, tile);
 	T* pT = upT.get();

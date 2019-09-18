@@ -7,12 +7,15 @@
 
 class Path;
 class Tile;
+
+namespace Tasks {
 class Task;
+}
 
 class Citizen : public Entity {
 private:
 	std::unique_ptr<Path> upCurrentPath;
-	Task* pCurrentTask;
+	Tasks::Task* pCurrentTask;
 public:
 	Citizen(District*, const std::string);
 	virtual ~Citizen();

@@ -33,7 +33,7 @@ public:
 	static void mainMenu();
 	static void badMenuSelection();
 	static void pause(bool);
-	static PlayerCommand getPlayerCommand();
+	static PlayerCommand::PlayerCommand getPlayerCommand();
 	static Tile* selectTile(District*);
 };
 

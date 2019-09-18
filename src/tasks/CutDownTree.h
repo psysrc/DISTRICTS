@@ -6,6 +6,8 @@
 class District;
 class Tile;
 
+namespace Tasks {
+
 class CutDownTree : public Task {
 public:
 	CutDownTree(District*, Tile*);
@@ -13,5 +15,7 @@ public:
 protected:
 	virtual void onCompletion() override final;
 };
+
+}
 
 #endif /* SRC_TASKS_CUTDOWNTREE_H_ */

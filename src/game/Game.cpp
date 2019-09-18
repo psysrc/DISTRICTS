@@ -36,12 +36,12 @@ Game::~Game() {
 void* waitForPause(void* args) {
 	Game* pGame = static_cast<Game*>(args);
 
-	PlayerCommand command = NullCommand;
+	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
 
 	do {
 		command = UI::getPlayerCommand();		// Wait for user to press a key
 	}
-	while (command != PauseToggle);
+	while (command != PlayerCommand::PauseToggle);
 
 	pGame->pause();	// Pause the game when the user presses the Pause key
 
@@ -113,14 +113,14 @@ void Game::play() {
  * Returns whether or not the user wants to quit.
  */
 bool Game::handleCommands() {
-	PlayerCommand command = NullCommand;
+	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
 
 	while (true) {
 		command = UI::getPlayerCommand();
 
-		if (command == PauseToggle)
+		if (command == PlayerCommand::PauseToggle)
 			return false;	// Tell the game loop to unpause and continue
-		else if (command == Quit)
+		else if (command == PlayerCommand::Quit)
 			return true;	// Tell the game loop to quit
 		else
 			CommandHandler::handle(upDistrict.get(), command);

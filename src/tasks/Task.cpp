@@ -3,6 +3,8 @@
 #include "entities/Citizen.h"
 #include "pathfinding/PathFinding.h"
 
+using namespace Tasks;
+
 Task::Task(District* district, Tile* tile, std::string taskName, int work)
 : deleteMe(false), pDistrict(district), pTile(tile), name(taskName), completed(false), workRemaining(work) {
 

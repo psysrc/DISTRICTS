@@ -7,6 +7,8 @@ class Tile;
 class District;
 class Citizen;
 
+namespace Tasks {
+
 class Task {
 private:
 	bool deleteMe;
@@ -30,5 +32,7 @@ public:
 	void deleteTask() { deleteMe = true; }
 	bool needsDeleting() const { return deleteMe; }
 };
+
+}
 
 #endif /* SRC_GAME_TASK_H_ */

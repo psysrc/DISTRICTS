@@ -5,6 +5,9 @@
  * This class defines constants for handling user key presses and translating them into game commands.
  * Note that letters are always lowercase. When the user inputs a capital letter it is converted to a lowercase letter first.
  */
+
+namespace CommandMappings {
+
 class CommandMappings {
 public:
 	CommandMappings() = delete;	// Class cannot be instantiated (effectively static)
@@ -15,6 +18,9 @@ public:
 	static const int Quit = 'q';
 
 	static const int CutDownTrees = 'a';
+	static const int BuildBridge = 'b';
 };
+
+}
 
 #endif /* SRC_COMMANDMAPPINGS_H */

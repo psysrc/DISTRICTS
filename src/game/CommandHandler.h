@@ -10,10 +10,11 @@ class CommandHandler {
 private:
 	static District* pDistrict;
 	static void cutDownTrees();
+	static void buildBridge();
 public:
 	CommandHandler() = delete;
 	~CommandHandler() = delete;
-	static void handle(District*, PlayerCommand);
+	static void handle(District*, PlayerCommand::PlayerCommand);
 };
 
 #endif /* SRC_GAME_COMMANDHANDLER_H_ */

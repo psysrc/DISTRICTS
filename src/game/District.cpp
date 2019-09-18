@@ -9,6 +9,7 @@
 
 using std::string;
 using std::vector;
+using namespace Tasks;
 
 District::District(const string name) : districtName(name) {
 	// Define a contiguous memory space for the n*n grid of tiles
@@ -46,7 +47,7 @@ District::District(const string name) : districtName(name) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
 			tiles[i][j].setDistrict(this);
 			tiles[i][j].setCoordinates(i, j);
-			tiles[i][j].updateProperty(Plains);
+			tiles[i][j].updateProperty(TileProperty::Plains);
 		}
 	}
 
@@ -60,7 +61,7 @@ District::District(const string name) : districtName(name) {
 			int rj = rand() % DISTRICT_SIZE;
 			int size = rand() % 26 + 5;		// 5-30 tiles in size
 
-			createBiome(ri, rj, Stone, size);
+			createBiome(ri, rj, TileProperty::Stone, size);
 		}
 
 		while (lakeBiomes--) {
@@ -68,7 +69,7 @@ District::District(const string name) : districtName(name) {
 			int rj = rand() % DISTRICT_SIZE;
 			int size = rand() % 101 + 10;	// 10-100 tiles in size
 
-			createBiome(ri, rj, Water, size);
+			createBiome(ri, rj, TileProperty::Water, size);
 		}
 	}
 
@@ -76,7 +77,7 @@ District::District(const string name) : districtName(name) {
 		// Every Plains tile has a chance to grow a Tree or Sapling
 		for (int i = 0; i < DISTRICT_SIZE; i++) {
 			for (int j = 0; j < DISTRICT_SIZE; j++) {
-				if (tiles[i][j].getProperty() == Plains) {
+				if (tiles[i][j].getProperty() == TileProperty::Plains) {
 					int treeChance = rand() % 100;
 
 					if (treeChance < 0) {	// 5% chance of growing a tree
@@ -141,7 +142,7 @@ bool District::validTileIndex(const int index) {
 /*
  * Creates/adds a new biome to the district at a given location, with a defined size
  */
-void District::createBiome(int i, int j, TileProperty biomeProperty, int size) {
+void District::createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size) {
 	std::vector<Tile*> adjacency;			// Contains tiles adjacent to converted tiles
 	std::vector<Tile*>::iterator adjIt;
 	std::vector<Tile*> converted;			// Contains tiles already changed into the biome being generated

@@ -46,6 +46,7 @@ bool UI::initialise() {
 	init_pair(COLOUR_WATER, COLOR_BLUE, COLOR_BLUE);
 	init_pair(COLOUR_STONE, COLOR_WHITE, COLOR_WHITE);
 	init_pair(COLOUR_HIGHLIGHTED, COLOR_WHITE, COLOR_RED);
+	init_pair(COLOUR_BRIDGE, COLOR_YELLOW, COLOR_YELLOW);
 
 	// Define the windows in the terminal
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
@@ -258,21 +259,23 @@ void UI::pause(bool enable) {
 /*
  * Wait for a command from the player.
  */
-PlayerCommand UI::getPlayerCommand() {
+PlayerCommand::PlayerCommand UI::getPlayerCommand() {
 	char key = getch();
 
 	if (key <= 90 && key >= 65)		// If command is a capital letter (A-Z)
 		key += 32;					// Change to its lowercase letter (a-z)
 
 	switch (key) {
-	case CommandMappings::PauseToggle:
-		return PauseToggle;
-	case CommandMappings::Quit:
-		return Quit;
-	case CommandMappings::CutDownTrees:
-		return CutDownTrees;
+	case CommandMappings::CommandMappings::PauseToggle:
+		return PlayerCommand::PauseToggle;
+	case CommandMappings::CommandMappings::Quit:
+		return PlayerCommand::Quit;
+	case CommandMappings::CommandMappings::CutDownTrees:
+		return PlayerCommand::CutDownTrees;
+	case CommandMappings::CommandMappings::BuildBridge:
+		return PlayerCommand::BuildBridge;
 	default:
-		return NullCommand;
+		return PlayerCommand::NullCommand;
 	}
 }
 

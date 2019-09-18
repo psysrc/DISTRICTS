@@ -14,7 +14,7 @@ private:
 	int xCoord, yCoord;
 	std::vector<Tile*> neighbourTiles;
 	Entity* pEntity;
-	TileProperty property;
+	TileProperty::TileProperty property;
 	char drawSymbol;
 	int drawColour;
 public:
@@ -27,8 +27,8 @@ public:
 	int getX() const;
 	int getY() const;
 	Tile* getNeighbourTile(int direction) const;
-	void updateProperty(TileProperty newProperty);
-	TileProperty getProperty() const;
+	void updateProperty(TileProperty::TileProperty newProperty);
+	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
 	District* getDistrict() const;
 	bool walkable() const;

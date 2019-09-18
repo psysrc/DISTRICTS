@@ -7,7 +7,7 @@
 
 Tile::Tile()
 : pDistrict(nullptr), xCoord(-1), yCoord(-1), pEntity(nullptr),
-  property(NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
+  property(TileProperty::NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
 
 }
 
@@ -55,7 +55,7 @@ void Tile::setNeighbourTiles(const std::vector<Tile*> neighbours) {
  * The Tile object must not be used if it has not been initialised correctly!
  */
 bool Tile::isInitialised() const {
-	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == NullProperty);
+	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == TileProperty::NullProperty);
 }
 
 int Tile::getX() const {
@@ -73,13 +73,13 @@ Tile* Tile::getNeighbourTile(int direction) const {
 	return neighbourTiles[direction];
 }
 
-void Tile::updateProperty(TileProperty newProperty) {
+void Tile::updateProperty(TileProperty::TileProperty newProperty) {
 	property = newProperty;
 
 	updateVisuals();
 }
 
-TileProperty Tile::getProperty() const {
+TileProperty::TileProperty Tile::getProperty() const {
 	return property;
 }
 
@@ -91,7 +91,7 @@ Entity* Tile::getEntity() const {
  * Returns whether or not this tile is walkable.
  */
 bool Tile::walkable() const {
-	if (property == Water)
+	if (property == TileProperty::Water)
 		return false;
 
 	if (occupied())
@@ -159,14 +159,17 @@ void Tile::updateVisuals() {
 		drawSymbol = ' ';
 
 	switch (property) {
-	case Plains:
+	case TileProperty::Plains:
 		drawColour = COLOUR_PLAINS;
 		break;
-	case Stone:
+	case TileProperty::Stone:
 		drawColour = COLOUR_STONE;
 		break;
-	case Water:
+	case TileProperty::Water:
 		drawColour = COLOUR_WATER;
+		break;
+	case TileProperty::Bridge:
+		drawColour = COLOUR_BRIDGE;
 		break;
 	default:
 		drawColour = COLOUR_UNKNOWN;
