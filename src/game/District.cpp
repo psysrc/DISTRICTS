@@ -81,20 +81,10 @@ District::District(const string name) : districtName(name) {
 					int treeChance = rand() % 100;
 
 					if (treeChance < 5) {	// 5% chance of growing a tree
-						if (!tiles[i][j].occupied()) {
-							Tree* newTree = makeEntity<Tree>();
-
-							tiles[i][j].occupy(newTree);
-							newTree->setTile(&tiles[i][j]);
-						}
+						makeEntity<Tree>(&tiles[i][j]);
 					}
 					else if (treeChance < 6) {	// 1% chance of growing a sapling
-						if (!tiles[i][j].occupied()) {
-							Sapling* newSapling = makeEntity<Sapling>();
-
-							tiles[i][j].occupy(newSapling);
-							newSapling->setTile(&tiles[i][j]);
-						}
+						makeEntity<Sapling>(&tiles[i][j]);
 					}
 				}
 			}

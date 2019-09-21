@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 #include "game/Constants.h"
+#include "game/Tile.h"
+#include "entities/Entity.h"
 
-class Tile;
 class Citizen;
-class Entity;
 
 namespace Tasks {
 class Task;
@@ -31,7 +31,7 @@ public:
 	void simulate();
 	Tasks::Task* getLatestTask() const;
 	Tasks::Task* getOldestTask() const;
-	template <class E> E* makeEntity();
+	template <class E> E* makeEntity(Tile*);
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
 	Tile** getTiles() const;
@@ -39,17 +39,24 @@ public:
 };
 
 /*
- * Creates a new Entity in the District.
- * Returns a pointer to the newly created Entity.
+ * Creates a new Entity in the District on a given Tile.
+ * Returns a pointer to the newly created Entity, or nullptr if the entity could not be created.
  */
 template <class E>
-E* District::makeEntity() {
+E* District::makeEntity(Tile* tile) {
 	static_assert(std::is_base_of<Entity, E>::value, "E must extend Entity");
+
+	if (tile->occupied())
+		return nullptr;
 
 	std::unique_ptr<E> upE = std::make_unique<E>(this);
 	E* pE = upE.get();
 
 	entitiesToAdd.push_back(std::move(upE));
+
+	Entity* tmp = pE;
+	tmp->setTile(tile);
+	tile->occupy(pE);
 
 	return pE;
 }

@@ -20,11 +20,8 @@ void Sapling::simulate() {
 	ticksToGrow--;
 
 	if (ticksToGrow <= 0) {
-		Tree* tree = pDistrict->makeEntity<Tree>();
-
 		pTile->vacateEntity();
-		pTile->occupy(tree);
-		tree->setTile(pTile);
+		pDistrict->makeEntity<Tree>(pTile);
 
 		deleteEntity();
 	}
