@@ -10,6 +10,8 @@ public:
 	Sapling(District*);
 	virtual ~Sapling();
 	virtual void simulate() override;
+private:
+	int ticksToGrow;
 };
 
 #endif /* SRC_SAPLING_H_ */

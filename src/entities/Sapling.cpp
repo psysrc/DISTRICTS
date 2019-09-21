@@ -5,8 +5,11 @@
 #include "tasks/CutDownTree.h"
 #include "entities/Tree.h"
 
-Sapling::Sapling(District* district) : Entity(district, "Tree Sapling", ',') {
+const int maxTicksToGrow = 90;	// 6 mins
+const int minTicksToGrow = 30;	// 2 mins
 
+Sapling::Sapling(District* district) : Entity(district, "Tree Sapling", ',') {
+	ticksToGrow = minTicksToGrow + (rand() % (maxTicksToGrow - minTicksToGrow + 1));
 }
 
 Sapling::~Sapling() {
@@ -14,7 +17,9 @@ Sapling::~Sapling() {
 }
 
 void Sapling::simulate() {
-	if (rand() % 100 < 1) {		// 1% chance of becoming a tree
+	ticksToGrow--;
+
+	if (ticksToGrow <= 0) {
 		Tree* tree = pDistrict->makeEntity<Tree>();
 
 		pTile->vacateEntity();
