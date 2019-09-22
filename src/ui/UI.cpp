@@ -53,8 +53,8 @@ bool UI::initialise() {
 	// Parameters are: row count (height), column count (width), row origin, column origin
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(8, DISTRICT_SIZE * 2, DISTRICT_SIZE + 1, 0);
-	districtNameWindow = newwin(5, 32, 0, (DISTRICT_SIZE * 2) + 2);
-	promptWindow = newwin(DISTRICT_SIZE - 5, 32, 5, (DISTRICT_SIZE * 2) + 2);
+	districtNameWindow = newwin(3, 32, 0, (DISTRICT_SIZE * 2) + 2);
+	promptWindow = newwin(DISTRICT_SIZE - 3, 32, 3, (DISTRICT_SIZE * 2) + 2);
 
 	// Make the map text brighter and bolder
 	wattron(mapWindow, A_BOLD);
@@ -69,7 +69,7 @@ bool UI::initialise() {
 
 	initialised = true;
 
-	UI::refresh();
+	UI::clearAll();
 
 	return true;
 }
@@ -168,7 +168,7 @@ void UI::refresh() {
  * Updates the UI with the name of the current district.
  */
 void UI::districtName(const std::string str) {
-	if (str == currentDistrict)
+	if (!initialised || str == currentDistrict)
 		return;
 
 	currentDistrict = str;
@@ -207,6 +207,9 @@ void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
  * Draws a single tile to its correct position in the map window.
  */
 void UI ::drawTile(Tile* tile) {
+	if (!initialised)
+		return;
+
 	drawGridPosition(tile->getX(), tile->getY(), tile->getDrawColour(), tile->getDrawSymbol());
 }
 
@@ -214,6 +217,9 @@ void UI ::drawTile(Tile* tile) {
  * Draws a colour and symbol to a particular grid position.
  */
 void UI::drawGridPosition(int row, int column, int colourPair, char symbol) {
+	if (!initialised)
+		return;
+
 	// Move the cursor to the correct position
 	wmove(mapWindow, row, column * 2);
 
@@ -256,17 +262,27 @@ void UI::pause() {
 	if (!initialised)
 		return;
 
+	wclear(promptWindow);
 
+	mvwaddstr(promptWindow, 1, 9, "- GAME PAUSED -");
+	mvwaddstr(promptWindow, 2, 4, "Press <SPACE> to unpause");
+
+	wrefresh(promptWindow);
 }
 
 /*
- * Updates the UI to hide unecessary information whilst the game is playing.
+ * Updates the UI to hide unnecessary information whilst the game is playing.
  */
 void UI::unpause() {
 	if (!initialised)
 		return;
 
+	wclear(promptWindow);
 
+	mvwaddstr(promptWindow, 1, 15, "/");
+	mvwaddstr(promptWindow, 2, 5, "Press <SPACE> to pause");
+
+	wrefresh(promptWindow);
 }
 
 /*

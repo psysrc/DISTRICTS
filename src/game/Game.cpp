@@ -57,10 +57,6 @@ void Game::play() {
 		return;						// Return if UI initialisation fails
 	}
 
-	unpause();	// Initialise the first thread to wait for the user pausing
-
-	bool playerQuitting = false;
-
 	const milliseconds gameTick(250);	// Time per game tick
 	milliseconds execStart;		// Time at the start of game tick
 	milliseconds execEnd;		// Time at the end of game tick
@@ -69,6 +65,12 @@ void Game::play() {
 	// execStart won't be calculated until the end of each pause, but each pause needs the execStart from the previous tick
 	// It therefore needs initialising here before the game loop starts
 	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+
+	UI::displayActivityMessage("Game started.");
+
+	unpause();	// Initialise the first thread to wait for the user pausing
+
+	bool playerQuitting = false;
 
 	// Game loop
 	while (!gameIsOver && !playerQuitting) {
@@ -144,8 +146,6 @@ void Game::pause() {
 void Game::unpause() {
 	gameIsPaused = false;
 
-	UI::unpause();
-
 	// Set the thread's attribute to be detached
 	pthread_attr_t pauseThreadAttr;
 	pthread_attr_init(&pauseThreadAttr);
@@ -157,6 +157,8 @@ void Game::unpause() {
 
 	// Destroy attribute resources
 	pthread_attr_destroy(&pauseThreadAttr);
+
+	UI::unpause();
 }
 
 /*
