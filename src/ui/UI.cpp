@@ -8,9 +8,10 @@
 
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
-WINDOW* UI::debugWindow;
-WINDOW* UI::pauseWindow;
+WINDOW* UI::districtNameWindow;
+WINDOW* UI::promptWindow;
 bool UI::initialised = false;
+std::string UI::currentDistrict = "";
 
 using std::cout;
 using std::endl;
@@ -49,26 +50,26 @@ bool UI::initialise() {
 	init_pair(COLOUR_BRIDGE, COLOR_YELLOW, COLOR_YELLOW);
 
 	// Define the windows in the terminal
+	// Parameters are: row count (height), column count (width), row origin, column origin
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(8, DISTRICT_SIZE * 2, DISTRICT_SIZE + 1, 0);
-	debugWindow = newwin(DISTRICT_SIZE, 30, 0, (DISTRICT_SIZE * 2) + 4);
-	pauseWindow = newwin(8, 30, DISTRICT_SIZE + 1, (DISTRICT_SIZE * 2) + 4);
+	districtNameWindow = newwin(5, 32, 0, (DISTRICT_SIZE * 2) + 2);
+	promptWindow = newwin(DISTRICT_SIZE - 5, 32, 5, (DISTRICT_SIZE * 2) + 2);
 
 	// Make the map text brighter and bolder
 	wattron(mapWindow, A_BOLD);
 
 	// Make the activity and debug windows automatically scroll up after writing to the bottom row
 	scrollok(activityWindow, TRUE);
-	scrollok(debugWindow, TRUE);
 
 	curs_set(0);	// Set the cursor to invisible
 	noecho();		// User-pressed keys are not output to the terminal
 	cbreak();		// No input buffer - a key press is immediately returned to the program
 	keypad(stdscr, true);	// Allows use of the arrow keys
 
-	UI::refresh();
-
 	initialised = true;
+
+	UI::refresh();
 
 	return true;
 }
@@ -85,8 +86,8 @@ void UI::terminate() {
 	// Delete the windows that were in use
 	delwin(mapWindow);
 	delwin(activityWindow);
-	delwin(debugWindow);
-	delwin(pauseWindow);
+	delwin(districtNameWindow);
+	delwin(promptWindow);
 
 	endwin();	// End of ncurses activity
 
@@ -102,8 +103,8 @@ void UI::clearAll() {
 
 	wclear(mapWindow);
 	wclear(activityWindow);
-	wclear(debugWindow);
-	wclear(pauseWindow);
+	wclear(districtNameWindow);
+	wclear(promptWindow);
 
 	refresh();
 }
@@ -142,16 +143,7 @@ void UI::displayDebugMessage(std::string str) {
  * Prints a string to the Debug window.
  */
 void UI::displayDebugMessage(const char* str) {
-	if (initialised) {
-		wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
-		waddstr(debugWindow, str);					// Print the line
-		waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
-
-		wrefresh(debugWindow);
-	}
-	else {
-		cout << "DEBUG: " << str << endl;
-	}
+	displayActivityMessage(str);
 }
 
 /*
@@ -165,19 +157,39 @@ void UI::refresh() {
 	// Refresh all windows to the virtual screen
 	wnoutrefresh(mapWindow);
 	wnoutrefresh(activityWindow);
-	wnoutrefresh(debugWindow);
-	wnoutrefresh(pauseWindow);
+	wnoutrefresh(districtNameWindow);
+	wnoutrefresh(promptWindow);
 
 	// Refresh the physical screen from the virtual screen
 	doupdate();
 }
 
 /*
- * Draws the given district to the UI.
+ * Updates the UI with the name of the current district.
+ */
+void UI::districtName(const std::string str) {
+	if (str == currentDistrict)
+		return;
+
+	currentDistrict = str;
+
+	std::string text = "District " + str;
+
+	mvwaddstr(districtNameWindow, 0, 0, "--------------------------------");
+	mvwaddstr(districtNameWindow, 1, 0, text.c_str());
+	mvwaddstr(districtNameWindow, 2, 0, "--------------------------------");
+
+	wrefresh(districtNameWindow);
+}
+
+/*
+ * Draws the given district to the UI and updates the current district name.
  */
 void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
 	if (!initialised)
 		return;
+
+	districtName(upDistrict->getName());
 
 	Tile** districtTiles = upDistrict->getTiles();
 
@@ -238,22 +250,23 @@ void UI::badMenuSelection() {
 }
 
 /*
- * Shows or hides the text indicating that the game is currently paused.
+ * Updates the UI to display information to the player whilst the game is paused.
  */
-void UI::pause(bool enable) {
+void UI::pause() {
 	if (!initialised)
 		return;
 
-	if (enable) {
-		mvwaddstr(pauseWindow, 1, 8, "-------------");
-		mvwaddstr(pauseWindow, 2, 8, " GAME PAUSED ");
-		mvwaddstr(pauseWindow, 3, 8, "-------------");
-	}
-	else {
-		wclear(pauseWindow);
-	}
 
-	wrefresh(pauseWindow);
+}
+
+/*
+ * Updates the UI to hide unecessary information whilst the game is playing.
+ */
+void UI::unpause() {
+	if (!initialised)
+		return;
+
+
 }
 
 /*

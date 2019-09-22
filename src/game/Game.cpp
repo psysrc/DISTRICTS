@@ -54,7 +54,7 @@ void* waitForPause(void* args) {
 void Game::play() {
 	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
 		std::cout << "Could not load game due to a user interface error." << std::endl;
-		return;								// Return if UI initialisation fails
+		return;						// Return if UI initialisation fails
 	}
 
 	unpause();	// Initialise the first thread to wait for the user pausing
@@ -134,7 +134,7 @@ bool Game::handleCommands() {
 void Game::pause() {
 	gameIsPaused = true;
 
-	UI::pause(true);
+	UI::pause();
 }
 
 /*
@@ -144,7 +144,7 @@ void Game::pause() {
 void Game::unpause() {
 	gameIsPaused = false;
 
-	UI::pause(false);
+	UI::unpause();
 
 	// Set the thread's attribute to be detached
 	pthread_attr_t pauseThreadAttr;
