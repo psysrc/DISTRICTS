@@ -52,11 +52,6 @@ void* waitForPause(void* args) {
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
-	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
-		std::cout << "Could not load game due to a user interface error." << std::endl;
-		return;						// Return if UI initialisation fails
-	}
-
 	const milliseconds gameTick(250);	// Time per game tick
 	milliseconds execStart;		// Time at the start of game tick
 	milliseconds execEnd;		// Time at the end of game tick
@@ -66,9 +61,16 @@ void Game::play() {
 	// It therefore needs initialising here before the game loop starts
 	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
+	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
+		std::cout << "Could not load game due to a user interface error." << std::endl;
+		return;						// Return if UI initialisation fails
+	}
+
 	UI::displayActivityMessage("Game started.");
 
-	unpause();	// Initialise the first thread to wait for the user pausing
+	pause();	// Pause the game to start with
+
+	UI::drawDistrict(upDistrict);	// Draw the district for the first time
 
 	bool playerQuitting = false;
 

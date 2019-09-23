@@ -27,6 +27,9 @@ bool UI::initialise() {
 	// Prepare the terminal window for ncurses-style output
 	initscr();
 
+	wclear(stdscr);
+	wrefresh(stdscr);
+
 	// Check that the terminal supports colours
 	if (!has_colors()) {
 		endwin();
@@ -68,8 +71,6 @@ bool UI::initialise() {
 	keypad(stdscr, true);	// Allows use of the arrow keys
 
 	initialised = true;
-
-	UI::clearAll();
 
 	return true;
 }
@@ -289,6 +290,9 @@ void UI::unpause() {
  * Wait for a command from the player.
  */
 PlayerCommand::PlayerCommand UI::getPlayerCommand() {
+	if (!initialised)
+		return PlayerCommand::NullCommand;
+
 	char key = getch();
 
 	if (key <= 90 && key >= 65)		// If command is a capital letter (A-Z)
