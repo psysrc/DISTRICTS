@@ -3,11 +3,12 @@
 #include <chrono>				// system_clock::
 #include "game/District.h"
 #include "game/Constants.h"
-#include "game/PlayerCommand.h"
+#include "commands/PlayerCommand.h"
 #include <iostream>
 #include <thread>				// sleep_for(), pthread_*
 #include "ui/UI.h"
-#include "game/CommandHandler.h"
+#include "commands/PauseToggle.h"
+#include "commands/Quit.h"
 
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -36,12 +37,15 @@ Game::~Game() {
 void* waitForPause(void* args) {
 	Game* pGame = static_cast<Game*>(args);
 
-	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
+	Cmds::PlayerCommand* pCommand = nullptr;
 
-	do {
-		command = UI::getPlayerCommand();		// Wait for user to press a key
+	while(true) {
+		pCommand = UI::getPlayerCommand();		// Wait for user to press a key
+
+		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != NULL) {
+			break;	// Break from while loop when the command is pause toggle
+		}
 	}
-	while (command != PlayerCommand::PauseToggle);
 
 	pGame->pause();	// Pause the game when the user presses the Pause key
 
@@ -117,17 +121,19 @@ void Game::play() {
  * Returns whether or not the user wants to quit.
  */
 bool Game::handleCommands() {
-	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
+	Cmds::PlayerCommand* pCommand = nullptr;
 
 	while (true) {
-		command = UI::getPlayerCommand();
+		pCommand = UI::getPlayerCommand();
 
-		if (command == PlayerCommand::PauseToggle)
-			return false;	// Tell the game loop to unpause and continue
-		else if (command == PlayerCommand::Quit)
-			return true;	// Tell the game loop to quit
+		// First need to check if the user is quitting or unpausing
+		// If so, exit the handle commands function with the appropriate return value
+		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != NULL)
+			return false;
+		else if (dynamic_cast<Cmds::Quit*>(pCommand) != NULL)
+			return true;
 		else
-			CommandHandler::handle(upDistrict.get(), command);
+			pCommand->execute(upDistrict.get());
 	}
 }
 

@@ -13,6 +13,7 @@ RM := rm -rf
 -include src/pathfinding/subdir.mk
 -include src/game/subdir.mk
 -include src/entities/subdir.mk
+-include src/commands/subdir.mk
 -include subdir.mk
 -include objects.mk
 

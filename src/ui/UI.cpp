@@ -4,7 +4,10 @@
 #include "game/Constants.h"
 #include "game/Tile.h"
 #include "game/District.h"
-#include "ui/CommandMappings.h"
+#include "commands/Quit.h"
+#include "commands/PauseToggle.h"
+#include "commands/CutDownTrees.h"
+#include "commands/BuildBridge.h"
 
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
@@ -12,9 +15,12 @@ WINDOW* UI::districtNameWindow;
 WINDOW* UI::promptWindow;
 bool UI::initialised = false;
 std::string UI::currentDistrict;
+std::unordered_map<char, Cmds::PlayerCommand*> UI::commandKeyMap;
 
 using std::cout;
 using std::endl;
+
+typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
 
 /*
  * Initialises the UI in the terminal ready for a game to be displayed.
@@ -72,9 +78,22 @@ bool UI::initialise() {
 
 	currentDistrict = "";
 
+	initialiseCommandMappings();
+
 	initialised = true;
 
 	return true;
+}
+
+/*
+ * Initialises the mappings between player key presses and player commands.
+ */
+void UI::initialiseCommandMappings() {
+	commandKeyMap.insert(KeyCommand('q', new Cmds::Quit));
+	commandKeyMap.insert(KeyCommand(' ', new Cmds::PauseToggle));
+
+	commandKeyMap.insert(KeyCommand('a', new Cmds::CutDownTrees));
+	commandKeyMap.insert(KeyCommand('b', new Cmds::BuildBridge));
 }
 
 /*
@@ -93,6 +112,13 @@ void UI::terminate() {
 	delwin(promptWindow);
 
 	endwin();	// End of ncurses activity
+
+	// Ensure command mappings are destroyed safely
+	for (KeyCommand kc : commandKeyMap) {
+		delete kc.second;
+	}
+
+	commandKeyMap.clear();
 
 	initialised = false;
 }
@@ -291,26 +317,21 @@ void UI::unpause() {
 /*
  * Wait for a command from the player.
  */
-PlayerCommand::PlayerCommand UI::getPlayerCommand() {
+Cmds::PlayerCommand* UI::getPlayerCommand() {
 	if (!initialised)
-		return PlayerCommand::NullCommand;
+		return nullptr;
 
-	char key = getch();
+	char key = getch();		// Get the key from the player
 
 	if (key <= 90 && key >= 65)		// If command is a capital letter (A-Z)
 		key += 32;					// Change to its lowercase letter (a-z)
 
-	switch (key) {
-	case CommandMappings::CommandMappings::PauseToggle:
-		return PlayerCommand::PauseToggle;
-	case CommandMappings::CommandMappings::Quit:
-		return PlayerCommand::Quit;
-	case CommandMappings::CommandMappings::CutDownTrees:
-		return PlayerCommand::CutDownTrees;
-	case CommandMappings::CommandMappings::BuildBridge:
-		return PlayerCommand::BuildBridge;
-	default:
-		return PlayerCommand::NullCommand;
+	auto found = commandKeyMap.find(key);	// Find the pressed key in the command mappings
+
+	if (found != commandKeyMap.end()) {		// If found
+		return found->second;				// Return the command
+	} else {
+		return nullptr;						// Otherwise return nullptr
 	}
 }
 

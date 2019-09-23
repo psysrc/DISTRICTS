@@ -4,7 +4,8 @@
 #include <string>
 #include <memory>
 #include <ncurses.h>
-#include "game/PlayerCommand.h"
+#include "commands/PlayerCommand.h"
+#include <unordered_map>
 
 class District;
 class Tile;
@@ -17,6 +18,9 @@ private:
 	static WINDOW* promptWindow;
 	static bool initialised;
 	static std::string currentDistrict;
+	static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap;
+
+	static void initialiseCommandMappings();
 public:
 	UI() = delete;
 	~UI() = delete;
@@ -36,7 +40,7 @@ public:
 	static void badMenuSelection();
 	static void pause();
 	static void unpause();
-	static PlayerCommand::PlayerCommand getPlayerCommand();
+	static Cmds::PlayerCommand* getPlayerCommand();
 	static Tile* selectTile(District*);
 };
 
