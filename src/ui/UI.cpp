@@ -11,7 +11,7 @@ WINDOW* UI::activityWindow;
 WINDOW* UI::districtNameWindow;
 WINDOW* UI::promptWindow;
 bool UI::initialised = false;
-std::string UI::currentDistrict = "";
+std::string UI::currentDistrict;
 
 using std::cout;
 using std::endl;
@@ -69,6 +69,8 @@ bool UI::initialise() {
 	noecho();		// User-pressed keys are not output to the terminal
 	cbreak();		// No input buffer - a key press is immediately returned to the program
 	keypad(stdscr, true);	// Allows use of the arrow keys
+
+	currentDistrict = "";
 
 	initialised = true;
 
