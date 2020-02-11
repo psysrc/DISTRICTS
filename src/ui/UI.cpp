@@ -16,6 +16,7 @@ WINDOW* UI::promptWindow;
 bool UI::initialised = false;
 std::string UI::currentDistrict;
 std::unordered_map<char, Cmds::PlayerCommand*> UI::commandKeyMap;
+int UI::playSpinIndex = 0;
 
 using std::cout;
 using std::endl;
@@ -212,6 +213,21 @@ void UI::districtName(const std::string str) {
 }
 
 /*
+ * Display and rotate the play spinner while the game is unpaused.
+ */
+void UI::rotatePlaySpinner() {
+	static const char playSpinSprites[4] = {'\\', '|', '/', '-'};
+
+	playSpinIndex++;
+
+	if (playSpinIndex >= 4)
+		playSpinIndex = 0;
+
+	mvwaddch(promptWindow, 1, 15, playSpinSprites[playSpinIndex]);
+	wrefresh(promptWindow);
+}
+
+/*
  * Draws the given district to the UI and updates the current district name.
  */
 void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
@@ -308,7 +324,6 @@ void UI::unpause() {
 
 	wclear(promptWindow);
 
-	mvwaddstr(promptWindow, 1, 15, "/");
 	mvwaddstr(promptWindow, 2, 5, "Press <SPACE> to pause");
 
 	wrefresh(promptWindow);

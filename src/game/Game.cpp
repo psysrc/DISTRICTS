@@ -109,6 +109,7 @@ void Game::play() {
 			upDistrict->simulate();	// Simulate a game tick
 
 			UI::drawDistrict(upDistrict);		// Draw the district
+			UI::rotatePlaySpinner();
 		}
 	}
 

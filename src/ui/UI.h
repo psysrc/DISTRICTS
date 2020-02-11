@@ -19,6 +19,7 @@ private:
 	static bool initialised;
 	static std::string currentDistrict;
 	static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap;
+	static int playSpinIndex;
 
 	static void initialiseCommandMappings();
 public:
@@ -42,6 +43,7 @@ public:
 	static void unpause();
 	static Cmds::PlayerCommand* getPlayerCommand();
 	static Tile* selectTile(District*);
+	static void rotatePlaySpinner();
 };
 
 #endif /* SRC_UI_H_ */
