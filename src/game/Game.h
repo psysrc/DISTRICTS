@@ -2,7 +2,6 @@
 #define GAME_H_
 
 #include <memory>
-#include <thread>
 
 class District;
 
