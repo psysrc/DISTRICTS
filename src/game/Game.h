@@ -2,7 +2,7 @@
 #define GAME_H_
 
 #include <memory>
-#include <thread>	// pthread_t
+#include <thread>
 
 class District;
 
@@ -11,9 +11,9 @@ private:
 	bool gameIsOver;
 	bool gameIsPaused;
 	std::unique_ptr<District> upDistrict;
-	std::unique_ptr<pthread_t> upPauseThread;
 
 	void unpause();
+	void waitForPause();
 public:
 	Game();
 	~Game();

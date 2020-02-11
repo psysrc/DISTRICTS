@@ -1,15 +1,14 @@
 #include "Game.h"
 
-#include <chrono>				// system_clock::
+#include <chrono>
 #include "game/District.h"
 #include "game/Constants.h"
 #include "game/PlayerCommand.h"
 #include <iostream>
-#include <thread>				// sleep_for(), pthread_*
+#include <thread>				// sleep_for(), std::thread
 #include "ui/UI.h"
 #include "game/CommandHandler.h"
 
-using namespace std::this_thread;
 using namespace std::chrono;
 
 Game::Game() {
@@ -31,11 +30,8 @@ Game::~Game() {
 
 /*
  * This method runs in a separate thread to detect the user pausing the game.
- *
  */
-void* waitForPause(void* args) {
-	Game* pGame = static_cast<Game*>(args);
-
+void Game::waitForPause() {
 	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
 
 	do {
@@ -43,9 +39,7 @@ void* waitForPause(void* args) {
 	}
 	while (command != PlayerCommand::PauseToggle);
 
-	pGame->pause();	// Pause the game when the user presses the Pause key
-
-	return NULL;
+	pause();	// Pause the game when the user presses the Pause key
 }
 
 /*
@@ -79,7 +73,7 @@ void Game::play() {
 		execDuration = execEnd - execStart;
 
 		// Sleep long enough so that the next game tick starts after the expected delay
-		sleep_for(gameTick - execDuration);
+		std::this_thread::sleep_for(gameTick - execDuration);
 
 		if (gameIsPaused) {
 			// Get further user input (wait for it here)
@@ -146,17 +140,7 @@ void Game::unpause() {
 
 	UI::pause(false);
 
-	// Set the thread's attribute to be detached
-	pthread_attr_t pauseThreadAttr;
-	pthread_attr_init(&pauseThreadAttr);
-	pthread_attr_setdetachstate(&pauseThreadAttr, PTHREAD_CREATE_DETACHED);
-
-	// Create the thread
-	upPauseThread = std::make_unique<pthread_t>();
-	pthread_create(upPauseThread.get(), &pauseThreadAttr, waitForPause, (void*) this);
-
-	// Destroy attribute resources
-	pthread_attr_destroy(&pauseThreadAttr);
+	std::thread(&Game::waitForPause, this).detach();
 }
 
 /*
@@ -165,7 +149,7 @@ void Game::unpause() {
 void Game::gameOver() const {
 	UI::displayActivityMessage("Game Over.");
 
-	sleep_for(seconds(1));
+	std::this_thread::sleep_for(seconds(1));
 
 	UI::terminate();
 }
