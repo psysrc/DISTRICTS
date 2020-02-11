@@ -3,11 +3,12 @@
 #include <chrono>
 #include "game/District.h"
 #include "game/Constants.h"
-#include "game/PlayerCommand.h"
+#include "commands/PlayerCommand.h"
 #include <iostream>
 #include <thread>				// sleep_for(), std::thread
 #include "ui/UI.h"
-#include "game/CommandHandler.h"
+#include "commands/PauseToggle.h"
+#include "commands/Quit.h"
 
 using namespace std::chrono;
 
@@ -32,12 +33,15 @@ Game::~Game() {
  * This method runs in a separate thread to detect the user pausing the game.
  */
 void Game::waitForPause() {
-	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
+	Cmds::PlayerCommand* pCommand = nullptr;
 
-	do {
-		command = UI::getPlayerCommand();		// Wait for user to press a key
+	while(true) {
+		pCommand = UI::getPlayerCommand();		// Wait for user to press a key
+
+		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != NULL) {
+			break;	// Break from while loop when the command is pause toggle
+		}
 	}
-	while (command != PlayerCommand::PauseToggle);
 
 	pause();	// Pause the game when the user presses the Pause key
 }
@@ -46,15 +50,6 @@ void Game::waitForPause() {
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
-	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
-		std::cout << "Could not load game due to a user interface error." << std::endl;
-		return;								// Return if UI initialisation fails
-	}
-
-	unpause();	// Initialise the first thread to wait for the user pausing
-
-	bool playerQuitting = false;
-
 	const milliseconds gameTick(250);	// Time per game tick
 	milliseconds execStart;		// Time at the start of game tick
 	milliseconds execEnd;		// Time at the end of game tick
@@ -63,6 +58,19 @@ void Game::play() {
 	// execStart won't be calculated until the end of each pause, but each pause needs the execStart from the previous tick
 	// It therefore needs initialising here before the game loop starts
 	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+
+	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
+		std::cout << "Could not load game due to a user interface error." << std::endl;
+		return;						// Return if UI initialisation fails
+	}
+
+	UI::displayActivityMessage("Game started.");
+
+	pause();	// Pause the game to start with
+
+	UI::drawDistrict(upDistrict);	// Draw the district for the first time
+
+	bool playerQuitting = false;
 
 	// Game loop
 	while (!gameIsOver && !playerQuitting) {
@@ -95,6 +103,7 @@ void Game::play() {
 			upDistrict->simulate();	// Simulate a game tick
 
 			UI::drawDistrict(upDistrict);		// Draw the district
+			UI::rotatePlaySpinner();
 		}
 	}
 
@@ -107,17 +116,19 @@ void Game::play() {
  * Returns whether or not the user wants to quit.
  */
 bool Game::handleCommands() {
-	PlayerCommand::PlayerCommand command = PlayerCommand::NullCommand;
+	Cmds::PlayerCommand* pCommand = nullptr;
 
 	while (true) {
-		command = UI::getPlayerCommand();
+		pCommand = UI::getPlayerCommand();
 
-		if (command == PlayerCommand::PauseToggle)
-			return false;	// Tell the game loop to unpause and continue
-		else if (command == PlayerCommand::Quit)
-			return true;	// Tell the game loop to quit
+		// First need to check if the user is quitting or unpausing
+		// If so, exit the handle commands function with the appropriate return value
+		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != NULL)
+			return false;
+		else if (dynamic_cast<Cmds::Quit*>(pCommand) != NULL)
+			return true;
 		else
-			CommandHandler::handle(upDistrict.get(), command);
+			pCommand->execute(upDistrict.get());
 	}
 }
 
@@ -128,7 +139,7 @@ bool Game::handleCommands() {
 void Game::pause() {
 	gameIsPaused = true;
 
-	UI::pause(true);
+	UI::pause();
 }
 
 /*
@@ -138,7 +149,7 @@ void Game::pause() {
 void Game::unpause() {
 	gameIsPaused = false;
 
-	UI::pause(false);
+	UI::unpause();
 
 	std::thread(&Game::waitForPause, this).detach();
 }

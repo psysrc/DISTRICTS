@@ -4,16 +4,24 @@
 #include "game/Constants.h"
 #include "game/Tile.h"
 #include "game/District.h"
-#include "ui/CommandMappings.h"
+#include "commands/Quit.h"
+#include "commands/PauseToggle.h"
+#include "commands/CutDownTrees.h"
+#include "commands/BuildBridge.h"
 
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
-WINDOW* UI::debugWindow;
-WINDOW* UI::pauseWindow;
+WINDOW* UI::districtNameWindow;
+WINDOW* UI::promptWindow;
 bool UI::initialised = false;
+std::string UI::currentDistrict;
+std::unordered_map<char, Cmds::PlayerCommand*> UI::commandKeyMap;
+int UI::playSpinIndex = 0;
 
 using std::cout;
 using std::endl;
+
+typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
 
 /*
  * Initialises the UI in the terminal ready for a game to be displayed.
@@ -25,6 +33,9 @@ bool UI::initialise() {
 
 	// Prepare the terminal window for ncurses-style output
 	initscr();
+
+	wclear(stdscr);
+	wrefresh(stdscr);
 
 	// Check that the terminal supports colours
 	if (!has_colors()) {
@@ -49,28 +60,41 @@ bool UI::initialise() {
 	init_pair(COLOUR_BRIDGE, COLOR_YELLOW, COLOR_YELLOW);
 
 	// Define the windows in the terminal
+	// Parameters are: row count (height), column count (width), row origin, column origin
 	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
 	activityWindow = newwin(8, DISTRICT_SIZE * 2, DISTRICT_SIZE + 1, 0);
-	debugWindow = newwin(DISTRICT_SIZE, 30, 0, (DISTRICT_SIZE * 2) + 4);
-	pauseWindow = newwin(8, 30, DISTRICT_SIZE + 1, (DISTRICT_SIZE * 2) + 4);
+	districtNameWindow = newwin(3, 32, 0, (DISTRICT_SIZE * 2) + 2);
+	promptWindow = newwin(DISTRICT_SIZE - 3, 32, 3, (DISTRICT_SIZE * 2) + 2);
 
 	// Make the map text brighter and bolder
 	wattron(mapWindow, A_BOLD);
 
 	// Make the activity and debug windows automatically scroll up after writing to the bottom row
 	scrollok(activityWindow, TRUE);
-	scrollok(debugWindow, TRUE);
 
 	curs_set(0);	// Set the cursor to invisible
 	noecho();		// User-pressed keys are not output to the terminal
 	cbreak();		// No input buffer - a key press is immediately returned to the program
 	keypad(stdscr, true);	// Allows use of the arrow keys
 
-	UI::refresh();
+	currentDistrict = "";
+
+	initialiseCommandMappings();
 
 	initialised = true;
 
 	return true;
+}
+
+/*
+ * Initialises the mappings between player key presses and player commands.
+ */
+void UI::initialiseCommandMappings() {
+	commandKeyMap.insert(KeyCommand('q', new Cmds::Quit));
+	commandKeyMap.insert(KeyCommand(' ', new Cmds::PauseToggle));
+
+	commandKeyMap.insert(KeyCommand('a', new Cmds::CutDownTrees));
+	commandKeyMap.insert(KeyCommand('b', new Cmds::BuildBridge));
 }
 
 /*
@@ -85,10 +109,17 @@ void UI::terminate() {
 	// Delete the windows that were in use
 	delwin(mapWindow);
 	delwin(activityWindow);
-	delwin(debugWindow);
-	delwin(pauseWindow);
+	delwin(districtNameWindow);
+	delwin(promptWindow);
 
 	endwin();	// End of ncurses activity
+
+	// Ensure command mappings are destroyed safely
+	for (KeyCommand kc : commandKeyMap) {
+		delete kc.second;
+	}
+
+	commandKeyMap.clear();
 
 	initialised = false;
 }
@@ -102,8 +133,8 @@ void UI::clearAll() {
 
 	wclear(mapWindow);
 	wclear(activityWindow);
-	wclear(debugWindow);
-	wclear(pauseWindow);
+	wclear(districtNameWindow);
+	wclear(promptWindow);
 
 	refresh();
 }
@@ -142,16 +173,7 @@ void UI::displayDebugMessage(std::string str) {
  * Prints a string to the Debug window.
  */
 void UI::displayDebugMessage(const char* str) {
-	if (initialised) {
-		wmove(debugWindow, debugWindow->_maxy, 0);	// Move to the bottom line of the window
-		waddstr(debugWindow, str);					// Print the line
-		waddstr(debugWindow, "\n");					// Carriage return to scroll the window up
-
-		wrefresh(debugWindow);
-	}
-	else {
-		cout << "DEBUG: " << str << endl;
-	}
+	displayActivityMessage(str);
 }
 
 /*
@@ -165,19 +187,54 @@ void UI::refresh() {
 	// Refresh all windows to the virtual screen
 	wnoutrefresh(mapWindow);
 	wnoutrefresh(activityWindow);
-	wnoutrefresh(debugWindow);
-	wnoutrefresh(pauseWindow);
+	wnoutrefresh(districtNameWindow);
+	wnoutrefresh(promptWindow);
 
 	// Refresh the physical screen from the virtual screen
 	doupdate();
 }
 
 /*
- * Draws the given district to the UI.
+ * Updates the UI with the name of the current district.
+ */
+void UI::districtName(const std::string str) {
+	if (!initialised || str == currentDistrict)
+		return;
+
+	currentDistrict = str;
+
+	std::string text = "District " + str;
+
+	mvwaddstr(districtNameWindow, 0, 0, "--------------------------------");
+	mvwaddstr(districtNameWindow, 1, 0, text.c_str());
+	mvwaddstr(districtNameWindow, 2, 0, "--------------------------------");
+
+	wrefresh(districtNameWindow);
+}
+
+/*
+ * Display and rotate the play spinner while the game is unpaused.
+ */
+void UI::rotatePlaySpinner() {
+	static const char playSpinSprites[4] = {'\\', '|', '/', '-'};
+
+	playSpinIndex++;
+
+	if (playSpinIndex >= 4)
+		playSpinIndex = 0;
+
+	mvwaddch(promptWindow, 1, 15, playSpinSprites[playSpinIndex]);
+	wrefresh(promptWindow);
+}
+
+/*
+ * Draws the given district to the UI and updates the current district name.
  */
 void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
 	if (!initialised)
 		return;
+
+	districtName(upDistrict->getName());
 
 	Tile** districtTiles = upDistrict->getTiles();
 
@@ -195,6 +252,9 @@ void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
  * Draws a single tile to its correct position in the map window.
  */
 void UI ::drawTile(Tile* tile) {
+	if (!initialised)
+		return;
+
 	drawGridPosition(tile->getX(), tile->getY(), tile->getDrawColour(), tile->getDrawSymbol());
 }
 
@@ -202,6 +262,9 @@ void UI ::drawTile(Tile* tile) {
  * Draws a colour and symbol to a particular grid position.
  */
 void UI::drawGridPosition(int row, int column, int colourPair, char symbol) {
+	if (!initialised)
+		return;
+
 	// Move the cursor to the correct position
 	wmove(mapWindow, row, column * 2);
 
@@ -238,44 +301,52 @@ void UI::badMenuSelection() {
 }
 
 /*
- * Shows or hides the text indicating that the game is currently paused.
+ * Updates the UI to display information to the player whilst the game is paused.
  */
-void UI::pause(bool enable) {
+void UI::pause() {
 	if (!initialised)
 		return;
 
-	if (enable) {
-		mvwaddstr(pauseWindow, 1, 8, "-------------");
-		mvwaddstr(pauseWindow, 2, 8, " GAME PAUSED ");
-		mvwaddstr(pauseWindow, 3, 8, "-------------");
-	}
-	else {
-		wclear(pauseWindow);
-	}
+	wclear(promptWindow);
 
-	wrefresh(pauseWindow);
+	mvwaddstr(promptWindow, 1, 9, "- GAME PAUSED -");
+	mvwaddstr(promptWindow, 2, 4, "Press <SPACE> to unpause");
+
+	wrefresh(promptWindow);
+}
+
+/*
+ * Updates the UI to hide unnecessary information whilst the game is playing.
+ */
+void UI::unpause() {
+	if (!initialised)
+		return;
+
+	wclear(promptWindow);
+
+	mvwaddstr(promptWindow, 2, 5, "Press <SPACE> to pause");
+
+	wrefresh(promptWindow);
 }
 
 /*
  * Wait for a command from the player.
  */
-PlayerCommand::PlayerCommand UI::getPlayerCommand() {
-	char key = getch();
+Cmds::PlayerCommand* UI::getPlayerCommand() {
+	if (!initialised)
+		return nullptr;
+
+	char key = getch();		// Get the key from the player
 
 	if (key <= 90 && key >= 65)		// If command is a capital letter (A-Z)
 		key += 32;					// Change to its lowercase letter (a-z)
 
-	switch (key) {
-	case CommandMappings::CommandMappings::PauseToggle:
-		return PlayerCommand::PauseToggle;
-	case CommandMappings::CommandMappings::Quit:
-		return PlayerCommand::Quit;
-	case CommandMappings::CommandMappings::CutDownTrees:
-		return PlayerCommand::CutDownTrees;
-	case CommandMappings::CommandMappings::BuildBridge:
-		return PlayerCommand::BuildBridge;
-	default:
-		return PlayerCommand::NullCommand;
+	auto found = commandKeyMap.find(key);	// Find the pressed key in the command mappings
+
+	if (found != commandKeyMap.end()) {		// If found
+		return found->second;				// Return the command
+	} else {
+		return nullptr;						// Otherwise return nullptr
 	}
 }
 
