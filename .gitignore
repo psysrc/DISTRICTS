@@ -31,6 +31,6 @@
 *.out
 *.app
 
-# DISTRICT-Specific Executable
-Debug/DISTRICTS
+# DISTRICT-Specific Debug Files
+Debug/*
 
