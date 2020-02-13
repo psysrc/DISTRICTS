@@ -8,6 +8,7 @@
 #include "commands/PauseToggle.h"
 #include "commands/CutDownTrees.h"
 #include "commands/BuildBridge.h"
+#include <sstream>
 
 WINDOW* UI::mapWindow;
 WINDOW* UI::activityWindow;
@@ -311,6 +312,24 @@ void UI::pause() {
 
 	mvwaddstr(promptWindow, 1, 9, "- GAME PAUSED -");
 	mvwaddstr(promptWindow, 2, 4, "Press <SPACE> to unpause");
+
+	mvwaddstr(promptWindow, 5, 0, "Available commands:");
+	mvwaddstr(promptWindow, 6, 0, "~~~~~~~~~~~~~~~~~~~");
+
+	int row = 7;
+
+	for (KeyCommand kc : commandKeyMap)
+	{
+		if (dynamic_cast<Cmds::PauseToggle*>(kc.second) != nullptr)	// Skip the pause command
+			continue;
+
+		std::stringstream ss;
+		ss << kc.first << " : " << kc.second->getDescription();
+
+		mvwaddstr(promptWindow, row, 1, ss.str().c_str());
+
+		row++;
+	}
 
 	wrefresh(promptWindow);
 }
