@@ -127,7 +127,7 @@ bool Game::handleCommands() {
 			return false;
 		else if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
 			return true;
-		else
+		else if (pCommand != nullptr)
 			pCommand->execute(upDistrict.get());
 	}
 }
