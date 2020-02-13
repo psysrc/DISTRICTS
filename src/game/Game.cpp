@@ -38,7 +38,7 @@ void Game::waitForPause() {
 	while(true) {
 		pCommand = UI::getPlayerCommand();		// Wait for user to press a key
 
-		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != NULL) {
+		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr) {
 			break;	// Break from while loop when the command is pause toggle
 		}
 	}
@@ -123,9 +123,9 @@ bool Game::handleCommands() {
 
 		// First need to check if the user is quitting or unpausing
 		// If so, exit the handle commands function with the appropriate return value
-		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != NULL)
+		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr)
 			return false;
-		else if (dynamic_cast<Cmds::Quit*>(pCommand) != NULL)
+		else if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
 			return true;
 		else
 			pCommand->execute(upDistrict.get());
