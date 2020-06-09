@@ -16,13 +16,19 @@ WINDOW* UI::districtNameWindow;
 WINDOW* UI::promptWindow;
 bool UI::initialised = false;
 std::string UI::currentDistrict;
-std::unordered_map<char, Cmds::PlayerCommand*> UI::commandKeyMap;
 int UI::playSpinIndex = 0;
+
+typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
+std::unordered_map<char, Cmds::PlayerCommand*> UI::commandKeyMap {
+	KeyCommand('q', new Cmds::Quit),
+	KeyCommand(' ', new Cmds::PauseToggle),
+	KeyCommand('a', new Cmds::CutDownTrees),
+	KeyCommand('b', new Cmds::BuildBridge)
+};
 
 using std::cout;
 using std::endl;
 
-typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
 
 /*
  * Initialises the UI in the terminal ready for a game to be displayed.
@@ -80,22 +86,9 @@ bool UI::initialise() {
 
 	currentDistrict = "";
 
-	initialiseCommandMappings();
-
 	initialised = true;
 
 	return true;
-}
-
-/*
- * Initialises the mappings between player key presses and player commands.
- */
-void UI::initialiseCommandMappings() {
-	commandKeyMap.insert(KeyCommand('q', new Cmds::Quit));
-	commandKeyMap.insert(KeyCommand(' ', new Cmds::PauseToggle));
-
-	commandKeyMap.insert(KeyCommand('a', new Cmds::CutDownTrees));
-	commandKeyMap.insert(KeyCommand('b', new Cmds::BuildBridge));
 }
 
 /*
