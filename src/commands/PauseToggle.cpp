@@ -10,6 +10,6 @@ PauseToggle::~PauseToggle() {
 
 }
 
-void PauseToggle::execute(District* pDistrict) {}
+void PauseToggle::execute(__attribute__((unused)) District* pDistrict) {}
 
 } /* namespace Cmds */

@@ -10,6 +10,6 @@ Quit::~Quit() {
 
 }
 
-void Quit::execute(District* pDistrict) {}
+void Quit::execute(__attribute__((unused)) District* pDistrict) {}
 
 } /* namespace Cmds */

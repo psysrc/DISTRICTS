@@ -3,7 +3,7 @@
 
 
 ### BUILD FLAGS ###
-FLAGS := -pthread
+FLAGS := -pthread -Wall -Wextra -Wpedantic
 
 
 ### INCLUDE PATHS ###
