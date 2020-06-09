@@ -34,11 +34,14 @@ LIBS := -lncurses
 ### RULES ###
 all: DISTRICTS
 
-DISTRICTS: $(SOURCES)
+DISTRICTS: bin $(SOURCES)
 	@echo "Building DISTRICTS..."
-	@mkdir bin
 	@g++ $(FLAGS) $(INCLUDES) $(SOURCES) -o bin/$@ $(LIBS)
 	@echo "Done."
+
+bin:
+	@mkdir bin
+	@echo "Created bin directory."
 
 clean:
 	@rm -rf bin/
