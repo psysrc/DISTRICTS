@@ -3,48 +3,47 @@
 
 
 ### BUILD FLAGS ###
-FLAGS := -pthread -Wall -Wextra -Wpedantic
-
-
-### INCLUDE PATHS ###
-INCLUDES := -I src/
-
-
-### SOURCE FILES ###
-SOURCES = \
-	$(SOURCE_COMMANDS) \
-	$(SOURCE_ENTITIES) \
-	$(SOURCE_GAME) \
-	$(SOURCE_PATHFINDING) \
-	$(SOURCE_TASKS) \
-	$(SOURCE_UI)
-
-SOURCE_COMMANDS := $(wildcard src/commands/*.cpp)
-SOURCE_ENTITIES := $(wildcard src/entities/*.cpp)
-SOURCE_GAME := $(wildcard src/game/*.cpp)
-SOURCE_PATHFINDING := $(wildcard src/pathfinding/*.cpp)
-SOURCE_TASKS := $(wildcard src/tasks/*.cpp)
-SOURCE_UI := $(wildcard src/ui/*.cpp)
+BUILD_FLAGS := -pthread -Wall -Wextra -Wpedantic
+INCLUDE_PATHS := -I src/
 
 
 ### LIBRARIES ###
 LIBS := -lncurses
 
 
+### SOURCE FILES ###
+SRC_DIR := src
+SRC_FILES := $(wildcard $(SRC_DIR)/*/*.cpp)
+
+
+### OBJECT FILES ###
+OBJ_DIR := bin
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+OBJ_SUB_DIRS := $(sort $(dir $(OBJ_FILES)))
+EXE_NAME := DISTRICTS
+EXE := $(OBJ_DIR)/$(EXE_NAME)
+
+
 ### RULES ###
-all: DISTRICTS
+all: $(EXE)
 
-DISTRICTS: bin $(SOURCES)
-	@echo "Building DISTRICTS..."
-	@g++ $(FLAGS) $(INCLUDES) $(SOURCES) -o bin/$@ $(LIBS)
-	@echo "Done."
+# Main executable
+$(EXE): $(OBJ_FILES) | $(OBJ_DIR)
+	@g++ $(BUILD_FLAGS) $(INCLUDE_PATHS) $^ -o $@ $(LIBS)
+	@echo "Build complete."
 
-bin:
-	@mkdir bin
-	@echo "Created bin directory."
+# All object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	@g++ -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@ $(LIBS)
 
+# Object file directory and subdirectories
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_SUB_DIRS)
+
+# Clean
 clean:
-	@rm -rf bin/
-	@echo "Finished cleaning."
+	@rm -rf $(OBJ_DIR)
 
+# Phony
 .PHONY: all clean
