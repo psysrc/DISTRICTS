@@ -34,7 +34,7 @@ $(EXE): $(OBJ_FILES) | $(OBJ_DIR)
 
 # All object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	g++ -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@ $(LIBS)
+	g++ -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@
 
 # Object file directory and subdirectories
 $(OBJ_DIR):
