@@ -29,21 +29,24 @@ all: $(EXE)
 
 # Main executable
 $(EXE): $(OBJ_FILES) | $(OBJ_DIR)
-	@g++ $(BUILD_FLAGS) $(INCLUDE_PATHS) $^ -o $@ $(LIBS)
+	g++ $(BUILD_FLAGS) $(INCLUDE_PATHS) $^ -o $@ $(LIBS)
 	@echo "Build complete."
 
 # All object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	@g++ -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@ $(LIBS)
+	g++ -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@ $(LIBS)
 
 # Object file directory and subdirectories
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_SUB_DIRS)
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_SUB_DIRS)
 
 # Clean
 clean:
-	@rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 
 # Phony
 .PHONY: all clean
+
+# Silence all recipes
+.SILENT:
