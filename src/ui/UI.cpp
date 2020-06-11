@@ -108,13 +108,6 @@ void UI::terminate() {
 
 	endwin();	// End of ncurses activity
 
-	// Ensure command mappings are destroyed safely
-	for (KeyCommand kc : commandKeyMap) {
-		delete kc.second;
-	}
-
-	commandKeyMap.clear();
-
 	initialised = false;
 }
 
