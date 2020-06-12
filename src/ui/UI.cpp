@@ -1,5 +1,7 @@
 #include "UI.h"
 
+#include <ncurses.h>
+#include <unordered_map>
 #include <iostream>
 #include "game/Constants.h"
 #include "game/Tile.h"
@@ -10,21 +12,31 @@
 #include "commands/BuildBridge.h"
 #include <sstream>
 
-WINDOW* UI::mapWindow;
-WINDOW* UI::activityWindow;
-WINDOW* UI::districtNameWindow;
-WINDOW* UI::promptWindow;
-bool UI::initialised = false;
-std::string UI::currentDistrict;
-int UI::playSpinIndex = 0;
+namespace UI {
+
+static WINDOW* mapWindow;
+static WINDOW* activityWindow;
+static WINDOW* districtNameWindow;
+static WINDOW* promptWindow;
+static bool initialised = false;
+static std::string currentDistrict;
+static int playSpinIndex = 0;
 
 typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
-std::unordered_map<char, Cmds::PlayerCommand*> UI::commandKeyMap {
+static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap {
 	KeyCommand('q', new Cmds::Quit),
 	KeyCommand(' ', new Cmds::PauseToggle),
 	KeyCommand('a', new Cmds::CutDownTrees),
 	KeyCommand('b', new Cmds::BuildBridge)
 };
+
+// Private UI methods
+static void drawGridPosition(int row, int column, int colourPair, char symbol);
+static void drawTile(Tile* tile);
+static void clearAll();
+static void refresh();
+static void districtName(const std::string str);
+
 
 using std::cout;
 using std::endl;
@@ -34,7 +46,7 @@ using std::endl;
  * Initialises the UI in the terminal ready for a game to be displayed.
  * Returns whether the UI initialisation succeeded or not.
  */
-bool UI::initialise() {
+bool initialise() {
 	if (initialised)
 		return true;
 
@@ -94,7 +106,7 @@ bool UI::initialise() {
 /*
  * Terminates the UI when the game is being closed and the user is going back to the main menu.
  */
-void UI::terminate() {
+void terminate() {
 	if (!initialised)
 		return;
 
@@ -114,7 +126,7 @@ void UI::terminate() {
 /*
  * Clears all windows and refreshes them.
  */
-void UI::clearAll() {
+static void clearAll() {
 	if (!initialised)
 		return;
 
@@ -129,14 +141,14 @@ void UI::clearAll() {
 /**
  * Prints a string to the Activity window.
  */
-void UI::displayActivityMessage(const std::string str) {
+void displayActivityMessage(const std::string str) {
 	displayActivityMessage(str.c_str());
 }
 
 /**
  * Prints a string to the Activity window.
  */
-void UI::displayActivityMessage(const char* str) {
+void displayActivityMessage(const char* str) {
 	if (initialised) {
 		wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
 		waddstr(activityWindow, str);						// Print the line
@@ -152,14 +164,14 @@ void UI::displayActivityMessage(const char* str) {
 /**
  * Prints a string to the Debug window.
  */
-void UI::displayDebugMessage(std::string str) {
+void displayDebugMessage(std::string str) {
 	displayDebugMessage(str.c_str());
 }
 
 /**
  * Prints a string to the Debug window.
  */
-void UI::displayDebugMessage(const char* str) {
+void displayDebugMessage(const char* str) {
 	displayActivityMessage(str);
 }
 
@@ -167,7 +179,7 @@ void UI::displayDebugMessage(const char* str) {
  * Refreshes the UI with the most up-to-date information.
  * Normally this isn't required because every operation which affects the UI automatically triggers an update of the required windows.
  */
-void UI::refresh() {
+static void refresh() {
 	if (!initialised)
 		return;
 
@@ -184,7 +196,7 @@ void UI::refresh() {
 /*
  * Updates the UI with the name of the current district.
  */
-void UI::districtName(const std::string str) {
+static void districtName(const std::string str) {
 	if (!initialised || str == currentDistrict)
 		return;
 
@@ -202,7 +214,7 @@ void UI::districtName(const std::string str) {
 /*
  * Display and rotate the play spinner while the game is unpaused.
  */
-void UI::rotatePlaySpinner() {
+void rotatePlaySpinner() {
 	static const char playSpinSprites[4] = {'\\', '|', '/', '-'};
 
 	playSpinIndex++;
@@ -217,7 +229,7 @@ void UI::rotatePlaySpinner() {
 /*
  * Draws the given district to the UI and updates the current district name.
  */
-void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
+void drawDistrict(std::unique_ptr<District>& upDistrict) {
 	if (!initialised)
 		return;
 
@@ -238,7 +250,7 @@ void UI::drawDistrict(std::unique_ptr<District>& upDistrict) {
 /*
  * Draws a single tile to its correct position in the map window.
  */
-void UI ::drawTile(Tile* tile) {
+static void drawTile(Tile* tile) {
 	if (!initialised)
 		return;
 
@@ -248,7 +260,7 @@ void UI ::drawTile(Tile* tile) {
 /*
  * Draws a colour and symbol to a particular grid position.
  */
-void UI::drawGridPosition(int row, int column, int colourPair, char symbol) {
+static void drawGridPosition(int row, int column, int colourPair, char symbol) {
 	if (!initialised)
 		return;
 
@@ -265,7 +277,7 @@ void UI::drawGridPosition(int row, int column, int colourPair, char symbol) {
 /*
  * Displays the main menu text.
  */
-void UI::mainMenu() {
+void mainMenu() {
 	if (initialised)
 		return;
 
@@ -280,7 +292,7 @@ void UI::mainMenu() {
 /*
  * Displays text that the user has not selected a valid option from the main menu.
  */
-void UI::badMenuSelection() {
+void badMenuSelection() {
 	if (initialised)
 		return;
 
@@ -290,7 +302,7 @@ void UI::badMenuSelection() {
 /*
  * Updates the UI to display information to the player whilst the game is paused.
  */
-void UI::pause() {
+void pause() {
 	if (!initialised)
 		return;
 
@@ -323,7 +335,7 @@ void UI::pause() {
 /*
  * Updates the UI to hide unnecessary information whilst the game is playing.
  */
-void UI::unpause() {
+void unpause() {
 	if (!initialised)
 		return;
 
@@ -337,7 +349,7 @@ void UI::unpause() {
 /*
  * Wait for a command from the player.
  */
-Cmds::PlayerCommand* UI::getPlayerCommand() {
+Cmds::PlayerCommand* getPlayerCommand() {
 	if (!initialised)
 		return nullptr;
 
@@ -358,7 +370,7 @@ Cmds::PlayerCommand* UI::getPlayerCommand() {
 /*
  * Prompts the user to select a tile in the district.
  */
-Tile* UI::selectTile(District* pDistrict) {
+Tile* selectTile(District* pDistrict) {
 	displayDebugMessage("Please select a tile.");
 
 	// Start in the middle
@@ -426,3 +438,4 @@ Tile* UI::selectTile(District* pDistrict) {
 	}
 }
 
+}
