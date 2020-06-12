@@ -38,12 +38,15 @@ $(EXE): $(OBJ_FILES) | $(OBJ_DIR)
 
 # All object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@
+	$(CXX) -MMD -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@
 
 # Object file directory and subdirectories
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 	mkdir -p $(OBJ_SUB_DIRS)
+
+# Pre-compiled object file dependencies, produced by $(CXX) -MMD
+-include $(OBJ_DIR)/*/*.d
 
 # Clean
 clean:
