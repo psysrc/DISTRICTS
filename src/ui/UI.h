@@ -20,8 +20,7 @@ private:
 	static std::string currentDistrict;
 	static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap;
 	static int playSpinIndex;
-
-	static void initialiseCommandMappings();
+	
 public:
 	UI() = delete;
 	~UI() = delete;
