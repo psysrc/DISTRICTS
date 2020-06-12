@@ -353,6 +353,10 @@ Cmds::PlayerCommand* getPlayerCommand() {
 	if (!initialised)
 		return nullptr;
 
+	// Flush input buffer first
+	// This helps prevent issues when the user holds down or spams keys, which completely floods the input buffer
+	flushinp();
+
 	char key = getch();		// Get the key from the player
 
 	if (key <= 90 && key >= 65)		// If command is a capital letter (A-Z)
