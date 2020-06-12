@@ -24,17 +24,21 @@ EXE_NAME := DISTRICTS
 EXE := $(OBJ_DIR)/$(EXE_NAME)
 
 
+### CXX COMPILER ###
+CXX ?= /usr/bin/g++
+
+
 ### RULES ###
 all: $(EXE)
 
 # Main executable
 $(EXE): $(OBJ_FILES) | $(OBJ_DIR)
-	g++ $(BUILD_FLAGS) $(INCLUDE_PATHS) $^ -o $@ $(LIBS)
+	$(CXX) $(BUILD_FLAGS) $(INCLUDE_PATHS) $^ -o $@ $(LIBS)
 	@echo "Build complete."
 
 # All object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	g++ -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@
+	$(CXX) -c $(BUILD_FLAGS) $(INCLUDE_PATHS) $< -o $@
 
 # Object file directory and subdirectories
 $(OBJ_DIR):
