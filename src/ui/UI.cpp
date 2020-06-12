@@ -35,7 +35,7 @@ static void drawGridPosition(int row, int column, int colourPair, char symbol);
 static void drawTile(Tile* tile);
 static void clearAll();
 static void refresh();
-static void districtName(const std::string str);
+static void districtName(const std::string& str);
 
 
 using std::cout;
@@ -141,7 +141,7 @@ static void clearAll() {
 /**
  * Prints a string to the Activity window.
  */
-void displayActivityMessage(const std::string str) {
+void displayActivityMessage(const std::string& str) {
 	displayActivityMessage(str.c_str());
 }
 
@@ -164,7 +164,7 @@ void displayActivityMessage(const char* str) {
 /**
  * Prints a string to the Debug window.
  */
-void displayDebugMessage(std::string str) {
+void displayDebugMessage(const std::string& str) {
 	displayDebugMessage(str.c_str());
 }
 
@@ -196,7 +196,7 @@ static void refresh() {
 /*
  * Updates the UI with the name of the current district.
  */
-static void districtName(const std::string str) {
+static void districtName(const std::string& str) {
 	if (!initialised || str == currentDistrict)
 		return;
 

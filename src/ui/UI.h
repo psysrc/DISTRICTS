@@ -13,9 +13,9 @@ namespace UI {
 bool initialise();
 void terminate();
 void displayActivityMessage(const char* const str);
-void displayActivityMessage(const std::string str);
-void displayDebugMessage(const std::string str);
+void displayActivityMessage(const std::string& str);
 void displayDebugMessage(const char* const str);
+void displayDebugMessage(const std::string& str);
 void drawDistrict(std::unique_ptr<District>& upDistrict);
 void mainMenu();
 void badMenuSelection();
