@@ -19,7 +19,6 @@ static WINDOW* activityWindow;
 static WINDOW* districtNameWindow;
 static WINDOW* promptWindow;
 static bool initialised = false;
-static int playSpinIndex = 0;
 static std::weak_ptr<District> wpCurrentDistrict;
 
 typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
@@ -36,6 +35,7 @@ static void drawTile(Tile* tile);
 static void clearAll();
 static void refresh();
 static void updateDistrictName();
+static void rotatePlaySpinner();
 
 
 using std::cout;
@@ -215,7 +215,8 @@ static void updateDistrictName() {
 /*
  * Display and rotate the play spinner while the game is unpaused.
  */
-void rotatePlaySpinner() {
+static void rotatePlaySpinner() {
+	static int playSpinIndex = 0;
 	static const char playSpinSprites[4] = {'\\', '|', '/', '-'};
 
 	playSpinIndex++;
@@ -260,6 +261,8 @@ void update() {
 			drawTile(&districtTiles[i][j]);
 		}
 	}
+
+	rotatePlaySpinner();
 
 	wrefresh(mapWindow);
 }

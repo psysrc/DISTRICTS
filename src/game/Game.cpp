@@ -103,7 +103,6 @@ void Game::play() {
 			spDistrict->simulate();	// Simulate a game tick
 
 			UI::update();				// Update the UI
-			UI::rotatePlaySpinner();
 		}
 	}
 

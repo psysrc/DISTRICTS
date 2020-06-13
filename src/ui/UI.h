@@ -24,7 +24,6 @@ void pause();
 void unpause();
 Cmds::PlayerCommand* getPlayerCommand();
 Tile* selectTile(District*);
-void rotatePlaySpinner();
 
 }
 
