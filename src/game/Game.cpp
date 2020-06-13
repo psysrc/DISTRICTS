@@ -68,7 +68,7 @@ void Game::play() {
 
 	pause();	// Pause the game to start with
 
-	UI::drawDistrict(spDistrict);	// Draw the district for the first time
+	UI::currentDistrict(spDistrict);	// Set the initial and current district
 
 	bool playerQuitting = false;
 
@@ -102,7 +102,7 @@ void Game::play() {
 		if (!playerQuitting) {
 			spDistrict->simulate();	// Simulate a game tick
 
-			UI::drawDistrict(spDistrict);		// Draw the district
+			UI::update();				// Update the UI
 			UI::rotatePlaySpinner();
 		}
 	}

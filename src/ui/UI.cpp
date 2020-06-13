@@ -19,8 +19,8 @@ static WINDOW* activityWindow;
 static WINDOW* districtNameWindow;
 static WINDOW* promptWindow;
 static bool initialised = false;
-static std::string currentDistrict;
 static int playSpinIndex = 0;
+static std::weak_ptr<District> wpCurrentDistrict;
 
 typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
 static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap {
@@ -35,7 +35,7 @@ static void drawGridPosition(int row, int column, int colourPair, char symbol);
 static void drawTile(Tile* tile);
 static void clearAll();
 static void refresh();
-static void districtName(const std::string& str);
+static void updateDistrictName();
 
 
 using std::cout;
@@ -95,8 +95,6 @@ bool initialise() {
 	noecho();		// User-pressed keys are not output to the terminal
 	cbreak();		// No input buffer - a key press is immediately returned to the program
 	keypad(stdscr, true);	// Allows use of the arrow keys
-
-	currentDistrict = "";
 
 	initialised = true;
 
@@ -196,13 +194,16 @@ static void refresh() {
 /*
  * Updates the UI with the name of the current district.
  */
-static void districtName(const std::string& str) {
-	if (!initialised || str == currentDistrict)
+static void updateDistrictName() {
+	if (!initialised)
 		return;
 
-	currentDistrict = str;
+	auto spCurrentDistrict = wpCurrentDistrict.lock();
 
-	std::string text = "District " + str;
+	if (!spCurrentDistrict)
+		return;
+
+	std::string text = "District " + spCurrentDistrict->getName();
 
 	mvwaddstr(districtNameWindow, 0, 0, "--------------------------------");
 	mvwaddstr(districtNameWindow, 1, 0, text.c_str());
@@ -227,21 +228,29 @@ void rotatePlaySpinner() {
 }
 
 /*
- * Draws the given district to the UI and updates the current district name.
+ * Informs the UI of the new currently selected district and triggers a UI update.
+ * The UI will use this when updating to know which district to draw.
  */
-void drawDistrict(std::weak_ptr<District> wpDistrict) {
+void currentDistrict(std::shared_ptr<District> spDistrict) {
+	wpCurrentDistrict = spDistrict;
+	updateDistrictName();
+	update();
+}
+
+/*
+ * Updates the UI with the latest information on the current district
+ */
+void update() {
 	if (!initialised)
 		return;
 	
-	auto spDistrict = wpDistrict.lock();
+	auto spDistrict = wpCurrentDistrict.lock();
 	
 	if (!spDistrict)
 	{
 		displayDebugMessage("UI ERROR: Couldn't access current district for drawing");
 		return;
 	}
-
-	districtName(spDistrict->getName());
 
 	Tile** districtTiles = spDistrict->getTiles();
 
