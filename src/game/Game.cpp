@@ -19,7 +19,7 @@ Game::Game() {
 	gameIsOver = false;
 	gameIsPaused = false;
 
-	upDistrict = std::make_unique<District>();
+	spDistrict = std::make_shared<District>();
 
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;
@@ -68,7 +68,7 @@ void Game::play() {
 
 	pause();	// Pause the game to start with
 
-	UI::drawDistrict(upDistrict);	// Draw the district for the first time
+	UI::drawDistrict(spDistrict);	// Draw the district for the first time
 
 	bool playerQuitting = false;
 
@@ -100,9 +100,9 @@ void Game::play() {
 
 		// Don't bother simulating the game if the user wants to quit
 		if (!playerQuitting) {
-			upDistrict->simulate();	// Simulate a game tick
+			spDistrict->simulate();	// Simulate a game tick
 
-			UI::drawDistrict(upDistrict);		// Draw the district
+			UI::drawDistrict(spDistrict);		// Draw the district
 			UI::rotatePlaySpinner();
 		}
 	}
@@ -128,7 +128,7 @@ bool Game::handleCommands() {
 		else if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
 			return true;
 		else if (pCommand != nullptr)
-			pCommand->execute(upDistrict.get());
+			pCommand->execute(spDistrict.get());
 	}
 }
 

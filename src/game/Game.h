@@ -9,7 +9,7 @@ class Game {
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
-	std::unique_ptr<District> upDistrict;
+	std::shared_ptr<District> spDistrict;
 
 	void unpause();
 	void waitForPause();

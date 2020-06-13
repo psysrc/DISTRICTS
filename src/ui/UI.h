@@ -16,7 +16,7 @@ void displayActivityMessage(const char* const str);
 void displayActivityMessage(const std::string& str);
 void displayDebugMessage(const char* const str);
 void displayDebugMessage(const std::string& str);
-void drawDistrict(std::unique_ptr<District>& upDistrict);
+void drawDistrict(std::weak_ptr<District> wpDistrict);
 void mainMenu();
 void badMenuSelection();
 void pause();

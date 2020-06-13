@@ -229,13 +229,21 @@ void rotatePlaySpinner() {
 /*
  * Draws the given district to the UI and updates the current district name.
  */
-void drawDistrict(std::unique_ptr<District>& upDistrict) {
+void drawDistrict(std::weak_ptr<District> wpDistrict) {
 	if (!initialised)
 		return;
+	
+	auto spDistrict = wpDistrict.lock();
+	
+	if (!spDistrict)
+	{
+		displayDebugMessage("UI ERROR: Couldn't access current district for drawing");
+		return;
+	}
 
-	districtName(upDistrict->getName());
+	districtName(spDistrict->getName());
 
-	Tile** districtTiles = upDistrict->getTiles();
+	Tile** districtTiles = spDistrict->getTiles();
 
 	// Draw the N*N grid of tiles
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
