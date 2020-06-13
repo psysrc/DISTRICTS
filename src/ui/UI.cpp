@@ -20,6 +20,7 @@ static WINDOW* districtNameWindow;
 static WINDOW* promptWindow;
 static bool initialised = false;
 static std::weak_ptr<District> wpCurrentDistrict;
+static bool paused;
 
 typedef std::pair<char, Cmds::PlayerCommand*> KeyCommand;
 static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap {
@@ -213,9 +214,12 @@ static void updateDistrictName() {
 }
 
 /*
- * Display and rotate the play spinner while the game is unpaused.
+ * Display and rotate the play spinner - only while the game is unpaused.
  */
 static void rotatePlaySpinner() {
+	if (paused)
+		return;
+
 	static int playSpinIndex = 0;
 	static const char playSpinSprites[4] = {'\\', '|', '/', '-'};
 
@@ -350,6 +354,8 @@ void pause() {
 	}
 
 	wrefresh(promptWindow);
+
+	paused = true;
 }
 
 /*
@@ -364,6 +370,8 @@ void unpause() {
 	mvwaddstr(promptWindow, 2, 5, "Press <SPACE> to pause");
 
 	wrefresh(promptWindow);
+
+	paused = false;
 }
 
 /*
