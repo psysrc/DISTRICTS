@@ -11,7 +11,6 @@ namespace Tasks {
 
 class Task {
 private:
-	bool deleteMe;
 	Tile* pTile;
 	std::string name;
 	bool completed;
@@ -29,8 +28,6 @@ public:
 	int getWorkRemaining() const { return workRemaining; }
 	bool citizenInRange(Citizen*);
 	void workOn(Citizen*);
-	void deleteTask() { deleteMe = true; }
-	bool needsDeleting() const { return deleteMe; }
 };
 
 }

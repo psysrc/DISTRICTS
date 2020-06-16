@@ -2,11 +2,12 @@
 
 #include "entities/Citizen.h"
 #include "pathfinding/PathFinding.h"
+#include "game/District.h"
 
 using namespace Tasks;
 
 Task::Task(District* district, Tile* tile, std::string taskName, int work)
-: deleteMe(false), pTile(tile), name(taskName), completed(false), workRemaining(work), pDistrict(district) {
+: pTile(tile), name(taskName), completed(false), workRemaining(work), pDistrict(district) {
 
 }
 
@@ -38,6 +39,6 @@ void Task::workOn(Citizen* pCitizen) {
 	if (workRemaining <= 0) {
 		completed = true;
 		onCompletion();
-		deleteTask();
+		pDistrict->deleteTask(this);
 	}
 }

@@ -219,9 +219,10 @@ void District::simulate() {
 	entitiesToAdd.clear();
 
 	// Remove all tasks that need deleting
-	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [] (std::unique_ptr<Task>& upT) -> bool {
-		return upT->needsDeleting();
+	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this] (std::unique_ptr<Task>& upT) -> bool {
+		return std::find(tasksToDelete.begin(), tasksToDelete.end(), upT.get()) != tasksToDelete.end();
 	}), tasks.end());
+	tasksToDelete.clear();
 
 	// Add all tasks that were created this game tick
 	tasks.insert(tasks.end(), std::make_move_iterator(tasksToAdd.begin()), std::make_move_iterator(tasksToAdd.end()));
@@ -230,6 +231,10 @@ void District::simulate() {
 
 void District::deleteEntity(Entity* entity) {
 	entitiesToDelete.push_back(entity);
+}
+
+void District::deleteTask(Tasks::Task* task) {
+	tasksToDelete.push_back(task);
 }
 
 string District::getName() const {
