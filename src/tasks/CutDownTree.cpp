@@ -2,6 +2,7 @@
 
 #include "entities/Tree.h"
 #include "game/Tile.h"
+#include "game/District.h"
 
 using namespace Tasks;
 
@@ -18,5 +19,5 @@ void CutDownTree::onCompletion() {
 	Tree* pTree = dynamic_cast<Tree*>(getTile()->vacateEntity());
 	pTree->setTile(nullptr);
 
-	pTree->deleteEntity();	// Delete the Tree
+	pDistrict->deleteEntity(pTree);	// Delete the Tree
 }

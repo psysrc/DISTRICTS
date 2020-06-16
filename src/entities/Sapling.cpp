@@ -23,6 +23,6 @@ void Sapling::simulate() {
 		pTile->vacateEntity();
 		pDistrict->makeEntity<Tree>(pTile);
 
-		deleteEntity();
+		pDistrict->deleteEntity(this);
 	}
 }

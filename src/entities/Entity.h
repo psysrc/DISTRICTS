@@ -8,8 +8,6 @@ class Tile;
 class District;
 
 class Entity {
-private:
-	bool deleteMe;
 protected:
 	std::string name;		// The name of the entity
 	char drawSymbol;		// The entity's visual representation in the world
@@ -24,8 +22,6 @@ public:
 	Tile* getTile() const;
 	std::string getName() const;
 	char getDrawSymbol() const;
-	void deleteEntity();
-	bool needsDeleting() const;
 };
 
 #endif /* SRC_ENTITY_H_ */

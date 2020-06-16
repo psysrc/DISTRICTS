@@ -12,12 +12,12 @@ namespace Tasks {
 class Task {
 private:
 	bool deleteMe;
-	District* pDistrict;
 	Tile* pTile;
 	std::string name;
 	bool completed;
 	int workRemaining;
 protected:
+	District* pDistrict;
 	virtual void onCompletion() = 0;
 public:
 	Task(District*, Tile*, std::string, int);

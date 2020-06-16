@@ -6,7 +6,7 @@
 using namespace Tasks;
 
 Task::Task(District* district, Tile* tile, std::string taskName, int work)
-: deleteMe(false), pDistrict(district), pTile(tile), name(taskName), completed(false), workRemaining(work) {
+: deleteMe(false), pTile(tile), name(taskName), completed(false), workRemaining(work), pDistrict(district) {
 
 }
 
