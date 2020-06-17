@@ -5,14 +5,14 @@
 #include <vector>
 
 class District;
-// class GameSystem;
+class GameSystem;
 
 class Game {
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
 	std::shared_ptr<District> spDistrict;
-	// std::vector<GameSystem> gameSystems;
+	std::vector<std::unique_ptr<GameSystem>> gameSystems;
 
 	void pause();
 	void unpause();

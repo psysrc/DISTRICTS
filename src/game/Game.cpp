@@ -9,6 +9,7 @@
 #include "ui/UI.h"
 #include "commands/PauseToggle.h"
 #include "commands/Quit.h"
+#include "gamesystems/GrowSystem.h"
 
 using namespace std::chrono;
 
@@ -21,7 +22,7 @@ Game::Game() {
 
 	spDistrict = std::make_shared<District>();
 
-	// gameSystems.push_back();
+	gameSystems.push_back(std::make_unique<GrowSystem>());
 
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;
@@ -102,6 +103,11 @@ void Game::play() {
 
 		// Don't bother simulating the game if the user wants to quit
 		if (!playerQuitting) {
+			for (std::unique_ptr<GameSystem>& system : gameSystems)
+			{
+				system->run(spDistrict.get());
+			}
+
 			spDistrict->simulate();	// Simulate a game tick
 
 			UI::update();				// Update the UI
