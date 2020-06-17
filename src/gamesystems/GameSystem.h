@@ -5,8 +5,8 @@ class District;
 
 class GameSystem {
 public:
-    GameSystem();
-    virtual ~GameSystem();
+    GameSystem() {}
+    virtual ~GameSystem() {}
     virtual void run(District* pDistrict) = 0;
 };
 
