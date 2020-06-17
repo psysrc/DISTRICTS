@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(District* district, std::string objectName, char objectDrawSymbol)
-: name(objectName), drawSymbol(objectDrawSymbol), pDistrict(district), pTile(nullptr) {
+Entity::Entity(std::string objectName, char objectDrawSymbol)
+: name(objectName), drawSymbol(objectDrawSymbol), pTile(nullptr) {
 
 }
 

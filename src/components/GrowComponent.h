@@ -5,6 +5,7 @@
 
 class GrowComponent : Component {
 public:
+    GrowComponent() : ticksToGrow(0) {}
     GrowComponent(int growTicks) : ticksToGrow(growTicks) {}
     virtual ~GrowComponent() {}
 

@@ -7,7 +7,7 @@
 #include "ui/UI.h"
 #include "game/Tile.h"
 
-Citizen::Citizen(District* district, std::string name) : Entity(district, name, 'C'), pCurrentTask(nullptr) {
+Citizen::Citizen(District* district, std::string name) : Entity(name, 'C'), pCurrentTask(nullptr) {
 
 }
 
@@ -31,32 +31,32 @@ void Citizen::simulate() {
 //			upCurrentPath = nullptr;
 //	}
 
-	if (pCurrentTask != nullptr && upCurrentPath.get() != nullptr) {	// Citizen has a task and knows how to get to it
-		if (pCurrentTask->citizenInRange(this)) {
-			pCurrentTask->workOn(this);
+	// if (pCurrentTask != nullptr && upCurrentPath.get() != nullptr) {	// Citizen has a task and knows how to get to it
+	// 	if (pCurrentTask->citizenInRange(this)) {
+	// 		pCurrentTask->workOn(this);
 
-			if (pCurrentTask->isCompleted())
-				pCurrentTask = nullptr;
-		}
-		else {
-			move(upCurrentPath->next());	// Move towards the task (NOTE: No nullptr checks! Shouldn't be an issue though.)
-		}
-	}
-	else {
-		pCurrentTask = pDistrict->getOldestTask();
+	// 		if (pCurrentTask->isCompleted())
+	// 			pCurrentTask = nullptr;
+	// 	}
+	// 	else {
+	// 		move(upCurrentPath->next());	// Move towards the task (NOTE: No nullptr checks! Shouldn't be an issue though.)
+	// 	}
+	// }
+	// else {
+	// 	pCurrentTask = pDistrict->getOldestTask();
 
-		if (pCurrentTask == nullptr) {
-			UI::displayActivityMessage("Citizen has nothing to do.");
-		}
-		else {
-			upCurrentPath = PathFinding::findPath(pTile, pCurrentTask->getTile());
+	// 	if (pCurrentTask == nullptr) {
+	// 		UI::displayActivityMessage("Citizen has nothing to do.");
+	// 	}
+	// 	else {
+	// 		upCurrentPath = PathFinding::findPath(pTile, pCurrentTask->getTile());
 
-			if (upCurrentPath.get() == nullptr) {
-				// Latest task cannot be reached
-				UI::displayActivityMessage("Citizen can't get to the latest task.");
-			}
-		}
-	}
+	// 		if (upCurrentPath.get() == nullptr) {
+	// 			// Latest task cannot be reached
+	// 			UI::displayActivityMessage("Citizen can't get to the latest task.");
+	// 		}
+	// 	}
+	// }
 }
 
 /*

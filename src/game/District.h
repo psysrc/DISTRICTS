@@ -53,7 +53,7 @@ E* District::makeEntity(Tile* tile) {
 	if (tile->occupied())
 		return nullptr;
 
-	std::unique_ptr<E> upE = std::make_unique<E>(this);
+	std::unique_ptr<E> upE = std::make_unique<E>();
 	E* pE = upE.get();
 
 	entitiesToAdd.push_back(std::move(upE));

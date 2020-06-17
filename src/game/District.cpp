@@ -205,7 +205,7 @@ void District::simulate() {
 
 	// Simulate the rest of the district
 	for (std::unique_ptr<Entity>& upE : entities) {
-		upE->simulate();
+		// upE->simulate();
 	}
 
 	// Remove all entities that need deleting
