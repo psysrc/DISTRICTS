@@ -2,6 +2,10 @@
 #define SRC_ENTITY_H_
 
 #include <string>
+#include <algorithm>
+#include <vector>
+#include <memory>
+#include "components/Component.h"
 
 // No need to fully include
 class Tile;
@@ -12,6 +16,7 @@ protected:
 	std::string name;		// The name of the entity
 	char drawSymbol;		// The entity's visual representation in the world
 	Tile* pTile;			// The tile the entity is currently occupying
+	std::vector<std::unique_ptr<Component>> components;
 public:
 	Entity();
 	Entity(std::string, char);
@@ -20,6 +25,37 @@ public:
 	Tile* getTile() const;
 	std::string getName() const;
 	char getDrawSymbol() const;
+	template <class C> bool hasComponent() const;
+	template <class C> C* getComponent() const;
 };
+
+/**
+ * Returns whether or not the entity contains the given component type.
+ */
+template <class C>
+bool Entity::hasComponent() const {
+	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
+
+	return getComponent<C>() != nullptr;
+}
+
+/**
+ * Returns a pointer to the given component if the Entity has one.
+ */
+template <class C>
+C* Entity::getComponent() const {
+	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
+
+	// Find if a component exists in the entity which has the same type as the provided component
+	auto compIt = std::find_if(components.begin(), components.end(), [](const std::unique_ptr<Component>& comp) -> bool {
+		return (typeid(*comp) == typeid(C));
+	});
+
+	// Return the component if found, otherwise return nullptr
+	if (compIt != components.end())
+		return **compIt;
+	else
+		return nullptr;
+}
 
 #endif /* SRC_ENTITY_H_ */

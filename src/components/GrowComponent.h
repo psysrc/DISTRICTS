@@ -3,7 +3,7 @@
 
 #include "components/Component.h"
 
-class GrowComponent : Component {
+class GrowComponent : public Component {
 public:
     GrowComponent() : ticksToGrow(0) {}
     GrowComponent(int growTicks) : ticksToGrow(growTicks) {}
