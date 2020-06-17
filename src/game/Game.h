@@ -11,15 +11,15 @@ private:
 	bool gameIsPaused;
 	std::shared_ptr<District> spDistrict;
 
+	void pause();
 	void unpause();
+	bool handleCommands();
 	void waitForPause();
+	void gameOver() const;
 public:
 	Game();
 	~Game();
-	bool handleCommands();
 	void play();
-	void pause();
-	void gameOver() const;
 };
 
 #endif /* GAME_H_ */
