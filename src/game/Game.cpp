@@ -21,6 +21,8 @@ Game::Game() {
 
 	spDistrict = std::make_shared<District>();
 
+	// gameSystems.push_back();
+
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;
 }
