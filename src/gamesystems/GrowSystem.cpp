@@ -1,19 +1,29 @@
 #include "gamesystems/GrowSystem.h"
 
 #include "game/District.h"
+#include "entities/Entity.h"
+#include "components/GrowComponent.h"
+#include "entities/Tree.h"
 
 GrowSystem::GrowSystem() {}
 
 GrowSystem::~GrowSystem() {}
 
 void GrowSystem::run(District* pDistrict) {
-    // TODO
-    // ticksToGrow--;
+    for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
+	{
+		GrowComponent* gc = entity->getComponent<GrowComponent>();
+		if (gc != nullptr)
+		{
+			gc->ticksToGrow--;
 
-	// if (ticksToGrow <= 0) {
-	// 	pTile->vacateEntity();
-	// 	pDistrict->makeEntity<Tree>(pTile);
+			if (gc->ticksToGrow <= 0)
+			{
+				entity->getTile()->vacateEntity();
+				pDistrict->makeEntity<Tree>(entity->getTile());
 
-	// 	pDistrict->deleteEntity(this);
-	// }
+				pDistrict->deleteEntity(entity.get());
+			}
+		}
+	}
 }
