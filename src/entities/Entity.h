@@ -46,16 +46,25 @@ template <class C>
 C* Entity::getComponent() const {
 	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
 
-	// Find if a component exists in the entity which has the same type as the provided component
+	// Find if a component exists within the entity which has the same type as the provided component
 	auto compIt = std::find_if(components.begin(), components.end(), [](const std::unique_ptr<Component>& comp) -> bool {
 		return (typeid(*comp) == typeid(C));
 	});
 
 	// Return the component if found, otherwise return nullptr
 	if (compIt != components.end())
-		return **compIt;
+	{
+		/**
+		 * 1. Dereference the iterator to a unique_ptr<Component>
+		 * 2. Get the raw pointer (Component*)
+		 * 3. Dynamic cast to the type we already know it is (C*)
+		 */
+		return dynamic_cast<C*>( (*compIt).get() );
+	}
 	else
+	{
 		return nullptr;
+	}
 }
 
 #endif /* SRC_ENTITY_H_ */
