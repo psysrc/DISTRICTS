@@ -31,6 +31,7 @@ public:
 	static bool validTileIndex(const int index);
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void simulate();
+	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
 	Tasks::Task* getLatestTask() const;
 	Tasks::Task* getOldestTask() const;
 	template <class E> E* makeEntity(Tile*);

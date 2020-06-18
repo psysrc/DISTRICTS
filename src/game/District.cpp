@@ -122,6 +122,10 @@ District::~District() {
 	citizens.clear();	// Delete the citizens vector
 }
 
+const std::vector<std::unique_ptr<Entity>>& District::getEntities() const {
+	return entities;
+}
+
 /*
  * Returns whether or not an index into the Tiles array is valid.
  */
