@@ -13,6 +13,7 @@ public:
 	Path(const std::vector<Tile*>);
 	~Path();
 	Tile* next();
+	Tile* current();
 };
 
 #endif /* SRC_PATH_H_ */
