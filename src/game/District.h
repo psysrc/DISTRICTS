@@ -24,7 +24,7 @@ private:
 	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick (not including citizens)
 	std::vector<std::unique_ptr<Tasks::Task>> tasks;		// All tasks in the district
 	std::vector<std::unique_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
-	std::vector<Tasks::Task*> tasksToDelete;						// All tasks to delete at the end of a game tick
+	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
 public:
 	District(const std::string name = "unnamed");
 	~District();
@@ -34,7 +34,7 @@ public:
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
 	Tasks::Task* getLatestTask() const;
 	Tasks::Task* getOldestTask() const;
-	template <class E> E* makeEntity(Tile*);
+	template <class E> E* makeEntity();
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
 	Tile** getTiles() const;
@@ -48,20 +48,13 @@ public:
  * Returns a pointer to the newly created Entity, or nullptr if the entity could not be created.
  */
 template <class E>
-E* District::makeEntity(Tile* tile) {
+E* District::makeEntity() {
 	static_assert(std::is_base_of<Entity, E>::value, "E must extend Entity");
-
-	if (tile->occupied())
-		return nullptr;
 
 	std::unique_ptr<E> upE = std::make_unique<E>();
 	E* pE = upE.get();
 
 	entitiesToAdd.push_back(std::move(upE));
-
-	Entity* tmp = pE;
-	tmp->setTile(tile);
-	tile->occupy(pE);
 
 	return pE;
 }

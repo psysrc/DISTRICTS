@@ -6,6 +6,8 @@
 #include <algorithm>
 #include "tasks/Task.h"
 #include "entities/Citizen.h"
+#include "components/PositionComponent.h"
+#include "components/GrowComponent.h"
 
 using std::string;
 using std::vector;
@@ -81,10 +83,12 @@ District::District(const string name) : districtName(name) {
 					int treeChance = rand() % 100;
 
 					if (treeChance < 5) {	// 5% chance of growing a tree
-						makeEntity<Tree>(&tiles[i][j]);
+						Tree* newTree = makeEntity<Tree>();
+						newTree->getComponent<PositionComponent>()->setTile(&tiles[i][j]);
 					}
 					else if (treeChance < 6) {	// 1% chance of growing a sapling
-						makeEntity<Sapling>(&tiles[i][j]);
+						Sapling* newSapling = makeEntity<Sapling>();
+						newSapling->getComponent<PositionComponent>()->setTile(&tiles[i][j]);
 					}
 				}
 			}
@@ -111,7 +115,11 @@ District::District(const string name) : districtName(name) {
 	}
 	while (!tiles[i][j].citizenEnter(citizens[0].get()));
 
-	citizens[0]->setTile(&tiles[i][j]);
+	PositionComponent* pc = citizens[0]->getComponent<PositionComponent>();
+	if (pc != nullptr)
+		pc->setTile(&tiles[i][j]);
+	else
+		throw std::runtime_error("Citizen does not have a PositionComponent");
 }
 
 District::~District() {
