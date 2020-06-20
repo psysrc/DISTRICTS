@@ -8,6 +8,15 @@ int PositionComponent::getY() const { return y; }
 
 void PositionComponent::setTile(Tile* pTile) {
     tile = pTile;
-    x = tile->getX();
-    y = tile->getY();
+
+    if (tile == nullptr)
+    {
+        x = -1;
+        y = -1;
+    }
+    else
+    {
+        x = tile->getX();
+        y = tile->getY();
+    }
 }
