@@ -2,8 +2,16 @@
 
 #include "game/District.h"
 
+PositionComponent::PositionComponent() {
+    setTile(nullptr);
+}
+
+PositionComponent::~PositionComponent() {}
+
 Tile* PositionComponent::getTile() const { return tile; }
+
 int PositionComponent::getX() const { return x; }
+
 int PositionComponent::getY() const { return y; }
 
 void PositionComponent::setTile(Tile* pTile) {

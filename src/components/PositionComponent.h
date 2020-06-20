@@ -6,8 +6,8 @@
 
 class PositionComponent : public Component {
 public:
-    PositionComponent() {}
-    virtual ~PositionComponent() {}
+    PositionComponent();
+    virtual ~PositionComponent();
 
     Tile* getTile() const;
     int getX() const;
