@@ -4,6 +4,7 @@
 #include "entities/Entity.h"
 #include "components/GrowComponent.h"
 #include "entities/Tree.h"
+#include "components/PositionComponent.h"
 
 GrowSystem::GrowSystem() {}
 
@@ -19,8 +20,12 @@ void GrowSystem::run(District* pDistrict) {
 
 			if (gc->ticksToGrow <= 0)
 			{
-				entity->getTile()->vacateEntity();
-				pDistrict->makeEntity<Tree>(entity->getTile());
+				PositionComponent* pc = entity->getComponent<PositionComponent>();
+				if (pc && pc->getTile())
+					pc->getTile()->vacateEntity();
+
+				Tree* newTree = pDistrict->makeEntity<Tree>();
+				newTree->getComponent<PositionComponent>()->setTile(pc->getTile());
 
 				pDistrict->deleteEntity(entity.get());
 			}
