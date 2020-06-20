@@ -2,7 +2,8 @@
 #define POSITIONCOMPONENT_H_
 
 #include "components/Component.h"
-#include "game/Tile.h"
+
+class Tile;
 
 class PositionComponent : public Component {
 public:
