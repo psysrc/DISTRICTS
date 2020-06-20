@@ -22,6 +22,12 @@ void WalkSystem::run(District* pDistrict) {
              *      4a. If it does not, discard the path and generate a new one
              * 5. Move the entity along the path
              */
+
+            // Skip this entity if it has no destination
+            if (wc->destination == nullptr)
+                continue;
+            
+
         }
     }
 }
