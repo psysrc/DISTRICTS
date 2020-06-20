@@ -2,7 +2,6 @@
 #define CITIZEN_H_
 
 #include "Entity.h"
-#include <memory>
 #include <string>
 
 class Path;
@@ -14,7 +13,6 @@ class Task;
 
 class Citizen : public Entity {
 private:
-	std::unique_ptr<Path> upCurrentPath;
 	Tasks::Task* pCurrentTask;
 public:
 	Citizen(District*, const std::string);

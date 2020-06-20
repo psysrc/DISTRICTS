@@ -6,9 +6,12 @@
 #include "game/District.h"
 #include "ui/UI.h"
 #include "game/Tile.h"
+#include "components/PositionComponent.h"
+#include "components/WalkComponent.h"
 
 Citizen::Citizen(District* district, std::string name) : Entity(name, 'C'), pCurrentTask(nullptr) {
-
+	addComponent<PositionComponent>();
+	addComponent<WalkComponent>();
 }
 
 Citizen::~Citizen() {
@@ -63,7 +66,7 @@ void Citizen::simulate() {
  * Attempts to move the Citizen to a neighbouring tile in a given direction.
  */
 void Citizen::move(int direction) {
-	move(pTile->getNeighbourTile(direction));
+	// move(pTile->getNeighbourTile(direction));
 }
 
 /*
@@ -72,12 +75,12 @@ void Citizen::move(int direction) {
  * 		-> i.e. the Citizen shouldn't be able to jump all over the map
  */
 void Citizen::move(Tile* const moveToTile) {
-	if (moveToTile != nullptr) {				// If the other tile is valid
-		if (moveToTile->citizenEnter(this)) {	// Attempt to move to the other tile
-			// If successful, remember which tile we are now occupying and inform the old tile of the change
-			pTile->vacateEntity();
-			pTile = moveToTile;
-		}
-	}
+	// if (moveToTile != nullptr) {				// If the other tile is valid
+	// 	if (moveToTile->citizenEnter(this)) {	// Attempt to move to the other tile
+	// 		// If successful, remember which tile we are now occupying and inform the old tile of the change
+	// 		pTile->vacateEntity();
+	// 		pTile = moveToTile;
+	// 	}
+	// }
 }
 
