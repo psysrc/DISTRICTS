@@ -23,6 +23,8 @@ void WalkSystem::run(District* pDistrict) {
              * 5. Move the entity along the path
              */
 
+            // !! Need to deal with strictness - the entity might be next to its destination, not directly on it
+
             // Skip this entity if it has no destination
             if (wc->destination == nullptr)
                 continue;
