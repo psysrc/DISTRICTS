@@ -3,6 +3,7 @@
 #include "entities/Citizen.h"
 #include "pathfinding/PathFinding.h"
 #include "game/District.h"
+#include "components/PositionComponent.h"
 
 using namespace Tasks;
 
@@ -21,7 +22,7 @@ Task::~Task() {
 bool Task::citizenInRange(Citizen* pCitizen) {
 	// Citizen is considered to be in range when within 1.5 units of the task
 	// This allows it to be on the task tile itself or any neighbour, but no further
-	return (PathFinding::euclideanDistance(pCitizen->getTile(), pTile) < 1.5);
+	return (PathFinding::euclideanDistance(pCitizen->getComponent<PositionComponent>()->getTile(), pTile) < 1.5);
 }
 
 /*
