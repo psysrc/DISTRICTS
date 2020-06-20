@@ -58,7 +58,13 @@ void startNewGame() {
 		cout << "Starting a new game..." << endl;
 
 	Game newGame;
-	newGame.play();
+
+	try {
+		newGame.play();
+	}
+	catch (std::exception& ex) {
+		cout << "Exception caught in main. Terminating game." << endl;
+	}
 
 	cout << endl << endl << endl;
 }
