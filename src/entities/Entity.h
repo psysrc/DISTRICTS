@@ -15,18 +15,16 @@ class Entity {
 protected:
 	std::string name;		// The name of the entity
 	char drawSymbol;		// The entity's visual representation in the world
-	Tile* pTile;			// The tile the entity is currently occupying
 	std::vector<std::unique_ptr<Component>> components;
 public:
 	Entity();
 	Entity(std::string, char);
 	virtual ~Entity();
-	void setTile(Tile* tile);
-	Tile* getTile() const;
 	std::string getName() const;
 	char getDrawSymbol() const;
 	template <class C> bool hasComponent() const;
 	template <class C> C* getComponent() const;
+	template <class C, typename... CArgs> C* addComponent(CArgs...);
 };
 
 /**
@@ -63,6 +61,27 @@ C* Entity::getComponent() const {
 	{
 		return nullptr;
 	}
+}
+
+/**
+ * Adds the given component to the entity, passing any arguments to the component's constructor.
+ * Throws std::runtime_error if the entity already has the provided component.
+ * Returns the newly created component.
+ */
+template <class C, typename... CArgs>
+C* Entity::addComponent(CArgs... args) {
+	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
+
+	if (hasComponent<C>())
+		throw std::runtime_error("Tried to add X component to entity which already has one");
+
+	// Create the component, passing the method arguments to its constructor
+	std::unique_ptr<C> upNewComponent = std::make_unique<C>(args...);
+	C* pNewComponent = upNewComponent.get();
+
+	components.push_back(std::move(upNewComponent));
+
+	return pNewComponent;
 }
 
 #endif /* SRC_ENTITY_H_ */
