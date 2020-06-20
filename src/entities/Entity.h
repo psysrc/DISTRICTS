@@ -34,8 +34,6 @@ public:
  */
 template <class C>
 bool Entity::hasComponent() const {
-	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
-
 	return getComponent<C>() != nullptr;
 }
 
