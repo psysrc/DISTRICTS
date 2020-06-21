@@ -210,16 +210,6 @@ Task* District::getOldestTask() const {
  * Prompts the district to simulate one game tick.
  */
 void District::simulate() {
-	// Simulate all citizens
-	for (std::unique_ptr<Citizen>& upC : citizens) {
-		upC->simulate();
-	}
-
-	// Simulate the rest of the district
-	for (std::unique_ptr<Entity>& upE : entities) {
-		// upE->simulate();
-	}
-
 	// Remove all entities that need deleting
 	entities.erase(std::remove_if(entities.begin(), entities.end(), [this] (std::unique_ptr<Entity>& upE) -> bool {
 		return std::find(entitiesToDelete.begin(), entitiesToDelete.end(), upE.get()) != entitiesToDelete.end();
