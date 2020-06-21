@@ -3,8 +3,8 @@ DISTRICTS is a work-in-progress procedurally-generated base building and managem
 Currently the game is very limited, and right now couldn't really be classed as a proper game, but this will hopefully change in the near future as gameplay features are added and the project expands over time.
 
 ## Building the game
-Right now the game is only being developed and tested on Linux. MacOS will probably never be supported, but it is possible the game could be supported for Windows at some point. If you have a burning desire to play the game on Windows, let me know!
-To build the game, simply run the makefile in the top-level directory by running the command `make` or `make all`. All binaries for the game will be stored in a `bin` directory, including the DISTRICTS executable.
+Right now the game is only being developed and tested on Linux. If you have a burning desire to play the game on Windows or MacOS, let me know so I can start looking into it.
+To build the game for Linux, simply run the makefile in the top-level directory by running the command `make` or `make all`. All binaries for the game will be stored in a `bin` directory, including the DISTRICTS executable.
 
 ## Gameplay features
 The game is currently very limited in terms of gameplay features, but nonetheless, here is what is currently available:
