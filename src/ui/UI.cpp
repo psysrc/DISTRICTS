@@ -11,6 +11,8 @@
 #include "commands/CutDownTrees.h"
 #include "commands/BuildBridge.h"
 #include <sstream>
+#include "components/PositionComponent.h"
+#include "components/DrawComponent.h"
 
 namespace UI {
 
@@ -32,7 +34,6 @@ static std::unordered_map<char, Cmds::PlayerCommand*> commandKeyMap {
 
 // Private UI methods
 static void drawGridPosition(int row, int column, int colourPair, char symbol);
-static void drawTile(Tile* tile);
 static void clearAll();
 static void refresh();
 static void updateDistrictName();
@@ -262,23 +263,15 @@ void update() {
 	// Draw the N*N grid of tiles
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			drawTile(&districtTiles[i][j]);
+			Tile* tile = &districtTiles[i][j];
+			Entity* entity = tile->getEntity();
+			drawGridPosition(i, j, tile->getDrawColour(), (entity == nullptr ? ' ' : entity->getComponent<DrawComponent>()->drawSymbol));
 		}
 	}
 
 	rotatePlaySpinner();
 
 	wrefresh(mapWindow);
-}
-
-/*
- * Draws a single tile to its correct position in the map window.
- */
-static void drawTile(Tile* tile) {
-	if (!initialised)
-		return;
-
-	drawGridPosition(tile->getX(), tile->getY(), tile->getDrawColour(), tile->getDrawSymbol());
 }
 
 /*

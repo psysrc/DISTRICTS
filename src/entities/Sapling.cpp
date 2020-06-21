@@ -3,6 +3,7 @@
 #include <memory>
 #include "components/GrowComponent.h"
 #include "components/PositionComponent.h"
+#include "components/DrawComponent.h"
 
 const int maxTicksToGrow = 1440;	// 6 mins
 const int minTicksToGrow = 480;		// 2 mins
@@ -12,6 +13,7 @@ Sapling::Sapling() : Entity("Tree Sapling", ',') {
 
     addComponent<GrowComponent>(ticks);
     addComponent<PositionComponent>();
+    addComponent<DrawComponent>(',');
 }
 
 Sapling::~Sapling() { }

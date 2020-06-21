@@ -8,10 +8,12 @@
 #include "game/Tile.h"
 #include "components/PositionComponent.h"
 #include "components/WalkComponent.h"
+#include "components/DrawComponent.h"
 
 Citizen::Citizen(District* district, std::string name) : Entity(name, 'C'), pCurrentTask(nullptr) {
 	addComponent<PositionComponent>();
 	addComponent<WalkComponent>();
+	addComponent<DrawComponent>('C');
 }
 
 Citizen::~Citizen() {
