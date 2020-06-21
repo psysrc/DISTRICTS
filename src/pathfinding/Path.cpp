@@ -9,13 +9,20 @@ Path::~Path() {
 }
 
 Tile* Path::next() {
-	currentStep--;
+	if (currentStep == 0)
+	{
+		finished = true;
+	}
+	else
+	{
+		currentStep--;
+	}
 
 	return current();
 }
 
 Tile* Path::current() {
-	if (currentStep < 0 || currentStep >= path.size())
+	if (finished || currentStep >= path.size())
 		return nullptr;
 
 	return path[currentStep];
