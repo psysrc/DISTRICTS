@@ -12,7 +12,7 @@ Sapling::Sapling() : Entity("Tree Sapling", ',') {
     int ticks = minTicksToGrow + (rand() % (maxTicksToGrow - minTicksToGrow + 1));
 
     addComponent<GrowComponent>(ticks);
-    addComponent<PositionComponent>();
+    addComponent<PositionComponent>(this);
     addComponent<DrawComponent>(',');
 }
 

@@ -11,7 +11,7 @@
 #include "components/DrawComponent.h"
 
 Citizen::Citizen(District* district, std::string name) : Entity(name, 'C'), pCurrentTask(nullptr) {
-	addComponent<PositionComponent>();
+	addComponent<PositionComponent>(this);
 	addComponent<WalkComponent>();
 	addComponent<DrawComponent>('C');
 }

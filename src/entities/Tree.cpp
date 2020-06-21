@@ -4,7 +4,7 @@
 #include "components/DrawComponent.h"
 
 Tree::Tree() : Entity("Tree", '$') {
-    addComponent<PositionComponent>();
+    addComponent<PositionComponent>(this);
     addComponent<DrawComponent>('$');
 }
 

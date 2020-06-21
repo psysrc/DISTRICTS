@@ -2,9 +2,8 @@
 
 #include "game/District.h"
 
-PositionComponent::PositionComponent() {
-    setTile(nullptr);
-}
+PositionComponent::PositionComponent(Entity* pEntity/*Deprecated*/) :
+    entity(pEntity/*Deprecated*/), tile(nullptr), x(-1), y(-1) {}
 
 PositionComponent::~PositionComponent() {}
 
@@ -15,6 +14,9 @@ int PositionComponent::getX() const { return x; }
 int PositionComponent::getY() const { return y; }
 
 void PositionComponent::setTile(Tile* pTile) {
+    if (tile != nullptr)
+        tile->vacateEntity();   // Deprecated behaviour
+
     tile = pTile;
 
     if (tile == nullptr)
@@ -24,6 +26,8 @@ void PositionComponent::setTile(Tile* pTile) {
     }
     else
     {
+        tile->vacateEntity();   // Deprecated behaviour
+        tile->occupy(entity);   // Deprecated behaviour
         x = tile->getX();
         y = tile->getY();
     }

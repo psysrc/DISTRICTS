@@ -2,12 +2,13 @@
 #define POSITIONCOMPONENT_H_
 
 #include "components/Component.h"
+#include "entities/Entity.h"    // Deprecated
 
 class Tile;
 
 class PositionComponent : public Component {
 public:
-    PositionComponent();
+    PositionComponent(Entity* /*Deprecated*/);
     virtual ~PositionComponent();
 
     Tile* getTile() const;
@@ -17,6 +18,7 @@ public:
     void setTile(Tile* pTile);
     
 private:
+    Entity* entity; // Deprecated
     Tile* tile;
     int x;
     int y;
