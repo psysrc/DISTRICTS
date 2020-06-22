@@ -89,6 +89,7 @@ Entity* Tile::getEntity() const {
 
 /*
  * Returns whether or not this tile is walkable.
+ * Deprecated.
  */
 bool Tile::walkable() const {
 	if (property == TileProperty::Water)
@@ -102,7 +103,8 @@ bool Tile::walkable() const {
 
 /*
  * Identical to Tile::occupy(Entity*) but specialised for Citizens.
- * Checks, for example, if the citizen can walk on the tile (i.e. is it water?)
+ * Checks, for example, if the citizen can walk on the tile (i.e. is it water?).
+ * Deprecated.
  */
 bool Tile::citizenEnter(Citizen* pCitizen) {
 	if (!walkable())
@@ -179,6 +181,7 @@ void Tile::updateVisuals() {
 
 /*
  * Returns the draw symbol of this Tile.
+ * Deprecated.
  */
 char Tile::getDrawSymbol() const {
 	return drawSymbol;
