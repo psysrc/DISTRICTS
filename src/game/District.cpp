@@ -56,7 +56,7 @@ District::District(const string name) : districtName(name) {
 	if (BIOME_GEN) {
 		// Generate biomes
 		int stoneBiomes = rand() % 3 + 1;	// 1-3 stone biomes
-		int lakeBiomes = rand() % 4;		// 0-3 lake biomes
+		int lakeBiomes = rand() % 3 + 1;	// 1-3 lake biomes
 
 		while (stoneBiomes--) {
 			int ri = rand() % DISTRICT_SIZE;
