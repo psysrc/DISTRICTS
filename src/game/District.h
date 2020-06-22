@@ -21,8 +21,8 @@ private:
 	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick
 	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick
-	std::vector<std::unique_ptr<Tasks::Task>> tasks;		// All tasks in the district
-	std::vector<std::unique_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
+	std::vector<std::shared_ptr<Tasks::Task>> tasks;		// All tasks in the district
+	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
 public:
 	District(const std::string name = "unnamed");
@@ -66,7 +66,7 @@ template <class T>
 T* District::makeTask(Tile* tile) {
 	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
 
-	std::unique_ptr<T> upT = std::make_unique<T>(this, tile);
+	std::shared_ptr<T> upT = std::make_shared<T>(this, tile);
 	T* pT = upT.get();
 
 	tasksToAdd.push_back(std::move(upT));

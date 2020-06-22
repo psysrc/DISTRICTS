@@ -11,6 +11,7 @@
 #include "commands/Quit.h"
 #include "gamesystems/GrowSystem.h"
 #include "gamesystems/WalkSystem.h"
+#include "gamesystems/WorkSystem.h"
 
 using namespace std::chrono;
 
@@ -25,6 +26,7 @@ Game::Game() {
 
 	gameSystems.push_back(std::make_unique<WalkSystem>());
 	gameSystems.push_back(std::make_unique<GrowSystem>());
+	gameSystems.push_back(std::make_unique<WorkSystem>());
 
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;

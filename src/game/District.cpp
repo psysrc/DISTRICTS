@@ -219,7 +219,7 @@ void District::simulate() {
 	entitiesToAdd.clear();
 
 	// Remove all tasks that need deleting
-	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this] (std::unique_ptr<Task>& upT) -> bool {
+	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this] (std::shared_ptr<Task>& upT) -> bool {
 		return std::find(tasksToDelete.begin(), tasksToDelete.end(), upT.get()) != tasksToDelete.end();
 	}), tasks.end());
 	tasksToDelete.clear();
