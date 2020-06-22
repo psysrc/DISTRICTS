@@ -18,10 +18,9 @@ class District {
 private:
 	std::string districtName;
 	Tile** tiles;
-	std::vector<std::unique_ptr<Citizen>> citizens;			// All citizens in the district
-	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district (not including citizens)
-	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick (not including citizens)
-	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick (not including citizens)
+	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district
+	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick
+	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick
 	std::vector<std::unique_ptr<Tasks::Task>> tasks;		// All tasks in the district
 	std::vector<std::unique_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick

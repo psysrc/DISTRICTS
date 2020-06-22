@@ -104,7 +104,7 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Add a new citizen and place them on a walkable tile
-	citizens.push_back(std::make_unique<Citizen>(this, "Geoff"));
+	Citizen* citizen = makeEntity<Citizen>();
 
 	int i, j;
 
@@ -113,9 +113,9 @@ District::District(const string name) : districtName(name) {
 		i = rand() % DISTRICT_SIZE;
 		j = rand() % DISTRICT_SIZE;
 	}
-	while (!tiles[i][j].citizenEnter(citizens[0].get()));
+	while (!tiles[i][j].citizenEnter(citizen));
 
-	PositionComponent* pc = citizens[0]->getComponent<PositionComponent>();
+	PositionComponent* pc = citizen->getComponent<PositionComponent>();
 	if (pc != nullptr)
 		pc->setTile(&tiles[i][j]);
 	else
@@ -126,8 +126,6 @@ District::~District() {
 	// Delete the map tiles
 	delete [] tiles[0];
 	delete [] tiles;
-
-	citizens.clear();	// Delete the citizens vector
 }
 
 const std::vector<std::unique_ptr<Entity>>& District::getEntities() const {
