@@ -60,8 +60,8 @@ std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to, bool strict) {
 
 			Tile* current = next;
 
-			// Populate the pathFound vector up to the first tile from the start
-			while (current != from) {
+			// Populate the pathFound vector up to the starting tile ('from')
+			while (current != nullptr) {
 				pathFound.push_back(current);
 				current = pathVia[current];
 			}

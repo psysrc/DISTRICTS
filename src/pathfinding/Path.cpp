@@ -1,7 +1,10 @@
 #include "Path.h"
 
-Path::Path(const std::vector<Tile*> newPath) : currentStep(newPath.size()), path(newPath) {
+#include <stdexcept>
 
+Path::Path(const std::vector<Tile*> newPath) : currentStep(newPath.size() - 1), path(newPath) {
+	if (newPath.empty())
+		throw std::logic_error("Tried to create an empty Path object");
 }
 
 Path::~Path() {
@@ -10,7 +13,8 @@ Path::~Path() {
 
 /**
  * Move current() to the next tile in the path, returning that tile.
- * If the path has been finished, this method and current() will both return nullptr.
+ * Calling this method on the last tile of the path will finish the path.
+ * If the path is finished, this method and current() will return nullptr.
  */
 Tile* Path::next() {
 	if (currentStep == 0)
@@ -27,23 +31,18 @@ Tile* Path::next() {
 
 /**
  * Returns the current tile along the path.
- * Returns nullptr if next() has not been called on this path yet.
- * If the path has been finished, this method and next() will both return nullptr.
+ * If the path is finished, this method and next() will return nullptr.
  */
 Tile* Path::current() const {
-	if (finished || currentStep >= path.size())
+	if (finished)
 		return nullptr;
 
 	return path[currentStep];
 }
 
 /**
- * Returns the last tile in the path, even if the path has been finished.
- * If the path is empty, this method returns nullptr.
+ * Always returns the last tile in the path (the 'destination'), even if the path has been finished.
  */
 Tile* Path::end() const {
-	if (path.empty())
-		return nullptr;
-	else
-		return path.front();
+	return path.front();
 }
