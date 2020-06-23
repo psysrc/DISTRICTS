@@ -20,9 +20,17 @@ void WorkSystem::run(District* pDistrict) {
                 // TODO
                 // Need to check if the entity is in range of the task
                 // If so, work on the task and handle things from there
+
+                // If the task has been completed, it can be removed from the district and the worker can clear its current task
+                if (spCurrentTask->isCompleted())
+                {
+                    pDistrict->deleteTask(spCurrentTask.get());
+                    wc->wpCurrentTask.reset();
+                }
             }
             else
             {
+                // Clear the current task for this worker if it no longer exists
                 wc->wpCurrentTask.reset();
             }
         }

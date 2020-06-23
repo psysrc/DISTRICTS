@@ -40,6 +40,5 @@ void Task::workOn(Citizen* pCitizen) {
 	if (workRemaining <= 0) {
 		completed = true;
 		onCompletion();
-		pDistrict->deleteTask(this);
 	}
 }
