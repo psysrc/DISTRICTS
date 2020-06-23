@@ -1,7 +1,10 @@
 #include "gamesystems/WalkSystem.h"
 
 #include "game/District.h"
+#include "game/Tile.h"
 #include "components/WalkComponent.h"
+#include "components/PositionComponent.h"
+#include "pathfinding/PathFinding.h"
 
 WalkSystem::WalkSystem() {}
 
@@ -11,25 +14,54 @@ void WalkSystem::run(District* pDistrict) {
     for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
     {
         WalkComponent* wc = entity->getComponent<WalkComponent>();
-		if (wc != nullptr)
+        PositionComponent* pc = entity->getComponent<PositionComponent>();
+
+		if (wc != nullptr && pc != nullptr)
         {
             /**
-             * 1. If entity destination is nullptr, do nothing
-             * 2. If entity is at its destination, clear destination and path, then do nothing
-             * 3. If entity path is nullptr, use pathfinding to generate a path
-             *      3a. Move the entity along the path
-             * 4. Check the entity resides on its expected tile within the current path
-             *      4a. If it does not, discard the path and generate a new one
-             * 5. Move the entity along the path
+             * 1. If entity has a destination but no path, generate a path
+             * 2. If entity has a path, check that the entity is on the path as we expect
+             *      2a. If not, discard the path and do no more with this entity
+             * 3. Move the entity along the path
+             * 4. If the entity has reached the end of its path, clear the destination and path
              */
 
-            // !! Need to deal with strictness - the entity might be next to its destination, not directly on it
+            // If entity has a destination but no path, generate a path
+            if (wc->destination && !wc->path)
+            {
+                // Create a path from the entity's current position to the destination
+                // If no path can be found, path will remain as nullptr
+                wc->path = PathFinding::findPath(pc->getTile(), wc->destination);
+            }
 
-            // Skip this entity if it has no destination
-            if (wc->destination == nullptr)
-                continue;
-            
+            // If entity has a path
+            if (wc->path)
+            {
+                // Check that the entity is where we expect along the path
+                if (pc->getTile() == wc->path->current())
+                {
+                    // Move the entity to the next tile in the path, assuming we're not already at the end for some reason
+                    Tile* nextTile = wc->path->next();
 
+                    if (nextTile != nullptr)
+                    {
+                        pc->setTile(nextTile);
+                    }
+
+                    // Clear destination and path if the entity has now reached the end of the path (or if it was at the end already)
+                    if (pc->getTile() == wc->path->end() || nextTile == nullptr)
+                    {
+                        wc->destination = nullptr;
+                        wc->path.reset();
+                    }
+                }
+                else
+                {
+                    // The entity is not where we expected it to be along the path
+                    // Discard the path - if the entity still has a destination then a new path will be generated next game tick
+                    wc->path.reset();
+                }
+            }
         }
     }
 }
