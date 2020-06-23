@@ -13,7 +13,7 @@ public:
 	BuildBridge(District*, Tile*);
 	virtual ~BuildBridge();
 protected:
-	virtual void onCompletion() override final;
+	virtual void onCompletion() override;
 };
 
 }

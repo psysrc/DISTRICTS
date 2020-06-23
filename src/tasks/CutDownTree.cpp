@@ -7,7 +7,7 @@
 
 using namespace Tasks;
 
-CutDownTree::CutDownTree(District* district, Tile* tile) : Task(district, tile, "Cut down tree", 10) {
+CutDownTree::CutDownTree(District* district, Tile* tile) : Task(tile, "Cut down tree", 10), pDistrict(district) {
 
 }
 

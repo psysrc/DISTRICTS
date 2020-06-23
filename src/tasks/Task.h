@@ -4,8 +4,6 @@
 #include <string>
 
 class Tile;
-class District;
-class Citizen;
 
 namespace Tasks {
 
@@ -16,18 +14,15 @@ private:
 	bool completed;
 	int workRemaining;
 protected:
-	District* pDistrict;
 	virtual void onCompletion() = 0;
 public:
-	Task(District*, Tile*, std::string, int);
+	Task(Tile*, std::string, int);
 	virtual ~Task();
-	District* getDistrict() const { return pDistrict; }
 	Tile* getTile() const { return pTile; }
 	std::string getName() const { return name; }
 	bool isCompleted() const { return completed; }
 	int getWorkRemaining() const { return workRemaining; }
-	bool citizenInRange(Citizen*);
-	void workOn(Citizen*);
+	void workOn();
 };
 
 }
