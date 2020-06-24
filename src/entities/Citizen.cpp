@@ -6,7 +6,7 @@
 #include "components/WorkerComponent.h"
 #include "components/CitizenComponent.h"
 
-Citizen::Citizen() : Entity("Citizen", 'C') {
+Citizen::Citizen() : Entity("Citizen") {
 	addComponent<PositionComponent>(this);
 	addComponent<WalkComponent>();
 	addComponent<DrawComponent>('C');

@@ -3,7 +3,7 @@
 #include "components/PositionComponent.h"
 #include "components/DrawComponent.h"
 
-Tree::Tree() : Entity("Tree", '$') {
+Tree::Tree() : Entity("Tree") {
     addComponent<PositionComponent>(this);
     addComponent<DrawComponent>('$');
 }
