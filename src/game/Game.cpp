@@ -12,6 +12,7 @@
 #include "gamesystems/GrowSystem.h"
 #include "gamesystems/WalkSystem.h"
 #include "gamesystems/WorkSystem.h"
+#include "gamesystems/CitizenSystem.h"
 
 using namespace std::chrono;
 
@@ -27,6 +28,7 @@ Game::Game() {
 	gameSystems.push_back(std::make_unique<WalkSystem>());
 	gameSystems.push_back(std::make_unique<GrowSystem>());
 	gameSystems.push_back(std::make_unique<WorkSystem>());
+	gameSystems.push_back(std::make_unique<CitizenSystem>());
 
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;

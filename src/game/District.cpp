@@ -186,22 +186,22 @@ void District::createBiome(int i, int j, TileProperty::TileProperty biomePropert
  * Returns the most recently added task in this district.
  * Returns nullptr if there are no tasks.
  */
-Task* District::getLatestTask() const {
+std::shared_ptr<Task> District::getLatestTask() const {
 	if (tasks.empty())
 		return nullptr;
 
-	return tasks.back().get();
+	return tasks.back();
 }
 
 /*
  * Returns the oldest task created in this district.
  * Returns nullptr if there are no tasks.
  */
-Task* District::getOldestTask() const {
+std::shared_ptr<Task> District::getOldestTask() const {
 	if (tasks.empty())
 		return nullptr;
 
-	return tasks.front().get();
+	return tasks.front();
 }
 
 /*

@@ -31,8 +31,8 @@ public:
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void simulate();
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
-	Tasks::Task* getLatestTask() const;
-	Tasks::Task* getOldestTask() const;
+	std::shared_ptr<Tasks::Task> getLatestTask() const;
+	std::shared_ptr<Tasks::Task> getOldestTask() const;
 	template <class E> E* makeEntity();
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
