@@ -56,7 +56,7 @@ District::District(const string name) : districtName(name) {
 	if (BIOME_GEN) {
 		// Generate biomes
 		int stoneBiomes = rand() % 3 + 1;	// 1-3 stone biomes
-		int lakeBiomes = rand() % 4;		// 0-3 lake biomes
+		int lakeBiomes = rand() % 3 + 1;	// 1-3 lake biomes
 
 		while (stoneBiomes--) {
 			int ri = rand() % DISTRICT_SIZE;
@@ -104,7 +104,7 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Add a new citizen and place them on a walkable tile
-	citizens.push_back(std::make_unique<Citizen>(this, "Geoff"));
+	Citizen* citizen = makeEntity<Citizen>();
 
 	int i, j;
 
@@ -113,9 +113,9 @@ District::District(const string name) : districtName(name) {
 		i = rand() % DISTRICT_SIZE;
 		j = rand() % DISTRICT_SIZE;
 	}
-	while (!tiles[i][j].citizenEnter(citizens[0].get()));
+	while (!tiles[i][j].citizenEnter(citizen));
 
-	PositionComponent* pc = citizens[0]->getComponent<PositionComponent>();
+	PositionComponent* pc = citizen->getComponent<PositionComponent>();
 	if (pc != nullptr)
 		pc->setTile(&tiles[i][j]);
 	else
@@ -126,8 +126,6 @@ District::~District() {
 	// Delete the map tiles
 	delete [] tiles[0];
 	delete [] tiles;
-
-	citizens.clear();	// Delete the citizens vector
 }
 
 const std::vector<std::unique_ptr<Entity>>& District::getEntities() const {
@@ -188,38 +186,28 @@ void District::createBiome(int i, int j, TileProperty::TileProperty biomePropert
  * Returns the most recently added task in this district.
  * Returns nullptr if there are no tasks.
  */
-Task* District::getLatestTask() const {
+std::shared_ptr<Task> District::getLatestTask() const {
 	if (tasks.empty())
 		return nullptr;
 
-	return tasks.back().get();
+	return tasks.back();
 }
 
 /*
  * Returns the oldest task created in this district.
  * Returns nullptr if there are no tasks.
  */
-Task* District::getOldestTask() const {
+std::shared_ptr<Task> District::getOldestTask() const {
 	if (tasks.empty())
 		return nullptr;
 
-	return tasks.front().get();
+	return tasks.front();
 }
 
 /*
  * Prompts the district to simulate one game tick.
  */
 void District::simulate() {
-	// Simulate all citizens
-	for (std::unique_ptr<Citizen>& upC : citizens) {
-		upC->simulate();
-	}
-
-	// Simulate the rest of the district
-	for (std::unique_ptr<Entity>& upE : entities) {
-		// upE->simulate();
-	}
-
 	// Remove all entities that need deleting
 	entities.erase(std::remove_if(entities.begin(), entities.end(), [this] (std::unique_ptr<Entity>& upE) -> bool {
 		return std::find(entitiesToDelete.begin(), entitiesToDelete.end(), upE.get()) != entitiesToDelete.end();
@@ -231,7 +219,7 @@ void District::simulate() {
 	entitiesToAdd.clear();
 
 	// Remove all tasks that need deleting
-	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this] (std::unique_ptr<Task>& upT) -> bool {
+	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this] (std::shared_ptr<Task>& upT) -> bool {
 		return std::find(tasksToDelete.begin(), tasksToDelete.end(), upT.get()) != tasksToDelete.end();
 	}), tasks.end());
 	tasksToDelete.clear();

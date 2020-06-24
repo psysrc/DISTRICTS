@@ -10,7 +10,7 @@ public:
     WalkComponent() {}
     virtual ~WalkComponent() {}
 
-    Tile* destination;
+    Tile* destination = nullptr;
     std::unique_ptr<Path> path;
 };
 

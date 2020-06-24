@@ -9,16 +9,20 @@
 #include "components/PositionComponent.h"
 #include "components/WalkComponent.h"
 #include "components/DrawComponent.h"
+#include "components/WorkerComponent.h"
+#include "components/CitizenComponent.h"
 
-Citizen::Citizen(District* district, std::string name) : Entity(name, 'C'), pCurrentTask(nullptr) {
+Citizen::Citizen() : Entity("Citizen", 'C') {
 	addComponent<PositionComponent>(this);
 	addComponent<WalkComponent>();
 	addComponent<DrawComponent>('C');
+	addComponent<WorkerComponent>();
+	addComponent<CitizenComponent>();
+
+	getComponent<WorkerComponent>()->working = true;
 }
 
-Citizen::~Citizen() {
-
-}
+Citizen::~Citizen() {}
 
 /*
  * Called once per game tick.

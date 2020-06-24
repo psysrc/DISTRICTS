@@ -9,6 +9,7 @@
 
 /*
  * Finds a path between 'from' and 'to'.
+ * If no path can be found, returns nullptr.
  * 'strict' parameter defines whether the path *must* end with the goal node 'to'. By default this is disabled.
  * 		If strict is disabled, the returned solution can be a path to a neighbour of the goal instead.
  * 		This can be useful if the goal tile is a Water tile next to land, or a tile with an Entity on it, for example.
@@ -60,8 +61,8 @@ std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to, bool strict) {
 
 			Tile* current = next;
 
-			// Populate the pathFound vector up to the first tile from the start
-			while (current != from) {
+			// Populate the pathFound vector up to the starting tile ('from')
+			while (current != nullptr) {
 				pathFound.push_back(current);
 				current = pathVia[current];
 			}

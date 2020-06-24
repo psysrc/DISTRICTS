@@ -13,7 +13,8 @@ public:
 	CutDownTree(District*, Tile*);
 	virtual ~CutDownTree();
 protected:
-	virtual void onCompletion() override final;
+	virtual void onCompletion() override;
+	District* pDistrict;
 };
 
 }

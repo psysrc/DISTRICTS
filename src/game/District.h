@@ -18,12 +18,11 @@ class District {
 private:
 	std::string districtName;
 	Tile** tiles;
-	std::vector<std::unique_ptr<Citizen>> citizens;			// All citizens in the district
-	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district (not including citizens)
-	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick (not including citizens)
-	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick (not including citizens)
-	std::vector<std::unique_ptr<Tasks::Task>> tasks;		// All tasks in the district
-	std::vector<std::unique_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
+	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district
+	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick
+	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick
+	std::vector<std::shared_ptr<Tasks::Task>> tasks;		// All tasks in the district
+	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
 public:
 	District(const std::string name = "unnamed");
@@ -32,8 +31,8 @@ public:
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void simulate();
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
-	Tasks::Task* getLatestTask() const;
-	Tasks::Task* getOldestTask() const;
+	std::shared_ptr<Tasks::Task> getLatestTask() const;
+	std::shared_ptr<Tasks::Task> getOldestTask() const;
 	template <class E> E* makeEntity();
 	template <class T> T* makeTask(Tile*);
 	std::string getName() const;
@@ -67,7 +66,7 @@ template <class T>
 T* District::makeTask(Tile* tile) {
 	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
 
-	std::unique_ptr<T> upT = std::make_unique<T>(this, tile);
+	std::shared_ptr<T> upT = std::make_shared<T>(this, tile);
 	T* pT = upT.get();
 
 	tasksToAdd.push_back(std::move(upT));

@@ -15,7 +15,7 @@ class Citizen : public Entity {
 private:
 	Tasks::Task* pCurrentTask;
 public:
-	Citizen(District*, const std::string);
+	Citizen();
 	virtual ~Citizen();
 	virtual void simulate();
 	void move(int direction);

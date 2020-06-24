@@ -5,7 +5,7 @@
 
 using namespace Tasks;
 
-BuildBridge::BuildBridge(District* district, Tile* tile) : Task(district, tile, "Build bridge", 25) {
+BuildBridge::BuildBridge(District* district, Tile* tile) : Task(tile, "Build bridge", 25) {
 
 }
 
