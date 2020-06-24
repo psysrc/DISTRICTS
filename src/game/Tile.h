@@ -37,7 +37,7 @@ public:
 	Entity* vacateEntity();
 	bool occupied() const;
 	int getDrawColour() const;
-	void updateVisuals();
+	void updateColour();
 	bool operator==(const Tile& b) const;
 };
 

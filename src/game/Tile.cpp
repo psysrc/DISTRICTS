@@ -76,7 +76,7 @@ Tile* Tile::getNeighbourTile(int direction) const {
 void Tile::updateProperty(TileProperty::TileProperty newProperty) {
 	property = newProperty;
 
-	updateVisuals();
+	updateColour();
 }
 
 TileProperty::TileProperty Tile::getProperty() const {
@@ -122,8 +122,6 @@ bool Tile::occupy(Entity* pEntity) {
 
 	this->pEntity = pEntity;
 
-	updateVisuals();
-
 	return true;
 }
 
@@ -135,7 +133,6 @@ Entity* Tile::vacateEntity() {
 	if (occupied()) {
 		Entity* tmp = pEntity;
 		pEntity = nullptr;
-		updateVisuals();
 
 		return tmp;
 	}
@@ -154,7 +151,7 @@ bool Tile::occupied() const {
  * Updates the tile colour.
  * Should be called whenever the tile's properties/characteristics change.
  */
-void Tile::updateVisuals() {
+void Tile::updateColour() {
 	switch (property) {
 	case TileProperty::Plains:
 		drawColour = COLOUR_PLAINS;
