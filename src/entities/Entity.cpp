@@ -1,18 +1,11 @@
 #include "Entity.h"
 
-Entity::Entity(std::string objectName, char objectDrawSymbol)
-: name(objectName), drawSymbol(objectDrawSymbol) {
+Entity::Entity() : name("") {}
 
-}
+Entity::Entity(std::string objectName) : name(objectName) {}
 
-Entity::~Entity() {
-
-}
+Entity::~Entity() {}
 
 std::string Entity::getName() const {
 	return name;
-}
-
-char Entity::getDrawSymbol() const {
-	return drawSymbol;
 }

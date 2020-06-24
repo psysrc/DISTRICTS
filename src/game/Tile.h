@@ -32,13 +32,11 @@ public:
 	Entity* getEntity() const;
 	District* getDistrict() const;
 	bool walkable() const;
-	bool citizenEnter(Citizen*);
 	bool occupy(Entity*);
 	Entity* vacateEntity();
 	bool occupied() const;
-	char getDrawSymbol() const;
 	int getDrawColour() const;
-	void updateVisuals();
+	void updateColour();
 	bool operator==(const Tile& b) const;
 };
 

@@ -113,7 +113,7 @@ District::District(const string name) : districtName(name) {
 		i = rand() % DISTRICT_SIZE;
 		j = rand() % DISTRICT_SIZE;
 	}
-	while (!tiles[i][j].citizenEnter(citizen));
+	while (!tiles[i][j].walkable());
 
 	PositionComponent* pc = citizen->getComponent<PositionComponent>();
 	if (pc != nullptr)

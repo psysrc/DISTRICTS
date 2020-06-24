@@ -7,21 +7,15 @@
 #include <memory>
 #include "components/Component.h"
 
-// No need to fully include
-class Tile;
-class District;
-
 class Entity {
 protected:
 	std::string name;		// The name of the entity
-	char drawSymbol;		// The entity's visual representation in the world
 	std::vector<std::unique_ptr<Component>> components;
 public:
 	Entity();
-	Entity(std::string, char);
+	Entity(std::string);
 	virtual ~Entity();
 	std::string getName() const;
-	char getDrawSymbol() const;
 	template <class C> bool hasComponent() const;
 	template <class C> C* getComponent() const;
 	template <class C, typename... CArgs> C* addComponent(CArgs...);
