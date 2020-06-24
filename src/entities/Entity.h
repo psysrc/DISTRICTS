@@ -7,10 +7,6 @@
 #include <memory>
 #include "components/Component.h"
 
-// No need to fully include
-class Tile;
-class District;
-
 class Entity {
 protected:
 	std::string name;		// The name of the entity
