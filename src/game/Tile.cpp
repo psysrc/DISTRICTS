@@ -151,15 +151,10 @@ bool Tile::occupied() const {
 }
 
 /*
- * Updates the symbol representation and colours for this Tile.
+ * Updates the tile colour.
  * Should be called whenever the tile's properties/characteristics change.
  */
 void Tile::updateVisuals() {
-	if (pEntity != nullptr)
-		drawSymbol = pEntity->getDrawSymbol();
-	else
-		drawSymbol = ' ';
-
 	switch (property) {
 	case TileProperty::Plains:
 		drawColour = COLOUR_PLAINS;
@@ -177,14 +172,6 @@ void Tile::updateVisuals() {
 		drawColour = COLOUR_UNKNOWN;
 		break;
 	}
-}
-
-/*
- * Returns the draw symbol of this Tile.
- * Deprecated.
- */
-char Tile::getDrawSymbol() const {
-	return drawSymbol;
 }
 
 /*

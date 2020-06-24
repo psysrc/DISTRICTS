@@ -405,6 +405,8 @@ Tile* selectTile(District* pDistrict) {
 	bool returnTile = false;
 	bool cancel = false;
 
+	char symbolToDraw = '?';
+
 	while (true) {
 		// Remember what this grid position looked like before we highlighted it
 		Tile* currentTile = pDistrict->getTile(row, column);
@@ -413,7 +415,12 @@ Tile* selectTile(District* pDistrict) {
 		chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
 
 		// Highlight the current grid position
-		drawGridPosition(row, column, COLOUR_HIGHLIGHTED, currentTile->getDrawSymbol());
+		if (currentTile->getEntity() && currentTile->getEntity()->getComponent<DrawComponent>())
+			symbolToDraw = currentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
+		else
+			symbolToDraw = ' ';
+		
+		drawGridPosition(row, column, COLOUR_HIGHLIGHTED, symbolToDraw);
 
 		wrefresh(mapWindow);
 
@@ -449,7 +456,12 @@ Tile* selectTile(District* pDistrict) {
 		}
 
 		// Revert previous grid position to normal
-		drawGridPosition(currentTile->getX(), currentTile->getY(), PAIR_NUMBER(normalDisplay), currentTile->getDrawSymbol());
+		if (currentTile->getEntity() && currentTile->getEntity()->getComponent<DrawComponent>())
+			symbolToDraw = currentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
+		else
+			symbolToDraw = ' ';
+
+		drawGridPosition(currentTile->getX(), currentTile->getY(), PAIR_NUMBER(normalDisplay), symbolToDraw);
 
 		// Return tile or cancel if necessary
 		if (returnTile) {
