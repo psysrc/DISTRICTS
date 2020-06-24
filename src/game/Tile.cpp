@@ -102,18 +102,6 @@ bool Tile::walkable() const {
 }
 
 /*
- * Identical to Tile::occupy(Entity*) but specialised for Citizens.
- * Checks, for example, if the citizen can walk on the tile (i.e. is it water?).
- * Deprecated.
- */
-bool Tile::citizenEnter(Citizen* pCitizen) {
-	if (!walkable())
-		return false;
-
-	return occupy(pCitizen);	// The citizen will attempt to occupy the tile
-}
-
-/*
  * The given entity will occupy this Tile unless the tile is already occupied.
  */
 bool Tile::occupy(Entity* pEntity) {

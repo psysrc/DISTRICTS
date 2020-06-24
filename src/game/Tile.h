@@ -32,7 +32,6 @@ public:
 	Entity* getEntity() const;
 	District* getDistrict() const;
 	bool walkable() const;
-	bool citizenEnter(Citizen*);
 	bool occupy(Entity*);
 	Entity* vacateEntity();
 	bool occupied() const;
