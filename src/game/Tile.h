@@ -4,13 +4,11 @@
 #include <vector>
 #include "game/Constants.h"
 
-class District;
 class Entity;
 class Citizen;
 
 class Tile {
 private:
-	District* pDistrict;
 	int xCoord, yCoord;
 	std::vector<Tile*> neighbourTiles;
 	Entity* pEntity;
@@ -20,7 +18,6 @@ private:
 public:
 	Tile();
 	~Tile();
-	void setDistrict(District* dist);
 	void setCoordinates(int x, int y);
 	void setNeighbourTiles(const std::vector<Tile*> neighbours);
 	bool isInitialised() const;
@@ -30,7 +27,6 @@ public:
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
-	District* getDistrict() const;
 	bool walkable() const;
 	bool occupy(Entity*);
 	Entity* vacateEntity();

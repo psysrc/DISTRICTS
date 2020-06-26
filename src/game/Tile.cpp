@@ -6,25 +6,13 @@
 #include "entities/Citizen.h"
 
 Tile::Tile()
-: pDistrict(nullptr), xCoord(-1), yCoord(-1), pEntity(nullptr),
+: xCoord(-1), yCoord(-1), pEntity(nullptr),
   property(TileProperty::NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
 
 }
 
 Tile::~Tile() {
 
-}
-
-/*
- * Tells the tile which district it is contained within.
- * This should only ever be used immediately after the tile's creation!
- */
-void Tile::setDistrict(District* dist) {
-	pDistrict = dist;
-}
-
-District* Tile::getDistrict() const {
-	return pDistrict;
 }
 
 /*
@@ -55,7 +43,7 @@ void Tile::setNeighbourTiles(const std::vector<Tile*> neighbours) {
  * The Tile object must not be used if it has not been initialised correctly!
  */
 bool Tile::isInitialised() const {
-	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == TileProperty::NullProperty);
+	return !(xCoord == -1 || yCoord == -1 || property == TileProperty::NullProperty);
 }
 
 int Tile::getX() const {
