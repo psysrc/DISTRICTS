@@ -3,8 +3,6 @@
 
 #include "Entity.h"
 
-class District;
-
 class Sapling : public Entity {
 public:
 	Sapling();

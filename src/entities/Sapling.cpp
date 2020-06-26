@@ -1,6 +1,5 @@
 #include "Sapling.h"
 
-#include <memory>
 #include "components/GrowComponent.h"
 #include "components/PositionComponent.h"
 #include "components/DrawComponent.h"
