@@ -5,14 +5,18 @@
 
 class Tile;
 
+typedef unsigned int TaskID_t;
+
 namespace Tasks {
 
 class Task {
 private:
+	const TaskID_t id;
 	Tile* pTile;
 	std::string name;
 	bool completed;
 	int workRemaining;
+	static TaskID_t uniqueTaskID();
 protected:
 	virtual void onCompletion() = 0;
 public:

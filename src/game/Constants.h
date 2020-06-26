@@ -37,11 +37,4 @@ enum TileProperty {
 
 }
 
-class UninitialisedObjectException : public std::exception {
-	virtual const char* what() const noexcept
-	{
-		return "Trying to use an uninitialised object";
-	}
-};
-
 #endif /* CONSTANTS_H_ */

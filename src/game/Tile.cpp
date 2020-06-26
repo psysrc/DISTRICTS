@@ -5,38 +5,19 @@
 #include "entities/Entity.h"
 #include "entities/Citizen.h"
 
-Tile::Tile()
-: pDistrict(nullptr), xCoord(-1), yCoord(-1), pEntity(nullptr),
-  property(TileProperty::NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
+Tile::Tile() : coordinates(TileCoordinates(-1, -1)), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {}
 
-}
-
-Tile::~Tile() {
-
-}
-
-/*
- * Tells the tile which district it is contained within.
- * This should only ever be used immediately after the tile's creation!
- */
-void Tile::setDistrict(District* dist) {
-	pDistrict = dist;
-}
-
-District* Tile::getDistrict() const {
-	return pDistrict;
-}
+Tile::~Tile() {}
 
 /*
  * Sets the coordinates of this tile.
  * This should only ever be used immediately after the tile's creation!
  */
-void Tile::setCoordinates(int x, int y) {
-	if (!District::validTileIndex(x) || !District::validTileIndex(y))
+void Tile::setCoordinates(TileCoordinates newCoordinates) {
+	if (!District::validTileIndex(newCoordinates.x) || !District::validTileIndex(newCoordinates.y))
 		throw std::length_error("Tile::setCoordinates(): Provided coordinates are not valid indexes");
 
-	xCoord = x;
-	yCoord = y;
+	coordinates = newCoordinates;
 }
 
 /*
@@ -55,15 +36,15 @@ void Tile::setNeighbourTiles(const std::vector<Tile*> neighbours) {
  * The Tile object must not be used if it has not been initialised correctly!
  */
 bool Tile::isInitialised() const {
-	return !(pDistrict == nullptr || xCoord == -1 || yCoord == -1 || property == TileProperty::NullProperty);
+	return (District::validTileIndex(coordinates.x) && District::validTileIndex(coordinates.y) && property != TileProperty::NullProperty);
 }
 
 int Tile::getX() const {
-	return xCoord;
+	return coordinates.x;
 }
 
 int Tile::getY() const {
-	return yCoord;
+	return coordinates.y;
 }
 
 /*

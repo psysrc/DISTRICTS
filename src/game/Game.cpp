@@ -111,12 +111,12 @@ void Game::play() {
 		if (!playerQuitting) {
 			for (std::unique_ptr<GameSystem>& system : gameSystems)
 			{
-				system->run(spDistrict.get());
+				system->run(spDistrict.get());	// Run each gamesystem on the district
 			}
 
-			spDistrict->simulate();	// Simulate a game tick
+			spDistrict->update();	// Update the district
 
-			UI::update();				// Update the UI
+			UI::update();	// Update the UI
 		}
 	}
 

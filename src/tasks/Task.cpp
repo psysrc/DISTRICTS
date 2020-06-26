@@ -2,8 +2,13 @@
 
 using namespace Tasks;
 
+TaskID_t Task::uniqueTaskID() {
+	static TaskID_t nextID = 0;
+	return nextID++;
+}
+
 Task::Task(Tile* tile, std::string taskName, int work)
-: pTile(tile), name(taskName), completed(false), workRemaining(work) {
+: id(uniqueTaskID()), pTile(tile), name(taskName), completed(false), workRemaining(work) {
 
 }
 

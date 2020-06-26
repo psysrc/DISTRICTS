@@ -1,8 +1,7 @@
 //============================================================================
-// Name        : DISTRICTS.cpp
+// Name        : DISTRICTS
 // Author      : Samuel Copping
-// Version     :
-// Copyright   : 
+// Version     : PRE-ALPHA
 // Description : A procedurally generated base building game.
 //============================================================================
 

@@ -47,8 +47,7 @@ District::District(const string name) : districtName(name) {
 	// Populate the tile grid by initialising each tile with its coordinates, district and property
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
-			tiles[i][j].setDistrict(this);
-			tiles[i][j].setCoordinates(i, j);
+			tiles[i][j].setCoordinates(TileCoordinates(i, j));
 			tiles[i][j].updateProperty(TileProperty::Plains);
 		}
 	}
@@ -99,7 +98,7 @@ District::District(const string name) : districtName(name) {
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
 			if (!tiles[i][j].isInitialised())
-				throw UninitialisedObjectException();
+				throw std::logic_error("District has not been correctly initialised");
 		}
 	}
 
@@ -205,9 +204,9 @@ std::shared_ptr<Task> District::getOldestTask() const {
 }
 
 /*
- * Prompts the district to simulate one game tick.
+ * Prompts the district to update entities and tasks, adding and deleting where necessary.
  */
-void District::simulate() {
+void District::update() {
 	// Remove all entities that need deleting
 	entities.erase(std::remove_if(entities.begin(), entities.end(), [this] (std::unique_ptr<Entity>& upE) -> bool {
 		return std::find(entitiesToDelete.begin(), entitiesToDelete.end(), upE.get()) != entitiesToDelete.end();

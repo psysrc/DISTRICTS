@@ -4,24 +4,26 @@
 #include <vector>
 #include "game/Constants.h"
 
-class District;
 class Entity;
-class Citizen;
+
+struct TileCoordinates {
+	TileCoordinates(unsigned short x, unsigned short y) : x(x), y(y) {}
+	~TileCoordinates() {}
+	unsigned short x;
+	unsigned short y;
+};
 
 class Tile {
 private:
-	District* pDistrict;
-	int xCoord, yCoord;
+	TileCoordinates coordinates;
 	std::vector<Tile*> neighbourTiles;
 	Entity* pEntity;
 	TileProperty::TileProperty property;
-	char drawSymbol;
 	int drawColour;
 public:
 	Tile();
 	~Tile();
-	void setDistrict(District* dist);
-	void setCoordinates(int x, int y);
+	void setCoordinates(const TileCoordinates);
 	void setNeighbourTiles(const std::vector<Tile*> neighbours);
 	bool isInitialised() const;
 	int getX() const;
@@ -30,7 +32,6 @@ public:
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
-	District* getDistrict() const;
 	bool walkable() const;
 	bool occupy(Entity*);
 	Entity* vacateEntity();

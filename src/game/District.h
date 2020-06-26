@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 #include "game/Constants.h"
-#include "game/Tile.h"
 #include "entities/Entity.h"
 
 class Citizen;
+class Tile;
 
 namespace Tasks {
 class Task;
@@ -29,7 +29,7 @@ public:
 	~District();
 	static bool validTileIndex(const int index);
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
-	void simulate();
+	void update();
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
 	std::shared_ptr<Tasks::Task> getLatestTask() const;
 	std::shared_ptr<Tasks::Task> getOldestTask() const;
