@@ -204,9 +204,9 @@ std::shared_ptr<Task> District::getOldestTask() const {
 }
 
 /*
- * Prompts the district to simulate one game tick.
+ * Prompts the district to update entities and tasks, adding and deleting where necessary.
  */
-void District::simulate() {
+void District::update() {
 	// Remove all entities that need deleting
 	entities.erase(std::remove_if(entities.begin(), entities.end(), [this] (std::unique_ptr<Entity>& upE) -> bool {
 		return std::find(entitiesToDelete.begin(), entitiesToDelete.end(), upE.get()) != entitiesToDelete.end();
