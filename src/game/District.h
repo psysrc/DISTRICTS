@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 #include "game/Constants.h"
-#include "game/Tile.h"
 #include "entities/Entity.h"
 
 class Citizen;
+class Tile;
 
 namespace Tasks {
 class Task;

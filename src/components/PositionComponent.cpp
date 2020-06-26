@@ -1,6 +1,7 @@
 #include "components/PositionComponent.h"
 
 #include "game/District.h"
+#include "game/Tile.h"
 
 PositionComponent::PositionComponent(Entity* pEntity/*Deprecated*/) :
     entity(pEntity/*Deprecated*/), tile(nullptr), x(-1), y(-1) {}
