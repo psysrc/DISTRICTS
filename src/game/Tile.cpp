@@ -6,8 +6,7 @@
 #include "entities/Citizen.h"
 
 Tile::Tile()
-: xCoord(-1), yCoord(-1), pEntity(nullptr),
-  property(TileProperty::NullProperty), drawSymbol('?'), drawColour(COLOUR_UNKNOWN) {
+: xCoord(-1), yCoord(-1), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {
 
 }
 

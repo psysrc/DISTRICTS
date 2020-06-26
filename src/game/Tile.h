@@ -13,7 +13,6 @@ private:
 	std::vector<Tile*> neighbourTiles;
 	Entity* pEntity;
 	TileProperty::TileProperty property;
-	char drawSymbol;
 	int drawColour;
 public:
 	Tile();
