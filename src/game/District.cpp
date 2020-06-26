@@ -99,7 +99,7 @@ District::District(const string name) : districtName(name) {
 	for (int i = 0; i < DISTRICT_SIZE; i++) {
 		for (int j = 0; j < DISTRICT_SIZE; j++) {
 			if (!tiles[i][j].isInitialised())
-				throw UninitialisedObjectException();
+				throw std::logic_error("District has not been correctly initialised");
 		}
 	}
 
