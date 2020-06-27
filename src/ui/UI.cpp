@@ -82,10 +82,10 @@ bool initialise() {
 
 	// Define the windows in the terminal
 	// Parameters are: row count (height), column count (width), row origin, column origin
-	mapWindow = newwin(DISTRICT_SIZE, DISTRICT_SIZE * 2, 0, 0);
-	activityWindow = newwin(8, DISTRICT_SIZE * 2, DISTRICT_SIZE + 1, 0);
-	districtNameWindow = newwin(3, 32, 0, (DISTRICT_SIZE * 2) + 2);
-	promptWindow = newwin(DISTRICT_SIZE - 3, 32, 3, (DISTRICT_SIZE * 2) + 2);
+	mapWindow = newwin(District::districtSize, District::districtSize * 2, 0, 0);
+	activityWindow = newwin(8, District::districtSize * 2, District::districtSize + 1, 0);
+	districtNameWindow = newwin(3, 32, 0, (District::districtSize * 2) + 2);
+	promptWindow = newwin(District::districtSize - 3, 32, 3, (District::districtSize * 2) + 2);
 
 	// Make the map text brighter and bolder
 	wattron(mapWindow, A_BOLD);
@@ -261,8 +261,8 @@ void update() {
 	Tile** districtTiles = spDistrict->getTiles();
 
 	// Draw the N*N grid of tiles
-	for (int i = 0; i < DISTRICT_SIZE; i++) {
-		for (int j = 0; j < DISTRICT_SIZE; j++) {
+	for (int i = 0; i < District::districtSize; i++) {
+		for (int j = 0; j < District::districtSize; j++) {
 			Tile* tile = &districtTiles[i][j];
 			Entity* entity = tile->getEntity();
 			drawGridPosition(i, j, tile->getDrawColour(), (entity == nullptr ? ' ' : entity->getComponent<DrawComponent>()->drawSymbol));
@@ -399,8 +399,8 @@ Tile* selectTile(District* pDistrict) {
 	displayDebugMessage("Please select a tile.");
 
 	// Start in the middle
-	int row = DISTRICT_SIZE / 2;
-	int column = DISTRICT_SIZE / 2;
+	int row = District::districtSize / 2;
+	int column = District::districtSize / 2;
 
 	bool returnTile = false;
 	bool cancel = false;
@@ -434,7 +434,7 @@ Tile* selectTile(District* pDistrict) {
 				column--;
 			break;
 		case KEY_RIGHT:
-			if (column < DISTRICT_SIZE - 1)
+			if (column < District::districtSize - 1)
 				column++;
 			break;
 		case KEY_UP:
@@ -442,7 +442,7 @@ Tile* selectTile(District* pDistrict) {
 				row--;
 			break;
 		case KEY_DOWN:
-			if (row < DISTRICT_SIZE - 1)
+			if (row < District::districtSize - 1)
 				row++;
 			break;
 		case '\n':	// ENTER

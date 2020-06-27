@@ -15,17 +15,17 @@ using namespace Tasks;
 
 District::District(const string name) : districtName(name) {
 	// Define a contiguous memory space for the n*n grid of tiles
-	tiles = new Tile*[DISTRICT_SIZE];
-	tiles[0] = new Tile[DISTRICT_SIZE * DISTRICT_SIZE];
+	tiles = new Tile*[District::districtSize];
+	tiles[0] = new Tile[District::districtSize * District::districtSize];
 
 	// Set up the row (i) pointers
-	for (int i = 1; i < DISTRICT_SIZE; i++) {
-		tiles[i] = tiles[i - 1] + DISTRICT_SIZE;
+	for (int i = 1; i < District::districtSize; i++) {
+		tiles[i] = tiles[i - 1] + District::districtSize;
 	}
 
 	// Initialise tile neighbours for each tile
-	for (int i = 0; i < DISTRICT_SIZE; i++) {
-		for (int j = 0; j < DISTRICT_SIZE; j++) {
+	for (int i = 0; i < District::districtSize; i++) {
+		for (int j = 0; j < District::districtSize; j++) {
 			std::vector<Tile*> neighbours;
 			neighbours.reserve(8);
 
@@ -45,8 +45,8 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Populate the tile grid by initialising each tile with its coordinates, district and property
-	for (int i = 0; i < DISTRICT_SIZE; i++) {
-		for (int j = 0; j < DISTRICT_SIZE; j++) {
+	for (int i = 0; i < District::districtSize; i++) {
+		for (int j = 0; j < District::districtSize; j++) {
 			tiles[i][j].setCoordinates(TileCoordinates(i, j));
 			tiles[i][j].updateProperty(TileProperty::Plains);
 		}
@@ -58,16 +58,16 @@ District::District(const string name) : districtName(name) {
 		int lakeBiomes = rand() % 3 + 1;	// 1-3 lake biomes
 
 		while (stoneBiomes--) {
-			int ri = rand() % DISTRICT_SIZE;
-			int rj = rand() % DISTRICT_SIZE;
+			int ri = rand() % District::districtSize;
+			int rj = rand() % District::districtSize;
 			int size = rand() % 26 + 5;		// 5-30 tiles in size
 
 			createBiome(ri, rj, TileProperty::Stone, size);
 		}
 
 		while (lakeBiomes--) {
-			int ri = rand() % DISTRICT_SIZE;
-			int rj = rand() % DISTRICT_SIZE;
+			int ri = rand() % District::districtSize;
+			int rj = rand() % District::districtSize;
 			int size = rand() % 101 + 10;	// 10-100 tiles in size
 
 			createBiome(ri, rj, TileProperty::Water, size);
@@ -76,8 +76,8 @@ District::District(const string name) : districtName(name) {
 
 	if (TREE_GEN) {
 		// Every Plains tile has a chance to grow a Tree or Sapling
-		for (int i = 0; i < DISTRICT_SIZE; i++) {
-			for (int j = 0; j < DISTRICT_SIZE; j++) {
+		for (int i = 0; i < District::districtSize; i++) {
+			for (int j = 0; j < District::districtSize; j++) {
 				if (tiles[i][j].getProperty() == TileProperty::Plains) {
 					int treeChance = rand() % 100;
 
@@ -95,8 +95,8 @@ District::District(const string name) : districtName(name) {
 	}
 
 	// Check that all tiles have been initialised
-	for (int i = 0; i < DISTRICT_SIZE; i++) {
-		for (int j = 0; j < DISTRICT_SIZE; j++) {
+	for (int i = 0; i < District::districtSize; i++) {
+		for (int j = 0; j < District::districtSize; j++) {
 			if (!tiles[i][j].isInitialised())
 				throw std::logic_error("District has not been correctly initialised");
 		}
@@ -109,8 +109,8 @@ District::District(const string name) : districtName(name) {
 
 	// Keep choosing random tiles until one is found in which the citizen can enter
 	do {
-		i = rand() % DISTRICT_SIZE;
-		j = rand() % DISTRICT_SIZE;
+		i = rand() % District::districtSize;
+		j = rand() % District::districtSize;
 	}
 	while (!tiles[i][j].walkable());
 
@@ -134,8 +134,8 @@ const std::vector<std::unique_ptr<Entity>>& District::getEntities() const {
 /*
  * Returns whether or not an index into the Tiles array is valid.
  */
-bool District::validTileIndex(const int index) {
-	return (index >= 0 && index < DISTRICT_SIZE);
+bool District::validTileIndex(const short index) {
+	return (index >= 0 && index < districtSize);
 }
 
 /*

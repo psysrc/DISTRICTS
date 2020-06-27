@@ -7,7 +7,7 @@
 class Entity;
 
 struct TileCoordinates {
-	TileCoordinates(unsigned short x, unsigned short y) : x(x), y(y) {}
+	TileCoordinates(const unsigned short x, const unsigned short y) : x(x), y(y) {}
 	~TileCoordinates() {}
 	unsigned short x;
 	unsigned short y;

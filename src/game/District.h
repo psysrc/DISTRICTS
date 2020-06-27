@@ -4,11 +4,13 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 #include "game/Constants.h"
 #include "entities/Entity.h"
+#include "tasks/Task.h"
+#include "game/Tile.h"
 
 class Citizen;
-class Tile;
 
 namespace Tasks {
 class Task;
@@ -24,10 +26,14 @@ private:
 	std::vector<std::shared_ptr<Tasks::Task>> tasks;		// All tasks in the district
 	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
+	std::map<TileCoordinates, EntityID_t> entityOccupyMap;	// Which entities occupy certain tiles
+	std::map<TileCoordinates, TaskID_t> taskOccupyMap;		// Which tasks occupy certain tiles
 public:
+	static const unsigned short districtSize = 32;
+	
 	District(const std::string name = "unnamed");
 	~District();
-	static bool validTileIndex(const int index);
+	static bool validTileIndex(const short);
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void update();
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
