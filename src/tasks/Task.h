@@ -2,26 +2,25 @@
 #define SRC_GAME_TASK_H_
 
 #include <string>
+#include "game/ID.h"
 
 class Tile;
-
-typedef unsigned int TaskID_t;
 
 namespace Tasks {
 
 class Task {
 private:
-	const TaskID_t id;
+	const ID_t id;
 	Tile* pTile;
 	std::string name;
 	bool completed;
 	int workRemaining;
-	static TaskID_t uniqueTaskID();
 protected:
 	virtual void onCompletion() = 0;
 public:
 	Task(Tile*, std::string, int);
 	virtual ~Task();
+	ID_t getID() const;
 	Tile* getTile() const { return pTile; }
 	std::string getName() const { return name; }
 	bool isCompleted() const { return completed; }

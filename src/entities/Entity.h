@@ -6,13 +6,11 @@
 #include <vector>
 #include <memory>
 #include "components/Component.h"
-
-typedef unsigned int EntityID_t;
+#include "game/ID.h"
 
 class Entity {
 private:
-	const EntityID_t id;
-	static EntityID_t uniqueEntityID();
+	const ID_t id;
 protected:
 	std::string name;		// The name of the entity
 	std::vector<std::unique_ptr<Component>> components;
@@ -21,7 +19,7 @@ public:
 	Entity(std::string);
 	virtual ~Entity();
 	std::string getName() const;
-	EntityID_t getID() const;
+	ID_t getID() const;
 	template <class C> bool hasComponent() const;
 	template <class C> C* getComponent() const;
 	template <class C, typename... CArgs> C* addComponent(CArgs...);

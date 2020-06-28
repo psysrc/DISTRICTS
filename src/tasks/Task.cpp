@@ -2,17 +2,16 @@
 
 using namespace Tasks;
 
-TaskID_t Task::uniqueTaskID() {
-	static TaskID_t nextID = 0;
-	return nextID++;
-}
-
 Task::Task(Tile* tile, std::string taskName, int work)
 : id(uniqueTaskID()), pTile(tile), name(taskName), completed(false), workRemaining(work) {
 
 }
 
 Task::~Task() {}
+
+ID_t Task::getID() const {
+	return id;
+}
 
 /**
  * Perform one unit of work on this task.

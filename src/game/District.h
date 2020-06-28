@@ -9,6 +9,7 @@
 #include "entities/Entity.h"
 #include "tasks/Task.h"
 #include "game/Tile.h"
+#include "ID.h"
 
 class Citizen;
 
@@ -26,26 +27,31 @@ private:
 	std::vector<std::shared_ptr<Tasks::Task>> tasks;		// All tasks in the district
 	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
-	std::map<TileCoordinates, EntityID_t> entityOccupyMap;	// Which entities occupy certain tiles
-	std::map<TileCoordinates, TaskID_t> taskOccupyMap;		// Which tasks occupy certain tiles
+	std::map<TileCoordinates, ID_t> entityOccupyMap;		// Which entities occupy certain tiles
+	std::map<TileCoordinates, ID_t> taskOccupyMap;			// Which tasks occupy certain tiles
 public:
 	static const unsigned short districtSize = 32;
 	
 	District(const std::string name = "unnamed");
 	~District();
+	std::string getName() const;
 	static bool validTileIndex(const short);
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void update();
+
+	template <class E> E* makeEntity();
+	Entity* getEntity(ID_t) const;
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
+	void deleteEntity(Entity* entity);
+
+	template <class T> T* makeTask(Tile*);
+	Tasks::Task* getTask(ID_t) const;
 	std::shared_ptr<Tasks::Task> getLatestTask() const;
 	std::shared_ptr<Tasks::Task> getOldestTask() const;
-	template <class E> E* makeEntity();
-	template <class T> T* makeTask(Tile*);
-	std::string getName() const;
+	void deleteTask(Tasks::Task* task);
+
 	Tile** getTiles() const;
 	Tile* getTile(const int i, const int j) const;
-	void deleteEntity(Entity* entity);
-	void deleteTask(Tasks::Task* task);
 };
 
 /*
