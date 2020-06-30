@@ -69,20 +69,6 @@ Entity* Tile::getEntity() const {
 }
 
 /*
- * Returns whether or not this tile is walkable.
- * Deprecated.
- */
-bool Tile::walkable() const {
-	if (property == TileProperty::Water)
-		return false;
-
-	if (occupied())
-		return false;
-
-	return true;
-}
-
-/*
  * The given entity will occupy this Tile unless the tile is already occupied.
  */
 bool Tile::occupy(Entity* pEntity) {

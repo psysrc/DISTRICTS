@@ -32,7 +32,6 @@ public:
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
-	bool walkable() const;
 	bool occupy(Entity*);
 	Entity* vacateEntity();
 	bool occupied() const;

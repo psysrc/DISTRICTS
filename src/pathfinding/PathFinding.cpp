@@ -6,15 +6,16 @@
 #include <cmath>
 #include <bits/stdc++.h>
 #include "pathfinding/Path.h"
+#include "entities/OccupyRules.h"
 
 /*
- * Finds a path between 'from' and 'to'.
+ * Finds a path between 'from' and 'to', for the given entity.
  * If no path can be found, returns nullptr.
  * 'strict' parameter defines whether the path *must* end with the goal node 'to'. By default this is disabled.
  * 		If strict is disabled, the returned solution can be a path to a neighbour of the goal instead.
  * 		This can be useful if the goal tile is a Water tile next to land, or a tile with an Entity on it, for example.
  */
-std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to, bool strict) {
+std::unique_ptr<Path> PathFinding::findPath(Entity* entity, Tile* from, Tile* to, bool strict) {
 	std::map<Tile*, Tile*> pathVia;		// The immediately-preceding tile along the currently known best path
 	std::map<Tile*, float> pLength;		// Best path length currently known
 	std::map<Tile*, float> fScore;		// pLength + distance_heuristic
@@ -82,7 +83,7 @@ std::unique_ptr<Path> PathFinding::findPath(Tile* from, Tile* to, bool strict) {
 			if (closedSet.find(neighbour) != closedSet.end())	// If this neighbour is in the closed set, ignore it (already fully explored)
 				continue;
 
-			if (!neighbour->walkable())		// If the tile is not walkable, ignore it
+			if (!OccupyRules::canOccupy(entity, neighbour))		// If the entity cannot occupy the tile, ignore it
 				continue;
 
 			if (openSet.find(neighbour) == openSet.end()) {		// If this neighbour is not in the open set

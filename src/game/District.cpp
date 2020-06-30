@@ -8,6 +8,7 @@
 #include "entities/Citizen.h"
 #include "components/PositionComponent.h"
 #include "components/GrowComponent.h"
+#include "entities/OccupyRules.h"
 
 using std::string;
 using std::vector;
@@ -112,7 +113,7 @@ District::District(const string name) : districtName(name) {
 		i = rand() % District::districtSize;
 		j = rand() % District::districtSize;
 	}
-	while (!tiles[i][j].walkable());
+	while (!OccupyRules::canOccupy(citizen, &tiles[i][j]));
 
 	PositionComponent* pc = citizen->getComponent<PositionComponent>();
 	if (pc != nullptr)
