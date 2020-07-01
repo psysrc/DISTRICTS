@@ -2,22 +2,14 @@
 
 #include "game/District.h"
 #include <stdexcept>
-#include "entities/Entity.h"
 #include "entities/Citizen.h"
 
-Tile::Tile() : coordinates(TileCoordinates(-1, -1)), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {}
+Tile::Tile(short x, short y) : coordinates(TileCoordinates(x, y)), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {}
 
 Tile::~Tile() {}
 
-/*
- * Sets the coordinates of this tile.
- * This should only ever be used immediately after the tile's creation!
- */
-void Tile::setCoordinates(TileCoordinates newCoordinates) {
-	if (!District::validTileIndex(newCoordinates.x) || !District::validTileIndex(newCoordinates.y))
-		throw std::length_error("Tile::setCoordinates(): Provided coordinates are not valid indexes");
-
-	coordinates = newCoordinates;
+TileCoordinates Tile::getCoordinates() const {
+	return coordinates;
 }
 
 /*

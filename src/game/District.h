@@ -20,7 +20,7 @@ class Task;
 class District {
 private:
 	std::string districtName;
-	Tile** tiles;
+	std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
 	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick
 	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick
@@ -50,7 +50,7 @@ public:
 	std::shared_ptr<Tasks::Task> getOldestTask() const;
 	void deleteTask(Tasks::Task* task);
 
-	Tile** getTiles() const;
+	const std::vector<std::vector<std::unique_ptr<Tile>>>& getTiles() const;
 	Tile* getTile(const int i, const int j) const;
 };
 

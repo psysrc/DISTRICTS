@@ -15,13 +15,16 @@ using std::vector;
 using namespace Tasks;
 
 District::District(const string name) : districtName(name) {
-	// Define a contiguous memory space for the n*n grid of tiles
-	tiles = new Tile*[District::districtSize];
-	tiles[0] = new Tile[District::districtSize * District::districtSize];
+	// Create the 2D array of Tiles
+	tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(District::districtSize);
 
-	// Set up the row (i) pointers
-	for (int i = 1; i < District::districtSize; i++) {
-		tiles[i] = tiles[i - 1] + District::districtSize;
+	for (int x = 0; x < District::districtSize; x++)
+		tiles[x] = std::vector<std::unique_ptr<Tile>>(District::districtSize);
+
+	for (int y = 0; y < District::districtSize; y++) {
+		for (int x = 0; x < District::districtSize; x++) {
+			tiles[x][y] = std::make_unique<Tile>(x, y);
+		}
 	}
 
 	// Initialise tile neighbours for each tile
@@ -34,22 +37,21 @@ District::District(const string name) : districtName(name) {
 				for (int y = -1; y <= 1; y++)
 					if (!(x == 0 && y == 0)) {		// Ignore the tile we're currently calculating neighbours for
 						if (validTileIndex(i + x) && validTileIndex(j + y)) {		// Check we are within the bounds of the district
-							neighbours.push_back(&tiles[i + x][j + y]);
+							neighbours.push_back(tiles[i + x][j + y].get());
 						} else {
 							neighbours.push_back(nullptr);
 						}
 					}
 
 			// Set neighbour for this tile
-			tiles[i][j].setNeighbourTiles(neighbours);
+			tiles[i][j]->setNeighbourTiles(neighbours);
 		}
 	}
 
 	// Populate the tile grid by initialising each tile with its coordinates, district and property
 	for (int i = 0; i < District::districtSize; i++) {
 		for (int j = 0; j < District::districtSize; j++) {
-			tiles[i][j].setCoordinates(TileCoordinates(i, j));
-			tiles[i][j].updateProperty(TileProperty::Plains);
+			tiles[i][j]->updateProperty(TileProperty::Plains);
 		}
 	}
 
@@ -79,16 +81,16 @@ District::District(const string name) : districtName(name) {
 		// Every Plains tile has a chance to grow a Tree or Sapling
 		for (int i = 0; i < District::districtSize; i++) {
 			for (int j = 0; j < District::districtSize; j++) {
-				if (tiles[i][j].getProperty() == TileProperty::Plains) {
+				if (tiles[i][j]->getProperty() == TileProperty::Plains) {
 					int treeChance = rand() % 100;
 
 					if (treeChance < 5) {	// 5% chance of growing a tree
 						Tree* newTree = makeEntity<Tree>();
-						newTree->getComponent<PositionComponent>()->setTile(&tiles[i][j]);
+						newTree->getComponent<PositionComponent>()->setTile(tiles[i][j].get());
 					}
 					else if (treeChance < 6) {	// 1% chance of growing a sapling
 						Sapling* newSapling = makeEntity<Sapling>();
-						newSapling->getComponent<PositionComponent>()->setTile(&tiles[i][j]);
+						newSapling->getComponent<PositionComponent>()->setTile(tiles[i][j].get());
 					}
 				}
 			}
@@ -98,7 +100,7 @@ District::District(const string name) : districtName(name) {
 	// Check that all tiles have been initialised
 	for (int i = 0; i < District::districtSize; i++) {
 		for (int j = 0; j < District::districtSize; j++) {
-			if (!tiles[i][j].isInitialised())
+			if (!tiles[i][j]->isInitialised())
 				throw std::logic_error("District has not been correctly initialised");
 		}
 	}
@@ -113,20 +115,16 @@ District::District(const string name) : districtName(name) {
 		i = rand() % District::districtSize;
 		j = rand() % District::districtSize;
 	}
-	while (!OccupyRules::canOccupy(citizen, &tiles[i][j]));
+	while (!OccupyRules::canOccupy(citizen, tiles[i][j].get()));
 
 	PositionComponent* pc = citizen->getComponent<PositionComponent>();
 	if (pc != nullptr)
-		pc->setTile(&tiles[i][j]);
+		pc->setTile(tiles[i][j].get());
 	else
 		throw std::runtime_error("Citizen does not have a PositionComponent");
 }
 
-District::~District() {
-	// Delete the map tiles
-	delete [] tiles[0];
-	delete [] tiles;
-}
+District::~District() {}
 
 Entity* District::getEntity(ID_t entityID) const {
 	throw std::logic_error("District::getEntity() not yet implemented");
@@ -159,7 +157,7 @@ void District::createBiome(int i, int j, TileProperty::TileProperty biomePropert
 	std::vector<Tile*>::iterator convIt;
 	int index = -1;
 
-	adjacency.push_back(&tiles[i][j]);	// Add the specified tile to the adjacency list to start the process
+	adjacency.push_back(tiles[i][j].get());	// Add the specified tile to the adjacency list to start the process
 
 	while (size--) {	// While size > 0
 		index = rand() % adjacency.size();	// Index into a random tile in the adjacency list
@@ -251,7 +249,7 @@ string District::getName() const {
 	return districtName;
 }
 
-Tile** District::getTiles() const {
+const std::vector<std::vector<std::unique_ptr<Tile>>>& District::getTiles() const {
 	return tiles;
 }
 
@@ -261,7 +259,7 @@ Tile** District::getTiles() const {
  */
 Tile* District::getTile(const int i, const int j) const {
 	if (validTileIndex(i) && validTileIndex(j))
-		return &tiles[i][j];
+		return tiles[i][j].get();
 	else
 		return nullptr;
 }

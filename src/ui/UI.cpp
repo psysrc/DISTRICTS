@@ -13,6 +13,7 @@
 #include <sstream>
 #include "components/PositionComponent.h"
 #include "components/DrawComponent.h"
+#include <memory>
 
 namespace UI {
 
@@ -258,12 +259,12 @@ void update() {
 		return;
 	}
 
-	Tile** districtTiles = spDistrict->getTiles();
+	const std::vector<std::vector<std::unique_ptr<Tile>>>& districtTiles = spDistrict->getTiles();
 
 	// Draw the N*N grid of tiles
 	for (int i = 0; i < District::districtSize; i++) {
 		for (int j = 0; j < District::districtSize; j++) {
-			Tile* tile = &districtTiles[i][j];
+			Tile* tile = districtTiles[i][j].get();
 			Entity* entity = tile->getEntity();
 			drawGridPosition(i, j, tile->getDrawColour(), (entity == nullptr ? ' ' : entity->getComponent<DrawComponent>()->drawSymbol));
 		}
