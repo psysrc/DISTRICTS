@@ -10,11 +10,9 @@
 #include "components/GrowComponent.h"
 #include "entities/OccupyRules.h"
 
-using std::string;
-using std::vector;
 using namespace Tasks;
 
-District::District(const string name) : districtName(name) {
+District::District(const std::string name) : districtName(name) {
 	// Create the 2D array of Tiles
 	tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(District::districtSize);
 
@@ -200,7 +198,7 @@ void District::deleteTask(Tasks::Task* task) {
 	tasksToDelete.push_back(task);
 }
 
-string District::getName() const {
+std::string District::getName() const {
 	return districtName;
 }
 
