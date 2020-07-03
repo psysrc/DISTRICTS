@@ -35,7 +35,6 @@ public:
 	District(const std::string name = "unnamed");
 	~District();
 	std::string getName() const;
-	static bool validTileIndex(const short);
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void update();
 
@@ -50,6 +49,7 @@ public:
 	std::shared_ptr<Tasks::Task> getOldestTask() const;
 	void deleteTask(Tasks::Task* task);
 
+	static bool validTileCoordinates(TileCoordinates);
 	const std::vector<std::vector<std::unique_ptr<Tile>>>& getTiles() const;
 	Tile* getTile(short, short) const;
 	Tile* getTile(TileCoordinates) const;
