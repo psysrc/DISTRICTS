@@ -21,10 +21,10 @@ public:
 	Task(Tile*, std::string, int);
 	virtual ~Task();
 	ID_t getID() const;
-	Tile* getTile() const { return pTile; }
-	std::string getName() const { return name; }
-	bool isCompleted() const { return completed; }
-	int getWorkRemaining() const { return workRemaining; }
+	Tile* getTile() const;
+	std::string getName() const;
+	bool isCompleted() const;
+	int getWorkRemaining() const;
 	void workOn();
 };
 
