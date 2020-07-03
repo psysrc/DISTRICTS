@@ -12,14 +12,6 @@ TileCoordinates Tile::getCoordinates() const {
 	return coordinates;
 }
 
-int Tile::getX() const {
-	return coordinates.x;
-}
-
-int Tile::getY() const {
-	return coordinates.y;
-}
-
 void Tile::updateProperty(TileProperty::TileProperty newProperty) {
 	property = newProperty;
 
@@ -93,7 +85,7 @@ int Tile::getDrawColour() const {
 }
 
 bool Tile::operator==(const Tile& b) const {
-	if (getX() == b.getX() && getY() == b.getY())
+	if (coordinates.x == b.getCoordinates().x && coordinates.y == b.getCoordinates().y)
 		return true;
 	else
 		return false;

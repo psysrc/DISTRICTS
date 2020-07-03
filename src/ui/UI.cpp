@@ -462,7 +462,7 @@ Tile* selectTile(District* pDistrict) {
 		else
 			symbolToDraw = ' ';
 
-		drawGridPosition(currentTile->getX(), currentTile->getY(), PAIR_NUMBER(normalDisplay), symbolToDraw);
+		drawGridPosition(currentTile->getCoordinates().x, currentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), symbolToDraw);
 
 		// Return tile or cancel if necessary
 		if (returnTile) {

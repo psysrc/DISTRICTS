@@ -118,8 +118,8 @@ std::unique_ptr<Path> PathFinding::findPath(District* pDistrict, Entity* entity,
 }
 
 float PathFinding::euclideanDistance(Tile* from, Tile* to) {
-	int xDiff = abs(from->getX() - to->getX());
-	int yDiff = abs(from->getY() - to->getY());
+	int xDiff = abs(from->getCoordinates().x - to->getCoordinates().x);
+	int yDiff = abs(from->getCoordinates().y - to->getCoordinates().y);
 
 	return sqrt((xDiff * xDiff) + (yDiff * yDiff));
 }

@@ -24,8 +24,6 @@ public:
 	Tile(short, short, TileProperty::TileProperty);
 	~Tile();
 	TileCoordinates getCoordinates() const;
-	int getX() const;
-	int getY() const;
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;

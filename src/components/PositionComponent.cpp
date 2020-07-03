@@ -29,7 +29,7 @@ void PositionComponent::setTile(Tile* pTile) {
     {
         tile->vacateEntity();   // Deprecated behaviour
         tile->occupy(entity);   // Deprecated behaviour
-        x = tile->getX();
-        y = tile->getY();
+        x = tile->getCoordinates().x;
+        y = tile->getCoordinates().y;
     }
 }
