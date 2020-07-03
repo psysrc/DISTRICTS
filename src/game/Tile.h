@@ -7,10 +7,10 @@
 class Entity;
 
 struct TileCoordinates {
-	TileCoordinates(unsigned short x, unsigned short y) : x(x), y(y) {}
+	TileCoordinates(short x, short y) : x(x), y(y) {}
 	~TileCoordinates() {}
-	unsigned short x;
-	unsigned short y;
+	short x;
+	short y;
 };
 
 class Tile {
@@ -21,9 +21,9 @@ private:
 	TileProperty::TileProperty property;
 	int drawColour;
 public:
-	Tile();
+	Tile(short, short);
 	~Tile();
-	void setCoordinates(const TileCoordinates);
+	TileCoordinates getCoordinates() const;
 	void setNeighbourTiles(const std::vector<Tile*> neighbours);
 	bool isInitialised() const;
 	int getX() const;
@@ -32,10 +32,8 @@ public:
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
-	bool walkable() const;
 	bool occupy(Entity*);
 	Entity* vacateEntity();
-	bool occupied() const;
 	int getDrawColour() const;
 	void updateColour();
 	bool operator==(const Tile& b) const;

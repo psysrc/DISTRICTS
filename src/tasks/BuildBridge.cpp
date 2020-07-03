@@ -5,13 +5,9 @@
 
 using namespace Tasks;
 
-BuildBridge::BuildBridge(District* district, Tile* tile) : Task(tile, "Build bridge", 25) {
+BuildBridge::BuildBridge(Tile* tile) : Task(tile, "Build bridge", 25) {}
 
-}
-
-BuildBridge::~BuildBridge() {
-
-}
+BuildBridge::~BuildBridge() {}
 
 void BuildBridge::onCompletion() {
 	getTile()->updateProperty(TileProperty::Bridge);

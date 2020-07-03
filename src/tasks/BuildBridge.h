@@ -10,7 +10,7 @@ namespace Tasks {
 
 class BuildBridge : public Task {
 public:
-	BuildBridge(District*, Tile*);
+	BuildBridge(Tile*);
 	virtual ~BuildBridge();
 protected:
 	virtual void onCompletion() override;

@@ -7,8 +7,6 @@
 #define BIOME_GEN true
 #define TREE_GEN true
 
-#define DISTRICT_SIZE 32
-
 #define COLOUR_UNKNOWN		1
 #define COLOUR_WATER		2
 #define COLOUR_PLAINS		3

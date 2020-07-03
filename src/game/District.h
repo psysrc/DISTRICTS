@@ -4,11 +4,14 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 #include "game/Constants.h"
 #include "entities/Entity.h"
+#include "tasks/Task.h"
+#include "game/Tile.h"
+#include "ID.h"
 
 class Citizen;
-class Tile;
 
 namespace Tasks {
 class Task;
@@ -17,40 +20,49 @@ class Task;
 class District {
 private:
 	std::string districtName;
-	Tile** tiles;
+	std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
 	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick
 	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick
 	std::vector<std::shared_ptr<Tasks::Task>> tasks;		// All tasks in the district
 	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
+	std::map<TileCoordinates, ID_t> entityOccupyMap;		// Which entities occupy certain tiles
+	std::map<TileCoordinates, ID_t> taskOccupyMap;			// Which tasks occupy certain tiles
 public:
+	static const unsigned short districtSize = 32;
+	
 	District(const std::string name = "unnamed");
 	~District();
-	static bool validTileIndex(const int index);
+	std::string getName() const;
+	static bool validTileIndex(const short);
 	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
 	void update();
+
+	template <class E, typename... EArgs> E* makeEntity(EArgs...);
+	Entity* getEntity(ID_t) const;
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
+	void deleteEntity(Entity* entity);
+
+	template <class T, typename... TArgs> T* makeTask(TArgs...);
+	Tasks::Task* getTask(ID_t) const;
 	std::shared_ptr<Tasks::Task> getLatestTask() const;
 	std::shared_ptr<Tasks::Task> getOldestTask() const;
-	template <class E> E* makeEntity();
-	template <class T> T* makeTask(Tile*);
-	std::string getName() const;
-	Tile** getTiles() const;
-	Tile* getTile(const int i, const int j) const;
-	void deleteEntity(Entity* entity);
 	void deleteTask(Tasks::Task* task);
+
+	const std::vector<std::vector<std::unique_ptr<Tile>>>& getTiles() const;
+	Tile* getTile(const int i, const int j) const;
 };
 
 /*
- * Creates a new Entity in the District on a given Tile.
- * Returns a pointer to the newly created Entity, or nullptr if the entity could not be created.
+ * Creates a new Entity in the District on a given Tile, passing any arguments to the entity's constructor.
+ * Returns a pointer to the newly created Entity.
  */
-template <class E>
-E* District::makeEntity() {
+template <class E, typename... EArgs>
+E* District::makeEntity(EArgs... args) {
 	static_assert(std::is_base_of<Entity, E>::value, "E must extend Entity");
 
-	std::unique_ptr<E> upE = std::make_unique<E>();
+	std::unique_ptr<E> upE = std::make_unique<E>(args...);
 	E* pE = upE.get();
 
 	entitiesToAdd.push_back(std::move(upE));
@@ -59,14 +71,14 @@ E* District::makeEntity() {
 }
 
 /*
- * Creates a new Task in the District.
+ * Creates a new Task in the District, passing any arguments to the task's constructor.
  * Returns a pointer to the newly created Task.
  */
-template <class T>
-T* District::makeTask(Tile* tile) {
+template <class T, typename... TArgs>
+T* District::makeTask(TArgs... args) {
 	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
 
-	std::shared_ptr<T> upT = std::make_shared<T>(this, tile);
+	std::shared_ptr<T> upT = std::make_shared<T>(args...);
 	T* pT = upT.get();
 
 	tasksToAdd.push_back(std::move(upT));

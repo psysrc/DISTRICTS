@@ -7,13 +7,9 @@
 
 namespace Cmds {
 
-BuildBridge::BuildBridge() : PlayerCommand("Build a bridge") {
+BuildBridge::BuildBridge() : PlayerCommand("Build a bridge") {}
 
-}
-
-BuildBridge::~BuildBridge() {
-
-}
+BuildBridge::~BuildBridge() {}
 
 void BuildBridge::execute(District* pDistrict) {
 	Tile* selectedTile = UI::selectTile(pDistrict);

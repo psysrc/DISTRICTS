@@ -2,22 +2,14 @@
 
 #include "game/District.h"
 #include <stdexcept>
-#include "entities/Entity.h"
 #include "entities/Citizen.h"
 
-Tile::Tile() : coordinates(TileCoordinates(-1, -1)), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {}
+Tile::Tile(short x, short y) : coordinates(TileCoordinates(x, y)), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {}
 
 Tile::~Tile() {}
 
-/*
- * Sets the coordinates of this tile.
- * This should only ever be used immediately after the tile's creation!
- */
-void Tile::setCoordinates(TileCoordinates newCoordinates) {
-	if (!District::validTileIndex(newCoordinates.x) || !District::validTileIndex(newCoordinates.y))
-		throw std::length_error("Tile::setCoordinates(): Provided coordinates are not valid indexes");
-
-	coordinates = newCoordinates;
+TileCoordinates Tile::getCoordinates() const {
+	return coordinates;
 }
 
 /*
@@ -69,24 +61,10 @@ Entity* Tile::getEntity() const {
 }
 
 /*
- * Returns whether or not this tile is walkable.
- * Deprecated.
- */
-bool Tile::walkable() const {
-	if (property == TileProperty::Water)
-		return false;
-
-	if (occupied())
-		return false;
-
-	return true;
-}
-
-/*
  * The given entity will occupy this Tile unless the tile is already occupied.
  */
 bool Tile::occupy(Entity* pEntity) {
-	if (occupied())
+	if (getEntity() != nullptr)
 		return false;
 
 	this->pEntity = pEntity;
@@ -99,7 +77,7 @@ bool Tile::occupy(Entity* pEntity) {
  * Returns a pointer to the vacated entity, or nullptr if there was none.
  */
 Entity* Tile::vacateEntity() {
-	if (occupied()) {
+	if (getEntity() != nullptr) {
 		Entity* tmp = pEntity;
 		pEntity = nullptr;
 
@@ -107,13 +85,6 @@ Entity* Tile::vacateEntity() {
 	}
 
 	return nullptr;
-}
-
-/*
- * Returns whether or not the tile is occupied by another entity.
- */
-bool Tile::occupied() const {
-	return (pEntity != nullptr);
 }
 
 /*

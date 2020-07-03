@@ -5,12 +5,13 @@
 
 class Path;
 class Tile;
+class Entity;
 
 class PathFinding {
 public:
 	PathFinding() = delete;
 	~PathFinding() = delete;
-	static std::unique_ptr<Path> findPath(Tile*, Tile*, bool = false);
+	static std::unique_ptr<Path> findPath(Entity*, Tile*, Tile*, bool = false);
 	static float euclideanDistance(Tile*, Tile*);
 };
 

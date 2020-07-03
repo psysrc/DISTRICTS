@@ -6,13 +6,11 @@
 #include <vector>
 #include <memory>
 #include "components/Component.h"
-
-typedef unsigned int EntityID_t;
+#include "game/ID.h"
 
 class Entity {
 private:
-	const EntityID_t id;
-	static EntityID_t uniqueEntityID();
+	const ID_t id;
 protected:
 	std::string name;		// The name of the entity
 	std::vector<std::unique_ptr<Component>> components;
@@ -21,7 +19,7 @@ public:
 	Entity(std::string);
 	virtual ~Entity();
 	std::string getName() const;
-	EntityID_t getID() const;
+	ID_t getID() const;
 	template <class C> bool hasComponent() const;
 	template <class C> C* getComponent() const;
 	template <class C, typename... CArgs> C* addComponent(CArgs...);
@@ -73,7 +71,7 @@ C* Entity::addComponent(CArgs... args) {
 	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
 
 	if (hasComponent<C>())
-		throw std::runtime_error("Tried to add X component to entity which already has one");
+		throw std::runtime_error("Tried to add a component to an entity which already has the component");
 
 	// Create the component, passing the method arguments to its constructor
 	std::unique_ptr<C> upNewComponent = std::make_unique<C>(args...);
