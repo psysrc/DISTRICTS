@@ -71,7 +71,7 @@ C* Entity::addComponent(CArgs... args) {
 	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
 
 	if (hasComponent<C>())
-		throw std::runtime_error("Tried to add X component to entity which already has one");
+		throw std::runtime_error("Tried to add a component to an entity which already has the component");
 
 	// Create the component, passing the method arguments to its constructor
 	std::unique_ptr<C> upNewComponent = std::make_unique<C>(args...);
