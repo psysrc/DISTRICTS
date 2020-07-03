@@ -7,13 +7,9 @@
 
 using namespace Tasks;
 
-CutDownTree::CutDownTree(District* district, Tile* tile) : Task(tile, "Cut down tree", 10), pDistrict(district) {
+CutDownTree::CutDownTree(Tile* tile, District* district) : Task(tile, "Cut down tree", 10), pDistrict(district) {}
 
-}
-
-CutDownTree::~CutDownTree() {
-
-}
+CutDownTree::~CutDownTree() {}
 
 void CutDownTree::onCompletion() {
 	// Remove the tree from the tile

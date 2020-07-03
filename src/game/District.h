@@ -78,7 +78,7 @@ template <class T, typename... TArgs>
 T* District::makeTask(TArgs... args) {
 	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
 
-	std::shared_ptr<T> upT = std::make_shared<T>(this, args...);
+	std::shared_ptr<T> upT = std::make_shared<T>(args...);
 	T* pT = upT.get();
 
 	tasksToAdd.push_back(std::move(upT));

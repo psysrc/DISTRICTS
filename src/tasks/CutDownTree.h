@@ -10,7 +10,7 @@ namespace Tasks {
 
 class CutDownTree : public Task {
 public:
-	CutDownTree(District*, Tile*);
+	CutDownTree(Tile*, District*);
 	virtual ~CutDownTree();
 protected:
 	virtual void onCompletion() override;
