@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-Tile::Tile(short x, short y, TileProperty::TileProperty property) : coordinates(TileCoordinates(x, y)), pEntity(nullptr), property(property) {
+Tile::Tile(TileCoordinates coords, TileProperty::TileProperty property) : coordinates(coords), pEntity(nullptr), property(property) {
 	updateColour();
 }
 

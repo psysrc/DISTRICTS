@@ -21,7 +21,7 @@ private:
 	TileProperty::TileProperty property;
 	int drawColour;
 public:
-	Tile(short, short, TileProperty::TileProperty);
+	Tile(TileCoordinates, TileProperty::TileProperty);
 	~Tile();
 	TileCoordinates getCoordinates() const;
 	void updateProperty(TileProperty::TileProperty newProperty);
