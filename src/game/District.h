@@ -35,7 +35,7 @@ public:
 	District(const std::string name = "unnamed");
 	~District();
 	std::string getName() const;
-	void createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size);
+	void createBiome(TileCoordinates, TileProperty::TileProperty biomeProperty, int size);
 	void update();
 
 	template <class E, typename... EArgs> E* makeEntity(EArgs...);

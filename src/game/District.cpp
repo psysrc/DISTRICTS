@@ -35,7 +35,7 @@ District::District(const std::string name) : districtName(name) {
 			int rj = rand() % District::districtSize;
 			int size = rand() % 26 + 5;		// 5-30 tiles in size
 
-			createBiome(ri, rj, TileProperty::Stone, size);
+			createBiome(TileCoordinates(ri, rj), TileProperty::Stone, size);
 		}
 
 		while (lakeBiomes--) {
@@ -43,7 +43,7 @@ District::District(const std::string name) : districtName(name) {
 			int rj = rand() % District::districtSize;
 			int size = rand() % 101 + 10;	// 10-100 tiles in size
 
-			createBiome(ri, rj, TileProperty::Water, size);
+			createBiome(TileCoordinates(ri, rj), TileProperty::Water, size);
 		}
 	}
 
@@ -112,14 +112,17 @@ bool District::validTileCoordinates(TileCoordinates coords) {
 /*
  * Creates/adds a new biome to the district at a given location, with a defined size
  */
-void District::createBiome(int i, int j, TileProperty::TileProperty biomeProperty, int size) {
+void District::createBiome(TileCoordinates coords, TileProperty::TileProperty biomeProperty, int size) {
+	if (!validTileCoordinates(coords))
+		throw std::logic_error("District::createBiome - Invalid coordinates");
+
 	std::vector<Tile*> adjacency;			// Contains tiles adjacent to converted tiles
 	std::vector<Tile*>::iterator adjIt;
 	std::vector<Tile*> converted;			// Contains tiles already changed into the biome being generated
 	std::vector<Tile*>::iterator convIt;
 	int index = -1;
 
-	adjacency.push_back(tiles[i][j].get());	// Add the specified tile to the adjacency list to start the process
+	adjacency.push_back(getTile(coords));	// Add the specified tile to the adjacency list to start the process
 
 	while (size--) {	// While size > 0
 		index = rand() % adjacency.size();	// Index into a random tile in the adjacency list
