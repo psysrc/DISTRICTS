@@ -17,7 +17,6 @@
 namespace TileProperty {
 
 enum TileProperty {
-	NullProperty,
 	Plains,
 	Water,
 	Stone,
