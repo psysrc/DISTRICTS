@@ -4,6 +4,7 @@
 #include <vector>
 #include "game/Constants.h"
 
+class District;
 class Entity;
 
 struct TileCoordinates {
@@ -16,19 +17,15 @@ struct TileCoordinates {
 class Tile {
 private:
 	TileCoordinates coordinates;
-	std::vector<Tile*> neighbourTiles;
 	Entity* pEntity;
 	TileProperty::TileProperty property;
 	int drawColour;
 public:
-	Tile(short, short);
+	Tile(short, short, TileProperty::TileProperty);
 	~Tile();
 	TileCoordinates getCoordinates() const;
-	void setNeighbourTiles(const std::vector<Tile*> neighbours);
-	bool isInitialised() const;
 	int getX() const;
 	int getY() const;
-	Tile* getNeighbourTile(int direction) const;
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;

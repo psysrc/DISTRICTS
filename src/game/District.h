@@ -51,7 +51,9 @@ public:
 	void deleteTask(Tasks::Task* task);
 
 	const std::vector<std::vector<std::unique_ptr<Tile>>>& getTiles() const;
-	Tile* getTile(const int i, const int j) const;
+	Tile* getTile(short, short) const;
+	Tile* getTile(TileCoordinates) const;
+	std::vector<Tile*> getNeighbourTiles(Tile*, bool = true) const;
 };
 
 /*

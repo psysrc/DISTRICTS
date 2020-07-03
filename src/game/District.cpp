@@ -23,35 +23,7 @@ District::District(const string name) : districtName(name) {
 
 	for (int y = 0; y < District::districtSize; y++) {
 		for (int x = 0; x < District::districtSize; x++) {
-			tiles[x][y] = std::make_unique<Tile>(x, y);
-		}
-	}
-
-	// Initialise tile neighbours for each tile
-	for (int i = 0; i < District::districtSize; i++) {
-		for (int j = 0; j < District::districtSize; j++) {
-			std::vector<Tile*> neighbours;
-			neighbours.reserve(8);
-
-			for (int x = -1; x <= 1; x++)
-				for (int y = -1; y <= 1; y++)
-					if (!(x == 0 && y == 0)) {		// Ignore the tile we're currently calculating neighbours for
-						if (validTileIndex(i + x) && validTileIndex(j + y)) {		// Check we are within the bounds of the district
-							neighbours.push_back(tiles[i + x][j + y].get());
-						} else {
-							neighbours.push_back(nullptr);
-						}
-					}
-
-			// Set neighbour for this tile
-			tiles[i][j]->setNeighbourTiles(neighbours);
-		}
-	}
-
-	// Populate the tile grid by initialising each tile with its coordinates, district and property
-	for (int i = 0; i < District::districtSize; i++) {
-		for (int j = 0; j < District::districtSize; j++) {
-			tiles[i][j]->updateProperty(TileProperty::Plains);
+			tiles[x][y] = std::make_unique<Tile>(x, y, TileProperty::Plains);
 		}
 	}
 
@@ -94,14 +66,6 @@ District::District(const string name) : districtName(name) {
 					}
 				}
 			}
-		}
-	}
-
-	// Check that all tiles have been initialised
-	for (int i = 0; i < District::districtSize; i++) {
-		for (int j = 0; j < District::districtSize; j++) {
-			if (!tiles[i][j]->isInitialised())
-				throw std::logic_error("District has not been correctly initialised");
 		}
 	}
 
@@ -170,22 +134,13 @@ void District::createBiome(int i, int j, TileProperty::TileProperty biomePropert
 
 		adjacency.erase(adjacency.begin() + index);		// Remove the tile from the adjacency list
 
-		// Get the 4 neighbouring tiles
-		Tile* neighbours[4];
-		neighbours[0] = currentTile.getNeighbourTile(North);
-		neighbours[1] = currentTile.getNeighbourTile(West);
-		neighbours[2] = currentTile.getNeighbourTile(East);
-		neighbours[3] = currentTile.getNeighbourTile(South);
+		for (Tile* neighbour : getNeighbourTiles(&currentTile, false)) {	// For each directly adjacent neighbour
+			convIt = std::find(converted.begin(), converted.end(), neighbour);
+			adjIt = std::find(adjacency.begin(), adjacency.end(), neighbour);
 
-		for (int n = 0; n < 4; n++) {	// For each neighbour
-			if (neighbours[n] != nullptr) {		// If adjacent tile is within bounds
-				convIt = std::find(converted.begin(), converted.end(), neighbours[n]);
-				adjIt = std::find(adjacency.begin(), adjacency.end(), neighbours[n]);
-
-				// If converted and adjacency lists do not contain the tile, add it to adjacency list
-				if (convIt == converted.end() && adjIt == adjacency.end())
-					adjacency.push_back(neighbours[n]);
-			}
+			// If converted and adjacency lists do not contain the tile, add it to adjacency list
+			if (convIt == converted.end() && adjIt == adjacency.end())
+				adjacency.push_back(neighbour);
 		}
 	}
 }
@@ -257,9 +212,36 @@ const std::vector<std::vector<std::unique_ptr<Tile>>>& District::getTiles() cons
  * Returns the tile at the given coordinates.
  * Returns nullptr if the coordinates are out of range.
  */
-Tile* District::getTile(const int i, const int j) const {
+Tile* District::getTile(short i, short j) const {
 	if (validTileIndex(i) && validTileIndex(j))
 		return tiles[i][j].get();
 	else
 		return nullptr;
+}
+
+Tile* District::getTile(TileCoordinates coords) const {
+	return getTile(coords.x, coords.y);
+}
+
+/**
+ * Returns all valid neighbours of the given tile.
+ * Diagonals are included by default. To only include directly adjacent tiles, set includeDiagonals to false.
+ * Throws std::logic_error if the provided tile is nullptr.
+ * The vector returned is guaranteed to be non-empty and its contents are guaranteed not to be nullptr.
+ */
+std::vector<Tile*> District::getNeighbourTiles(Tile* tile, bool includeDiagonals) const {
+	if (tile == nullptr)
+		throw std::logic_error("District::getNeighbourTiles - provided tile is nullptr");
+	
+	TileCoordinates tileCoords = tile->getCoordinates();
+	std::vector<Tile*> neighbours;
+	
+	for (int x = -1; x <= 1; x++)
+		for (int y = -1; y <= 1; y++)
+			if (!(x == 0 && y == 0))		// Ignore the tile we're currently calculating neighbours for
+				if (validTileIndex(tileCoords.x + x) && validTileIndex(tileCoords.y + y))	// Check we are within the bounds of the district
+					if (includeDiagonals || (x == 0 || y == 0))		// Always include adjacent tiles, but only include diagonals if required
+						neighbours.push_back(getTile(tileCoords.x + x, tileCoords.y + y));
+	
+	return neighbours;
 }
