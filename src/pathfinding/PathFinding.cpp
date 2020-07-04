@@ -17,7 +17,12 @@
  * 		This can be useful if the goal tile is a Water tile next to land, or a tile with an Entity on it, for example.
  */
 std::unique_ptr<Path> PathFinding::findPath(District* pDistrict, Entity* entity, Tile* from, Tile* to, bool strict) {
+	// If any pointer arguments are nullptr then we can't perform any pathfinding
 	if (from == nullptr || to == nullptr || entity == nullptr || pDistrict == nullptr)
+		return nullptr;
+	
+	// Similarly if 'from' or 'to' are not valid coordinates, no point doing pathfinding
+	if (!District::validTileCoordinates(from->getCoordinates()) || !District::validTileCoordinates(to->getCoordinates()))
 		return nullptr;
 
 	std::map<Tile*, Tile*> pathVia;		// The immediately-preceding tile along the currently known best path
@@ -121,8 +126,17 @@ std::unique_ptr<Path> PathFinding::findPath(District* pDistrict, Entity* entity,
 }
 
 float PathFinding::euclideanDistance(Tile* from, Tile* to) {
-	int xDiff = abs(from->getCoordinates().x - to->getCoordinates().x);
-	int yDiff = abs(from->getCoordinates().y - to->getCoordinates().y);
+	if (from == nullptr || to == nullptr)
+		throw std::runtime_error("Cannot calculate euclidian distance with nullptr tiles");
+	
+	TileCoordinates fromCoords = from->getCoordinates();
+	TileCoordinates toCoords = to->getCoordinates();
+	
+	if (!District::validTileCoordinates(fromCoords) || !District::validTileCoordinates(toCoords))
+		throw std::runtime_error("Cannot calculate euclidian distance with invalid coordinates");
+
+	int xDiff = abs(fromCoords.x - toCoords.x);
+	int yDiff = abs(fromCoords.y - toCoords.y);
 
 	return sqrt((xDiff * xDiff) + (yDiff * yDiff));
 }
