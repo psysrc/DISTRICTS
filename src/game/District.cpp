@@ -47,11 +47,25 @@ District::District(const std::string name) : districtName(name) {
 		}
 	}
 
+	// Add a new citizen and place them on a walkable tile
+	Citizen* citizen = makeEntity<Citizen>();
+
+	int citizenX, citizenY;
+
+	// Keep choosing random tiles until one is found in which the citizen can enter
+	do {
+		citizenX = rand() % District::districtSize;
+		citizenY = rand() % District::districtSize;
+	}
+	while (!OccupyRules::canOccupy(citizen, tiles[citizenX][citizenY].get()));
+
+	citizen->getComponent<PositionComponent>()->nextCoordinates = tiles[citizenX][citizenY]->getCoordinates();
+
 	if (TREE_GEN) {
-		// Every Plains tile has a chance to grow a Tree or Sapling
+		// Every Plains tile has a chance to grow a Tree or Sapling, as long as the Citizen isn't already occupying it
 		for (int i = 0; i < District::districtSize; i++) {
 			for (int j = 0; j < District::districtSize; j++) {
-				if (tiles[i][j]->getProperty() == TileProperty::Plains) {
+				if (tiles[i][j]->getProperty() == TileProperty::Plains && !(i == citizenX && j == citizenY)) {
 					int treeChance = rand() % 100;
 
 					if (treeChance < 5) {	// 5% chance of growing a tree
@@ -64,20 +78,6 @@ District::District(const std::string name) : districtName(name) {
 			}
 		}
 	}
-
-	// Add a new citizen and place them on a walkable tile
-	Citizen* citizen = makeEntity<Citizen>();
-
-	int i, j;
-
-	// Keep choosing random tiles until one is found in which the citizen can enter
-	do {
-		i = rand() % District::districtSize;
-		j = rand() % District::districtSize;
-	}
-	while (!OccupyRules::canOccupy(citizen, tiles[i][j].get()));
-
-	citizen->getComponent<PositionComponent>()->nextCoordinates = tiles[i][j]->getCoordinates();
 }
 
 District::~District() {}
