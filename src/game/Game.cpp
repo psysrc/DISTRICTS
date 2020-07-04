@@ -13,6 +13,7 @@
 #include "gamesystems/WalkSystem.h"
 #include "gamesystems/WorkSystem.h"
 #include "gamesystems/CitizenSystem.h"
+#include "gamesystems/MoveSystem.h"
 
 using namespace std::chrono;
 
@@ -29,6 +30,7 @@ Game::Game() {
 	gameSystems.push_back(std::make_unique<GrowSystem>());
 	gameSystems.push_back(std::make_unique<WorkSystem>());
 	gameSystems.push_back(std::make_unique<CitizenSystem>());
+	gameSystems.push_back(std::make_unique<MoveSystem>());
 
 	if (DEBUG)
 		std::cout << "New game created." << std::endl;
@@ -77,7 +79,13 @@ void Game::play() {
 
 	pause();	// Pause the game to start with
 
-	UI::currentDistrict(spDistrict);	// Set the initial and current district
+	// Execute District::update() and MoveSystem::run() as soon as the game is started
+	// This is required to initially update all PositionComponents' currentCoordinates
+	// Otherwise the first tick of the game will show no entities, and suddenly they'll pop into existence
+	spDistrict->update();
+	gameSystems[4]->run(spDistrict.get());
+
+	UI::currentDistrict(spDistrict);	// Set the current district and update
 
 	bool playerQuitting = false;
 

@@ -13,7 +13,6 @@ CutDownTree::~CutDownTree() {}
 
 void CutDownTree::onCompletion() {
 	// Remove the tree from the tile
-	Tree* pTree = dynamic_cast<Tree*>(getTile()->vacateEntity());
-
-	pDistrict->deleteEntity(pTree);	// Delete the Tree
+	Tree* pTree = dynamic_cast<Tree*>(getTile()->getEntity());
+	pDistrict->deleteEntity(pTree);
 }

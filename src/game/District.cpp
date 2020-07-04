@@ -189,6 +189,14 @@ void District::update() {
 
 void District::deleteEntity(Entity* entity) {
 	entitiesToDelete.push_back(entity);
+
+	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
+	if (entity->hasComponent<PositionComponent>())
+	{
+		Tile* tile = getTile(entity->getComponent<PositionComponent>()->getCurrentCoordinates());
+		if (tile != nullptr)
+			tile->setEntity(nullptr);
+	}
 }
 
 void District::deleteTask(Tasks::Task* task) {
