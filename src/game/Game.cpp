@@ -31,9 +31,6 @@ Game::Game() {
 	gameSystems.push_back(std::make_unique<WorkSystem>());
 	gameSystems.push_back(std::make_unique<CitizenSystem>());
 	gameSystems.push_back(std::make_unique<MoveSystem>());
-
-	if (DEBUG)
-		std::cout << "New game created." << std::endl;
 }
 
 Game::~Game() {

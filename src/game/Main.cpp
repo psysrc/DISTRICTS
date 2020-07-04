@@ -53,9 +53,6 @@ int main() {
 }
 
 void startNewGame() {
-	if (DEBUG)
-		cout << "Starting a new game..." << endl;
-
 	Game newGame;
 
 	try {

@@ -3,7 +3,6 @@
 
 #include <exception>
 
-#define DEBUG true
 #define BIOME_GEN true
 #define TREE_GEN true
 
