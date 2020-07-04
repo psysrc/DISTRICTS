@@ -17,6 +17,9 @@
  * 		This can be useful if the goal tile is a Water tile next to land, or a tile with an Entity on it, for example.
  */
 std::unique_ptr<Path> PathFinding::findPath(District* pDistrict, Entity* entity, Tile* from, Tile* to, bool strict) {
+	if (from == nullptr || to == nullptr || entity == nullptr || pDistrict == nullptr)
+		return nullptr;
+
 	std::map<Tile*, Tile*> pathVia;		// The immediately-preceding tile along the currently known best path
 	std::map<Tile*, float> pLength;		// Best path length currently known
 	std::map<Tile*, float> fScore;		// pLength + distance_heuristic
