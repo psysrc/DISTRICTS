@@ -6,9 +6,6 @@
 bool OccupyRules::canOccupy(Entity* pEntity, Tile* pTile) {
     if (!pEntity || !pTile)
         return false;
-    
-    if (pTile->getProperty() == TileProperty::NullProperty)
-        return false;
 
     if (pTile->getProperty() == TileProperty::Water)
         return false;

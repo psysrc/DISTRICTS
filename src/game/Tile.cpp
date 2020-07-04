@@ -1,49 +1,15 @@
 #include "Tile.h"
 
-#include "game/District.h"
 #include <stdexcept>
-#include "entities/Citizen.h"
 
-Tile::Tile(short x, short y) : coordinates(TileCoordinates(x, y)), pEntity(nullptr), property(TileProperty::NullProperty), drawColour(COLOUR_UNKNOWN) {}
+Tile::Tile(TileCoordinates coords, TileProperty::TileProperty property) : coordinates(coords), pEntity(nullptr), property(property) {
+	updateColour();
+}
 
 Tile::~Tile() {}
 
 TileCoordinates Tile::getCoordinates() const {
 	return coordinates;
-}
-
-/*
- * Sets the neighbouring tiles.
- */
-void Tile::setNeighbourTiles(const std::vector<Tile*> neighbours) {
-	if (neighbours.size() != 8)
-		throw std::length_error("Tile::setNeighbourTiles(): Provided vector must contain exactly 8 elements");
-
-	neighbourTiles.reserve(8);
-	neighbourTiles = neighbours;
-}
-
-/*
- * Checks whether or not this Tile has been initialised with valid data.
- * The Tile object must not be used if it has not been initialised correctly!
- */
-bool Tile::isInitialised() const {
-	return (District::validTileIndex(coordinates.x) && District::validTileIndex(coordinates.y) && property != TileProperty::NullProperty);
-}
-
-int Tile::getX() const {
-	return coordinates.x;
-}
-
-int Tile::getY() const {
-	return coordinates.y;
-}
-
-/*
- * Returns the neighbouring tile in the given direction.
- */
-Tile* Tile::getNeighbourTile(int direction) const {
-	return neighbourTiles[direction];
 }
 
 void Tile::updateProperty(TileProperty::TileProperty newProperty) {
@@ -119,7 +85,7 @@ int Tile::getDrawColour() const {
 }
 
 bool Tile::operator==(const Tile& b) const {
-	if (getX() == b.getX() && getY() == b.getY())
+	if (coordinates == b.getCoordinates())
 		return true;
 	else
 		return false;

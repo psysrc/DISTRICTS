@@ -6,8 +6,10 @@
 #include "components/WorkerComponent.h"
 #include "components/CitizenComponent.h"
 
-Citizen::Citizen() : Entity("Citizen") {
-	addComponent<PositionComponent>(this);
+Citizen::Citizen() : Citizen(TileCoordinates(-1, -1)) {}
+
+Citizen::Citizen(TileCoordinates coords) : Entity("Citizen") {
+	addComponent<PositionComponent>(coords);
 	addComponent<WalkComponent>();
 	addComponent<DrawComponent>('C');
 	addComponent<WorkerComponent>();

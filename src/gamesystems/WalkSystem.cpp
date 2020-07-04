@@ -31,26 +31,26 @@ void WalkSystem::run(District* pDistrict) {
             {
                 // Create a path from the entity's current position to the destination
                 // If no path can be found, path will remain as nullptr
-                wc->path = PathFinding::findPath(entity.get(), pc->getTile(), wc->destination);
+                wc->path = PathFinding::findPath(pDistrict, entity.get(), pDistrict->getTile(pc->getCurrentCoordinates()), wc->destination);
             }
 
             // If entity has a path
             if (wc->path)
             {
                 // Check that the entity is where we expect along the path
-                if (pc->getTile() == wc->path->current())
+                if (pDistrict->getTile(pc->getCurrentCoordinates()) == wc->path->current())
                 {
-                    // Move the entity to the next tile in the path, assuming we're not already at the end for some reason
+                    // Get the next tile in the path
                     Tile* nextTile = wc->path->next();
 
                     if (nextTile != nullptr)
                     {
-                        pc->setTile(nextTile);
+                        // Move the entity to the next tile if we haven't reached the end
+                        pc->nextCoordinates = nextTile->getCoordinates();
                     }
-
-                    // Clear destination and path if the entity has now reached the end of the path (or if it was at the end already)
-                    if (pc->getTile() == wc->path->end() || nextTile == nullptr)
+                    else
                     {
+                        // If nextTile is nullptr then we must be at the end of the path - clear the entity's path and destination
                         wc->destination = nullptr;
                         wc->path.reset();
                     }

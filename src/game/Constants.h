@@ -14,19 +14,9 @@
 #define COLOUR_HIGHLIGHTED	5
 #define COLOUR_BRIDGE		6
 
-#define NorthWest	0
-#define North		1
-#define NorthEast	2
-#define West		3
-#define East		4
-#define SouthWest	5
-#define South		6
-#define SouthEast	7
-
 namespace TileProperty {
 
 enum TileProperty {
-	NullProperty,
 	Plains,
 	Water,
 	Stone,
