@@ -15,20 +15,15 @@ void GrowSystem::run(District* pDistrict) {
     for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
 	{
 		GrowComponent* gc = entity->getComponent<GrowComponent>();
-		if (gc != nullptr)
+		PositionComponent* pc = entity->getComponent<PositionComponent>();
+		if (gc != nullptr && pc != nullptr)
 		{
 			gc->ticksToGrow--;
 
 			if (gc->ticksToGrow <= 0)
 			{
-				PositionComponent* pc = entity->getComponent<PositionComponent>();
-				if (pc && pc->getTile())
-					pc->getTile()->vacateEntity();
-
-				Tree* newTree = pDistrict->makeEntity<Tree>();
-				newTree->getComponent<PositionComponent>()->setTile(pc->getTile());
-
 				pDistrict->deleteEntity(entity.get());
+				pDistrict->makeEntity<Tree>(pc->getCurrentCoordinates());
 			}
 		}
 	}

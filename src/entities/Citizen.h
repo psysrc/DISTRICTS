@@ -2,10 +2,12 @@
 #define CITIZEN_H_
 
 #include "Entity.h"
+#include "game/Tile.h"
 
 class Citizen : public Entity {
 public:
 	Citizen();
+	Citizen(TileCoordinates);
 	virtual ~Citizen();
 };
 

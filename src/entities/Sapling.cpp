@@ -7,11 +7,13 @@
 const int maxTicksToGrow = 1440;	// 6 mins
 const int minTicksToGrow = 480;		// 2 mins
 
-Sapling::Sapling() : Entity("Tree Sapling") {
+Sapling::Sapling() : Sapling(TileCoordinates(-1, -1)) {}
+
+Sapling::Sapling(TileCoordinates coords) : Entity("Tree Sapling") {
     int ticks = minTicksToGrow + (rand() % (maxTicksToGrow - minTicksToGrow + 1));
 
     addComponent<GrowComponent>(ticks);
-    addComponent<PositionComponent>(this);
+    addComponent<PositionComponent>(coords);
     addComponent<DrawComponent>(',');
 }
 

@@ -55,12 +55,10 @@ District::District(const std::string name) : districtName(name) {
 					int treeChance = rand() % 100;
 
 					if (treeChance < 5) {	// 5% chance of growing a tree
-						Tree* newTree = makeEntity<Tree>();
-						newTree->getComponent<PositionComponent>()->setTile(tiles[i][j].get());
+						makeEntity<Tree>(tiles[i][j]->getCoordinates());
 					}
 					else if (treeChance < 6) {	// 1% chance of growing a sapling
-						Sapling* newSapling = makeEntity<Sapling>();
-						newSapling->getComponent<PositionComponent>()->setTile(tiles[i][j].get());
+						makeEntity<Sapling>(tiles[i][j]->getCoordinates());
 					}
 				}
 			}
@@ -79,11 +77,7 @@ District::District(const std::string name) : districtName(name) {
 	}
 	while (!OccupyRules::canOccupy(citizen, tiles[i][j].get()));
 
-	PositionComponent* pc = citizen->getComponent<PositionComponent>();
-	if (pc != nullptr)
-		pc->setTile(tiles[i][j].get());
-	else
-		throw std::runtime_error("Citizen does not have a PositionComponent");
+	citizen->getComponent<PositionComponent>()->nextCoordinates = tiles[i][j]->getCoordinates();
 }
 
 District::~District() {}

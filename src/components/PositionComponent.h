@@ -2,26 +2,25 @@
 #define POSITIONCOMPONENT_H_
 
 #include "components/Component.h"
-#include "entities/Entity.h"    // Deprecated
+#include "game/Tile.h"
 
 class Tile;
 
 class PositionComponent : public Component {
 public:
-    PositionComponent(Entity* /*Deprecated*/);
-    virtual ~PositionComponent();
+    PositionComponent(short x, short y) : PositionComponent(TileCoordinates(x, y)) {}
+    PositionComponent(TileCoordinates coords) : nextCoordinates(coords), currentCoordinates(-1, -1), couldNotMove(false) {}
+    virtual ~PositionComponent() {}
+    TileCoordinates getCurrentCoordinates() const { return currentCoordinates; }
+    bool failedToMove() const { return couldNotMove; }
 
-    Tile* getTile() const;
-    int getX() const;
-    int getY() const;
+    TileCoordinates nextCoordinates;
 
-    void setTile(Tile* pTile);
-    
 private:
-    Entity* entity; // Deprecated
-    Tile* tile;
-    int x;
-    int y;
+    friend class MoveSystem;
+    
+    TileCoordinates currentCoordinates;
+    bool couldNotMove;
 };
 
 #endif /* POSITIONCOMPONENT_H_ */
