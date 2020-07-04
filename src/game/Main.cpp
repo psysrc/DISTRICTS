@@ -62,7 +62,7 @@ void startNewGame() {
 		newGame.play();
 	}
 	catch (std::exception& ex) {
-		cout << "Exception caught in main. Terminating game." << endl;
+		cout << "Exception caught in main. Terminating game. Reason: " << ex.what() << endl;
 	}
 
 	cout << endl << endl << endl;
