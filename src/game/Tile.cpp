@@ -85,7 +85,7 @@ int Tile::getDrawColour() const {
 }
 
 bool Tile::operator==(const Tile& b) const {
-	if (coordinates.x == b.getCoordinates().x && coordinates.y == b.getCoordinates().y)
+	if (coordinates == b.getCoordinates())
 		return true;
 	else
 		return false;
