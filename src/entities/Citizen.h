@@ -2,7 +2,7 @@
 #define CITIZEN_H_
 
 #include "Entity.h"
-#include "game/Tile.h"
+#include "game/TileCoordinates.h"
 
 class Citizen : public Entity {
 public:

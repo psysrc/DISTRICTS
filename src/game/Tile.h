@@ -3,26 +3,10 @@
 
 #include <vector>
 #include "game/Constants.h"
+#include "game/TileCoordinates.h"
 
 class District;
 class Entity;
-
-struct TileCoordinates {
-	TileCoordinates(short x, short y) : x(x), y(y) {}
-
-	~TileCoordinates() {}
-
-	bool operator==(const TileCoordinates& b) const {
-		return (x == b.x) && (y == b.y);
-	}
-
-	bool operator!=(const TileCoordinates& b) const {
-		return !(*this == b);
-	}
-
-	short x;
-	short y;
-};
 
 class Tile {
 private:

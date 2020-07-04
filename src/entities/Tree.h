@@ -2,7 +2,7 @@
 #define SRC_TREE_H_
 
 #include "Entity.h"
-#include "game/Tile.h"
+#include "game/TileCoordinates.h"
 
 class Tree : public Entity {
 public:

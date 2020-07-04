@@ -3,7 +3,6 @@
 
 #include <tasks/Task.h>
 
-class District;
 class Tile;
 
 namespace Tasks {
