@@ -37,8 +37,7 @@ public:
 	void updateProperty(TileProperty::TileProperty newProperty);
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
-	bool occupy(Entity*);
-	Entity* vacateEntity();
+	void setEntity(Entity*);
 	int getDrawColour() const;
 	void updateColour();
 	bool operator==(const Tile& b) const;

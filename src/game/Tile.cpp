@@ -26,31 +26,8 @@ Entity* Tile::getEntity() const {
 	return pEntity;
 }
 
-/*
- * The given entity will occupy this Tile unless the tile is already occupied.
- */
-bool Tile::occupy(Entity* pEntity) {
-	if (getEntity() != nullptr)
-		return false;
-
+void Tile::setEntity(Entity* pEntity) {
 	this->pEntity = pEntity;
-
-	return true;
-}
-
-/*
- * Calling this tells the Tile it is no longer occupied by an entity, if it had one.
- * Returns a pointer to the vacated entity, or nullptr if there was none.
- */
-Entity* Tile::vacateEntity() {
-	if (getEntity() != nullptr) {
-		Entity* tmp = pEntity;
-		pEntity = nullptr;
-
-		return tmp;
-	}
-
-	return nullptr;
 }
 
 /*

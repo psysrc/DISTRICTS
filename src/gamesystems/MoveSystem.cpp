@@ -21,11 +21,21 @@ void MoveSystem::run(District* pDistrict) {
                 if (OccupyRules::canOccupy(entity.get(), pDistrict->getTile(pc->nextCoordinates)))
                 {
                     pc->couldNotMove = false;
+
+                    Tile* tile;
+
+                    // Inform previous tile that it is no longer occupied by the entity
+                    tile = pDistrict->getTile(pc->currentCoordinates);
+                    if (tile != nullptr)
+                        tile->setEntity(nullptr);
+
+                    // Inform the new tile that it is now occupied by the entity
+                    tile = pDistrict->getTile(pc->nextCoordinates);
+                    if (tile != nullptr)
+                        tile->setEntity(entity.get());
+
+                    // Update position coordinates
                     pc->currentCoordinates = pc->nextCoordinates;
-
-                    // TODO: Inform previous tile that it is no longer occupied by the entity
-
-                    // TODO: Inform the new tile that it is now occupied by the entity
                 }
                 else
                 {
