@@ -188,6 +188,9 @@ void District::update() {
 }
 
 void District::deleteEntity(Entity* entity) {
+	if (entity == nullptr)
+		return;
+
 	entitiesToDelete.push_back(entity);
 
 	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
@@ -200,6 +203,9 @@ void District::deleteEntity(Entity* entity) {
 }
 
 void District::deleteTask(Tasks::Task* task) {
+	if (task == nullptr)
+		return;
+
 	tasksToDelete.push_back(task);
 }
 
