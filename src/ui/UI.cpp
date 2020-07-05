@@ -14,6 +14,7 @@
 #include "components/PositionComponent.h"
 #include "components/DrawComponent.h"
 #include <memory>
+#include "TitleArt.h"
 
 namespace UI {
 
@@ -299,9 +300,9 @@ void mainMenu() {
 	if (initialised)
 		return;
 
-	cout << "Welcome to DISTRICTS." << endl << endl;
+	cout << titleArt << endl << endl;
 
-	cout << "Please select an option." << endl << endl;
+	cout << "Welcome. Please select an option." << endl << endl;
 
 	cout << "(1) New Game" << endl;
 	cout << "(0) Quit" << endl << endl;
