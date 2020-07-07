@@ -15,6 +15,7 @@
 #include "components/DrawComponent.h"
 #include <memory>
 #include "TitleArt.h"
+#include "game/VersionInfo.h"
 
 namespace UI {
 
@@ -300,7 +301,8 @@ void mainMenu() {
 	if (initialised)
 		return;
 
-	cout << titleArt << endl << endl;
+	cout << titleArt << "Version: " << VersionInfo::versionString << endl << endl << endl;
+
 
 	cout << "Welcome. Please select an option." << endl << endl;
 

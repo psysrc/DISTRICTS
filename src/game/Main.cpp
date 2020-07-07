@@ -1,10 +1,3 @@
-//============================================================================
-// Name        : DISTRICTS
-// Author      : Samuel Copping
-// Version     : PRE-ALPHA
-// Description : A procedurally generated base building game.
-//============================================================================
-
 #include "game/Constants.h"
 #include <iostream>
 #include "game/Game.h"
