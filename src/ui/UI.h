@@ -20,7 +20,6 @@ void displayDebugMessage(const std::string& str);
 void currentDistrict(std::shared_ptr<District> spDistrict);
 void update();
 MainMenuSelection::MainMenuSelection mainMenu();
-void badMenuSelection();
 void pause();
 void unpause();
 Cmds::PlayerCommand* getPlayerCommand();

@@ -355,16 +355,6 @@ MainMenuSelection::MainMenuSelection mainMenu() {
 }
 
 /*
- * Displays text that the user has not selected a valid option from the main menu.
- */
-void badMenuSelection() {
-	if (initialised)
-		return;
-
-	cout << "Invalid selection. Please select an option from the menu above." << endl;
-}
-
-/*
  * Updates the UI to display information to the player whilst the game is paused.
  */
 void pause() {
