@@ -334,7 +334,8 @@ MainMenuSelection::MainMenuSelection mainMenu() {
 		mvaddstr(titleArtTopOffset + y, titleArtLeftOffset, titleArtLines[y].c_str());
 	}
 
-	cout << "Version: " << VersionInfo::versionString << endl << endl << endl;
+	std::string versionText = "Version: " + VersionInfo::versionString;
+	mvaddstr(titleArtTopOffset + titleArtHeight + 1, titleArtLeftOffset, versionText.c_str());
 
 	cout << "Welcome. Please select an option." << endl << endl;
 

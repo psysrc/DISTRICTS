@@ -17,5 +17,6 @@ const std::string titleArt = R"art(
 )art";
 
 const int titleArtWidth = 50;
+const int titleArtHeight = 5;
 
 #endif /* TITLEART_H_ */
