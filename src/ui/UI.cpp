@@ -16,6 +16,9 @@
 #include <memory>
 #include "TitleArt.h"
 #include "game/VersionInfo.h"
+#include <string>
+#include <vector>
+#include <sstream>
 
 namespace UI {
 
@@ -295,13 +298,43 @@ static void drawGridPosition(int row, int column, int colourPair, char symbol) {
 }
 
 /*
+ * Splits a string based on a provided delimiter.
+ */
+std::vector<std::string> splitString(std::string stringToSplit, char delimeter)
+{
+    std::stringstream ss(stringToSplit);
+    std::string subString;
+    std::vector<std::string> strings;
+
+    while (std::getline(ss, subString, delimeter))
+    {
+       strings.push_back(subString);
+    }
+
+    return strings;
+}
+
+/*
  * Displays the main menu and returns the selected option.
  */
 MainMenuSelection::MainMenuSelection mainMenu() {
 	if (!initialised)
 		throw std::logic_error("Tried to load the main menu but the UI has not been initialised");
+	
+	int windowX, windowY;
+	
+	getmaxyx(stdscr, windowY, windowX);	// Get the current window size
+	const int titleArtTopOffset = windowY / 10;	// Gap size between the top of the window and the title art
+	const int titleArtLeftOffset = (windowX - titleArtWidth) / 2;	// Calculate offset from the left side, to centre the title art properly
 
-	cout << titleArt << "Version: " << VersionInfo::versionString << endl << endl << endl;
+	// Split the title art by each newline (\n), and print each line individually
+	std::vector<std::string> titleArtLines = splitString(titleArt, '\n');
+	for (unsigned short y = 0; y < titleArtLines.size(); y++)
+	{
+		mvaddstr(titleArtTopOffset + y, titleArtLeftOffset, titleArtLines[y].c_str());
+	}
+
+	cout << "Version: " << VersionInfo::versionString << endl << endl << endl;
 
 	cout << "Welcome. Please select an option." << endl << endl;
 
