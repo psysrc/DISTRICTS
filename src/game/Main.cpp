@@ -2,62 +2,46 @@
 #include <iostream>
 #include "game/Game.h"
 #include "ui/UI.h"
+#include "ui/MainMenuSelections.h"
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
-using std::ws;
+void playNewGame();
 
-void startNewGame();
-void quitMessage();
-
-int main() {
-	bool quit = false;
-	bool invalidSelection;
-	string inputText;
-
-	do {
-		UI::mainMenu();
-
-		do {
-			cin >> ws;					// Ignores leading whitespace
-			getline(cin, inputText);	// Gets a line from the user
-
-			invalidSelection = false;
-
-			// Perform the action, or wait for more input if not valid
-			if (inputText == "1")
-				startNewGame();
-			else if (inputText == "0") {
-				quitMessage();
-				quit = true;
-			}
-			else {
-				UI::badMenuSelection();
-				invalidSelection = true;
-			}
-		}
-		while (invalidSelection);
+int main()
+{
+	// Initialise the UI, exit if it fails
+	if (!UI::initialise())
+	{
+		std::cerr << "Failed to load DISTRICTS because the UI could not initialise properly. Terminating." << std::endl;
+		return 1;
 	}
-	while (!quit);
 
-	return 0;
+	while (true)
+	{
+		MainMenuSelection::MainMenuSelection selection = UI::mainMenu();
+
+		switch (selection)
+		{
+			case MainMenuSelection::NewGame:
+				playNewGame();
+				break;
+			case MainMenuSelection::Quit:
+				UI::terminate();
+				return 0;
+			default:
+				UI::terminate();
+				std::cerr << "Unknown main menu selection (" << selection << "). Terminating." << std::endl;
+		}
+	}
 }
 
-void startNewGame() {
+void playNewGame()
+{
 	Game newGame;
 
 	try {
 		newGame.play();
 	}
 	catch (std::exception& ex) {
-		cout << "Exception caught in main. Terminating game. Reason: " << ex.what() << endl;
+		std::cerr << "Exception caught in main: " << ex.what() << ". Terminating." << std::endl;
 	}
-
-	cout << endl << endl << endl;
-}
-
-void quitMessage() {
-	cout << "Quitting..." << endl;
 }

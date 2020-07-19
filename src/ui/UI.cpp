@@ -295,19 +295,30 @@ static void drawGridPosition(int row, int column, int colourPair, char symbol) {
 }
 
 /*
- * Displays the main menu text.
+ * Displays the main menu and returns the selected option.
  */
-void mainMenu() {
-	if (initialised)
-		return;
+MainMenuSelection::MainMenuSelection mainMenu() {
+	if (!initialised)
+		throw std::logic_error("Tried to load the main menu but the UI has not been initialised");
 
 	cout << titleArt << "Version: " << VersionInfo::versionString << endl << endl << endl;
-
 
 	cout << "Welcome. Please select an option." << endl << endl;
 
 	cout << "(1) New Game" << endl;
 	cout << "(0) Quit" << endl << endl;
+
+
+	while (true)
+	{
+		flushinp();				// Flush the input buffer
+		char key = getch();		// Get the key from the player
+
+		if (key == '1')
+			return MainMenuSelection::NewGame;
+		else if (key == '0')
+			return MainMenuSelection::Quit;
+	}
 }
 
 /*

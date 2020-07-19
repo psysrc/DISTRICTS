@@ -4,6 +4,7 @@
 #include "commands/PlayerCommand.h"
 #include <memory>
 #include <string>
+#include "ui/MainMenuSelections.h"
 
 class District;
 class Tile;
@@ -18,7 +19,7 @@ void displayDebugMessage(const char* const str);
 void displayDebugMessage(const std::string& str);
 void currentDistrict(std::shared_ptr<District> spDistrict);
 void update();
-void mainMenu();
+MainMenuSelection::MainMenuSelection mainMenu();
 void badMenuSelection();
 void pause();
 void unpause();
