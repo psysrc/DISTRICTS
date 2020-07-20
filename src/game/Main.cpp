@@ -11,11 +11,12 @@ int main()
 	// Initialise the UI, exit if it fails
 	if (!UI::initialise())
 	{
-		std::cerr << "Failed to load DISTRICTS because the UI could not initialise properly. Terminating." << std::endl;
+		std::cerr << "ERROR: DISTRICTS couldn't run because the UI could not initialise properly." << std::endl;
 		return 1;
 	}
 
-	while (true)
+	int returnCode = -1;
+	while (returnCode == -1)
 	{
 		MainMenuSelection::MainMenuSelection selection = UI::mainMenu();
 
@@ -25,13 +26,22 @@ int main()
 				playNewGame();
 				break;
 			case MainMenuSelection::Quit:
-				UI::terminate();
-				return 0;
+				returnCode = 0;
+				break;
 			default:
-				UI::terminate();
-				std::cerr << "Unknown main menu selection (" << selection << "). Terminating." << std::endl;
+				returnCode = 1;
+				break;
 		}
 	}
+
+	UI::terminate();
+
+	if (returnCode != 0)
+	{
+		std::cerr << "ERROR: DISTRICTS did not close correctly (return code " << returnCode << "). Please notify the developer!" << std::endl;
+	}
+
+	return returnCode;
 }
 
 void playNewGame()
