@@ -67,11 +67,6 @@ void Game::play() {
 	// It therefore needs initialising here before the game loop starts
 	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	if (!UI::initialise()) {		// Initialise the UI and check if initialisation succeeded
-		std::cout << "Could not load game due to a user interface error." << std::endl;
-		return;						// Return if UI initialisation fails
-	}
-
 	UI::displayActivityMessage("Game started.");
 
 	pause();	// Pause the game to start with
@@ -179,6 +174,4 @@ void Game::gameOver() const {
 	UI::displayActivityMessage("Game Over.");
 
 	std::this_thread::sleep_for(seconds(1));
-
-	UI::terminate();
 }
