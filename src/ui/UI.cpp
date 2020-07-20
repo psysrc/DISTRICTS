@@ -26,7 +26,6 @@ static WINDOW* mapWindow;
 static WINDOW* activityWindow;
 static WINDOW* districtNameWindow;
 static WINDOW* promptWindow;
-static bool initialised = false;
 static std::weak_ptr<District> wpCurrentDistrict;
 static bool paused;
 
@@ -51,13 +50,10 @@ using std::endl;
 
 
 /*
- * Initialises the UI in the terminal ready for a game to be displayed.
+ * Initialises the UI in the terminal ready for the game and the program as a whole.
  * Returns whether the UI initialisation succeeded or not.
  */
 bool initialise() {
-	if (initialised)
-		return true;
-
 	// Prepare the terminal window for ncurses-style output
 	initscr();
 
@@ -104,18 +100,13 @@ bool initialise() {
 	cbreak();		// No input buffer - a key press is immediately returned to the program
 	keypad(stdscr, true);	// Allows use of the arrow keys
 
-	initialised = true;
-
 	return true;
 }
 
 /*
- * Terminates the UI when the game is being closed and the user is going back to the main menu.
+ * Terminates the UI when the program is being closed.
  */
 void terminate() {
-	if (!initialised)
-		return;
-
 	clearAll();
 
 	// Delete the windows that were in use
@@ -125,17 +116,12 @@ void terminate() {
 	delwin(promptWindow);
 
 	endwin();	// End of ncurses activity
-
-	initialised = false;
 }
 
 /*
  * Clears all windows and refreshes them.
  */
 static void clearAll() {
-	if (!initialised)
-		return;
-
 	wclear(mapWindow);
 	wclear(activityWindow);
 	wclear(districtNameWindow);
@@ -155,16 +141,11 @@ void displayActivityMessage(const std::string& str) {
  * Prints a string to the Activity window.
  */
 void displayActivityMessage(const char* str) {
-	if (initialised) {
-		wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
-		waddstr(activityWindow, str);						// Print the line
-		waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
+	wmove(activityWindow, activityWindow->_maxy, 0);	// Move to the bottom line of the window
+	waddstr(activityWindow, str);						// Print the line
+	waddstr(activityWindow, "\n");						// Carriage return to scroll the window up
 
-		wrefresh(activityWindow);
-	}
-	else {
-		cout << "ACTIVITY: " << str << endl;
-	}
+	wrefresh(activityWindow);
 }
 
 /**
@@ -186,9 +167,6 @@ void displayDebugMessage(const char* str) {
  * Normally this isn't required because every operation which affects the UI automatically triggers an update of the required windows.
  */
 static void refresh() {
-	if (!initialised)
-		return;
-
 	// Refresh all windows to the virtual screen
 	wnoutrefresh(mapWindow);
 	wnoutrefresh(activityWindow);
@@ -203,9 +181,6 @@ static void refresh() {
  * Updates the UI with the name of the current district.
  */
 static void updateDistrictName() {
-	if (!initialised)
-		return;
-
 	auto spCurrentDistrict = wpCurrentDistrict.lock();
 
 	if (!spCurrentDistrict)
@@ -253,9 +228,6 @@ void currentDistrict(std::shared_ptr<District> spDistrict) {
  * Updates the UI with the latest information on the current district
  */
 void update() {
-	if (!initialised)
-		return;
-	
 	auto spDistrict = wpCurrentDistrict.lock();
 	
 	if (!spDistrict)
@@ -284,9 +256,6 @@ void update() {
  * Draws a colour and symbol to a particular grid position.
  */
 static void drawGridPosition(int row, int column, int colourPair, char symbol) {
-	if (!initialised)
-		return;
-
 	// Move the cursor to the correct position
 	wmove(mapWindow, row, column * 2);
 
@@ -318,9 +287,6 @@ std::vector<std::string> splitString(std::string stringToSplit, char delimeter)
  * Displays the main menu and returns the selected option.
  */
 MainMenuSelection::MainMenuSelection mainMenu() {
-	if (!initialised)
-		throw std::logic_error("Tried to load the main menu but the UI has not been initialised");
-	
 	int windowX, windowY;
 	
 	getmaxyx(stdscr, windowY, windowX);	// Get the current window size
@@ -357,9 +323,6 @@ MainMenuSelection::MainMenuSelection mainMenu() {
  * Updates the UI to display information to the player whilst the game is paused.
  */
 void pause() {
-	if (!initialised)
-		return;
-
 	wclear(promptWindow);
 
 	mvwaddstr(promptWindow, 1, 9, "- GAME PAUSED -");
@@ -392,9 +355,6 @@ void pause() {
  * Updates the UI to hide unnecessary information whilst the game is playing.
  */
 void unpause() {
-	if (!initialised)
-		return;
-
 	wclear(promptWindow);
 
 	mvwaddstr(promptWindow, 2, 5, "Press <SPACE> to pause");
@@ -408,9 +368,6 @@ void unpause() {
  * Wait for a command from the player.
  */
 Cmds::PlayerCommand* getPlayerCommand() {
-	if (!initialised)
-		return nullptr;
-
 	// Flush input buffer first
 	// This helps prevent issues when the user holds down or spams keys, which completely floods the input buffer
 	flushinp();

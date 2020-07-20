@@ -16,7 +16,7 @@ const std::string titleArt = R"art(
 |____/___|____/ |_| |_| \_\___\____| |_| |____/
 )art";
 
-const int titleArtWidth = 50;
+const int titleArtWidth = 48;
 const int titleArtHeight = 5;
 
 #endif /* TITLEART_H_ */
