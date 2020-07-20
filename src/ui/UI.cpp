@@ -324,6 +324,7 @@ MainMenuSelection::MainMenuSelection mainMenu() {
 	}
 
 	wclear(stdscr);
+	wclear(activityWindow);		// Text may be left over in the activity window from previous games
 	wrefresh(stdscr);
 
 	return selection;
