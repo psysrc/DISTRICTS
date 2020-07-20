@@ -45,10 +45,6 @@ static void updateDistrictName();
 static void rotatePlaySpinner();
 
 
-using std::cout;
-using std::endl;
-
-
 /*
  * Initialises the UI in the terminal ready for the game and the program as a whole.
  * Returns whether the UI initialisation succeeded or not.
@@ -64,7 +60,7 @@ bool initialise() {
 	if (!has_colors()) {
 		endwin();
 
-		cout << "User Interface Error: Terminal does not support colours. Aborting." << endl;
+		std::cerr << "ERROR: DISTRICTS UI: Terminal does not support colours. Aborting." << std::endl;
 		return false;
 	}
 
@@ -287,6 +283,8 @@ std::vector<std::string> splitString(std::string stringToSplit, char delimeter)
  * Displays the main menu and returns the selected option.
  */
 MainMenuSelection::MainMenuSelection mainMenu() {
+	wclear(stdscr);
+
 	int windowX, windowY;
 	
 	getmaxyx(stdscr, windowY, windowX);	// Get the current window size
@@ -306,17 +304,29 @@ MainMenuSelection::MainMenuSelection mainMenu() {
 	mvaddstr(titleArtTopOffset + titleArtHeight + 4, titleArtLeftOffset + 5, "(1) New Game");
 	mvaddstr(titleArtTopOffset + titleArtHeight + 5, titleArtLeftOffset + 5, "(0) Quit");
 
-
-	while (true)
+	bool selected = false;
+	MainMenuSelection::MainMenuSelection selection;
+	while (!selected)
 	{
 		flushinp();				// Flush the input buffer
 		char key = getch();		// Get the key from the player
 
 		if (key == '1')
-			return MainMenuSelection::NewGame;
+		{
+			selection = MainMenuSelection::NewGame;
+			selected = true;
+		}
 		else if (key == '0')
-			return MainMenuSelection::Quit;
+		{
+			selection = MainMenuSelection::Quit;
+			selected = true;
+		}
 	}
+
+	wclear(stdscr);
+	wrefresh(stdscr);
+
+	return selection;
 }
 
 /*
