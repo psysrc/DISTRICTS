@@ -337,10 +337,8 @@ MainMenuSelection::MainMenuSelection mainMenu() {
 	std::string versionText = "Version: " + VersionInfo::versionString;
 	mvaddstr(titleArtTopOffset + titleArtHeight + 1, titleArtLeftOffset, versionText.c_str());
 
-	cout << "Welcome. Please select an option." << endl << endl;
-
-	cout << "(1) New Game" << endl;
-	cout << "(0) Quit" << endl << endl;
+	mvaddstr(titleArtTopOffset + titleArtHeight + 4, titleArtLeftOffset + 5, "(1) New Game");
+	mvaddstr(titleArtTopOffset + titleArtHeight + 5, titleArtLeftOffset + 5, "(0) Quit");
 
 
 	while (true)
