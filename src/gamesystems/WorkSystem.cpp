@@ -12,18 +12,18 @@ WorkSystem::WorkSystem() {}
 WorkSystem::~WorkSystem() {}
 
 void WorkSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
+    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
     {
-        WorkerComponent* wc = entity->getComponent<WorkerComponent>();
-        PositionComponent* pc = entity->getComponent<PositionComponent>();
+        WorkerComponent* pWC = upEntity->getComponent<WorkerComponent>();
+        PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
 
-		if (wc != nullptr && wc->working && pc != nullptr)
+		if (pWC != nullptr && pWC->working && pPC != nullptr)
         {
             // If the worker's current task exists (isn't empty and hasn't been deleted by the district)
-            if (auto spCurrentTask = wc->wpCurrentTask.lock())
+            if (auto spCurrentTask = pWC->wpCurrentTask.lock())
             {
                 // Check if the entity is within range to work on the task
-                if (PathFinding::euclideanDistance(pDistrict->getTile(pc->getCurrentCoordinates()), spCurrentTask->getTile()) < 1.5)
+                if (PathFinding::euclideanDistance(pDistrict->getTile(pPC->getCurrentCoordinates()), spCurrentTask->getTile()) < 1.5)
 
                 spCurrentTask->workOn();
 
@@ -31,13 +31,13 @@ void WorkSystem::run(District* pDistrict) {
                 if (spCurrentTask->isCompleted())
                 {
                     pDistrict->deleteTask(spCurrentTask.get());
-                    wc->wpCurrentTask.reset();
+                    pWC->wpCurrentTask.reset();
                 }
             }
             else
             {
                 // Clear the current task for this worker in case it has been deleted from the district
-                wc->wpCurrentTask.reset();
+                pWC->wpCurrentTask.reset();
             }
         }
     }

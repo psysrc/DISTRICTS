@@ -9,38 +9,38 @@ MoveSystem::MoveSystem() {}
 MoveSystem::~MoveSystem() {}
 
 void MoveSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
+    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
 	{
-		PositionComponent* pc = entity->getComponent<PositionComponent>();
-        if (pc != nullptr)
+		PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
+        if (pPC != nullptr)
         {
             // If the next coordinates differ from the current coordinates then the entity needs moving
-            if (pc->nextCoordinates != pc->currentCoordinates)
+            if (pPC->nextCoordinates != pPC->currentCoordinates)
             {
                 // Check if the entity is allowed to occupy the next tile
-                if (OccupyRules::canOccupy(entity.get(), pDistrict->getTile(pc->nextCoordinates)))
+                if (OccupyRules::canOccupy(upEntity.get(), pDistrict->getTile(pPC->nextCoordinates)))
                 {
-                    pc->couldNotMove = false;
+                    pPC->couldNotMove = false;
 
-                    Tile* tile;
+                    Tile* pTile;
 
                     // Inform previous tile that it is no longer occupied by the entity
-                    tile = pDistrict->getTile(pc->currentCoordinates);
-                    if (tile != nullptr)
-                        tile->setEntity(nullptr);
+                    pTile = pDistrict->getTile(pPC->currentCoordinates);
+                    if (pTile != nullptr)
+                        pTile->setEntity(nullptr);
 
                     // Inform the new tile that it is now occupied by the entity
-                    tile = pDistrict->getTile(pc->nextCoordinates);
-                    if (tile != nullptr)
-                        tile->setEntity(entity.get());
+                    pTile = pDistrict->getTile(pPC->nextCoordinates);
+                    if (pTile != nullptr)
+                        pTile->setEntity(upEntity.get());
 
                     // Update position coordinates
-                    pc->currentCoordinates = pc->nextCoordinates;
+                    pPC->currentCoordinates = pPC->nextCoordinates;
                 }
                 else
                 {
-                    pc->couldNotMove = true;
-                    pc->nextCoordinates = pc->currentCoordinates;   // Reset next coordinates back to the current coordinates
+                    pPC->couldNotMove = true;
+                    pPC->nextCoordinates = pPC->currentCoordinates;   // Reset next coordinates back to the current coordinates
                 }
             }
         }

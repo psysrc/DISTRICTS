@@ -12,11 +12,11 @@ BuildBridge::BuildBridge() : PlayerCommand("Build a bridge") {}
 BuildBridge::~BuildBridge() {}
 
 void BuildBridge::execute(District* pDistrict) {
-	Tile* selectedTile = UI::selectTile(pDistrict);
+	Tile* pSelectedTile = UI::selectTile(pDistrict);
 
-	if (selectedTile != nullptr) {
-		if (selectedTile->getProperty() == TileProperty::Water)
-			pDistrict->makeTask<Tasks::BuildBridge>(selectedTile);
+	if (pSelectedTile != nullptr) {
+		if (pSelectedTile->getProperty() == TileProperty::Water)
+			pDistrict->makeTask<Tasks::BuildBridge>(pSelectedTile);
 	}
 }
 

@@ -129,13 +129,13 @@ void District::createBiome(TileCoordinates coords, TileProperty::TileProperty bi
 
 		adjacency.erase(adjacency.begin() + index);		// Remove the tile from the adjacency list
 
-		for (Tile* neighbour : getNeighbourTiles(currentTile, false)) {	// For each directly adjacent neighbour
-			convIt = std::find(converted.begin(), converted.end(), neighbour);
-			adjIt = std::find(adjacency.begin(), adjacency.end(), neighbour);
+		for (Tile* pNeighbour : getNeighbourTiles(currentTile, false)) {	// For each directly adjacent neighbour
+			convIt = std::find(converted.begin(), converted.end(), pNeighbour);
+			adjIt = std::find(adjacency.begin(), adjacency.end(), pNeighbour);
 
 			// If converted and adjacency lists do not contain the tile, add it to adjacency list
 			if (convIt == converted.end() && adjIt == adjacency.end())
-				adjacency.push_back(neighbour);
+				adjacency.push_back(pNeighbour);
 		}
 	}
 }
@@ -187,26 +187,26 @@ void District::update() {
 	tasksToAdd.clear();
 }
 
-void District::deleteEntity(Entity* entity) {
-	if (entity == nullptr)
+void District::deleteEntity(Entity* pEntity) {
+	if (pEntity == nullptr)
 		return;
 
-	entitiesToDelete.push_back(entity);
+	entitiesToDelete.push_back(pEntity);
 
 	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
-	if (entity->hasComponent<PositionComponent>())
+	if (pEntity->hasComponent<PositionComponent>())
 	{
-		Tile* tile = getTile(entity->getComponent<PositionComponent>()->getCurrentCoordinates());
-		if (tile != nullptr)
-			tile->setEntity(nullptr);
+		Tile* pTile = getTile(pEntity->getComponent<PositionComponent>()->getCurrentCoordinates());
+		if (pTile != nullptr)
+			pTile->setEntity(nullptr);
 	}
 }
 
-void District::deleteTask(Tasks::Task* task) {
-	if (task == nullptr)
+void District::deleteTask(Tasks::Task* pTask) {
+	if (pTask == nullptr)
 		return;
 
-	tasksToDelete.push_back(task);
+	tasksToDelete.push_back(pTask);
 }
 
 std::string District::getName() const {

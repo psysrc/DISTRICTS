@@ -2,8 +2,8 @@
 
 using namespace Tasks;
 
-Task::Task(Tile* tile, std::string taskName, int work)
-: id(uniqueTaskID()), pTile(tile), name(taskName), completed(false), workRemaining(work) {
+Task::Task(Tile* pTile, std::string taskName, int work)
+: id(uniqueTaskID()), pTile(pTile), name(taskName), completed(false), workRemaining(work) {
 
 }
 

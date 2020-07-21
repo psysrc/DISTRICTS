@@ -11,26 +11,26 @@ CitizenSystem::CitizenSystem() {}
 CitizenSystem::~CitizenSystem() {}
 
 void CitizenSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
+    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
 	{
-		CitizenComponent* cznC = entity->getComponent<CitizenComponent>();
-        WalkComponent* wlkC = entity->getComponent<WalkComponent>();
-        WorkerComponent* wrkC = entity->getComponent<WorkerComponent>();
+		CitizenComponent* pCitC = upEntity->getComponent<CitizenComponent>();
+        WalkComponent* pWlkC = upEntity->getComponent<WalkComponent>();
+        WorkerComponent* pWrkC = upEntity->getComponent<WorkerComponent>();
         
-		if (cznC != nullptr && wlkC != nullptr && wrkC != nullptr)
+		if (pCitC != nullptr && pWlkC != nullptr && pWrkC != nullptr)
         {
             // Get a new task if this citizen has none
-            if (!wrkC->wpCurrentTask.lock())
+            if (!pWrkC->wpCurrentTask.lock())
             {
-                wrkC->wpCurrentTask = pDistrict->getOldestTask();
+                pWrkC->wpCurrentTask = pDistrict->getOldestTask();
             }
 
-            if (!wlkC->destination)
+            if (!pWlkC->pDestination)
             {
-                if (std::shared_ptr<Tasks::Task> spCurrentTask = wrkC->wpCurrentTask.lock())
+                if (std::shared_ptr<Tasks::Task> spCurrentTask = pWrkC->wpCurrentTask.lock())
                 {
                     // If citizen has no destination but has a task, set destination to its current task
-                    wlkC->destination = spCurrentTask->getTile();
+                    pWlkC->pDestination = spCurrentTask->getTile();
                 }
             }
         }

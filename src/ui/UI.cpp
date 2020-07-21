@@ -237,9 +237,9 @@ void update() {
 	// Draw the N*N grid of tiles
 	for (int i = 0; i < District::districtSize; i++) {
 		for (int j = 0; j < District::districtSize; j++) {
-			Tile* tile = districtTiles[i][j].get();
-			Entity* entity = tile->getEntity();
-			drawGridPosition(i, j, tile->getDrawColour(), (entity == nullptr ? ' ' : entity->getComponent<DrawComponent>()->drawSymbol));
+			Tile* pTile = districtTiles[i][j].get();
+			Entity* pEntity = pTile->getEntity();
+			drawGridPosition(i, j, pTile->getDrawColour(), (pEntity == nullptr ? ' ' : pEntity->getComponent<DrawComponent>()->drawSymbol));
 		}
 	}
 
@@ -346,7 +346,7 @@ void pause() {
 
 	for (KeyCommand kc : commandKeyMap)
 	{
-		if (dynamic_cast<Cmds::PauseToggle*>(kc.second) != nullptr)	// Skip the pause command
+		if (dynamic_cast<Cmds::PauseToggle*>(kc.second) != nullptr)	// Skip anything except the pause command
 			continue;
 
 		std::stringstream ss;
@@ -414,14 +414,14 @@ Tile* selectTile(District* pDistrict) {
 
 	while (true) {
 		// Remember what this grid position looked like before we highlighted it
-		Tile* currentTile = pDistrict->getTile(row, column);
+		Tile* pCurrentTile = pDistrict->getTile(row, column);
 
 		// Remember the tile so we can get its old colour back
 		chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
 
 		// Highlight the current grid position
-		if (currentTile->getEntity() && currentTile->getEntity()->getComponent<DrawComponent>())
-			symbolToDraw = currentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
+		if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<DrawComponent>())
+			symbolToDraw = pCurrentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
 		else
 			symbolToDraw = ' ';
 		
@@ -461,17 +461,17 @@ Tile* selectTile(District* pDistrict) {
 		}
 
 		// Revert previous grid position to normal
-		if (currentTile->getEntity() && currentTile->getEntity()->getComponent<DrawComponent>())
-			symbolToDraw = currentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
+		if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<DrawComponent>())
+			symbolToDraw = pCurrentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
 		else
 			symbolToDraw = ' ';
 
-		drawGridPosition(currentTile->getCoordinates().x, currentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), symbolToDraw);
+		drawGridPosition(pCurrentTile->getCoordinates().x, pCurrentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), symbolToDraw);
 
 		// Return tile or cancel if necessary
 		if (returnTile) {
 			wrefresh(mapWindow);
-			return currentTile;
+			return pCurrentTile;
 		}
 		else if (cancel) {
 			wrefresh(mapWindow);

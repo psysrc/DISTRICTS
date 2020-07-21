@@ -11,12 +11,12 @@ WalkSystem::WalkSystem() {}
 WalkSystem::~WalkSystem() {}
 
 void WalkSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
+    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
     {
-        WalkComponent* wc = entity->getComponent<WalkComponent>();
-        PositionComponent* pc = entity->getComponent<PositionComponent>();
+        WalkComponent* pWC = upEntity->getComponent<WalkComponent>();
+        PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
 
-		if (wc != nullptr && pc != nullptr)
+		if (pWC != nullptr && pPC != nullptr)
         {
             /**
              * 1. If entity has a destination but no path, generate a path
@@ -27,39 +27,39 @@ void WalkSystem::run(District* pDistrict) {
              */
 
             // If entity has a destination but no path, generate a path
-            if (wc->destination && !wc->path)
+            if (pWC->pDestination && !pWC->upPath)
             {
                 // Create a path from the entity's current position to the destination
                 // If no path can be found, path will remain as nullptr
-                wc->path = PathFinding::findPath(pDistrict, entity.get(), pDistrict->getTile(pc->getCurrentCoordinates()), wc->destination);
+                pWC->upPath = PathFinding::findPath(pDistrict, upEntity.get(), pDistrict->getTile(pPC->getCurrentCoordinates()), pWC->pDestination);
             }
 
             // If entity has a path
-            if (wc->path)
+            if (pWC->upPath)
             {
                 // Check that the entity is where we expect along the path
-                if (pDistrict->getTile(pc->getCurrentCoordinates()) == wc->path->current())
+                if (pDistrict->getTile(pPC->getCurrentCoordinates()) == pWC->upPath->current())
                 {
                     // Get the next tile in the path
-                    Tile* nextTile = wc->path->next();
+                    Tile* pNextTile = pWC->upPath->next();
 
-                    if (nextTile != nullptr)
+                    if (pNextTile != nullptr)
                     {
                         // Move the entity to the next tile if we haven't reached the end
-                        pc->nextCoordinates = nextTile->getCoordinates();
+                        pPC->nextCoordinates = pNextTile->getCoordinates();
                     }
                     else
                     {
                         // If nextTile is nullptr then we must be at the end of the path - clear the entity's path and destination
-                        wc->destination = nullptr;
-                        wc->path.reset();
+                        pWC->pDestination = nullptr;
+                        pWC->upPath.reset();
                     }
                 }
                 else
                 {
                     // The entity is not where we expected it to be along the path
                     // Discard the path - if the entity still has a destination then a new path will be generated next game tick
-                    wc->path.reset();
+                    pWC->upPath.reset();
                 }
             }
         }

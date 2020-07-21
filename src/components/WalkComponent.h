@@ -10,8 +10,8 @@ public:
     WalkComponent() {}
     virtual ~WalkComponent() {}
 
-    Tile* destination = nullptr;
-    std::unique_ptr<Path> path;
+    Tile* pDestination = nullptr;
+    std::unique_ptr<Path> upPath;
 };
 
 #endif /* WALKCOMPONENT_H_ */

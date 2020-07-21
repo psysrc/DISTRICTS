@@ -11,18 +11,18 @@ GrowSystem::GrowSystem() {}
 GrowSystem::~GrowSystem() {}
 
 void GrowSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& entity : pDistrict->getEntities())
+    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
 	{
-		GrowComponent* gc = entity->getComponent<GrowComponent>();
-		PositionComponent* pc = entity->getComponent<PositionComponent>();
-		if (gc != nullptr && pc != nullptr)
+		GrowComponent* pGC = upEntity->getComponent<GrowComponent>();
+		PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
+		if (pGC != nullptr && pPC != nullptr)
 		{
-			gc->ticksToGrow--;
+			pGC->ticksToGrow--;
 
-			if (gc->ticksToGrow <= 0)
+			if (pGC->ticksToGrow <= 0)
 			{
-				pDistrict->deleteEntity(entity.get());
-				pDistrict->makeEntity<Tree>(pc->getCurrentCoordinates());
+				pDistrict->deleteEntity(upEntity.get());
+				pDistrict->makeEntity<Tree>(pPC->getCurrentCoordinates());
 			}
 		}
 	}
