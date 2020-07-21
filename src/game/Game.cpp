@@ -38,23 +38,6 @@ Game::~Game() {
 }
 
 /*
- * This method runs in a separate thread to detect the user pausing the game.
- */
-void Game::waitForPause() {
-	Cmds::PlayerCommand* pCommand = nullptr;
-
-	while(true) {
-		pCommand = UI::getPlayerCommand();		// Wait for user to press a key
-
-		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr) {
-			break;	// Break from while loop when the command is pause toggle
-		}
-	}
-
-	pause();	// Pause the game when the user presses the Pause key
-}
-
-/*
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
@@ -69,7 +52,7 @@ void Game::play() {
 
 	UI::displayActivityMessage("Game started.");
 
-	pause();	// Pause the game to start with
+	UI::unpause();	// Unpause the game to start with
 
 	// Execute District::update() and MoveSystem::run() as soon as the game is started
 	// This is required to initially update all PositionComponents' currentCoordinates
@@ -86,20 +69,22 @@ void Game::play() {
 
 		// Calculate the duration of the last execution
 		execDuration = execEnd - execStart;
-
-		// Sleep long enough so that the next game tick starts after the expected delay
+		
+		// Sleep for just long enough so that the next game tick occurs precisely 'gameTick' milliseconds after the previous
+		// This is so that even if one tick takes particularly long to process, the game runs at a steady pace
 		std::this_thread::sleep_for(gameTick - execDuration);
 
-		if (gameIsPaused) {
-			// Get further user input (wait for it here)
-			// If user wants to unpause, go ahead
-			// If user wants to input several commands, process those commands as necessary
-			// Wait here until the user unpauses
+		// Let the player pause for a short while before running the next game tick
+		// We only delay long enough to ensure the time between ticks is exactly 'gameTick' milliseconds long
+		if (UI::letPlayerPause()) {
+			UI::pause();
 
+			// Handle all commands from the user while the game is paused
+			// The user will either quit the game or just unpause the game at this point
 			bool playerQuitting = handleCommands();
 
 			if (!playerQuitting)
-				unpause();
+				UI::unpause();
 			else
 				break;	// Exit the game loop when the player wants to quit
 		}
@@ -140,28 +125,6 @@ bool Game::handleCommands() {
 		else if (pCommand != nullptr)
 			pCommand->execute(spDistrict.get());
 	}
-}
-
-/*
- * Tells the Game to pause so the user can input commands.
- * Simply activates a variable to tell the game loop to wait before proceeding.
- */
-void Game::pause() {
-	gameIsPaused = true;
-
-	UI::pause();
-}
-
-/*
- * Called by the Game when the user wants to resume.
- * Creates a new thread to wait for user input again when they want to pause next time.
- */
-void Game::unpause() {
-	gameIsPaused = false;
-
-	UI::unpause();
-
-	std::thread(&Game::waitForPause, this).detach();
 }
 
 /*

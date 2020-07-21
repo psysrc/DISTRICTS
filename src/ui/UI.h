@@ -22,6 +22,7 @@ void update();
 MainMenuSelection::MainMenuSelection mainMenu();
 void pause();
 void unpause();
+bool letPlayerPause();
 Cmds::PlayerCommand* getPlayerCommand();
 Tile* selectTile(District*);
 

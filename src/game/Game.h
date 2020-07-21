@@ -14,10 +14,7 @@ private:
 	std::shared_ptr<District> spDistrict;
 	std::vector<std::unique_ptr<GameSystem>> gameSystems;
 
-	void pause();
-	void unpause();
 	bool handleCommands();
-	void waitForPause();
 	void gameOver() const;
 public:
 	Game();

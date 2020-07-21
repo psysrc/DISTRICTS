@@ -346,7 +346,7 @@ void pause() {
 
 	for (KeyCommand kc : commandKeyMap)
 	{
-		if (dynamic_cast<Cmds::PauseToggle*>(kc.second) != nullptr)	// Skip anything except the pause command
+		if (dynamic_cast<Cmds::PauseToggle*>(kc.second) != nullptr)	// Skip the pause command
 			continue;
 
 		std::stringstream ss;
@@ -373,6 +373,49 @@ void unpause() {
 	wrefresh(promptWindow);
 
 	paused = false;
+}
+
+/**
+ * Checks input from the user while the game is running to see if the user wants to pause the game.
+ * This method will return instantly.
+ */
+bool letPlayerPause() {
+	bool pause;
+
+	timeout(0);		// Briefly go to non-blocking input mode for getch()
+
+	while (true)
+	{
+		// Continuously read the each key press from the input buffer
+		// We want to know if they pressed the pause key at any point during this pause between game ticks
+		char key = getch();		
+
+		if (key == ERR)		// Check for a timeout, i.e. the input buffer is empty
+		{
+			pause = false;
+			break;
+		}
+		else
+		{
+			// Find the pressed key in the command mappings
+			auto found = commandKeyMap.find(key);
+
+			// If the key corresponds to a command
+			if (found != commandKeyMap.end())
+			{
+				// If the command pressed is the pause toggle
+				if (dynamic_cast<Cmds::PauseToggle*>(found->second) != nullptr)
+				{
+					pause = true;
+					break;
+				}
+			}
+		}
+	}
+	
+	timeout(-1);	// Go back to blocking input mode
+
+	return pause;
 }
 
 /*
