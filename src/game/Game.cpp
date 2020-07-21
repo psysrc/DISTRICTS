@@ -79,10 +79,8 @@ void Game::play() {
 
 	UI::currentDistrict(spDistrict);	// Set the current district and update
 
-	bool playerQuitting = false;
-
 	// Game loop
-	while (!gameIsOver && !playerQuitting) {
+	while (!gameIsOver) {
 		// Get the time after game tick has been executed
 		execEnd = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
@@ -98,26 +96,25 @@ void Game::play() {
 			// If user wants to input several commands, process those commands as necessary
 			// Wait here until the user unpauses
 
-			playerQuitting = handleCommands();
+			bool playerQuitting = handleCommands();
 
 			if (!playerQuitting)
 				unpause();
+			else
+				break;	// Exit the game loop when the player wants to quit
 		}
 
 		// Get the time before the game tick is executed
 		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-		// Don't bother simulating the game if the user wants to quit
-		if (!playerQuitting) {
-			for (std::unique_ptr<GameSystem>& system : gameSystems)
-			{
-				system->run(spDistrict.get());	// Run each gamesystem on the district
-			}
-
-			spDistrict->update();	// Update the district
-
-			UI::update();	// Update the UI
+		for (std::unique_ptr<GameSystem>& system : gameSystems)
+		{
+			system->run(spDistrict.get());	// Run each gamesystem on the district
 		}
+
+		spDistrict->update();	// Update the district
+
+		UI::update();	// Update the UI
 	}
 
 	gameOver();
