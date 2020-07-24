@@ -86,7 +86,7 @@ void Game::play() {
 			if (!playerQuitting)
 				UI::unpause();
 			else
-				break;	// Exit the game loop when the player wants to quit
+				return;	// Completely exit the play() method when quitting
 		}
 
 		// Get the time before the game tick is executed
