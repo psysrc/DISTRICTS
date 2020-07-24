@@ -132,6 +132,13 @@ bool Game::handleCommands() {
  */
 void Game::gameOver() const {
 	UI::displayActivityMessage("Game Over.");
+	UI::displayActivityMessage("You may quit the game when you are ready.");
 
-	std::this_thread::sleep_for(seconds(1));
+	Cmds::PlayerCommand* pCommand;
+
+	do
+	{
+		pCommand = UI::getPlayerCommand();
+	}
+	while (dynamic_cast<Cmds::Quit*>(pCommand) == nullptr);
 }
