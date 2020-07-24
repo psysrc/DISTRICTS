@@ -79,8 +79,8 @@ void Game::play() {
 		if (UI::letPlayerPause()) {
 			UI::pause();
 
-			// Handle all commands from the user while the game is paused
-			// The user will either quit the game or just unpause the game at this point
+			// Handle all commands from the player while the game is paused
+			// The player will either quit the game or just unpause the game at this point
 			bool playerQuitting = handleCommands();
 
 			if (!playerQuitting)
@@ -106,9 +106,9 @@ void Game::play() {
 }
 
 /*
- * Handles the user inputting commands while the game is paused.
- * This method returns back to the game loop when the user wants to unpause the game or quit.
- * Returns whether or not the user wants to quit.
+ * Handles the player inputting commands while the game is paused.
+ * This method returns back to the game loop when the player wants to unpause the game or quit.
+ * Returns whether or not the player wants to quit.
  */
 bool Game::handleCommands() {
 	Cmds::PlayerCommand* pCommand = nullptr;
@@ -116,14 +116,39 @@ bool Game::handleCommands() {
 	while (true) {
 		pCommand = UI::getPlayerCommand();
 
-		// First need to check if the user is quitting or unpausing
+		// First need to check if the player is quitting or unpausing
 		// If so, exit the handle commands function with the appropriate return value
 		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr)
+		{
 			return false;
+		}
 		else if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
-			return true;
+		{
+			// Confirm if the player wants to quit before quitting
+			UI::displayActivityMessage("Are you sure you want to quit? Press quit again to confirm, or press pause to cancel.");
+
+			while (true)
+			{
+				pCommand = UI::getPlayerCommand();
+
+				if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
+				{
+					// Quit
+					return true;
+				}
+				else if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr)
+				{
+					// Inform the player they cancelled their quit command
+					UI::displayActivityMessage("Cancelled quitting.");
+					break;
+				}
+			}
+		}
 		else if (pCommand != nullptr)
+		{
+			// If it's any other ordinary command then execute it
 			pCommand->execute(spDistrict.get());
+		}
 	}
 }
 
