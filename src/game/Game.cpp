@@ -13,6 +13,7 @@
 #include "gamesystems/WorkSystem.h"
 #include "gamesystems/CitizenSystem.h"
 #include "gamesystems/MoveSystem.h"
+#include "game/TickSpeed.h"
 
 using namespace std::chrono;
 
@@ -40,7 +41,7 @@ Game::~Game() {
  * Defines the game loop while the game is still being played (game isn't over).
  */
 void Game::play() {
-	const milliseconds gameTick(250);	// Time per game tick
+	const milliseconds gameTick(1000 / ticksPerSecond);	// Time per game tick
 	milliseconds execStart;		// Time at the start of game tick
 	milliseconds execEnd;		// Time at the end of game tick
 	milliseconds execDuration;	// Duration of the game tick
