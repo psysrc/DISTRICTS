@@ -1,7 +1,6 @@
 #ifndef TILE_H_
 #define TILE_H_
 
-#include <vector>
 #include "game/Constants.h"
 #include "game/TileCoordinates.h"
 

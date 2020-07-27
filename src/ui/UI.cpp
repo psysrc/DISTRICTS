@@ -3,7 +3,6 @@
 #include <ncurses.h>
 #include <unordered_map>
 #include <iostream>
-#include "game/Constants.h"
 #include "game/Tile.h"
 #include "game/District.h"
 #include "commands/Quit.h"
@@ -19,6 +18,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include "ui/TileColours.h"
 
 namespace UI {
 

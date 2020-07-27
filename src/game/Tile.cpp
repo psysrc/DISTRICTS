@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-#include <stdexcept>
+#include "ui/TileColours.h"
 
 Tile::Tile(TileCoordinates coords, TileProperty::TileProperty property) : coordinates(coords), pEntity(nullptr), property(property) {
 	updateColour();
