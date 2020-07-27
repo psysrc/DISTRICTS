@@ -12,7 +12,8 @@ private:
 	bool gameIsOver;
 	bool gameIsPaused;
 	std::shared_ptr<District> spDistrict;
-	std::vector<std::unique_ptr<GameSystem>> gameSystems;
+	std::vector<std::unique_ptr<GameSystem>> preUpdateGameSystems;
+	std::vector<std::unique_ptr<GameSystem>> postUpdateGameSystems;
 
 	bool handleCommands();
 	void gameOver() const;

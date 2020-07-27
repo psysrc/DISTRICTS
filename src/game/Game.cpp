@@ -26,11 +26,12 @@ Game::Game() {
 
 	spDistrict = std::make_shared<District>();
 
-	gameSystems.push_back(std::make_unique<WalkSystem>());
-	gameSystems.push_back(std::make_unique<GrowSystem>());
-	gameSystems.push_back(std::make_unique<WorkSystem>());
-	gameSystems.push_back(std::make_unique<CitizenSystem>());
-	gameSystems.push_back(std::make_unique<MoveSystem>());
+	preUpdateGameSystems.push_back(std::make_unique<WalkSystem>());
+	preUpdateGameSystems.push_back(std::make_unique<GrowSystem>());
+	preUpdateGameSystems.push_back(std::make_unique<WorkSystem>());
+	preUpdateGameSystems.push_back(std::make_unique<CitizenSystem>());
+	
+	postUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
 }
 
 Game::~Game() {
@@ -54,11 +55,12 @@ void Game::play() {
 
 	UI::unpause();	// Unpause the game to start with
 
-	// Execute District::update() and MoveSystem::run() as soon as the game is started
+	// Execute District::update() and post-update gamesystems as soon as the game is started
 	// This is required to initially update all PositionComponents' currentCoordinates
 	// Otherwise the first tick of the game will show no entities, and suddenly they'll pop into existence
 	spDistrict->update();
-	gameSystems[4]->run(spDistrict.get());
+	for (std::unique_ptr<GameSystem>& system : postUpdateGameSystems)
+		system->run(spDistrict.get());
 
 	UI::currentDistrict(spDistrict);	// Set the current district and update
 
@@ -92,14 +94,19 @@ void Game::play() {
 		// Get the time before the game tick is executed
 		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-		for (std::unique_ptr<GameSystem>& system : gameSystems)
-		{
-			system->run(spDistrict.get());	// Run each gamesystem on the district
-		}
+		// Run all pre-update gamesystems on the district
+		for (std::unique_ptr<GameSystem>& system : preUpdateGameSystems)
+			system->run(spDistrict.get());
 
-		spDistrict->update();	// Update the district
+		// Update the district
+		spDistrict->update();
 
-		UI::update();	// Update the UI
+		// Run all post-update gamesystems on the district
+		for (std::unique_ptr<GameSystem>& system : postUpdateGameSystems)
+			system->run(spDistrict.get());
+
+		// Update the UI
+		UI::update();
 	}
 
 	gameOver();
