@@ -1,8 +1,8 @@
 #ifndef TILE_H_
 #define TILE_H_
 
-#include "game/Constants.h"
 #include "game/TileCoordinates.h"
+#include "game/TileProperty.h"
 
 class District;
 class Entity;

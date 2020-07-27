@@ -1,7 +1,7 @@
-#include <tasks/BuildBridge.h>
+#include "tasks/BuildBridge.h"
 
-#include <game/Tile.h>
-#include <game/Constants.h>
+#include "game/Tile.h"
+#include "game/TileProperty.h"
 
 using namespace Tasks;
 

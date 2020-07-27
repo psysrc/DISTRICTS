@@ -5,11 +5,11 @@
 #include <vector>
 #include <memory>
 #include <map>
-#include "game/Constants.h"
 #include "entities/Entity.h"
 #include "tasks/Task.h"
 #include "game/Tile.h"
 #include "ID.h"
+#include "game/TileProperty.h"
 
 class Citizen;
 
