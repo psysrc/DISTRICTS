@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <map>
+#include <unordered_map>
 #include "entities/Entity.h"
 #include "tasks/Task.h"
 #include "game/Tile.h"
@@ -21,14 +21,13 @@ class District {
 private:
 	std::string districtName;
 	std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
-	std::vector<std::unique_ptr<Entity>> entities;			// All entities in the district
-	std::vector<std::unique_ptr<Entity>> entitiesToAdd;		// All entities to add at the end of a game tick
-	std::vector<Entity*> entitiesToDelete;					// All entities to delete at the end of a game tick
-	std::vector<std::shared_ptr<Tasks::Task>> tasks;		// All tasks in the district
-	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;	// All tasks to add at the end of a game tick
-	std::vector<Tasks::Task*> tasksToDelete;				// All tasks to delete at the end of a game tick
-	std::map<TileCoordinates, ID_t> entityOccupyMap;		// Which entities occupy certain tiles
-	std::map<TileCoordinates, ID_t> taskOccupyMap;			// Which tasks occupy certain tiles
+	std::vector<std::unique_ptr<Entity>> entities;					// All entities in the district
+	std::vector<std::unique_ptr<Entity>> entitiesToAdd;				// All entities to add at the end of a game tick
+	std::vector<Entity*> entitiesToDelete;							// All entities to delete at the end of a game tick
+	std::vector<std::shared_ptr<Tasks::Task>> tasks;				// All tasks in the district
+	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;			// All tasks to add at the end of a game tick
+	std::vector<Tasks::Task*> tasksToDelete;						// All tasks to delete at the end of a game tick
+	std::unordered_multimap<TileCoordinates, ID_t> taskOccupyMap;	// Mapping from each tile to any associated tasks
 public:
 	static const unsigned short districtSize = 32;
 	
