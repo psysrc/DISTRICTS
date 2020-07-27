@@ -10,6 +10,9 @@
 #include "components/GrowComponent.h"
 #include "entities/OccupyRules.h"
 
+#define BIOME_GEN true
+#define TREE_GEN true
+
 using namespace Tasks;
 
 District::District(const std::string name) : districtName(name) {
