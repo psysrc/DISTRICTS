@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <unordered_map>
 #include "entities/Entity.h"
 #include "tasks/Task.h"
 #include "game/Tile.h"
@@ -27,7 +26,6 @@ private:
 	std::vector<std::shared_ptr<Tasks::Task>> tasks;				// All tasks in the district
 	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd;			// All tasks to add at the end of a game tick
 	std::vector<Tasks::Task*> tasksToDelete;						// All tasks to delete at the end of a game tick
-	std::unordered_multimap<TileCoordinates, ID_t> taskOccupyMap;	// Mapping from each tile to any associated tasks
 public:
 	static const unsigned short districtSize = 32;
 	
