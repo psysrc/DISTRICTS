@@ -1,13 +1,17 @@
 #include "Task.h"
 
+#include "game/Tile.h"
+
 using namespace Tasks;
 
 Task::Task(Tile* pTile, std::string taskName, int work)
 : id(uniqueTaskID()), pTile(pTile), name(taskName), completed(false), workRemaining(work) {
-
+	pTile->addTask(this);
 }
 
-Task::~Task() {}
+Task::~Task() {
+	pTile->removeTask(this);
+}
 
 ID_t Task::getID() const {
 	return id;

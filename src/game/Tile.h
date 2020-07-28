@@ -3,6 +3,8 @@
 
 #include "game/TileCoordinates.h"
 #include "game/TileProperty.h"
+#include <vector>
+#include "tasks/Task.h"
 
 class District;
 class Entity;
@@ -13,6 +15,7 @@ private:
 	Entity* pEntity;
 	TileProperty::TileProperty property;
 	int drawColour;
+	std::vector<Tasks::Task*> tasks;
 public:
 	Tile(TileCoordinates, TileProperty::TileProperty);
 	~Tile();
@@ -21,6 +24,9 @@ public:
 	TileProperty::TileProperty getProperty() const;
 	Entity* getEntity() const;
 	void setEntity(Entity*);
+	const std::vector<Tasks::Task*>& getTasks() const;
+	void addTask(Tasks::Task*);
+	void removeTask(Tasks::Task*);
 	int getDrawColour() const;
 	void updateColour();
 	bool operator==(const Tile& b) const;
