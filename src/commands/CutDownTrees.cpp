@@ -18,18 +18,7 @@ void CutDownTrees::execute(District* pDistrict) {
 	if (pSelectedTile != nullptr) {	// Did the player make a selection?
 		if (dynamic_cast<Tree*>(pSelectedTile->getEntity()) != nullptr)	// Does the selected tile actually have a tree?
 		{
-			bool taskAlreadyExists = false;
-
-			// Check all existing tasks on this tile
-			for (Tasks::Task* pExistingTask : pSelectedTile->getTasks())
-			{
-				// If a CutDownTree task already exists...
-				if (dynamic_cast<Tasks::CutDownTree*>(pExistingTask) != nullptr)
-					taskAlreadyExists = true;
-			}
-
-			// ... Then don't create another one
-			if (!taskAlreadyExists)
+			if (!pSelectedTile->hasTask<Tasks::CutDownTree>())
 				pDistrict->makeTask<Tasks::CutDownTree>(pSelectedTile, pDistrict);
 		}
 	}
