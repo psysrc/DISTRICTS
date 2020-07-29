@@ -6,6 +6,6 @@ Quit::Quit() : PlayerCommand("Quit game") {}
 
 Quit::~Quit() {}
 
-void Quit::execute(__attribute__((unused)) District* pDistrict) {}
+void Quit::execute(District* /* pDistrict */) {}
 
 } /* namespace Cmds */

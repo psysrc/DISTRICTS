@@ -85,12 +85,12 @@ District::District(const std::string name) : districtName(name) {
 
 District::~District() {}
 
-Entity* District::getEntity(ID_t entityID) const {
+Entity* District::getEntity(ID_t /* entityID */) const {
 	throw std::logic_error("District::getEntity() not yet implemented");
 	return nullptr;
 }
 
-Tasks::Task* District::getTask(ID_t taskID) const {
+Tasks::Task* District::getTask(ID_t /* taskID */) const {
 	throw std::logic_error("District::getTask() not yet implemented");
 	return nullptr;
 }
