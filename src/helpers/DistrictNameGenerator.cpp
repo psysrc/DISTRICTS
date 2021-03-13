@@ -1,23 +1,65 @@
 #include "helpers/DistrictNameGenerator.h"
+#include <stdexcept>
+#include <cstdlib>
+#include <fstream>
 
-std::vector<std::string> DistrictNameGenerator::knownNames;
+std::vector<std::string> DistrictNameGenerator::baseNames;
 
 std::string DistrictNameGenerator::generateName()
 {
-    if (knownNames.empty())
+    // Read district base names from file the first time a name is requested
+    if (baseNames.empty())
     {
-        populateNamesFromFile();
+        bool succeeded = populateNamesFromFile();
+
+        if (!succeeded)
+            baseNames.push_back("unnamed"); // Add a single default name if an error occurs
     }
 
-    return knownNames.at(0);
+    std::string randomName = selectRandomBaseName();
+
+    return randomName;
 }
 
 /**
- * Populates `knownNames` from the district names file.
+ * Populates `baseNames` from the district names file.
+ * Returns false if an error occurs.
  */
-void DistrictNameGenerator::populateNamesFromFile()
+bool DistrictNameGenerator::populateNamesFromFile()
 {
-    // TODO
+    bool success = false;
+    try
+    {
+        // TODO: Handle the current directory properly
+        std::ifstream inputStream("bin/district_names.txt");
 
-    knownNames.push_back("unnamed");
+        if (inputStream)
+        {
+            std::string name;
+
+            while (!inputStream.eof())
+            {
+                inputStream >> name;
+                baseNames.push_back(name);
+            }
+
+            if (!baseNames.empty())
+                success = true;
+        }
+    }
+    catch (std::exception& ex) {}
+
+    return success;
+}
+
+/**
+ * Returns a random name from `baseNames`.
+ */
+const std::string& DistrictNameGenerator::selectRandomBaseName()
+{
+    if (baseNames.empty())
+        throw std::logic_error("Can't select random district base name from an empty set");
+    
+    const size_t randomIndex = std::rand() % baseNames.size();
+    return baseNames[randomIndex];
 }

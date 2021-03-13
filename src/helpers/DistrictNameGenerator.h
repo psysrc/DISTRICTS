@@ -11,9 +11,10 @@ public:
     static std::string generateName();
 
 private:
-    static void populateNamesFromFile();
+    static bool populateNamesFromFile();
+    static const std::string& selectRandomBaseName();
 
-    static std::vector<std::string> knownNames;
+    static std::vector<std::string> baseNames;
 };
 
 #endif // DISTRICTNAMEGENERATOR_H_
