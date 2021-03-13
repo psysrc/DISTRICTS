@@ -29,7 +29,8 @@ private:
 public:
 	static const unsigned short districtSize = 32;
 	
-	District(const std::string name = "unnamed");
+	District();
+	District(const std::string& name);
 	~District();
 	std::string getName() const;
 	void createBiome(TileCoordinates, TileProperty::TileProperty biomeProperty, int size);

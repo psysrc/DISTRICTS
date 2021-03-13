@@ -9,13 +9,17 @@
 #include "components/PositionComponent.h"
 #include "components/GrowComponent.h"
 #include "entities/OccupyRules.h"
+#include "helpers/DistrictNameGenerator.h"
 
 #define BIOME_GEN true
 #define TREE_GEN true
 
 using namespace Tasks;
 
-District::District(const std::string name) : districtName(name) {
+District::District() : District(DistrictNameGenerator::generateName()) {}
+
+District::District(const std::string& name) : districtName(name)
+{
 	// Create the 2D array of Tiles
 	tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(District::districtSize);
 
