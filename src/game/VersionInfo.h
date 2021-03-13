@@ -2,7 +2,6 @@
 // Name        : DISTRICTS
 // Author      : Samuel Copping
 // Description : A procedural base building game inspired by Dwarf Fortress
-// Version     : PRE-ALPHA
 //============================================================================
 
 #ifndef VERSIONINFO_H_

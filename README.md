@@ -4,7 +4,7 @@ Currently the game is very limited, and right now couldn't really be classed as 
 
 ## Building the game
 Right now the game is only being developed and tested on Linux. If you have a burning desire to play the game on Windows or MacOS, let me know so I can start looking into it.
-To build the game for Linux, simply run the makefile in the top-level directory by running the command `make` or `make all`. All binaries for the game will be stored in a `bin` directory, including the DISTRICTS executable. The game must build against `ncurses`, so this must be available on your system - it should be available within the `libncurses5-dev` package through your package manager.
+To build the game for Linux, simply run the makefile in the top-level directory by running the command `make` or `make all`. All binaries for the game will be stored in a `bin` directory, including the DISTRICTS executable. The game must build against `ncurses`, so this must be available on your system - it should be available within the `libncurses-dev` package through your package manager.
 
 ## Gameplay features
 The game is currently very limited in terms of gameplay features, but nonetheless, here is what is currently available:
