@@ -31,7 +31,7 @@ bool DistrictNameGenerator::populateNamesFromFile()
     bool success = false;
     try
     {
-        std::ifstream inputStream(Filesystem::executableDirectory + "district_names.txt");
+        std::ifstream inputStream(Filesystem::executableDirectory + "cfg/district_names.txt");
 
         if (inputStream)
         {

@@ -24,12 +24,16 @@ EXE_NAME := DISTRICTS
 EXE := $(OBJ_DIR)/$(EXE_NAME)
 
 
+### CONFIG FILES ###
+CFG_DIR := cfg
+
+
 ### CXX COMPILER ###
 CXX ?= /usr/bin/g++
 
 
 ### RULES ###
-all: $(EXE)
+all: $(EXE) $(OBJ_DIR)/$(CFG_DIR)
 
 # Main executable
 $(EXE): $(OBJ_FILES) | $(OBJ_DIR)
@@ -47,6 +51,10 @@ $(OBJ_DIR):
 
 # Pre-compiled object file dependencies, produced by $(CXX) -MMD
 -include $(OBJ_DIR)/*/*.d
+
+# Config files
+$(OBJ_DIR)/$(CFG_DIR):
+	rsync -rup $(CFG_DIR) $(OBJ_DIR)/
 
 # Clean
 clean:
