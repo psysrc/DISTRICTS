@@ -1,4 +1,5 @@
 #include "helpers/DistrictNameGenerator.h"
+#include "helpers/Filesystem.h"
 #include <stdexcept>
 #include <cstdlib>
 #include <fstream>
@@ -30,8 +31,7 @@ bool DistrictNameGenerator::populateNamesFromFile()
     bool success = false;
     try
     {
-        // TODO: Handle the current directory properly
-        std::ifstream inputStream("bin/district_names.txt");
+        std::ifstream inputStream(Filesystem::executableDirectory + "district_names.txt");
 
         if (inputStream)
         {

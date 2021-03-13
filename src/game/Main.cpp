@@ -2,11 +2,18 @@
 #include "game/Game.h"
 #include "ui/UI.h"
 #include "ui/MainMenuSelections.h"
+#include "helpers/Filesystem.h"
 
 void playNewGame();
 
-int main()
+int main(int argc, char* argv[])
 {
+	// Initialise the filesystem with the executable path
+	if (argc > 0)
+	{
+		Filesystem::initialise(argv[0]);
+	}
+
 	// Initialise the UI, exit if it fails
 	if (!UI::initialise())
 	{
