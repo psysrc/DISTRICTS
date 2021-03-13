@@ -72,11 +72,11 @@ bool initialise() {
 
 	// Define colour pairs for the tiles
 	init_pair(COLOUR_UNKNOWN, COLOR_RED, COLOR_BLACK);
-	init_pair(COLOUR_PLAINS, COLOR_GREEN, COLOR_GREEN);
-	init_pair(COLOUR_WATER, COLOR_BLUE, COLOR_BLUE);
-	init_pair(COLOUR_STONE, COLOR_WHITE, COLOR_WHITE);
+	init_pair(COLOUR_PLAINS, COLOR_WHITE, COLOR_GREEN);
+	init_pair(COLOUR_WATER, COLOR_WHITE, COLOR_BLUE);
+	init_pair(COLOUR_STONE, COLOR_BLACK, COLOR_WHITE);
 	init_pair(COLOUR_HIGHLIGHTED, COLOR_WHITE, COLOR_RED);
-	init_pair(COLOUR_BRIDGE, COLOR_YELLOW, COLOR_YELLOW);
+	init_pair(COLOUR_BRIDGE, COLOR_BLACK, COLOR_YELLOW);
 
 	// Define the windows in the terminal
 	// Parameters are: row count (height), column count (width), row origin, column origin
@@ -84,9 +84,6 @@ bool initialise() {
 	activityWindow = newwin(8, District::districtSize * 2, District::districtSize + 1, 0);
 	districtNameWindow = newwin(3, 32, 0, (District::districtSize * 2) + 2);
 	promptWindow = newwin(District::districtSize - 3, 32, 3, (District::districtSize * 2) + 2);
-
-	// Make the map text brighter and bolder
-	wattron(mapWindow, A_BOLD);
 
 	// Make the activity and debug windows automatically scroll up after writing to the bottom row
 	scrollok(activityWindow, TRUE);
