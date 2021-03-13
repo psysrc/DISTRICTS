@@ -45,6 +45,8 @@ bool DistrictNameGenerator::populateNamesFromFile()
 
             if (!baseNames.empty())
                 success = true;
+            
+            inputStream.close();
         }
     }
     catch (std::exception& ex) {}
