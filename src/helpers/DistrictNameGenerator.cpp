@@ -37,9 +37,8 @@ bool DistrictNameGenerator::populateNamesFromFile()
         {
             std::string name;
 
-            while (!inputStream.eof())
+            while (std::getline(inputStream, name))
             {
-                inputStream >> name;
                 baseNames.push_back(name);
             }
 
