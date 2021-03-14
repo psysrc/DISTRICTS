@@ -6,8 +6,8 @@
 
 class Citizen : public Entity {
 public:
-	Citizen();
-	Citizen(TileCoordinates);
+	Citizen(TileCoordinates = TileCoordinates(-1, -1));
+	Citizen(const std::string&, TileCoordinates = TileCoordinates(-1, -1));
 	virtual ~Citizen();
 };
 

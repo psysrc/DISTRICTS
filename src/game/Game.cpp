@@ -14,6 +14,7 @@
 #include "gamesystems/CitizenSystem.h"
 #include "gamesystems/MoveSystem.h"
 #include "game/TickSpeed.h"
+#include "components/CitizenComponent.h"
 
 using namespace std::chrono;
 
@@ -51,8 +52,6 @@ void Game::play() {
 	// It therefore needs initialising here before the game loop starts
 	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	UI::displayActivityMessage("Game started.");
-
 	UI::unpause();	// Unpause the game to start with
 
 	// Execute District::update() and post-update gamesystems as soon as the game is started
@@ -63,6 +62,19 @@ void Game::play() {
 		system->run(spDistrict.get());
 
 	UI::currentDistrict(spDistrict);	// Set the current district and update
+
+	// Get the name of the first citizen in the district
+	std::string citizenName = "<unknown>";
+	for (const auto& entity : spDistrict->getEntities())
+	{
+		if (entity->hasComponent<CitizenComponent>())
+		{
+			citizenName = entity->getName();
+		}
+	}
+
+	UI::displayActivityMessage("The first settler has arrived. Their name is '" + citizenName + "'.");
+	UI::displayActivityMessage("They decide to name this district '" + spDistrict->getName() + "'.");
 
 	// Game loop
 	while (!gameIsOver) {
