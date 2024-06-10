@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <stdexcept>
 #include "components/Component.h"
 #include "game/ID.h"
 
