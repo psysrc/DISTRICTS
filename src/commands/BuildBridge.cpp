@@ -5,22 +5,25 @@
 #include "game/District.h"
 #include "tasks/BuildBridge.h"
 
-namespace Cmds {
+namespace Cmds
+{
 
-BuildBridge::BuildBridge() : PlayerCommand("Build a bridge") {}
+	BuildBridge::BuildBridge() : PlayerCommand("Build a bridge") {}
 
-BuildBridge::~BuildBridge() {}
+	BuildBridge::~BuildBridge() {}
 
-void BuildBridge::execute(District* pDistrict) {
-	Tile* pSelectedTile = UI::selectTile(pDistrict);
+	void BuildBridge::execute(District *pDistrict)
+	{
+		Tile *pSelectedTile = UI::selectTile(pDistrict);
 
-	if (pSelectedTile != nullptr) {	// Check that the player selected a tile
-		if (pSelectedTile->getProperty() == TileProperty::Water)	// Check that the tile is water
-		{
-			if (!pSelectedTile->hasTask<Tasks::BuildBridge>())
-				pDistrict->makeTask<Tasks::BuildBridge>(pSelectedTile);
+		if (pSelectedTile != nullptr)
+		{															 // Check that the player selected a tile
+			if (pSelectedTile->getProperty() == TileProperty::Water) // Check that the tile is water
+			{
+				if (!pSelectedTile->hasTask<Tasks::BuildBridge>())
+					pDistrict->makeTask<Tasks::BuildBridge>(pSelectedTile);
+			}
 		}
 	}
-}
 
 } /* namespace Cmds */

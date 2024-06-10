@@ -4,11 +4,11 @@
 namespace MainMenuSelection
 {
 
-enum MainMenuSelection
-{
-    NewGame,
-    Quit
-};
+    enum MainMenuSelection
+    {
+        NewGame,
+        Quit
+    };
 
 }
 

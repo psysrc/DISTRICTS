@@ -3,11 +3,12 @@
 
 class District;
 
-class GameSystem {
+class GameSystem
+{
 public:
     GameSystem() {}
     virtual ~GameSystem() {}
-    virtual void run(District* pDistrict) = 0;
+    virtual void run(District *pDistrict) = 0;
 };
 
 #endif /* GAMESYSTEM_H_ */

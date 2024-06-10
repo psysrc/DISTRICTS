@@ -7,7 +7,8 @@
 class District;
 class GameSystem;
 
-class Game {
+class Game
+{
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
@@ -17,6 +18,7 @@ private:
 
 	bool handleCommands();
 	void gameOver() const;
+
 public:
 	Game();
 	~Game();

@@ -6,16 +6,19 @@
 class District;
 class Tile;
 
-namespace Tasks {
+namespace Tasks
+{
 
-class CutDownTree : public Task {
-public:
-	CutDownTree(Tile*, District*);
-	virtual ~CutDownTree();
-protected:
-	virtual void onCompletion() override;
-	District* pDistrict;
-};
+	class CutDownTree : public Task
+	{
+	public:
+		CutDownTree(Tile *, District *);
+		virtual ~CutDownTree();
+
+	protected:
+		virtual void onCompletion() override;
+		District *pDistrict;
+	};
 
 }
 

@@ -11,13 +11,14 @@ WorkSystem::WorkSystem() {}
 
 WorkSystem::~WorkSystem() {}
 
-void WorkSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
+void WorkSystem::run(District *pDistrict)
+{
+    for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
     {
-        WorkerComponent* pWC = upEntity->getComponent<WorkerComponent>();
-        PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
+        WorkerComponent *pWC = upEntity->getComponent<WorkerComponent>();
+        PositionComponent *pPC = upEntity->getComponent<PositionComponent>();
 
-		if (pWC != nullptr && pWC->working && pPC != nullptr)
+        if (pWC != nullptr && pWC->working && pPC != nullptr)
         {
             // If the worker's current task exists (isn't empty and hasn't been deleted by the district)
             if (auto spCurrentTask = pWC->wpCurrentTask.lock())
@@ -25,7 +26,7 @@ void WorkSystem::run(District* pDistrict) {
                 // Check if the entity is within range to work on the task
                 if (PathFinding::euclideanDistance(pDistrict->getTile(pPC->getCurrentCoordinates()), spCurrentTask->getTile()) < 1.5)
 
-                spCurrentTask->workOn();
+                    spCurrentTask->workOn();
 
                 // If the task has been completed, it can be removed from the district and this worker can clear its current task
                 if (spCurrentTask->isCompleted())

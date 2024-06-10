@@ -18,12 +18,12 @@ namespace Cmds
 	{
 		Tile *pSelectedTile = UI::selectTile(pDistrict);
 
-		if (pSelectedTile != nullptr)  // Did the player make a selection?
+		if (pSelectedTile != nullptr) // Did the player make a selection?
 		{
 			Entity *pEntity = pSelectedTile->getEntity();
-			if (pEntity != nullptr)  // Does the tile have an entity on it?
+			if (pEntity != nullptr) // Does the tile have an entity on it?
 			{
-				if (pEntity->hasComponent<CanBeCutDownComponent>())  // Can the entity be cut down?
+				if (pEntity->hasComponent<CanBeCutDownComponent>()) // Can the entity be cut down?
 				{
 					if (!pSelectedTile->hasTask<Tasks::CutDownTree>())
 						pDistrict->makeTask<Tasks::CutDownTree>(pSelectedTile, pDistrict);

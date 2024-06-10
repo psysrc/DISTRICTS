@@ -10,14 +10,15 @@ CitizenSystem::CitizenSystem() {}
 
 CitizenSystem::~CitizenSystem() {}
 
-void CitizenSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
-	{
-		CitizenComponent* pCitC = upEntity->getComponent<CitizenComponent>();
-        WalkComponent* pWlkC = upEntity->getComponent<WalkComponent>();
-        WorkerComponent* pWrkC = upEntity->getComponent<WorkerComponent>();
-        
-		if (pCitC != nullptr && pWlkC != nullptr && pWrkC != nullptr)
+void CitizenSystem::run(District *pDistrict)
+{
+    for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
+    {
+        CitizenComponent *pCitC = upEntity->getComponent<CitizenComponent>();
+        WalkComponent *pWlkC = upEntity->getComponent<WalkComponent>();
+        WorkerComponent *pWrkC = upEntity->getComponent<WorkerComponent>();
+
+        if (pCitC != nullptr && pWlkC != nullptr && pWrkC != nullptr)
         {
             // Get a new task if this citizen has none
             if (!pWrkC->wpCurrentTask.lock())

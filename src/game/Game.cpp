@@ -4,7 +4,7 @@
 #include "game/District.h"
 #include "commands/PlayerCommand.h"
 #include <iostream>
-#include <thread>				// sleep_for(), std::thread
+#include <thread> // sleep_for(), std::thread
 #include "ui/UI.h"
 #include "commands/PauseToggle.h"
 #include "commands/Quit.h"
@@ -18,7 +18,8 @@
 
 using namespace std::chrono;
 
-Game::Game() {
+Game::Game()
+{
 	// Seed the random number generator with the current system time
 	srand(system_clock::to_time_t(system_clock::now()));
 
@@ -31,41 +32,42 @@ Game::Game() {
 	preUpdateGameSystems.push_back(std::make_unique<GrowSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<WorkSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<CitizenSystem>());
-	
+
 	postUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
 }
 
-Game::~Game() {
-
+Game::~Game()
+{
 }
 
 /*
  * Defines the game loop while the game is still being played (game isn't over).
  */
-void Game::play() {
-	const milliseconds gameTick(1000 / ticksPerSecond);	// Time per game tick
-	milliseconds execStart;		// Time at the start of game tick
-	milliseconds execEnd;		// Time at the end of game tick
-	milliseconds execDuration;	// Duration of the game tick
+void Game::play()
+{
+	const milliseconds gameTick(1000 / ticksPerSecond); // Time per game tick
+	milliseconds execStart;								// Time at the start of game tick
+	milliseconds execEnd;								// Time at the end of game tick
+	milliseconds execDuration;							// Duration of the game tick
 
 	// execStart won't be calculated until the end of each pause, but each pause needs the execStart from the previous tick
 	// It therefore needs initialising here before the game loop starts
 	execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	UI::unpause();	// Unpause the game to start with
+	UI::unpause(); // Unpause the game to start with
 
 	// Execute District::update() and post-update gamesystems as soon as the game is started
 	// This is required to initially update all PositionComponents' currentCoordinates
 	// Otherwise the first tick of the game will show no entities, and suddenly they'll pop into existence
 	spDistrict->update();
-	for (std::unique_ptr<GameSystem>& system : postUpdateGameSystems)
+	for (std::unique_ptr<GameSystem> &system : postUpdateGameSystems)
 		system->run(spDistrict.get());
 
-	UI::currentDistrict(spDistrict);	// Set the current district and update
+	UI::currentDistrict(spDistrict); // Set the current district and update
 
 	// Get the name of the first citizen in the district
 	std::string citizenName = "<unknown>";
-	for (const auto& entity : spDistrict->getEntities())
+	for (const auto &entity : spDistrict->getEntities())
 	{
 		if (entity->hasComponent<CitizenComponent>())
 		{
@@ -77,20 +79,22 @@ void Game::play() {
 	UI::displayActivityMessage("They decide to name this district '" + spDistrict->getName() + "'.");
 
 	// Game loop
-	while (!gameIsOver) {
+	while (!gameIsOver)
+	{
 		// Get the time after game tick has been executed
 		execEnd = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 		// Calculate the duration of the last execution
 		execDuration = execEnd - execStart;
-		
+
 		// Sleep for just long enough so that the next game tick occurs precisely 'gameTick' milliseconds after the previous
 		// This is so that even if one tick takes particularly long to process, the game runs at a steady pace
 		std::this_thread::sleep_for(gameTick - execDuration);
 
 		// Let the player pause for a short while before running the next game tick
 		// We only delay long enough to ensure the time between ticks is exactly 'gameTick' milliseconds long
-		if (UI::letPlayerPause()) {
+		if (UI::letPlayerPause())
+		{
 			UI::pause();
 
 			// Handle all commands from the player while the game is paused
@@ -100,21 +104,21 @@ void Game::play() {
 			if (!playerQuitting)
 				UI::unpause();
 			else
-				return;	// Completely exit the play() method when quitting
+				return; // Completely exit the play() method when quitting
 		}
 
 		// Get the time before the game tick is executed
 		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 		// Run all pre-update gamesystems on the district
-		for (std::unique_ptr<GameSystem>& system : preUpdateGameSystems)
+		for (std::unique_ptr<GameSystem> &system : preUpdateGameSystems)
 			system->run(spDistrict.get());
 
 		// Update the district
 		spDistrict->update();
 
 		// Run all post-update gamesystems on the district
-		for (std::unique_ptr<GameSystem>& system : postUpdateGameSystems)
+		for (std::unique_ptr<GameSystem> &system : postUpdateGameSystems)
 			system->run(spDistrict.get());
 
 		// Update the UI
@@ -129,19 +133,21 @@ void Game::play() {
  * This method returns back to the game loop when the player wants to unpause the game or quit.
  * Returns whether or not the player wants to quit.
  */
-bool Game::handleCommands() {
-	Cmds::PlayerCommand* pCommand = nullptr;
+bool Game::handleCommands()
+{
+	Cmds::PlayerCommand *pCommand = nullptr;
 
-	while (true) {
+	while (true)
+	{
 		pCommand = UI::getPlayerCommand();
 
 		// First need to check if the player is quitting or unpausing
 		// If so, exit the handle commands function with the appropriate return value
-		if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr)
+		if (dynamic_cast<Cmds::PauseToggle *>(pCommand) != nullptr)
 		{
 			return false;
 		}
-		else if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
+		else if (dynamic_cast<Cmds::Quit *>(pCommand) != nullptr)
 		{
 			// Confirm if the player wants to quit before quitting
 			UI::displayActivityMessage("Are you sure you want to quit? Press quit again to confirm, or press pause to cancel.");
@@ -150,12 +156,12 @@ bool Game::handleCommands() {
 			{
 				pCommand = UI::getPlayerCommand();
 
-				if (dynamic_cast<Cmds::Quit*>(pCommand) != nullptr)
+				if (dynamic_cast<Cmds::Quit *>(pCommand) != nullptr)
 				{
 					// Quit
 					return true;
 				}
-				else if (dynamic_cast<Cmds::PauseToggle*>(pCommand) != nullptr)
+				else if (dynamic_cast<Cmds::PauseToggle *>(pCommand) != nullptr)
 				{
 					// Inform the player they cancelled their quit command
 					UI::displayActivityMessage("Cancelled quitting.");
@@ -174,15 +180,15 @@ bool Game::handleCommands() {
 /*
  * This method is called when the game is over.
  */
-void Game::gameOver() const {
+void Game::gameOver() const
+{
 	UI::displayActivityMessage("Game Over.");
 	UI::displayActivityMessage("You may quit the game when you are ready.");
 
-	Cmds::PlayerCommand* pCommand;
+	Cmds::PlayerCommand *pCommand;
 
 	do
 	{
 		pCommand = UI::getPlayerCommand();
-	}
-	while (dynamic_cast<Cmds::Quit*>(pCommand) == nullptr);
+	} while (dynamic_cast<Cmds::Quit *>(pCommand) == nullptr);
 }

@@ -5,14 +5,16 @@
 
 class District;
 
-namespace Cmds {
+namespace Cmds
+{
 
-class CutDownTrees : public PlayerCommand {
-public:
-	CutDownTrees();
-	virtual ~CutDownTrees();
-	virtual void execute(District*) override;
-};
+	class CutDownTrees : public PlayerCommand
+	{
+	public:
+		CutDownTrees();
+		virtual ~CutDownTrees();
+		virtual void execute(District *) override;
+	};
 
 } /* namespace Cmds */
 

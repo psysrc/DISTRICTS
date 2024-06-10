@@ -1,14 +1,16 @@
 #ifndef TILEPROPERTY_H_
 #define TILEPROPERTY_H_
 
-namespace TileProperty {
+namespace TileProperty
+{
 
-enum TileProperty {
-	Plains,
-	Water,
-	Stone,
-	Bridge,
-};
+	enum TileProperty
+	{
+		Plains,
+		Water,
+		Stone,
+		Bridge,
+	};
 
 }
 

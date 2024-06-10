@@ -3,43 +3,52 @@
 #include "ui/TileColours.h"
 #include <algorithm>
 
-Tile::Tile(TileCoordinates coords, TileProperty::TileProperty property) : coordinates(coords), pEntity(nullptr), property(property) {
+Tile::Tile(TileCoordinates coords, TileProperty::TileProperty property) : coordinates(coords), pEntity(nullptr), property(property)
+{
 	updateColour();
 }
 
 Tile::~Tile() {}
 
-TileCoordinates Tile::getCoordinates() const {
+TileCoordinates Tile::getCoordinates() const
+{
 	return coordinates;
 }
 
-void Tile::updateProperty(TileProperty::TileProperty newProperty) {
+void Tile::updateProperty(TileProperty::TileProperty newProperty)
+{
 	property = newProperty;
 
 	updateColour();
 }
 
-TileProperty::TileProperty Tile::getProperty() const {
+TileProperty::TileProperty Tile::getProperty() const
+{
 	return property;
 }
 
-Entity* Tile::getEntity() const {
+Entity *Tile::getEntity() const
+{
 	return pEntity;
 }
 
-void Tile::setEntity(Entity* pEntity) {
+void Tile::setEntity(Entity *pEntity)
+{
 	this->pEntity = pEntity;
 }
 
-const std::vector<Tasks::Task*>& Tile::getTasks() const {
+const std::vector<Tasks::Task *> &Tile::getTasks() const
+{
 	return tasks;
 }
 
-void Tile::addTask(Tasks::Task* pTask) {
+void Tile::addTask(Tasks::Task *pTask)
+{
 	tasks.push_back(pTask);
 }
 
-void Tile::removeTask(Tasks::Task* pTask) {
+void Tile::removeTask(Tasks::Task *pTask)
+{
 	tasks.erase(std::find(tasks.begin(), tasks.end(), pTask));
 }
 
@@ -47,8 +56,10 @@ void Tile::removeTask(Tasks::Task* pTask) {
  * Updates the tile colour.
  * Should be called whenever the tile's properties/characteristics change.
  */
-void Tile::updateColour() {
-	switch (property) {
+void Tile::updateColour()
+{
+	switch (property)
+	{
 	case TileProperty::Plains:
 		drawColour = COLOUR_PLAINS;
 		break;
@@ -70,10 +81,12 @@ void Tile::updateColour() {
 /*
  * Returns the colour of this Tile.
  */
-int Tile::getDrawColour() const {
+int Tile::getDrawColour() const
+{
 	return drawColour;
 }
 
-bool Tile::operator==(const Tile& b) const {
+bool Tile::operator==(const Tile &b) const
+{
 	return (coordinates == b.getCoordinates());
 }

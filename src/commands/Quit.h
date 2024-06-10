@@ -5,14 +5,16 @@
 
 class District;
 
-namespace Cmds {
+namespace Cmds
+{
 
-class Quit : public PlayerCommand {
-public:
-	Quit();
-	virtual ~Quit();
-	virtual void execute(District*) override;
-};
+	class Quit : public PlayerCommand
+	{
+	public:
+		Quit();
+		virtual ~Quit();
+		virtual void execute(District *) override;
+	};
 
 } /* namespace Cmds */
 

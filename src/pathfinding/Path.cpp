@@ -2,12 +2,14 @@
 
 #include <stdexcept>
 
-Path::Path(const std::vector<Tile*> newPath) : currentStep(newPath.size() - 1), path(newPath) {
+Path::Path(const std::vector<Tile *> newPath) : currentStep(newPath.size() - 1), path(newPath)
+{
 	if (newPath.empty())
 		throw std::logic_error("Tried to create an empty Path object");
 }
 
-Path::~Path() {
+Path::~Path()
+{
 	path.clear();
 }
 
@@ -16,7 +18,8 @@ Path::~Path() {
  * Calling this method on the last tile of the path will finish the path.
  * If the path is finished, this method and current() will return nullptr.
  */
-Tile* Path::next() {
+Tile *Path::next()
+{
 	if (currentStep == 0)
 	{
 		finished = true;
@@ -33,7 +36,8 @@ Tile* Path::next() {
  * Returns the current tile along the path.
  * If the path is finished, this method and next() will return nullptr.
  */
-Tile* Path::current() const {
+Tile *Path::current() const
+{
 	if (finished)
 		return nullptr;
 
@@ -43,6 +47,7 @@ Tile* Path::current() const {
 /**
  * Always returns the last tile in the path (the 'destination'), even if the path has been finished.
  */
-Tile* Path::end() const {
+Tile *Path::end() const
+{
 	return path.front();
 }

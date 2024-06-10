@@ -10,13 +10,14 @@ WalkSystem::WalkSystem() {}
 
 WalkSystem::~WalkSystem() {}
 
-void WalkSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
+void WalkSystem::run(District *pDistrict)
+{
+    for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
     {
-        WalkComponent* pWC = upEntity->getComponent<WalkComponent>();
-        PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
+        WalkComponent *pWC = upEntity->getComponent<WalkComponent>();
+        PositionComponent *pPC = upEntity->getComponent<PositionComponent>();
 
-		if (pWC != nullptr && pPC != nullptr)
+        if (pWC != nullptr && pPC != nullptr)
         {
             /**
              * 1. If entity has a destination but no path, generate a path
@@ -41,7 +42,7 @@ void WalkSystem::run(District* pDistrict) {
                 if (pDistrict->getTile(pPC->getCurrentCoordinates()) == pWC->upPath->current())
                 {
                     // Get the next tile in the path
-                    Tile* pNextTile = pWC->upPath->next();
+                    Tile *pNextTile = pWC->upPath->next();
 
                     if (pNextTile != nullptr)
                     {

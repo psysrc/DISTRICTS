@@ -43,11 +43,13 @@ bool CitizenNameGenerator::populateNamesFromFile()
 
             if (!names.empty())
                 success = true;
-            
+
             inputStream.close();
         }
     }
-    catch (std::exception& ex) {}
+    catch (std::exception &ex)
+    {
+    }
 
     return success;
 }
@@ -55,11 +57,11 @@ bool CitizenNameGenerator::populateNamesFromFile()
 /**
  * Returns a random name from `names`.
  */
-const std::string& CitizenNameGenerator::selectRandomName()
+const std::string &CitizenNameGenerator::selectRandomName()
 {
     if (names.empty())
         throw std::logic_error("Can't select random citizen name from an empty set");
-    
+
     const size_t randomIndex = std::rand() % names.size();
     return names[randomIndex];
 }

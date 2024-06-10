@@ -5,7 +5,8 @@
 #include <memory>
 #include "tasks/Task.h"
 
-class WorkerComponent : public Component {
+class WorkerComponent : public Component
+{
 public:
     WorkerComponent() {}
     virtual ~WorkerComponent() {}

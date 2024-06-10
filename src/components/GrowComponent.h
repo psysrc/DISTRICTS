@@ -6,7 +6,8 @@
 
 class GrowSystem;
 
-class GrowComponent : public Component {
+class GrowComponent : public Component
+{
 public:
     GrowComponent(int seconds) : ticksToGrow(seconds * ticksPerSecond) {}
     virtual ~GrowComponent() {}

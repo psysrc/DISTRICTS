@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-class CitizenNameGenerator {
+class CitizenNameGenerator
+{
 public:
     CitizenNameGenerator() = delete;
 
@@ -12,7 +13,7 @@ public:
 
 private:
     static bool populateNamesFromFile();
-    static const std::string& selectRandomName();
+    static const std::string &selectRandomName();
 
     static std::vector<std::string> names;
 };

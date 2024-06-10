@@ -4,9 +4,10 @@
 class Entity;
 class Tile;
 
-class OccupyRules {
+class OccupyRules
+{
 public:
-    static bool canOccupy(Entity*, Tile*);
+    static bool canOccupy(Entity *, Tile *);
 };
 
 #endif /* OCCUPYRULES_H_ */

@@ -5,15 +5,18 @@
 
 class Tile;
 
-namespace Tasks {
+namespace Tasks
+{
 
-class BuildBridge : public Task {
-public:
-	BuildBridge(Tile*);
-	virtual ~BuildBridge();
-protected:
-	virtual void onCompletion() override;
-};
+	class BuildBridge : public Task
+	{
+	public:
+		BuildBridge(Tile *);
+		virtual ~BuildBridge();
+
+	protected:
+		virtual void onCompletion() override;
+	};
 
 }
 

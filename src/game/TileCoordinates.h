@@ -1,16 +1,19 @@
 #ifndef TILECOORDINATES_H_
 #define TILECOORDINATES_H_
 
-struct TileCoordinates {
+struct TileCoordinates
+{
 	TileCoordinates(short x, short y) : x(x), y(y) {}
 
 	~TileCoordinates() {}
 
-	bool operator==(const TileCoordinates& b) const {
+	bool operator==(const TileCoordinates &b) const
+	{
 		return (x == b.x) && (y == b.y);
 	}
 
-	bool operator!=(const TileCoordinates& b) const {
+	bool operator!=(const TileCoordinates &b) const
+	{
 		return !(*this == b);
 	}
 

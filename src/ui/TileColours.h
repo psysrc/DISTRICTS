@@ -1,11 +1,11 @@
 #ifndef TILECOLOURS_H_
 #define TILECOLOURS_H_
 
-#define COLOUR_UNKNOWN		1
-#define COLOUR_WATER		2
-#define COLOUR_PLAINS		3
-#define COLOUR_STONE		4
-#define COLOUR_HIGHLIGHTED	5
-#define COLOUR_BRIDGE		6
+#define COLOUR_UNKNOWN 1
+#define COLOUR_WATER 2
+#define COLOUR_PLAINS 3
+#define COLOUR_STONE 4
+#define COLOUR_HIGHLIGHTED 5
+#define COLOUR_BRIDGE 6
 
 #endif /* TILECOLOURS_H_ */

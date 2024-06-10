@@ -1,11 +1,12 @@
 #include <commands/PauseToggle.h>
 
-namespace Cmds {
+namespace Cmds
+{
 
-PauseToggle::PauseToggle() : PlayerCommand("Pause or unpause the game") {}
+    PauseToggle::PauseToggle() : PlayerCommand("Pause or unpause the game") {}
 
-PauseToggle::~PauseToggle() {}
+    PauseToggle::~PauseToggle() {}
 
-void PauseToggle::execute(District* /* pDistrict */) {}
+    void PauseToggle::execute(District * /* pDistrict */) {}
 
 } /* namespace Cmds */

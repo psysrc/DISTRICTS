@@ -6,7 +6,7 @@
 
 void playNewGame();
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	// Initialise the filesystem with the executable path
 	if (argc > 0)
@@ -28,15 +28,15 @@ int main(int argc, char* argv[])
 
 		switch (selection)
 		{
-			case MainMenuSelection::NewGame:
-				playNewGame();
-				break;
-			case MainMenuSelection::Quit:
-				returnCode = 0;
-				break;
-			default:
-				returnCode = 1;
-				break;
+		case MainMenuSelection::NewGame:
+			playNewGame();
+			break;
+		case MainMenuSelection::Quit:
+			returnCode = 0;
+			break;
+		default:
+			returnCode = 1;
+			break;
 		}
 	}
 
@@ -54,10 +54,12 @@ void playNewGame()
 {
 	Game newGame;
 
-	try {
+	try
+	{
 		newGame.play();
 	}
-	catch (std::exception& ex) {
+	catch (std::exception &ex)
+	{
 		std::cerr << "Exception caught in main: " << ex.what() << ". Terminating." << std::endl;
 	}
 }

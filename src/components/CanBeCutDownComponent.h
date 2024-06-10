@@ -3,7 +3,8 @@
 
 #include "components/Component.h"
 
-class CanBeCutDownComponent : public Component {
+class CanBeCutDownComponent : public Component
+{
 public:
     CanBeCutDownComponent() {}
     virtual ~CanBeCutDownComponent() {}

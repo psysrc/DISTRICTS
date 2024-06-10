@@ -2,12 +2,12 @@
 
 std::string Filesystem::executableDirectory;
 
-void Filesystem::initialise(const std::string& executablePath)
+void Filesystem::initialise(const std::string &executablePath)
 {
     /**
      * Example: executablePath is "Desktop/DISTRICTS/game/DISTRICTS"
      * Resulting executableDirectory is "Desktop/DISTRICTS/game/"
-     * 
+     *
      * Example: executablePath is "./DISTRICTS"
      * Resulting executableDirectory is "./"
      */

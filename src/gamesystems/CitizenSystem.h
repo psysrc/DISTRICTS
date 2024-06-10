@@ -3,11 +3,12 @@
 
 #include "gamesystems/GameSystem.h"
 
-class CitizenSystem : public GameSystem {
+class CitizenSystem : public GameSystem
+{
 public:
     CitizenSystem();
     virtual ~CitizenSystem();
-    virtual void run(District* pDistrict) override;
+    virtual void run(District *pDistrict) override;
 };
 
 #endif /* CITIZENSYSTEM_H_ */

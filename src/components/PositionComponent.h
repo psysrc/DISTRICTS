@@ -4,7 +4,8 @@
 #include "components/Component.h"
 #include "game/TileCoordinates.h"
 
-class PositionComponent : public Component {
+class PositionComponent : public Component
+{
 public:
     PositionComponent(short x, short y) : PositionComponent(TileCoordinates(x, y)) {}
     PositionComponent(TileCoordinates coords) : nextCoordinates(coords), currentCoordinates(-1, -1), couldNotMove(false) {}
@@ -16,7 +17,7 @@ public:
 
 private:
     friend class MoveSystem;
-    
+
     TileCoordinates currentCoordinates;
     bool couldNotMove;
 };

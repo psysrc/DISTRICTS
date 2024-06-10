@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-class DistrictNameGenerator {
+class DistrictNameGenerator
+{
 public:
     DistrictNameGenerator() = delete;
 
@@ -12,7 +13,7 @@ public:
 
 private:
     static bool populateNamesFromFile();
-    static const std::string& selectRandomBaseName();
+    static const std::string &selectRandomBaseName();
 
     static std::vector<std::string> baseNames;
 };

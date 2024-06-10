@@ -10,11 +10,12 @@ GrowSystem::GrowSystem() {}
 
 GrowSystem::~GrowSystem() {}
 
-void GrowSystem::run(District* pDistrict) {
-    for (const std::unique_ptr<Entity>& upEntity : pDistrict->getEntities())
+void GrowSystem::run(District *pDistrict)
+{
+	for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
 	{
-		GrowComponent* pGC = upEntity->getComponent<GrowComponent>();
-		PositionComponent* pPC = upEntity->getComponent<PositionComponent>();
+		GrowComponent *pGC = upEntity->getComponent<GrowComponent>();
+		PositionComponent *pPC = upEntity->getComponent<PositionComponent>();
 		if (pGC != nullptr && pPC != nullptr)
 		{
 			pGC->ticksToGrow--;

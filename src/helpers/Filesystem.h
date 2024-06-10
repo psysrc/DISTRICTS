@@ -3,9 +3,10 @@
 
 #include <string>
 
-class Filesystem {
+class Filesystem
+{
 public:
-    static void initialise(const std::string& executablePath);
+    static void initialise(const std::string &executablePath);
     static std::string executableDirectory;
 };
 

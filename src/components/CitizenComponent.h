@@ -3,7 +3,8 @@
 
 #include "components/Component.h"
 
-class CitizenComponent : public Component {
+class CitizenComponent : public Component
+{
 public:
     CitizenComponent() {}
     virtual ~CitizenComponent() {}

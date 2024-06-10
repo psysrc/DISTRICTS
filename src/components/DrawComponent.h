@@ -3,7 +3,8 @@
 
 #include "components/Component.h"
 
-class DrawComponent : public Component {
+class DrawComponent : public Component
+{
 public:
     DrawComponent(char symbol = '?') : drawSymbol(symbol) {}
     virtual ~DrawComponent() {}

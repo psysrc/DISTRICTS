@@ -5,14 +5,16 @@
 
 class District;
 
-namespace Cmds {
+namespace Cmds
+{
 
-class BuildBridge : public PlayerCommand {
-public:
-	BuildBridge();
-	virtual ~BuildBridge();
-	virtual void execute(District*) override;
-};
+	class BuildBridge : public PlayerCommand
+	{
+	public:
+		BuildBridge();
+		virtual ~BuildBridge();
+		virtual void execute(District *) override;
+	};
 
 } /* namespace Cmds */
 

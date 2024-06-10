@@ -1,11 +1,12 @@
 #include <commands/Quit.h>
 
-namespace Cmds {
+namespace Cmds
+{
 
-Quit::Quit() : PlayerCommand("Quit game") {}
+    Quit::Quit() : PlayerCommand("Quit game") {}
 
-Quit::~Quit() {}
+    Quit::~Quit() {}
 
-void Quit::execute(District* /* pDistrict */) {}
+    void Quit::execute(District * /* pDistrict */) {}
 
 } /* namespace Cmds */

@@ -3,11 +3,12 @@
 
 #include "gamesystems/GameSystem.h"
 
-class WorkSystem : public GameSystem {
+class WorkSystem : public GameSystem
+{
 public:
     WorkSystem();
     virtual ~WorkSystem();
-    virtual void run(District* pDistrict) override;
+    virtual void run(District *pDistrict) override;
 };
 
 #endif /* WORKSYSTEM_H_ */

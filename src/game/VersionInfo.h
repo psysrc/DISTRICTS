@@ -9,7 +9,8 @@
 
 #include <string>
 
-namespace VersionInfo {
+namespace VersionInfo
+{
     const std::string versionString = "PRE-ALPHA";
 }
 

@@ -5,14 +5,16 @@
 
 class District;
 
-namespace Cmds {
+namespace Cmds
+{
 
-class PauseToggle : public PlayerCommand {
-public:
-	PauseToggle();
-	virtual ~PauseToggle();
-	virtual void execute(District*) override;
-};
+	class PauseToggle : public PlayerCommand
+	{
+	public:
+		PauseToggle();
+		virtual ~PauseToggle();
+		virtual void execute(District *) override;
+	};
 
 } /* namespace Cmds */
 

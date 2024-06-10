@@ -3,11 +3,12 @@
 
 #include "gamesystems/GameSystem.h"
 
-class GrowSystem : public GameSystem {
+class GrowSystem : public GameSystem
+{
 public:
     GrowSystem();
     virtual ~GrowSystem();
-    virtual void run(District* pDistrict) override;
+    virtual void run(District *pDistrict) override;
 };
 
 #endif /* GROWSYSTEM_H_ */

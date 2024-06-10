@@ -5,18 +5,21 @@
 
 class District;
 
-namespace Cmds {
+namespace Cmds
+{
 
-// Abstract class representing a command that the player can execute to the game.
-class PlayerCommand {
-private:
-	std::string description;
-public:
-	PlayerCommand(std::string);
-	virtual ~PlayerCommand();
-	virtual void execute(District*) = 0;
-	std::string getDescription() const;
-};
+	// Abstract class representing a command that the player can execute to the game.
+	class PlayerCommand
+	{
+	private:
+		std::string description;
+
+	public:
+		PlayerCommand(std::string);
+		virtual ~PlayerCommand();
+		virtual void execute(District *) = 0;
+		std::string getDescription() const;
+	};
 
 } /* namespace Cmds */
 

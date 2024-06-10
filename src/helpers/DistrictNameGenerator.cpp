@@ -44,11 +44,13 @@ bool DistrictNameGenerator::populateNamesFromFile()
 
             if (!baseNames.empty())
                 success = true;
-            
+
             inputStream.close();
         }
     }
-    catch (std::exception& ex) {}
+    catch (std::exception &ex)
+    {
+    }
 
     return success;
 }
@@ -56,11 +58,11 @@ bool DistrictNameGenerator::populateNamesFromFile()
 /**
  * Returns a random name from `baseNames`.
  */
-const std::string& DistrictNameGenerator::selectRandomBaseName()
+const std::string &DistrictNameGenerator::selectRandomBaseName()
 {
     if (baseNames.empty())
         throw std::logic_error("Can't select random district base name from an empty set");
-    
+
     const size_t randomIndex = std::rand() % baseNames.size();
     return baseNames[randomIndex];
 }
