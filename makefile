@@ -3,7 +3,7 @@
 
 
 ### BUILD FLAGS ###
-BUILD_FLAGS := -pthread -Wall -Wextra -Wpedantic -g3
+BUILD_FLAGS := -pthread -Wall -Wextra -Wpedantic -g3 -Werror
 INCLUDE_PATHS := -I src/
 
 
