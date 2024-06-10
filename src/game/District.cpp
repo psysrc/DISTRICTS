@@ -76,7 +76,8 @@ District::District(const std::string& name) : districtName(name)
 					int treeChance = rand() % 100;
 
 					if (treeChance < 5) {	// 5% chance of growing a tree
-						makeEntity<Tree>(tiles[i][j]->getCoordinates());
+						auto tree = makeTree(tiles[i][j]->getCoordinates());
+						addEntity(std::move(tree));
 					}
 					else if (treeChance < 6) {	// 1% chance of growing a sapling
 						auto sapling = makeSapling(tiles[i][j]->getCoordinates());

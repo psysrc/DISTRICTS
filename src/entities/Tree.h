@@ -1,14 +1,9 @@
 #ifndef SRC_TREE_H_
 #define SRC_TREE_H_
 
-#include "Entity.h"
+#include "entities/Entity.h"
 #include "game/TileCoordinates.h"
 
-class Tree : public Entity {
-public:
-	Tree();
-	Tree(TileCoordinates);
-	virtual ~Tree();
-};
+std::unique_ptr<Entity> makeTree(TileCoordinates);
 
 #endif /* SRC_TREE_H_ */

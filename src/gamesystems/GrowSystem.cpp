@@ -22,7 +22,9 @@ void GrowSystem::run(District* pDistrict) {
 			if (pGC->ticksToGrow <= 0)
 			{
 				pDistrict->deleteEntity(upEntity.get());
-				pDistrict->makeEntity<Tree>(pPC->getCurrentCoordinates());
+
+				auto tree = makeTree(pPC->getCurrentCoordinates());
+				pDistrict->addEntity(std::move(tree));
 			}
 		}
 	}

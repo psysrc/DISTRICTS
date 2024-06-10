@@ -1,13 +1,15 @@
-#include "Tree.h"
+#include "entities/Tree.h"
 
 #include "components/PositionComponent.h"
 #include "components/DrawComponent.h"
+#include "components/CanBeCutDownComponent.h"
 
-Tree::Tree() : Tree(TileCoordinates(-1, -1)) {}
+std::unique_ptr<Entity> makeTree(TileCoordinates coords) {
+    std::unique_ptr<Entity> entity = std::make_unique<Entity>("Tree");
 
-Tree::Tree(TileCoordinates coords) : Entity("Tree") {
-    addComponent<PositionComponent>(coords);
-    addComponent<DrawComponent>('$');
+    entity->addComponent<PositionComponent>(coords);
+    entity->addComponent<DrawComponent>('$');
+    entity->addComponent<CanBeCutDownComponent>();
+
+    return entity;
 }
-
-Tree::~Tree() {}
