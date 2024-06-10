@@ -1,14 +1,9 @@
 #ifndef SRC_SAPLING_H_
 #define SRC_SAPLING_H_
 
-#include "Entity.h"
+#include "entities/Entity.h"
 #include "game/TileCoordinates.h"
 
-class Sapling : public Entity {
-public:
-	Sapling();
-	Sapling(TileCoordinates);
-	virtual ~Sapling();
-};
+std::unique_ptr<Entity> makeSapling(TileCoordinates coords);
 
 #endif /* SRC_SAPLING_H_ */

@@ -79,7 +79,8 @@ District::District(const std::string& name) : districtName(name)
 						makeEntity<Tree>(tiles[i][j]->getCoordinates());
 					}
 					else if (treeChance < 6) {	// 1% chance of growing a sapling
-						makeEntity<Sapling>(tiles[i][j]->getCoordinates());
+						auto sapling = makeSapling(tiles[i][j]->getCoordinates());
+						addEntity(std::move(sapling));
 					}
 				}
 			}
@@ -88,6 +89,10 @@ District::District(const std::string& name) : districtName(name)
 }
 
 District::~District() {}
+
+void District::addEntity(std::unique_ptr<Entity> entity) {
+	entitiesToAdd.push_back(std::move(entity));
+}
 
 Entity* District::getEntity(ID_t /* entityID */) const {
 	throw std::logic_error("District::getEntity() not yet implemented");
@@ -252,10 +257,10 @@ Tile* District::getTile(TileCoordinates coords) const {
 std::vector<Tile*> District::getNeighbourTiles(Tile* tile, bool includeDiagonals) const {
 	if (tile == nullptr)
 		throw std::logic_error("District::getNeighbourTiles - provided tile is nullptr");
-	
+
 	TileCoordinates tileCoords = tile->getCoordinates();
 	std::vector<Tile*> neighbours;
-	
+
 	for (short x = -1; x <= 1; x++)
 		for (short y = -1; y <= 1; y++)
 			if (!(x == 0 && y == 0))		// Ignore the tile we're currently calculating neighbours for
@@ -265,6 +270,6 @@ std::vector<Tile*> District::getNeighbourTiles(Tile* tile, bool includeDiagonals
 					if (includeDiagonals || (x == 0 || y == 0))		// Always include adjacent tiles, but only include diagonals if required
 						neighbours.push_back(getTile(neighbourCoordinates));
 			}
-	
+
 	return neighbours;
 }

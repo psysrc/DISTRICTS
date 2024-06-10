@@ -28,7 +28,7 @@ private:
 	std::vector<Tasks::Task*> tasksToDelete;						// All tasks to delete at the end of a game tick
 public:
 	static const unsigned short districtSize = 32;
-	
+
 	District();
 	District(const std::string& name);
 	~District();
@@ -37,6 +37,7 @@ public:
 	void update();
 
 	template <class E, typename... EArgs> E* makeEntity(EArgs...);
+	void addEntity(std::unique_ptr<Entity> entity);
 	Entity* getEntity(ID_t) const;
 	const std::vector<std::unique_ptr<Entity>>& getEntities() const;
 	void deleteEntity(Entity* entity);
