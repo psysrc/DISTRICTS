@@ -1,4 +1,4 @@
-#include "Citizen.h"
+#include "entities/Citizen.h"
 
 #include "components/PositionComponent.h"
 #include "components/WalkComponent.h"
@@ -7,16 +7,20 @@
 #include "components/CitizenComponent.h"
 #include "helpers/CitizenNameGenerator.h"
 
-Citizen::Citizen(TileCoordinates coords) : Citizen(CitizenNameGenerator::generateName(), coords) {}
-
-Citizen::Citizen(const std::string& name, TileCoordinates coords) : Entity(name) {
-	addComponent<PositionComponent>(coords);
-	addComponent<WalkComponent>();
-	addComponent<DrawComponent>('C');
-	addComponent<WorkerComponent>();
-	addComponent<CitizenComponent>();
-
-	getComponent<WorkerComponent>()->working = true;
+std::unique_ptr<Entity> makeCitizen(TileCoordinates coords) {
+	return makeCitizen(coords, CitizenNameGenerator::generateName());
 }
 
-Citizen::~Citizen() {}
+std::unique_ptr<Entity> makeCitizen(TileCoordinates coords, const std::string& name) {
+    std::unique_ptr<Entity> entity = std::make_unique<Entity>(name);
+
+	entity->addComponent<PositionComponent>(coords);
+	entity->addComponent<WalkComponent>();
+	entity->addComponent<DrawComponent>('C');
+	entity->addComponent<WorkerComponent>();
+	entity->addComponent<CitizenComponent>();
+
+	entity->getComponent<WorkerComponent>()->working = true;
+
+	return entity;
+}

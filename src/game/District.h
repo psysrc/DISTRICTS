@@ -10,8 +10,6 @@
 #include "ID.h"
 #include "game/TileProperty.h"
 
-class Citizen;
-
 namespace Tasks {
 class Task;
 }

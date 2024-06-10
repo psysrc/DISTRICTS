@@ -1,14 +1,10 @@
 #ifndef CITIZEN_H_
 #define CITIZEN_H_
 
-#include "Entity.h"
+#include "entities/Entity.h"
 #include "game/TileCoordinates.h"
 
-class Citizen : public Entity {
-public:
-	Citizen(TileCoordinates = TileCoordinates(-1, -1));
-	Citizen(const std::string&, TileCoordinates = TileCoordinates(-1, -1));
-	virtual ~Citizen();
-};
+std::unique_ptr<Entity> makeCitizen(TileCoordinates coords);
+std::unique_ptr<Entity> makeCitizen(TileCoordinates coords, const std::string& name);
 
 #endif /* CITIZEN_H_ */
