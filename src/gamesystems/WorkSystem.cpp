@@ -25,8 +25,9 @@ void WorkSystem::run(District *pDistrict)
             {
                 // Check if the entity is within range to work on the task
                 if (PathFinding::euclideanDistance(pDistrict->getTile(pPC->currentCoordinates), spCurrentTask->getTile()) < 1.5)
-
+                {
                     spCurrentTask->workOn();
+                }
 
                 // If the task has been completed, it can be removed from the district and this worker can clear its current task
                 if (spCurrentTask->isCompleted())
