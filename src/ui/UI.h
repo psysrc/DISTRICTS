@@ -26,7 +26,7 @@ namespace UI
     bool letPlayerPause();
     Cmds::PlayerCommand *getPlayerCommand();
     Tile *selectTile(District *);
-
+    void showErrorScreen(const std::exception& error);
 }
 
 #endif /* SRC_UI_H_ */

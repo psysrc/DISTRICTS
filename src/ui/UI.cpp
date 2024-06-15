@@ -19,6 +19,8 @@
 #include <vector>
 #include <sstream>
 #include "ui/TileColours.h"
+#include <thread>
+#include <chrono>
 
 namespace UI
 {
@@ -548,4 +550,20 @@ namespace UI
 		}
 	}
 
+	void showErrorScreen(const std::exception &error)
+	{
+		wclear(stdscr);
+
+		mvaddstr(1, 0, "Sorry, the game encountered a fatal error and had to be aborted.\nThe problem was:");
+		mvaddstr(4, 0, error.what());
+		wrefresh(stdscr);
+
+		// Brief pause so the user doesn't accidentally close the error screen before they can read it
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+
+		mvaddstr(6, 0, "Press any key to return to the main menu.");
+
+		flushinp(); // Flush the input buffer
+		getch();	// Get a key from the player
+	}
 }

@@ -58,8 +58,8 @@ void playNewGame()
 	{
 		newGame.play();
 	}
-	catch (std::exception &ex)
+	catch (const std::exception &ex)
 	{
-		std::cerr << "Exception caught in main: " << ex.what() << ". Terminating." << std::endl;
+		UI::showErrorScreen(ex);
 	}
 }
