@@ -11,7 +11,7 @@ constexpr int minSecondsToGrow = 2 * 60;
 
 std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
 {
-    std::unique_ptr<Entity> sapling = std::make_unique<Entity>("Tree Sapling");
+    std::unique_ptr<Entity> sapling = std::make_unique<Entity>();
 
     int secondsToGrow = minSecondsToGrow + (rand() % (maxSecondsToGrow - minSecondsToGrow + 1));
 

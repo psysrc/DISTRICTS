@@ -1,7 +1,6 @@
 #ifndef SRC_ENTITY_H_
 #define SRC_ENTITY_H_
 
-#include <string>
 #include <algorithm>
 #include <vector>
 #include <memory>
@@ -11,20 +10,11 @@
 
 class Entity
 {
-private:
-	const ID_t id;
-
-protected:
-	std::string name; // The name of the entity
-	std::vector<std::unique_ptr<Component>> components;
-
 public:
 	Entity();
-	Entity(std::string);
 	virtual ~Entity();
 
 	ID_t getID() const;
-	std::string getName() const;
 
 	void addComponent(std::unique_ptr<Component>);
 
@@ -33,6 +23,10 @@ public:
 
 	template <class C>
 	C *getComponent() const;
+
+private:
+	const ID_t id;
+	std::vector<std::unique_ptr<Component>> components;
 };
 
 /**

@@ -15,6 +15,7 @@
 #include "gamesystems/MoveSystem.h"
 #include "game/TickSpeed.h"
 #include "components/CitizenComponent.h"
+#include <components/NameComponent.h>
 
 using namespace std::chrono;
 
@@ -71,7 +72,8 @@ void Game::play()
 	{
 		if (entity->hasComponent<CitizenComponent>())
 		{
-			citizenName = entity->getName();
+			citizenName = entity->getComponent<NameComponent>()->name;
+			break;
 		}
 	}
 

@@ -6,7 +6,7 @@
 
 std::unique_ptr<Entity> makeTree(TileCoordinates coords)
 {
-    std::unique_ptr<Entity> entity = std::make_unique<Entity>("Tree");
+    std::unique_ptr<Entity> entity = std::make_unique<Entity>();
 
     entity->addComponent(std::make_unique<PositionComponent>(coords));
     entity->addComponent(std::make_unique<CanBeCutDownComponent>());
