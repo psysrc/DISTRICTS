@@ -30,6 +30,7 @@ public:
 	C *getComponent() const;
 	template <class C, typename... CArgs>
 	C *addComponent(CArgs...);
+	void addComponent(std::unique_ptr<Component>);
 };
 
 /**
@@ -86,7 +87,7 @@ C *Entity::addComponent(CArgs... args)
 	std::unique_ptr<C> upNewComponent = std::make_unique<C>(args...);
 	C *pNewComponent = upNewComponent.get();
 
-	components.push_back(std::move(upNewComponent));
+	addComponent(std::move(upNewComponent));
 
 	return pNewComponent;
 }

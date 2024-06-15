@@ -3,7 +3,6 @@
 #include "game/District.h"
 #include "entities/Entity.h"
 #include "components/GrowComponent.h"
-#include "entities/Tree.h"
 #include "components/PositionComponent.h"
 
 GrowSystem::GrowSystem() {}
@@ -22,10 +21,11 @@ void GrowSystem::run(District *pDistrict)
 
 			if (pGC->ticksToGrow <= 0)
 			{
+				auto newEntity = pGC->makeNextEntity(*upEntity.get());
+
 				pDistrict->deleteEntity(upEntity.get());
 
-				auto tree = makeTree(pPC->getCurrentCoordinates());
-				pDistrict->addEntity(std::move(tree));
+				pDistrict->addEntity(std::move(newEntity));
 			}
 		}
 	}
