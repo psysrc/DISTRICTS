@@ -62,6 +62,3 @@ clean:
 
 # Phony
 .PHONY: all clean
-
-# Silence all recipes
-.SILENT:
