@@ -22,15 +22,17 @@ public:
 	Entity();
 	Entity(std::string);
 	virtual ~Entity();
-	std::string getName() const;
+
 	ID_t getID() const;
+	std::string getName() const;
+
+	void addComponent(std::unique_ptr<Component>);
+
 	template <class C>
 	bool hasComponent() const;
+
 	template <class C>
 	C *getComponent() const;
-	template <class C, typename... CArgs>
-	C *addComponent(CArgs...);
-	void addComponent(std::unique_ptr<Component>);
 };
 
 /**
@@ -68,28 +70,6 @@ C *Entity::getComponent() const
 	{
 		return nullptr;
 	}
-}
-
-/**
- * Adds the given component to the entity, passing any arguments to the component's constructor.
- * Throws std::runtime_error if the entity already has the provided component.
- * Returns the newly created component.
- */
-template <class C, typename... CArgs>
-C *Entity::addComponent(CArgs... args)
-{
-	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
-
-	if (hasComponent<C>())
-		throw std::runtime_error("Tried to add a component to an entity which already has the component");
-
-	// Create the component, passing the method arguments to its constructor
-	std::unique_ptr<C> upNewComponent = std::make_unique<C>(args...);
-	C *pNewComponent = upNewComponent.get();
-
-	addComponent(std::move(upNewComponent));
-
-	return pNewComponent;
 }
 
 #endif /* SRC_ENTITY_H_ */

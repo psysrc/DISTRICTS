@@ -8,9 +8,9 @@ std::unique_ptr<Entity> makeTree(TileCoordinates coords)
 {
     std::unique_ptr<Entity> entity = std::make_unique<Entity>("Tree");
 
-    entity->addComponent<PositionComponent>(coords);
-    entity->addComponent<DrawComponent>('$');
-    entity->addComponent<CanBeCutDownComponent>();
+    entity->addComponent(std::make_unique<PositionComponent>(coords));
+    entity->addComponent(std::make_unique<CanBeCutDownComponent>());
+    entity->addComponent(std::make_unique<DrawComponent>('$'));
 
     return entity;
 }

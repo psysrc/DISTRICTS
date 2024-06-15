@@ -16,11 +16,11 @@ std::unique_ptr<Entity> makeCitizen(TileCoordinates coords, const std::string &n
 {
 	std::unique_ptr<Entity> entity = std::make_unique<Entity>(name);
 
-	entity->addComponent<PositionComponent>(coords);
-	entity->addComponent<WalkComponent>();
-	entity->addComponent<DrawComponent>('C');
-	entity->addComponent<WorkerComponent>();
-	entity->addComponent<CitizenComponent>();
+	entity->addComponent(std::make_unique<PositionComponent>(coords));
+	entity->addComponent(std::make_unique<WalkComponent>());
+	entity->addComponent(std::make_unique<WorkerComponent>());
+	entity->addComponent(std::make_unique<CitizenComponent>());
+	entity->addComponent(std::make_unique<DrawComponent>('C'));
 
 	entity->getComponent<WorkerComponent>()->working = true;
 
