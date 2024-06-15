@@ -4,11 +4,11 @@
 #include "components/Component.h"
 #include <string>
 
-class NameComponent : public Component
+struct NameComponent : public Component
 {
-public:
     NameComponent(const std::string& name) : name(name) {}
-    virtual ~NameComponent() {}
+
+    virtual ~NameComponent() = default;
 
     std::string name;
 };

@@ -3,11 +3,11 @@
 
 #include "components/Component.h"
 
-class CanBeCutDownComponent : public Component
+struct CanBeCutDownComponent : public Component
 {
-public:
     CanBeCutDownComponent() {}
-    virtual ~CanBeCutDownComponent() {}
+
+    virtual ~CanBeCutDownComponent() = default;
 };
 
 #endif /* CAN_BE_CUT_DOWN_COMPONENT_H_ */

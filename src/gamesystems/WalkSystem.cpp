@@ -32,14 +32,14 @@ void WalkSystem::run(District *pDistrict)
             {
                 // Create a path from the entity's current position to the destination
                 // If no path can be found, path will remain as nullptr
-                pWC->upPath = PathFinding::findPath(pDistrict, upEntity.get(), pDistrict->getTile(pPC->getCurrentCoordinates()), pWC->pDestination);
+                pWC->upPath = PathFinding::findPath(pDistrict, upEntity.get(), pDistrict->getTile(pPC->currentCoordinates), pWC->pDestination);
             }
 
             // If entity has a path
             if (pWC->upPath)
             {
                 // Check that the entity is where we expect along the path
-                if (pDistrict->getTile(pPC->getCurrentCoordinates()) == pWC->upPath->current())
+                if (pDistrict->getTile(pPC->currentCoordinates) == pWC->upPath->current())
                 {
                     // Get the next tile in the path
                     Tile *pNextTile = pWC->upPath->next();

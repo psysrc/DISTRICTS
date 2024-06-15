@@ -233,7 +233,7 @@ void District::deleteEntity(Entity *pEntity)
 	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
 	if (pEntity->hasComponent<PositionComponent>())
 	{
-		Tile *pTile = getTile(pEntity->getComponent<PositionComponent>()->getCurrentCoordinates());
+		Tile *pTile = getTile(pEntity->getComponent<PositionComponent>()->currentCoordinates);
 		if (pTile != nullptr)
 			pTile->setEntity(nullptr);
 	}

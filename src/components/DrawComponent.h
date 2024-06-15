@@ -3,11 +3,11 @@
 
 #include "components/Component.h"
 
-class DrawComponent : public Component
+struct DrawComponent : public Component
 {
-public:
-    DrawComponent(char symbol = '?') : drawSymbol(symbol) {}
-    virtual ~DrawComponent() {}
+    DrawComponent(char drawSymbol) : drawSymbol(drawSymbol) {}
+
+    virtual ~DrawComponent() = default;
 
     char drawSymbol;
 };

@@ -24,13 +24,11 @@ std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
             throw std::runtime_error("Tried to turn a sapling into a tree, but the sapling doesn't have a PositionComponent");
         }
 
-        return makeTree(pos->getCurrentCoordinates());
+        return makeTree(pos->currentCoordinates);
     };
 
-    auto growComponent = std::make_unique<GrowComponent>(secondsToGrow, makeTreeFunc);
-
     sapling->addComponent(std::make_unique<PositionComponent>(coords));
-    sapling->addComponent(std::move(growComponent));
+    sapling->addComponent(std::make_unique<GrowComponent>(makeTreeFunc, secondsToGrow));
     sapling->addComponent(std::make_unique<DrawComponent>(','));
 
     return sapling;

@@ -4,20 +4,14 @@
 #include "components/Component.h"
 #include "game/TileCoordinates.h"
 
-class PositionComponent : public Component
+struct PositionComponent : public Component
 {
-public:
-    PositionComponent(short x, short y) : PositionComponent(TileCoordinates(x, y)) {}
-    PositionComponent(TileCoordinates coords) : nextCoordinates(coords), currentCoordinates(-1, -1), couldNotMove(false) {}
-    virtual ~PositionComponent() {}
-    TileCoordinates getCurrentCoordinates() const { return currentCoordinates; }
-    bool failedToMove() const { return couldNotMove; }
+    PositionComponent(TileCoordinates coords)
+        : nextCoordinates(coords), currentCoordinates(-1, -1), couldNotMove(false) {}
+
+    virtual ~PositionComponent() = default;
 
     TileCoordinates nextCoordinates;
-
-private:
-    friend class MoveSystem;
-
     TileCoordinates currentCoordinates;
     bool couldNotMove;
 };

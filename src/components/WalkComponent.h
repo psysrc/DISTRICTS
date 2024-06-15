@@ -5,14 +5,14 @@
 #include "game/Tile.h"
 #include "pathfinding/Path.h"
 
-class WalkComponent : public Component
+struct WalkComponent : public Component
 {
-public:
     WalkComponent() {}
-    virtual ~WalkComponent() {}
+
+    virtual ~WalkComponent() = default;
 
     Tile *pDestination = nullptr;
-    std::unique_ptr<Path> upPath;
+    std::unique_ptr<Path> upPath = nullptr;
 };
 
 #endif /* WALKCOMPONENT_H_ */

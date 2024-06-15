@@ -3,11 +3,11 @@
 
 #include "components/Component.h"
 
-class CitizenComponent : public Component
+struct CitizenComponent : public Component
 {
-public:
     CitizenComponent() {}
-    virtual ~CitizenComponent() {}
+
+    virtual ~CitizenComponent() = default;
 };
 
 #endif /* CITIZENCOMPONENT_H_ */

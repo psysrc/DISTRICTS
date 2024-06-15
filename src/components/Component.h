@@ -1,11 +1,11 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 
-class Component
+struct Component
 {
-public:
     Component() {}
-    virtual ~Component() {}
+
+    virtual ~Component() = default;
 };
 
 #endif /* COMPONENT_H_ */
