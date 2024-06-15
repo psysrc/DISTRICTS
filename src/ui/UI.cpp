@@ -10,7 +10,6 @@
 #include "commands/CutDownTrees.h"
 #include "commands/BuildBridge.h"
 #include <sstream>
-#include "components/PositionComponent.h"
 #include "components/DrawComponent.h"
 #include <memory>
 #include "TitleArt.h"
