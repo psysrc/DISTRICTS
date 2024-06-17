@@ -4,3 +4,6 @@
 
 # Binary folder
 bin/
+
+# draw.io files
+*.drawio*
