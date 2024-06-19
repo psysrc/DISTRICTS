@@ -11,13 +11,6 @@ class Entity;
 
 class Tile
 {
-private:
-	TileCoordinates coordinates;
-	Entity *pEntity;
-	TileProperty::TileProperty property;
-	int drawColour;
-	std::vector<Tasks::Task *> tasks;
-
 public:
 	Tile(TileCoordinates, TileProperty::TileProperty);
 	~Tile();
@@ -32,8 +25,15 @@ public:
 	void addTask(Tasks::Task *);
 	void removeTask(Tasks::Task *);
 	int getDrawColour() const;
-	void updateColour();
 	bool operator==(const Tile &b) const;
+
+private:
+	TileCoordinates coordinates;
+	Entity *pEntity;
+	TileProperty::TileProperty property;
+	int drawColour;
+	std::vector<Tasks::Task *> tasks;
+	void updateColour();
 };
 
 /**
