@@ -27,6 +27,8 @@ namespace UI
     Cmds::PlayerCommand *getPlayerCommand();
     Tile *selectTile(District *);
     void showErrorScreen(const std::exception& error);
+    void renderTile(int row, int column, int colourPair);
+	void renderEntity(int row, int column, char symbol);
 }
 
 #endif /* SRC_UI_H_ */

@@ -38,8 +38,7 @@ namespace UI
 		KeyCommand('a', new Cmds::CutDownTrees),
 		KeyCommand('b', new Cmds::BuildBridge)};
 
-	// Private UI methods
-	static void drawGridPosition(int row, int column, int colourPair, char symbol);
+	void renderGridPosition(int row, int column, int colourPair, char symbol);
 	static void clearAll();
 	static void refresh();
 	static void updateDistrictName();
@@ -234,36 +233,43 @@ namespace UI
 	 */
 	void update()
 	{
-		auto spDistrict = wpCurrentDistrict.lock();
-
-		if (!spDistrict)
-		{
-			displayDebugMessage("UI ERROR: Couldn't access current district for drawing");
-			return;
-		}
-
-		const std::vector<std::vector<std::unique_ptr<Tile>>> &districtTiles = spDistrict->getTiles();
-
-		// Draw the N*N grid of tiles
-		for (int i = 0; i < District::districtSize; i++)
-		{
-			for (int j = 0; j < District::districtSize; j++)
-			{
-				Tile *pTile = districtTiles[i][j].get();
-				Entity *pEntity = pTile->getEntity();
-				drawGridPosition(i, j, pTile->getDrawColour(), (pEntity == nullptr ? ' ' : pEntity->getComponent<DrawComponent>()->drawSymbol));
-			}
-		}
-
 		rotatePlaySpinner();
 
 		wrefresh(mapWindow);
 	}
 
 	/*
-	 * Draws a colour and symbol to a particular grid position.
+	 * Renders an entity at the provided grid position.
 	 */
-	static void drawGridPosition(int row, int column, int colourPair, char symbol)
+	void renderEntity(int row, int column, char symbol)
+	{
+		// Move the cursor to the correct position
+		wmove(mapWindow, row, column * 2);
+
+		// Draw the tile
+		waddch(mapWindow, symbol);
+		waddch(mapWindow, ' ');
+	}
+
+	/*
+	 * Renders a tile at the provided grid position.
+	 */
+	void renderTile(int row, int column, int colourPair)
+	{
+		// Move the cursor to the correct position
+		wmove(mapWindow, row, column * 2);
+
+		// Draw the tile
+		wattron(mapWindow, COLOR_PAIR(colourPair));
+		waddch(mapWindow, ' ');
+		waddch(mapWindow, ' ');
+		wattroff(mapWindow, COLOR_PAIR(colourPair));
+	}
+
+	/*
+	 * Renders an arbitrary grid position.
+	 */
+	void renderGridPosition(int row, int column, int colourPair, char symbol)
 	{
 		// Move the cursor to the correct position
 		wmove(mapWindow, row, column * 2);
@@ -491,7 +497,7 @@ namespace UI
 			else
 				symbolToDraw = ' ';
 
-			drawGridPosition(row, column, COLOUR_HIGHLIGHTED, symbolToDraw);
+			renderGridPosition(row, column, COLOUR_HIGHLIGHTED, symbolToDraw);
 
 			wrefresh(mapWindow);
 
@@ -533,7 +539,7 @@ namespace UI
 			else
 				symbolToDraw = ' ';
 
-			drawGridPosition(pCurrentTile->getCoordinates().x, pCurrentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), symbolToDraw);
+			renderGridPosition(pCurrentTile->getCoordinates().x, pCurrentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), symbolToDraw);
 
 			// Return tile or cancel if necessary
 			if (returnTile)

@@ -9,6 +9,7 @@
 #include "game/Tile.h"
 #include "ID.h"
 #include "game/TileProperty.h"
+#include <unordered_map>
 
 namespace Tasks
 {
@@ -33,7 +34,7 @@ public:
 	District(const std::string &name);
 	~District();
 	std::string getName() const;
-	void createBiome(TileCoordinates, TileProperty::TileProperty biomeProperty, int size);
+	void createBiome(TileCoordinates, TileProperty::TileProperty biomeProperty, int size, std::unordered_map<TileCoordinates, TileProperty::TileProperty>& tile_map);
 	void update();
 
 	template <class E, typename... EArgs>
@@ -55,6 +56,7 @@ public:
 	Tile *getTile(short, short) const;
 	Tile *getTile(TileCoordinates) const;
 	std::vector<Tile *> getNeighbourTiles(Tile *, bool = true) const;
+	std::vector<TileCoordinates> getNeighbourCoordinates(TileCoordinates, bool = true) const;
 };
 
 /*
