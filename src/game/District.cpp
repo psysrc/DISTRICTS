@@ -11,6 +11,7 @@
 #include "entities/OccupyRules.h"
 #include "helpers/DistrictNameGenerator.h"
 #include <unordered_map>
+#include <components/TileComponent.h>
 
 #define BIOME_GEN true
 #define TREE_GEN true
@@ -67,6 +68,15 @@ District::District(const std::string &name) : districtName(name)
 
 			createBiome(TileCoordinates(ri, rj), TileProperty::Water, size, tile_map);
 		}
+	}
+
+	for (auto tile : tile_map)
+	{
+		auto entity = std::make_unique<Entity>();
+		entity->addComponent(std::make_unique<PositionComponent>(tile.first));
+		entity->addComponent(std::make_unique<TileComponent>());  // TODO: provide the tile property
+
+		addEntity(std::move(entity));
 	}
 
 	// Make a new citizen and place them on a walkable tile
