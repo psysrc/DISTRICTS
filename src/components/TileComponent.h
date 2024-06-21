@@ -2,15 +2,15 @@
 #define TILE_COMPONENT_H_
 
 #include "components/Component.h"
-#include "ui/TileColours.h"
+#include "game/TileProperty.h"
 
 struct TileComponent : public Component
 {
-    TileComponent(){}
+    TileComponent(TileProperty::TileProperty property) : property(property) {}
 
     virtual ~TileComponent() = default;
 
-    int renderColour = COLOUR_UNKNOWN;
+    TileProperty::TileProperty property;
 };
 
 #endif /* TILE_COMPONENT_H_ */

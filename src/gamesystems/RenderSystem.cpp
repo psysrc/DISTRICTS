@@ -5,6 +5,9 @@
 #include "components/TileComponent.h"
 #include "components/RenderComponent.h"
 #include "ui/UI.h"
+#include "ui/TileColours.h"
+
+int getTileColour(TileProperty::TileProperty property);
 
 RenderSystem::RenderSystem() {}
 
@@ -20,7 +23,8 @@ void RenderSystem::run(District *pDistrict)
         if (positionComponent && tileComponent)
         {
             auto& coords = positionComponent->currentCoordinates;
-            UI::renderTile(coords.y, coords.x, tileComponent->renderColour);
+            auto renderColour = getTileColour(tileComponent->property);
+            UI::renderTile(coords.y, coords.x, renderColour);
         }
     }
 
@@ -35,4 +39,21 @@ void RenderSystem::run(District *pDistrict)
             UI::renderEntity(coords.y, coords.x, renderComponent->renderSymbol);
         }
     }
+}
+
+int getTileColour(TileProperty::TileProperty property)
+{
+    switch (property)
+	{
+	case TileProperty::Plains:
+		return COLOUR_PLAINS;
+	case TileProperty::Stone:
+		return COLOUR_STONE;
+	case TileProperty::Water:
+		return COLOUR_WATER;
+	case TileProperty::Bridge:
+		return COLOUR_BRIDGE;
+	default:
+		return COLOUR_UNKNOWN;
+	}
 }

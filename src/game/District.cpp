@@ -74,7 +74,7 @@ District::District(const std::string &name) : districtName(name)
 	{
 		auto entity = std::make_unique<Entity>();
 		entity->addComponent(std::make_unique<PositionComponent>(tile.first));
-		entity->addComponent(std::make_unique<TileComponent>());  // TODO: provide the tile property
+		entity->addComponent(std::make_unique<TileComponent>(tile.second));
 
 		addEntity(std::move(entity));
 	}
