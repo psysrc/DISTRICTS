@@ -6,14 +6,11 @@
 
 struct PositionComponent : public Component
 {
-    PositionComponent(TileCoordinates coords)
-        : nextCoordinates(coords), currentCoordinates(-1, -1), couldNotMove(false) {}
+    PositionComponent(TileCoordinates coords) : position(coords) {}
 
     virtual ~PositionComponent() = default;
 
-    TileCoordinates nextCoordinates;
-    TileCoordinates currentCoordinates;
-    bool couldNotMove;
+    TileCoordinates position;
 };
 
 #endif /* POSITIONCOMPONENT_H_ */

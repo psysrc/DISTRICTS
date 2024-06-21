@@ -24,7 +24,7 @@ std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
             throw std::runtime_error("Tried to turn a sapling into a tree, but the sapling doesn't have a PositionComponent");
         }
 
-        return makeTree(pos->currentCoordinates);
+        return makeTree(pos->position);
     };
 
     sapling->addComponent(std::make_unique<PositionComponent>(coords));

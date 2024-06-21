@@ -24,7 +24,7 @@ void WorkSystem::run(District *pDistrict)
             if (auto spCurrentTask = pWC->wpCurrentTask.lock())
             {
                 // Check if the entity is within range to work on the task
-                if (PathFinding::euclideanDistance(pDistrict->getTile(pPC->currentCoordinates), spCurrentTask->getTile()) < 1.5)
+                if (PathFinding::euclideanDistance(pDistrict->getTile(pPC->position), spCurrentTask->getTile()) < 1.5)
                 {
                     spCurrentTask->workOn();
                 }
