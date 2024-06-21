@@ -49,14 +49,6 @@ void Tile::removeTask(Tasks::Task *pTask)
 	tasks.erase(std::find(tasks.begin(), tasks.end(), pTask));
 }
 
-/*
- * Returns the colour of this Tile.
- */
-int Tile::getDrawColour() const
-{
-	return drawColour;
-}
-
 bool Tile::operator==(const Tile &b) const
 {
 	return (coordinates == b.getCoordinates());

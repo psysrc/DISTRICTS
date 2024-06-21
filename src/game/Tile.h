@@ -24,7 +24,6 @@ public:
 	bool hasTask() const;
 	void addTask(Tasks::Task *);
 	void removeTask(Tasks::Task *);
-	int getDrawColour() const;
 	bool operator==(const Tile &b) const;
 
 private:
