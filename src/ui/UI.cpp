@@ -10,7 +10,7 @@
 #include "commands/CutDownTrees.h"
 #include "commands/BuildBridge.h"
 #include <sstream>
-#include "components/DrawComponent.h"
+#include "components/RenderComponent.h"
 #include <memory>
 #include "TitleArt.h"
 #include "game/VersionInfo.h"
@@ -492,8 +492,8 @@ namespace UI
 			chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
 
 			// Highlight the current grid position
-			if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<DrawComponent>())
-				symbolToDraw = pCurrentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
+			if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<RenderComponent>())
+				symbolToDraw = pCurrentTile->getEntity()->getComponent<RenderComponent>()->renderSymbol;
 			else
 				symbolToDraw = ' ';
 
@@ -534,8 +534,8 @@ namespace UI
 			}
 
 			// Revert previous grid position to normal
-			if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<DrawComponent>())
-				symbolToDraw = pCurrentTile->getEntity()->getComponent<DrawComponent>()->drawSymbol;
+			if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<RenderComponent>())
+				symbolToDraw = pCurrentTile->getEntity()->getComponent<RenderComponent>()->renderSymbol;
 			else
 				symbolToDraw = ' ';
 

@@ -5,7 +5,7 @@
 
 struct RenderComponent : public Component
 {
-    RenderComponent(){}
+    RenderComponent(char symbol) : renderSymbol(symbol) {}
 
     virtual ~RenderComponent() = default;
 
