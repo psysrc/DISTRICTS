@@ -18,6 +18,18 @@ void RenderSystem::run(District *pDistrict)
     for (const auto &entity : pDistrict->getEntities())
     {
         PositionComponent *positionComponent = entity->getComponent<PositionComponent>();
+        RenderComponent *renderComponent = entity->getComponent<RenderComponent>();
+
+        if (positionComponent && renderComponent)
+        {
+            auto& coords = positionComponent->position;
+            UI::renderEntity(coords.y, coords.x, renderComponent->renderSymbol);
+        }
+    }
+
+    for (const auto &entity : pDistrict->getEntities())
+    {
+        PositionComponent *positionComponent = entity->getComponent<PositionComponent>();
         TileComponent *tileComponent = entity->getComponent<TileComponent>();
 
         if (positionComponent && tileComponent)
@@ -25,18 +37,6 @@ void RenderSystem::run(District *pDistrict)
             auto& coords = positionComponent->position;
             auto renderColour = getTileColour(tileComponent->property);
             UI::renderTile(coords.y, coords.x, renderColour);
-        }
-    }
-
-    for (const auto &entity : pDistrict->getEntities())
-    {
-        PositionComponent *positionComponent = entity->getComponent<PositionComponent>();
-        RenderComponent *renderComponent = entity->getComponent<RenderComponent>();
-
-        if (positionComponent && renderComponent)
-        {
-            auto& coords = positionComponent->position;
-            UI::renderEntity(coords.y, coords.x, renderComponent->renderSymbol);
         }
     }
 }

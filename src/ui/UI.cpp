@@ -229,13 +229,14 @@ namespace UI
 	}
 
 	/*
-	 * Updates the UI with the latest information on the current district
+	 * Updates the UI with the latest information on the current district.
 	 */
 	void update()
 	{
 		rotatePlaySpinner();
 
 		wrefresh(mapWindow);
+		werase(mapWindow);
 	}
 
 	/*
@@ -256,14 +257,9 @@ namespace UI
 	 */
 	void renderTile(int row, int column, int colourPair)
 	{
-		// Move the cursor to the correct position
-		wmove(mapWindow, row, column * 2);
-
-		// Draw the tile
-		wattron(mapWindow, COLOR_PAIR(colourPair));
-		waddch(mapWindow, ' ');
-		waddch(mapWindow, ' ');
-		wattroff(mapWindow, COLOR_PAIR(colourPair));
+		// Update the colours of this tile, keeping any entity symbols intact
+		constexpr int numCharacters = 2;
+		mvwchgat(mapWindow, row, column * 2, numCharacters, A_COLOR, colourPair, nullptr);
 	}
 
 	/*
