@@ -33,7 +33,6 @@ private:
 	TileProperty::TileProperty property;
 	int drawColour;
 	std::vector<Tasks::Task *> tasks;
-	void updateColour();
 };
 
 /**
