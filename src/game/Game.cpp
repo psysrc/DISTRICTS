@@ -16,6 +16,7 @@
 #include "game/TickSpeed.h"
 #include "components/CitizenComponent.h"
 #include <components/NameComponent.h>
+#include <gamesystems/RenderSystem.h>
 
 using namespace std::chrono;
 
@@ -35,6 +36,7 @@ Game::Game()
 	preUpdateGameSystems.push_back(std::make_unique<CitizenSystem>());
 
 	postUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
+	postUpdateGameSystems.push_back(std::make_unique<RenderSystem>());
 }
 
 Game::~Game()
