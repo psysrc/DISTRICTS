@@ -15,6 +15,7 @@
 
 #define BIOME_GEN true
 #define TREE_GEN true
+#define CITIZEN_GEN true
 
 using namespace Tasks;
 
@@ -22,9 +23,11 @@ District::District() : District(DistrictNameGenerator::generateName()) {}
 
 District::District(const std::string &name) : districtName(name)
 {
+	PositionComponent::positionLookup = &positionLookup;
+
 	// Create the 2D array of Tiles
 	tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(District::districtSize);
-	auto tile_map = std::unordered_map<TileCoordinates, TileProperty::TileProperty>();
+	auto tileMap = std::unordered_map<TileCoordinates, TileProperty::TileProperty>();
 
 	for (int x = 0; x < District::districtSize; x++)
 		tiles[x] = std::vector<std::unique_ptr<Tile>>(District::districtSize);
@@ -34,14 +37,7 @@ District::District(const std::string &name) : districtName(name)
 		for (int x = 0; x < District::districtSize; x++)
 		{
 			tiles[x][y] = std::make_unique<Tile>(TileCoordinates(x, y), TileProperty::Plains);
-		}
-	}
-
-	for (int y = 0; y < District::districtSize; y++)
-	{
-		for (int x = 0; x < District::districtSize; x++)
-		{
-			tile_map[TileCoordinates(x, y)] = TileProperty::Plains;
+			tileMap[TileCoordinates(x, y)] = TileProperty::Plains;
 		}
 	}
 
@@ -57,7 +53,7 @@ District::District(const std::string &name) : districtName(name)
 			int rj = rand() % District::districtSize;
 			int size = rand() % 26 + 5; // 5-30 tiles in size
 
-			createBiome(TileCoordinates(ri, rj), TileProperty::Stone, size, tile_map);
+			createBiome(TileCoordinates(ri, rj), TileProperty::Stone, size, tileMap);
 		}
 
 		while (lakeBiomes--)
@@ -66,33 +62,36 @@ District::District(const std::string &name) : districtName(name)
 			int rj = rand() % District::districtSize;
 			int size = rand() % 101 + 10; // 10-100 tiles in size
 
-			createBiome(TileCoordinates(ri, rj), TileProperty::Water, size, tile_map);
+			createBiome(TileCoordinates(ri, rj), TileProperty::Water, size, tileMap);
 		}
 	}
 
-	for (auto tile : tile_map)
+	for (auto tileData : tileMap)
 	{
-		auto entity = std::make_unique<Entity>();
-		entity->addComponent(std::make_unique<PositionComponent>(tile.first));
-		entity->addComponent(std::make_unique<TileComponent>(tile.second));
+		auto tile = std::make_unique<Entity>();
+		tile->addComponent(std::make_unique<PositionComponent>(tileData.first, tile.get()));
+		tile->addComponent(std::make_unique<TileComponent>(tileData.second));
 
-		addEntity(std::move(entity));
+		addEntity(std::move(tile));
 	}
 
-	// Make a new citizen and place them on a walkable tile
-	auto citizen = makeCitizen(TileCoordinates(-1, -1));
+	int citizenX = -1, citizenY = -1;
 
-	int citizenX, citizenY;
-
-	// Keep choosing random tiles until one is found in which the citizen can enter
-	do
+	if (CITIZEN_GEN)
 	{
-		citizenX = rand() % District::districtSize;
-		citizenY = rand() % District::districtSize;
-	} while (!OccupyRules::canOccupy(citizen.get(), tiles[citizenX][citizenY].get()));
+		// Make a new citizen and place them on a walkable tile
+		auto citizen = makeCitizen(TileCoordinates(-1, -1));
 
-	citizen->getComponent<PositionComponent>()->position = tiles[citizenX][citizenY]->getCoordinates();
-	addEntity(std::move(citizen));
+		// Keep choosing random tiles until one is found in which the citizen can enter
+		do
+		{
+			citizenX = rand() % District::districtSize;
+			citizenY = rand() % District::districtSize;
+		} while (!OccupyRules::canOccupy(citizen.get(), tiles[citizenX][citizenY].get()));
+
+		citizen->getComponent<PositionComponent>()->position = tiles[citizenX][citizenY]->getCoordinates();
+		addEntity(std::move(citizen));
+	}
 
 	if (TREE_GEN)
 	{
@@ -101,7 +100,7 @@ District::District(const std::string &name) : districtName(name)
 		{
 			for (int y = 0; y < District::districtSize; y++)
 			{
-				if (tile_map[TileCoordinates(x, y)] == TileProperty::Plains && !(x == citizenX && y == citizenY))
+				if (tileMap[TileCoordinates(x, y)] == TileProperty::Plains && !(x == citizenX && y == citizenY))
 				{
 					int treeChance = rand() % 100;
 
@@ -121,7 +120,10 @@ District::District(const std::string &name) : districtName(name)
 	}
 }
 
-District::~District() {}
+District::~District()
+{
+	PositionComponent::positionLookup = nullptr;
+}
 
 void District::addEntity(std::unique_ptr<Entity> entity)
 {
@@ -156,7 +158,7 @@ bool District::validTileCoordinates(TileCoordinates coords)
 /*
  * Creates/adds a new biome to the district at a given location, with a defined size
  */
-void District::createBiome(TileCoordinates coords, TileProperty::TileProperty biomeProperty, int size, std::unordered_map<TileCoordinates, TileProperty::TileProperty>& tile_map)
+void District::createBiome(TileCoordinates coords, TileProperty::TileProperty biomeProperty, int size, std::unordered_map<TileCoordinates, TileProperty::TileProperty>& tileMap)
 {
 	if (!validTileCoordinates(coords))
 		throw std::logic_error("District::createBiome - Invalid coordinates");
@@ -175,7 +177,7 @@ void District::createBiome(TileCoordinates coords, TileProperty::TileProperty bi
 
 		TileCoordinates currentCoordinates = adjacency.at(index); // Track the current tile we're concerned about
 
-		tile_map[currentCoordinates] = biomeProperty;  // Update the property of those coordinates
+		tileMap[currentCoordinates] = biomeProperty;  // Update the property of those coordinates
 
 		converted.push_back(currentCoordinates); // Add the tile to the converted list
 

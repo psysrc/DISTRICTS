@@ -6,11 +6,11 @@
 
 std::unique_ptr<Entity> makeTree(TileCoordinates coords)
 {
-    std::unique_ptr<Entity> entity = std::make_unique<Entity>();
+    std::unique_ptr<Entity> tree = std::make_unique<Entity>();
 
-    entity->addComponent(std::make_unique<PositionComponent>(coords));
-    entity->addComponent(std::make_unique<CanBeCutDownComponent>());
-    entity->addComponent(std::make_unique<RenderComponent>('$'));
+    tree->addComponent(std::make_unique<PositionComponent>(coords, tree.get()));
+    tree->addComponent(std::make_unique<CanBeCutDownComponent>());
+    tree->addComponent(std::make_unique<RenderComponent>('$'));
 
-    return entity;
+    return tree;
 }

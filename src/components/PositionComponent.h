@@ -1,16 +1,22 @@
-#ifndef POSITIONCOMPONENT_H_
-#define POSITIONCOMPONENT_H_
+#ifndef POSITION_COMPONENT_H_
+#define POSITION_COMPONENT_H_
 
 #include "components/Component.h"
 #include "game/TileCoordinates.h"
+#include "game/PositionLookup.h"
 
 struct PositionComponent : public Component
 {
-    PositionComponent(TileCoordinates coords) : position(coords) {}
+    static PositionLookup* positionLookup;
 
-    virtual ~PositionComponent() = default;
+    PositionComponent(TileCoordinates coords, Entity* entity);
 
-    TileCoordinates position;
+    virtual ~PositionComponent();
+
+    TileCoordinates position;  // TODO: Needs to be private with getters/setters in case it gets updated
+
+private:
+    Entity* const entity;
 };
 
-#endif /* POSITIONCOMPONENT_H_ */
+#endif /* POSITION_COMPONENT_H_ */

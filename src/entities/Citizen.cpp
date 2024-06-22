@@ -15,16 +15,16 @@ std::unique_ptr<Entity> makeCitizen(TileCoordinates coords)
 
 std::unique_ptr<Entity> makeCitizen(TileCoordinates coords, const std::string &name)
 {
-	std::unique_ptr<Entity> entity = std::make_unique<Entity>();
+	std::unique_ptr<Entity> citizen = std::make_unique<Entity>();
 
-	entity->addComponent(std::make_unique<NameComponent>(name));
-	entity->addComponent(std::make_unique<PositionComponent>(coords));
-	entity->addComponent(std::make_unique<WalkComponent>());
-	entity->addComponent(std::make_unique<WorkerComponent>());
-	entity->addComponent(std::make_unique<CitizenComponent>());
-	entity->addComponent(std::make_unique<RenderComponent>('C'));
+	citizen->addComponent(std::make_unique<NameComponent>(name));
+	citizen->addComponent(std::make_unique<PositionComponent>(coords, citizen.get()));
+	citizen->addComponent(std::make_unique<WalkComponent>());
+	citizen->addComponent(std::make_unique<WorkerComponent>());
+	citizen->addComponent(std::make_unique<CitizenComponent>());
+	citizen->addComponent(std::make_unique<RenderComponent>('C'));
 
-	entity->getComponent<WorkerComponent>()->working = true;
+	citizen->getComponent<WorkerComponent>()->working = true;
 
-	return entity;
+	return citizen;
 }

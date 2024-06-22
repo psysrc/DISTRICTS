@@ -27,7 +27,7 @@ std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
         return makeTree(pos->position);
     };
 
-    sapling->addComponent(std::make_unique<PositionComponent>(coords));
+    sapling->addComponent(std::make_unique<PositionComponent>(coords, sapling.get()));
     sapling->addComponent(std::make_unique<GrowComponent>(makeTreeFunc, secondsToGrow));
     sapling->addComponent(std::make_unique<RenderComponent>(','));
 
