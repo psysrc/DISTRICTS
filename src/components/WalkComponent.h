@@ -11,7 +11,7 @@ struct WalkComponent : public Component
 
     virtual ~WalkComponent() = default;
 
-    Tile *pDestination = nullptr;
+    DeprecatedTile *pDestination = nullptr;
     std::unique_ptr<Path> upPath = nullptr;
 };
 

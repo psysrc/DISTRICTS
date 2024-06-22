@@ -2,9 +2,9 @@
 #define TILE_PROPERTY_H_
 
 class District;
-class Tile;
+class DeprecatedTile;
 class Entity;
 
-Entity* deprecatedGetTileEntity(District* district, Tile* tile);
+Entity* deprecatedGetTileEntity(District* district, DeprecatedTile* tile);
 
 #endif /* TILE_PROPERTY_H_ */

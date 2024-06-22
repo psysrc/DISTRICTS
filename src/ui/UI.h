@@ -7,7 +7,7 @@
 #include "ui/MainMenuSelections.h"
 
 class District;
-class Tile;
+class DeprecatedTile;
 
 namespace UI
 {
@@ -24,7 +24,7 @@ namespace UI
     void unpause();
     bool letPlayerPause();
     Cmds::PlayerCommand *getPlayerCommand();
-    Tile *selectTile(District *);
+    DeprecatedTile *selectTile(District *);
     void showErrorScreen(const std::exception& error);
     void renderTile(int row, int column, int colourPair);
 	void renderEntity(int row, int column, char symbol);

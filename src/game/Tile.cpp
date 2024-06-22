@@ -3,44 +3,44 @@
 #include "ui/TileColours.h"
 #include <algorithm>
 
-Tile::Tile(TileCoordinates coords) : coordinates(coords), pEntity(nullptr)
+DeprecatedTile::DeprecatedTile(TileCoordinates coords) : coordinates(coords), pEntity(nullptr)
 {
 
 }
 
-Tile::~Tile() {}
+DeprecatedTile::~DeprecatedTile() {}
 
-TileCoordinates Tile::getCoordinates() const
+TileCoordinates DeprecatedTile::getCoordinates() const
 {
 	return coordinates;
 }
 
-Entity *Tile::getEntity() const
+Entity *DeprecatedTile::getEntity() const
 {
 	return pEntity;
 }
 
-void Tile::setEntity(Entity *pEntity)
+void DeprecatedTile::setEntity(Entity *pEntity)
 {
 	this->pEntity = pEntity;
 }
 
-const std::vector<Tasks::Task *> &Tile::getTasks() const
+const std::vector<Tasks::Task *> &DeprecatedTile::getTasks() const
 {
 	return tasks;
 }
 
-void Tile::addTask(Tasks::Task *pTask)
+void DeprecatedTile::addTask(Tasks::Task *pTask)
 {
 	tasks.push_back(pTask);
 }
 
-void Tile::removeTask(Tasks::Task *pTask)
+void DeprecatedTile::removeTask(Tasks::Task *pTask)
 {
 	tasks.erase(std::find(tasks.begin(), tasks.end(), pTask));
 }
 
-bool Tile::operator==(const Tile &b) const
+bool DeprecatedTile::operator==(const DeprecatedTile &b) const
 {
 	return (coordinates == b.getCoordinates());
 }

@@ -26,17 +26,17 @@ District::District(const std::string &name) : districtName(name)
 	PositionComponent::positionLookup = &positionLookup;
 
 	// Create the 2D array of Tiles
-	tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(District::districtSize);
+	tiles = std::vector<std::vector<std::unique_ptr<DeprecatedTile>>>(District::districtSize);
 	auto tileMap = std::unordered_map<TileCoordinates, TileProperty::TileProperty>();
 
 	for (int x = 0; x < District::districtSize; x++)
-		tiles[x] = std::vector<std::unique_ptr<Tile>>(District::districtSize);
+		tiles[x] = std::vector<std::unique_ptr<DeprecatedTile>>(District::districtSize);
 
 	for (int y = 0; y < District::districtSize; y++)
 	{
 		for (int x = 0; x < District::districtSize; x++)
 		{
-			tiles[x][y] = std::make_unique<Tile>(TileCoordinates(x, y));
+			tiles[x][y] = std::make_unique<DeprecatedTile>(TileCoordinates(x, y));
 			tileMap[TileCoordinates(x, y)] = TileProperty::Plains;
 		}
 	}
@@ -255,7 +255,7 @@ void District::deleteEntity(Entity *pEntity)
 	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
 	if (pEntity->hasComponent<PositionComponent>())
 	{
-		Tile *pTile = getTile(pEntity->getComponent<PositionComponent>()->getPosition());
+		DeprecatedTile *pTile = getTile(pEntity->getComponent<PositionComponent>()->getPosition());
 		if (pTile != nullptr)
 			pTile->setEntity(nullptr);
 	}
@@ -274,7 +274,7 @@ std::string District::getName() const
 	return districtName;
 }
 
-const std::vector<std::vector<std::unique_ptr<Tile>>> &District::getTiles() const
+const std::vector<std::vector<std::unique_ptr<DeprecatedTile>>> &District::getTiles() const
 {
 	return tiles;
 }
@@ -283,7 +283,7 @@ const std::vector<std::vector<std::unique_ptr<Tile>>> &District::getTiles() cons
  * Returns the tile at the given coordinates.
  * Returns nullptr if the coordinates are out of range.
  */
-Tile *District::getTile(short x, short y) const
+DeprecatedTile *District::getTile(short x, short y) const
 {
 	return getTile(TileCoordinates(x, y));
 }
@@ -292,7 +292,7 @@ Tile *District::getTile(short x, short y) const
  * Returns the tile at the given coordinates.
  * Returns nullptr if the coordinates are out of range.
  */
-Tile *District::getTile(TileCoordinates coords) const
+DeprecatedTile *District::getTile(TileCoordinates coords) const
 {
 	if (validTileCoordinates(coords))
 		return tiles[coords.x][coords.y].get();
@@ -306,13 +306,13 @@ Tile *District::getTile(TileCoordinates coords) const
  * Throws std::logic_error if the provided tile is nullptr.
  * The vector returned is guaranteed to be non-empty and its contents are guaranteed not to be nullptr.
  */
-std::vector<Tile *> District::getNeighbourTiles(Tile *tile, bool includeDiagonals) const
+std::vector<DeprecatedTile *> District::getNeighbourTiles(DeprecatedTile *tile, bool includeDiagonals) const
 {
 	if (tile == nullptr)
 		throw std::logic_error("District::getNeighbourTiles - provided tile is nullptr");
 
 	TileCoordinates tileCoords = tile->getCoordinates();
-	std::vector<Tile *> neighbours;
+	std::vector<DeprecatedTile *> neighbours;
 
 	for (short x = -1; x <= 1; x++)
 		for (short y = -1; y <= 1; y++)

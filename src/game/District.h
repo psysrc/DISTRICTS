@@ -44,10 +44,10 @@ public:
 	void deleteTask(Tasks::Task *task);
 
 	static bool validTileCoordinates(TileCoordinates);
-	const std::vector<std::vector<std::unique_ptr<Tile>>> &getTiles() const;
-	Tile *getTile(short, short) const;
-	Tile *getTile(TileCoordinates) const;
-	std::vector<Tile *> getNeighbourTiles(Tile *, bool = true) const;
+	const std::vector<std::vector<std::unique_ptr<DeprecatedTile>>> &getTiles() const;
+	DeprecatedTile *getTile(short, short) const;
+	DeprecatedTile *getTile(TileCoordinates) const;
+	std::vector<DeprecatedTile *> getNeighbourTiles(DeprecatedTile *, bool = true) const;
 	std::vector<TileCoordinates> getNeighbourCoordinates(TileCoordinates, bool = true) const;
 
 	const std::unordered_set<Entity*>& entitiesAtPosition(TileCoordinates);
@@ -55,7 +55,7 @@ public:
 private:
 	std::string districtName;
 	PositionLookup positionLookup;
-	std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
+	std::vector<std::vector<std::unique_ptr<DeprecatedTile>>> tiles;
 	std::vector<std::unique_ptr<Entity>> entities;		  // All entities in the district
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;	  // All entities to add at the end of a game tick
 	std::vector<Entity *> entitiesToDelete;				  // All entities to delete at the end of a game tick

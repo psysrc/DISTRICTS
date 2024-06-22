@@ -4,7 +4,7 @@
 #include "game/Tile.h"
 #include "components/TileComponent.h"
 
-Entity* deprecatedGetTileEntity(District* district, Tile* tile)
+Entity* deprecatedGetTileEntity(District* district, DeprecatedTile* tile)
 {
     const auto& entities = district->entitiesAtPosition(tile->getCoordinates());
 

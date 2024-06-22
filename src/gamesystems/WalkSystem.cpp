@@ -42,7 +42,7 @@ void WalkSystem::run(District *pDistrict)
                 if (pDistrict->getTile(pPC->getPosition()) == pWC->upPath->current())
                 {
                     // Get the next tile in the path
-                    Tile *pNextTile = pWC->upPath->next();
+                    DeprecatedTile *pNextTile = pWC->upPath->next();
 
                     if (pNextTile != nullptr)
                     {

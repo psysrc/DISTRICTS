@@ -5,7 +5,7 @@
 #include "deprecated/TileHelpers.h"
 #include "components/TileComponent.h"
 
-bool OccupyRules::canOccupy(District *pDistrict, Entity *pEntity, Tile *pTile)
+bool OccupyRules::canOccupy(District *pDistrict, Entity *pEntity, DeprecatedTile *pTile)
 {
     if (!pEntity || !pTile)
         return false;

@@ -4,7 +4,7 @@
 
 using namespace Tasks;
 
-Task::Task(Tile *pTile, std::string taskName, int work)
+Task::Task(DeprecatedTile *pTile, std::string taskName, int work)
 	: id(uniqueTaskID()), pTile(pTile), name(taskName), completed(false), workRemaining(work)
 {
 	pTile->addTask(this);
@@ -20,7 +20,7 @@ ID_t Task::getID() const
 	return id;
 }
 
-Tile *Task::getTile() const
+DeprecatedTile *Task::getTile() const
 {
 	return pTile;
 }

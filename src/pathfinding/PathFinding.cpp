@@ -16,7 +16,7 @@
  * 		If strict is disabled, the returned solution can be a path to a neighbour of the goal instead.
  * 		This can be useful if the goal tile is a Water tile next to land, or a tile with an Entity on it, for example.
  */
-std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity, Tile *pFrom, Tile *pTo, bool strict)
+std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity, DeprecatedTile *pFrom, DeprecatedTile *pTo, bool strict)
 {
 	// If any pointer arguments are nullptr then we can't perform any pathfinding
 	if (pFrom == nullptr || pTo == nullptr || pEntity == nullptr || pDistrict == nullptr)
@@ -26,26 +26,26 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 	if (!District::validTileCoordinates(pFrom->getCoordinates()) || !District::validTileCoordinates(pTo->getCoordinates()))
 		return nullptr;
 
-	std::map<Tile *, Tile *> pathVia;	// The immediately-preceding tile along the currently known best path
-	std::map<Tile *, float> pathLength; // Best path length currently known
-	std::map<Tile *, float> fScore;		// pathLength + distance_heuristic
+	std::map<DeprecatedTile *, DeprecatedTile *> pathVia;	// The immediately-preceding tile along the currently known best path
+	std::map<DeprecatedTile *, float> pathLength; // Best path length currently known
+	std::map<DeprecatedTile *, float> fScore;		// pathLength + distance_heuristic
 
 	// Open set of all tiles left to explore (with custom lambda comparator to keep the correct priority)
-	auto fScoreComp = [&fScore](Tile *a, Tile *b) -> bool
+	auto fScoreComp = [&fScore](DeprecatedTile *a, DeprecatedTile *b) -> bool
 	{ return fScore[a] < fScore[b]; };
-	std::set<Tile *, decltype(fScoreComp)> openSet(fScoreComp);
+	std::set<DeprecatedTile *, decltype(fScoreComp)> openSet(fScoreComp);
 
 	// Closed set of all explored tiles
-	std::set<Tile *> closedSet;
+	std::set<DeprecatedTile *> closedSet;
 
 	// Goal set of all tiles that the path can end with (if strict == true, this will only contain the 'to' tile)
-	std::set<Tile *> goalSet;
+	std::set<DeprecatedTile *> goalSet;
 	goalSet.insert(pTo);
 
 	if (!strict)
 	{
 		// Add each valid neighbour of the goal tile
-		for (Tile *neighbour : pDistrict->getNeighbourTiles(pTo))
+		for (DeprecatedTile *neighbour : pDistrict->getNeighbourTiles(pTo))
 		{
 			goalSet.insert(neighbour);
 		}
@@ -60,20 +60,20 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 	while (!openSet.empty())
 	{
 		// Pop the next Tile from the open set with the minimum fScore
-		Tile *pNext = *openSet.begin();
+		DeprecatedTile *pNext = *openSet.begin();
 		openSet.erase(openSet.begin());
 
 		// Check if this is a goal tile
 		if (goalSet.find(pNext) != goalSet.end())
 		{
 			// Reconstruct the trail back to the start and return a Path object
-			std::vector<Tile *> pathFound;
+			std::vector<DeprecatedTile *> pathFound;
 
 			// Reserve the minimum number of tiles that may be in this path
 			// This is purely for some extra efficiency when adding to the vector
 			pathFound.reserve(ceil(pathLength[pNext] / 1.41) + 0.1);
 
-			Tile *pCurrent = pNext;
+			DeprecatedTile *pCurrent = pNext;
 
 			// Populate the pathFound vector up to the starting tile ('from')
 			while (pCurrent != nullptr)
@@ -87,11 +87,11 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 
 		closedSet.insert(pNext);
 
-		std::vector<Tile *> allNeighbours = pDistrict->getNeighbourTiles(pNext);
-		std::vector<Tile *> nonDiagonalNeighbours = pDistrict->getNeighbourTiles(pNext, false);
+		std::vector<DeprecatedTile *> allNeighbours = pDistrict->getNeighbourTiles(pNext);
+		std::vector<DeprecatedTile *> nonDiagonalNeighbours = pDistrict->getNeighbourTiles(pNext, false);
 
 		// For each neighbour of this tile
-		for (Tile *pNeighbour : allNeighbours)
+		for (DeprecatedTile *pNeighbour : allNeighbours)
 		{
 			if (closedSet.find(pNeighbour) != closedSet.end()) // If this neighbour is in the closed set, ignore it (already fully explored)
 				continue;
@@ -136,7 +136,7 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 	return nullptr; // No path exists
 }
 
-float PathFinding::euclideanDistance(Tile *pFrom, Tile *pTo)
+float PathFinding::euclideanDistance(DeprecatedTile *pFrom, DeprecatedTile *pTo)
 {
 	if (pFrom == nullptr || pTo == nullptr)
 		throw std::runtime_error("Cannot calculate euclidian distance with nullptr tiles");

@@ -7,7 +7,7 @@
 
 using namespace Tasks;
 
-CutDownTree::CutDownTree(Tile *pTile, District *pDistrict) : Task(pTile, "Cut down tree", 10), pDistrict(pDistrict) {}
+CutDownTree::CutDownTree(DeprecatedTile *pTile, District *pDistrict) : Task(pTile, "Cut down tree", 10), pDistrict(pDistrict) {}
 
 CutDownTree::~CutDownTree() {}
 

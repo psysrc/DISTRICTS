@@ -4,7 +4,7 @@
 #include <memory>
 
 class Path;
-class Tile;
+class DeprecatedTile;
 class Entity;
 class District;
 
@@ -13,8 +13,8 @@ class PathFinding
 public:
 	PathFinding() = delete;
 	~PathFinding() = delete;
-	static std::unique_ptr<Path> findPath(District *, Entity *, Tile *, Tile *, bool = false);
-	static float euclideanDistance(Tile *, Tile *);
+	static std::unique_ptr<Path> findPath(District *, Entity *, DeprecatedTile *, DeprecatedTile *, bool = false);
+	static float euclideanDistance(DeprecatedTile *, DeprecatedTile *);
 };
 
 #endif /* SRC_PATHFINDING_H_ */

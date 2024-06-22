@@ -16,7 +16,7 @@ namespace Cmds
 
 	void CutDownTrees::execute(District *pDistrict)
 	{
-		Tile *pSelectedTile = UI::selectTile(pDistrict);
+		DeprecatedTile *pSelectedTile = UI::selectTile(pDistrict);
 
 		if (pSelectedTile != nullptr) // Did the player make a selection?
 		{

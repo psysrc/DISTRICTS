@@ -3,7 +3,7 @@
 
 #include <tasks/Task.h>
 
-class Tile;
+class DeprecatedTile;
 
 namespace Tasks
 {
@@ -11,7 +11,7 @@ namespace Tasks
 	class BuildBridge : public Task
 	{
 	public:
-		BuildBridge(Tile *);
+		BuildBridge(DeprecatedTile *);
 		virtual ~BuildBridge();
 
 	protected:

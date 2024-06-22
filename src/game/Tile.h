@@ -8,11 +8,11 @@
 class District;
 class Entity;
 
-class Tile
+class DeprecatedTile
 {
 public:
-	Tile(TileCoordinates);
-	~Tile();
+	DeprecatedTile(TileCoordinates);
+	~DeprecatedTile();
 	TileCoordinates getCoordinates() const;
 	Entity *getEntity() const;
 	void setEntity(Entity *);
@@ -21,7 +21,7 @@ public:
 	bool hasTask() const;
 	void addTask(Tasks::Task *);
 	void removeTask(Tasks::Task *);
-	bool operator==(const Tile &b) const;
+	bool operator==(const DeprecatedTile &b) const;
 
 private:
 	TileCoordinates coordinates;
@@ -34,7 +34,7 @@ private:
  * Returns whether or not this tile currently has a task of the given type.
  */
 template <class T>
-bool Tile::hasTask() const
+bool DeprecatedTile::hasTask() const
 {
 	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
 

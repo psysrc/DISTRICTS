@@ -3,20 +3,20 @@
 
 #include <vector>
 
-class Tile;
+class DeprecatedTile;
 
 class Path
 {
 public:
-	Path(const std::vector<Tile *>);
+	Path(const std::vector<DeprecatedTile *>);
 	~Path();
-	Tile *next();
-	Tile *current() const;
-	Tile *end() const;
+	DeprecatedTile *next();
+	DeprecatedTile *current() const;
+	DeprecatedTile *end() const;
 
 private:
 	std::size_t currentStep;
-	std::vector<Tile *> path;
+	std::vector<DeprecatedTile *> path;
 	bool finished = false;
 };
 

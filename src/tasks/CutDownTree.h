@@ -4,7 +4,7 @@
 #include <tasks/Task.h>
 
 class District;
-class Tile;
+class DeprecatedTile;
 
 namespace Tasks
 {
@@ -12,7 +12,7 @@ namespace Tasks
 	class CutDownTree : public Task
 	{
 	public:
-		CutDownTree(Tile *, District *);
+		CutDownTree(DeprecatedTile *, District *);
 		virtual ~CutDownTree();
 
 	protected:

@@ -4,7 +4,7 @@
 #include <string>
 #include "game/ID.h"
 
-class Tile;
+class DeprecatedTile;
 class District;
 
 namespace Tasks
@@ -13,10 +13,10 @@ namespace Tasks
 	class Task
 	{
 	public:
-		Task(Tile *, std::string, int);
+		Task(DeprecatedTile *, std::string, int);
 		virtual ~Task();
 		ID_t getID() const;
-		Tile *getTile() const;
+		DeprecatedTile *getTile() const;
 		std::string getName() const;
 		bool isCompleted() const;
 		int getWorkRemaining() const;
@@ -27,7 +27,7 @@ namespace Tasks
 
 	private:
 		const ID_t id;
-		Tile *pTile;
+		DeprecatedTile *pTile;
 		std::string name;
 		bool completed;
 		int workRemaining;

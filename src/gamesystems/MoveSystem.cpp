@@ -25,7 +25,7 @@ void MoveSystem::run(District *pDistrict)
             //     {
             //         pPC->couldNotMove = false;
 
-            //         Tile *pTile;
+            //         DeprecatedTile *pTile;
 
             //         // Inform previous tile that it is no longer occupied by the entity
             //         pTile = pDistrict->getTile(pPC->position);

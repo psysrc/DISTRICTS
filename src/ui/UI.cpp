@@ -466,7 +466,7 @@ namespace UI
 	/*
 	 * Prompts the user to select a tile in the district.
 	 */
-	Tile *selectTile(District *pDistrict)
+	DeprecatedTile *selectTile(District *pDistrict)
 	{
 		displayDebugMessage("Please select a tile.");
 
@@ -482,7 +482,7 @@ namespace UI
 		while (true)
 		{
 			// Remember what this grid position looked like before we highlighted it
-			Tile *pCurrentTile = pDistrict->getTile(row, column);
+			DeprecatedTile *pCurrentTile = pDistrict->getTile(row, column);
 
 			// Remember the tile so we can get its old colour back
 			chtype normalDisplay = mvwinch(mapWindow, row, column * 2);

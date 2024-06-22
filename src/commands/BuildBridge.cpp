@@ -16,7 +16,7 @@ namespace Cmds
 
 	void BuildBridge::execute(District *pDistrict)
 	{
-		Tile *pSelectedTile = UI::selectTile(pDistrict);
+		DeprecatedTile *pSelectedTile = UI::selectTile(pDistrict);
 
 		if (pSelectedTile != nullptr)  // Check that the player selected a tile
 		{
