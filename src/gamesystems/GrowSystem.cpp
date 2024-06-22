@@ -13,15 +13,14 @@ void GrowSystem::run(District *pDistrict)
 {
 	for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
 	{
-		GrowComponent *pGC = upEntity->getComponent<GrowComponent>();
-		PositionComponent *pPC = upEntity->getComponent<PositionComponent>();
-		if (pGC != nullptr && pPC != nullptr)
+		GrowComponent *growComponent = upEntity->getComponent<GrowComponent>();
+		if (growComponent)
 		{
-			pGC->ticksToGrow--;
+			growComponent->ticksToGrow--;
 
-			if (pGC->ticksToGrow <= 0)
+			if (growComponent->ticksToGrow <= 0)
 			{
-				auto newEntity = pGC->makeNextEntity(*upEntity.get());
+				auto newEntity = growComponent->makeNextEntity(*upEntity.get());
 
 				pDistrict->deleteEntity(upEntity.get());
 
