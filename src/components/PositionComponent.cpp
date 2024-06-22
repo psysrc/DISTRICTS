@@ -2,15 +2,37 @@
 
 PositionComponent::PositionComponent(TileCoordinates coords, Entity* entity) : position(coords), entity(entity)
 {
+    registerLookup();
+}
+
+PositionComponent::~PositionComponent()
+{
+    unregisterLookup();
+}
+
+void PositionComponent::setPosition(TileCoordinates newPosition)
+{
+    unregisterLookup();
+    position = newPosition;
+    registerLookup();
+}
+
+TileCoordinates PositionComponent::getPosition() const
+{
+    return position;
+}
+
+void PositionComponent::registerLookup()
+{
     if (positionLookup == nullptr)
     {
-        throw std::runtime_error("Failed to create PositionComponent: PositionLookup is null");
+        throw std::runtime_error("Failed to register PositionComponent: PositionLookup is null");
     }
 
     (*positionLookup)[position].insert(entity);
 }
 
-PositionComponent::~PositionComponent()
+void PositionComponent::unregisterLookup()
 {
     if (positionLookup != nullptr)
     {

@@ -13,9 +13,14 @@ struct PositionComponent : public Component
 
     virtual ~PositionComponent();
 
-    TileCoordinates position;  // TODO: Needs to be private with getters/setters in case it gets updated
+    void setPosition(TileCoordinates);
+    TileCoordinates getPosition() const;
 
 private:
+    void registerLookup();
+    void unregisterLookup();
+
+    TileCoordinates position;
     Entity* const entity;
 };
 

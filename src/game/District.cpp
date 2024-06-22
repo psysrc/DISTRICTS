@@ -89,7 +89,7 @@ District::District(const std::string &name) : districtName(name)
 			citizenY = rand() % District::districtSize;
 		} while (!OccupyRules::canOccupy(citizen.get(), tiles[citizenX][citizenY].get()));
 
-		citizen->getComponent<PositionComponent>()->position = tiles[citizenX][citizenY]->getCoordinates();
+		citizen->getComponent<PositionComponent>()->setPosition(tiles[citizenX][citizenY]->getCoordinates());
 		addEntity(std::move(citizen));
 	}
 
@@ -255,7 +255,7 @@ void District::deleteEntity(Entity *pEntity)
 	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
 	if (pEntity->hasComponent<PositionComponent>())
 	{
-		Tile *pTile = getTile(pEntity->getComponent<PositionComponent>()->position);
+		Tile *pTile = getTile(pEntity->getComponent<PositionComponent>()->getPosition());
 		if (pTile != nullptr)
 			pTile->setEntity(nullptr);
 	}
