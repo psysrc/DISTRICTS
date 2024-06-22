@@ -130,18 +130,6 @@ void District::addEntity(std::unique_ptr<Entity> entity)
 	entitiesToAdd.push_back(std::move(entity));
 }
 
-Entity *District::getEntity(ID_t /* entityID */) const
-{
-	throw std::logic_error("District::getEntity() not yet implemented");
-	return nullptr;
-}
-
-Tasks::Task *District::getTask(ID_t /* taskID */) const
-{
-	throw std::logic_error("District::getTask() not yet implemented");
-	return nullptr;
-}
-
 const std::vector<std::unique_ptr<Entity>> &District::getEntities() const
 {
 	return entities;

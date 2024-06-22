@@ -32,13 +32,11 @@ public:
 	template <class E, typename... EArgs>
 	E *makeEntity(EArgs...);
 	void addEntity(std::unique_ptr<Entity> entity);
-	Entity *getEntity(ID_t) const;
 	const std::vector<std::unique_ptr<Entity>> &getEntities() const;
 	void deleteEntity(Entity *entity);
 
 	template <class T, typename... TArgs>
 	T *makeTask(TArgs...);
-	Tasks::Task *getTask(ID_t) const;
 	std::shared_ptr<Tasks::Task> getLatestTask() const;
 	std::shared_ptr<Tasks::Task> getOldestTask() const;
 	void deleteTask(Tasks::Task *task);
