@@ -21,7 +21,7 @@ void MoveSystem::run(District *pDistrict)
             // if (pPC->nextCoordinates != pPC->position)
             // {
             //     // Check if the entity is allowed to occupy the next tile
-            //     if (OccupyRules::canOccupy(upEntity.get(), pDistrict->getTile(pPC->nextCoordinates)))
+            //     if (OccupyRules::canOccupy(pDistrict, upEntity.get(), pDistrict->getTile(pPC->nextCoordinates)))
             //     {
             //         pPC->couldNotMove = false;
 

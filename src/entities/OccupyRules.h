@@ -3,11 +3,12 @@
 
 class Entity;
 class Tile;
+class District;
 
 class OccupyRules
 {
 public:
-    static bool canOccupy(Entity *, Tile *);
+    static bool canOccupy(District *, Entity *, Tile *);
 };
 
 #endif /* OCCUPYRULES_H_ */

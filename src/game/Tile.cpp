@@ -19,11 +19,6 @@ void Tile::updateProperty(TileProperty::TileProperty newProperty)
 	property = newProperty;
 }
 
-TileProperty::TileProperty Tile::getProperty() const
-{
-	return property;
-}
-
 Entity *Tile::getEntity() const
 {
 	return pEntity;

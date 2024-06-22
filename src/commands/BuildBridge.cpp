@@ -4,6 +4,7 @@
 #include "game/Tile.h"
 #include "game/District.h"
 #include "tasks/BuildBridge.h"
+#include "deprecated/TileProperty.h"
 
 namespace Cmds
 {
@@ -16,9 +17,9 @@ namespace Cmds
 	{
 		Tile *pSelectedTile = UI::selectTile(pDistrict);
 
-		if (pSelectedTile != nullptr)
-		{															 // Check that the player selected a tile
-			if (pSelectedTile->getProperty() == TileProperty::Water) // Check that the tile is water
+		if (pSelectedTile != nullptr)  // Check that the player selected a tile
+		{
+			if (deprecatedGetProperty(pDistrict, pSelectedTile) == TileProperty::Water) // Check that the tile is water
 			{
 				if (!pSelectedTile->hasTask<Tasks::BuildBridge>())
 					pDistrict->makeTask<Tasks::BuildBridge>(pSelectedTile);

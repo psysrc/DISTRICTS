@@ -2,14 +2,17 @@
 
 #include "entities/Entity.h"
 #include "game/Tile.h"
+#include "deprecated/TileProperty.h"
 
-bool OccupyRules::canOccupy(Entity *pEntity, Tile *pTile)
+bool OccupyRules::canOccupy(District *pDistrict, Entity *pEntity, Tile *pTile)
 {
     if (!pEntity || !pTile)
         return false;
 
-    if (pTile->getProperty() == TileProperty::Water)
+    if (deprecatedGetProperty(pDistrict, pTile) == TileProperty::Water)
+    {
         return false;
+    }
 
     if (pTile->getEntity() != nullptr)
         return false;

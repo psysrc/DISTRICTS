@@ -16,7 +16,6 @@ public:
 	~Tile();
 	TileCoordinates getCoordinates() const;
 	void updateProperty(TileProperty::TileProperty newProperty);
-	TileProperty::TileProperty getProperty() const;
 	Entity *getEntity() const;
 	void setEntity(Entity *);
 	const std::vector<Tasks::Task *> &getTasks() const;

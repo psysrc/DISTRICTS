@@ -87,7 +87,7 @@ District::District(const std::string &name) : districtName(name)
 		{
 			citizenX = rand() % District::districtSize;
 			citizenY = rand() % District::districtSize;
-		} while (!OccupyRules::canOccupy(citizen.get(), tiles[citizenX][citizenY].get()));
+		} while (!OccupyRules::canOccupy(this, citizen.get(), tiles[citizenX][citizenY].get()));
 
 		citizen->getComponent<PositionComponent>()->setPosition(tiles[citizenX][citizenY]->getCoordinates());
 		addEntity(std::move(citizen));
