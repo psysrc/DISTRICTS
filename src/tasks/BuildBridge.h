@@ -15,7 +15,7 @@ namespace Tasks
 		virtual ~BuildBridge();
 
 	protected:
-		virtual void onCompletion() override;
+		virtual void onCompletion(District*) override;
 	};
 
 }

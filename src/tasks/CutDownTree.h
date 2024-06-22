@@ -16,7 +16,7 @@ namespace Tasks
 		virtual ~CutDownTree();
 
 	protected:
-		virtual void onCompletion() override;
+		virtual void onCompletion(District*) override;
 		District *pDistrict;
 	};
 

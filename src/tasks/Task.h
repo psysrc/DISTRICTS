@@ -5,6 +5,7 @@
 #include "game/ID.h"
 
 class Tile;
+class District;
 
 namespace Tasks
 {
@@ -19,10 +20,10 @@ namespace Tasks
 		std::string getName() const;
 		bool isCompleted() const;
 		int getWorkRemaining() const;
-		void workOn();
+		void workOn(District*);
 
 	protected:
-		virtual void onCompletion() = 0;
+		virtual void onCompletion(District*) = 0;
 
 	private:
 		const ID_t id;

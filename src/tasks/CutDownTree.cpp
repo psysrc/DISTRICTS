@@ -11,7 +11,7 @@ CutDownTree::CutDownTree(Tile *pTile, District *pDistrict) : Task(pTile, "Cut do
 
 CutDownTree::~CutDownTree() {}
 
-void CutDownTree::onCompletion()
+void CutDownTree::onCompletion(District*)
 {
 	// Remove the tree from the tile
 	pDistrict->deleteEntity(getTile()->getEntity());

@@ -1,10 +1,10 @@
-#include "deprecated/TileProperty.h"
+#include "deprecated/TileHelpers.h"
 #include <algorithm>
 #include "game/District.h"
 #include "game/Tile.h"
 #include "components/TileComponent.h"
 
-TileProperty::TileProperty deprecatedGetProperty(District* district, Tile* tile)
+Entity* deprecatedGetTileEntity(District* district, Tile* tile)
 {
     const auto& entities = district->entitiesAtPosition(tile->getCoordinates());
 
@@ -18,5 +18,5 @@ TileProperty::TileProperty deprecatedGetProperty(District* district, Tile* tile)
         throw std::runtime_error("Couldn't find an entity with TileComponent at a location");
     }
 
-    return (*it)->getComponent<TileComponent>()->property;
+    return *it;
 }

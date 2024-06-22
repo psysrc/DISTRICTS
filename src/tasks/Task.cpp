@@ -44,7 +44,7 @@ int Task::getWorkRemaining() const
  * Perform one unit of work on this task.
  * Calling this when the task is already completed is a no-op.
  */
-void Task::workOn()
+void Task::workOn(District *pDistrict)
 {
 	if (completed)
 		return;
@@ -54,6 +54,6 @@ void Task::workOn()
 	if (workRemaining <= 0)
 	{
 		completed = true;
-		onCompletion();
+		onCompletion(pDistrict);
 	}
 }

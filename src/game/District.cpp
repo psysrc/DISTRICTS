@@ -36,7 +36,7 @@ District::District(const std::string &name) : districtName(name)
 	{
 		for (int x = 0; x < District::districtSize; x++)
 		{
-			tiles[x][y] = std::make_unique<Tile>(TileCoordinates(x, y), TileProperty::Plains);
+			tiles[x][y] = std::make_unique<Tile>(TileCoordinates(x, y));
 			tileMap[TileCoordinates(x, y)] = TileProperty::Plains;
 		}
 	}

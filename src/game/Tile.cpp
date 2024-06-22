@@ -3,8 +3,9 @@
 #include "ui/TileColours.h"
 #include <algorithm>
 
-Tile::Tile(TileCoordinates coords, TileProperty::TileProperty property) : coordinates(coords), pEntity(nullptr), property(property)
+Tile::Tile(TileCoordinates coords) : coordinates(coords), pEntity(nullptr)
 {
+
 }
 
 Tile::~Tile() {}
@@ -12,11 +13,6 @@ Tile::~Tile() {}
 TileCoordinates Tile::getCoordinates() const
 {
 	return coordinates;
-}
-
-void Tile::updateProperty(TileProperty::TileProperty newProperty)
-{
-	property = newProperty;
 }
 
 Entity *Tile::getEntity() const

@@ -2,7 +2,6 @@
 #define TILE_H_
 
 #include "game/TileCoordinates.h"
-#include "game/TileProperty.h"
 #include <vector>
 #include "tasks/Task.h"
 
@@ -12,10 +11,9 @@ class Entity;
 class Tile
 {
 public:
-	Tile(TileCoordinates, TileProperty::TileProperty);
+	Tile(TileCoordinates);
 	~Tile();
 	TileCoordinates getCoordinates() const;
-	void updateProperty(TileProperty::TileProperty newProperty);
 	Entity *getEntity() const;
 	void setEntity(Entity *);
 	const std::vector<Tasks::Task *> &getTasks() const;
@@ -28,7 +26,6 @@ public:
 private:
 	TileCoordinates coordinates;
 	Entity *pEntity;
-	TileProperty::TileProperty property;
 	int drawColour;
 	std::vector<Tasks::Task *> tasks;
 };
