@@ -3,7 +3,7 @@
 #include "ui/TileColours.h"
 #include <algorithm>
 
-DeprecatedTile::DeprecatedTile(TileCoordinates coords) : coordinates(coords), pEntity(nullptr)
+DeprecatedTile::DeprecatedTile(TileCoordinates coords) : coordinates(coords)
 {
 
 }
@@ -13,11 +13,6 @@ DeprecatedTile::~DeprecatedTile() {}
 TileCoordinates DeprecatedTile::getCoordinates() const
 {
 	return coordinates;
-}
-
-void DeprecatedTile::setEntity(Entity *pEntity)
-{
-	this->pEntity = pEntity;
 }
 
 const std::vector<Tasks::Task *> &DeprecatedTile::getTasks() const

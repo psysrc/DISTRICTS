@@ -13,7 +13,6 @@ public:
 	DeprecatedTile(TileCoordinates);
 	~DeprecatedTile();
 	TileCoordinates getCoordinates() const;
-	void setEntity(Entity *);
 	const std::vector<Tasks::Task *> &getTasks() const;
 	template <class T>
 	bool hasTask() const;
@@ -23,7 +22,6 @@ public:
 
 private:
 	TileCoordinates coordinates;
-	Entity *pEntity;
 	std::vector<Tasks::Task *> tasks;
 };
 

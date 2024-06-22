@@ -239,14 +239,6 @@ void District::deleteEntity(Entity *pEntity)
 		return;
 
 	entitiesToDelete.push_back(pEntity);
-
-	// If entity was occupying a tile, we need to tell the tile it is no longer occupied
-	if (pEntity->hasComponent<PositionComponent>())
-	{
-		DeprecatedTile *pTile = getTile(pEntity->getComponent<PositionComponent>()->getPosition());
-		if (pTile != nullptr)
-			pTile->setEntity(nullptr);
-	}
 }
 
 void District::deleteTask(Tasks::Task *pTask)
