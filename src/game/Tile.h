@@ -5,7 +5,6 @@
 #include <vector>
 #include "tasks/Task.h"
 
-class District;
 class Entity;
 
 class DeprecatedTile
@@ -14,7 +13,6 @@ public:
 	DeprecatedTile(TileCoordinates);
 	~DeprecatedTile();
 	TileCoordinates getCoordinates() const;
-	Entity *getEntity() const;
 	void setEntity(Entity *);
 	const std::vector<Tasks::Task *> &getTasks() const;
 	template <class T>

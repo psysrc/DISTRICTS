@@ -2,6 +2,7 @@
 
 #include "components/GrowComponent.h"
 #include "components/PositionComponent.h"
+#include "components/OccupySpaceComponent.h"
 #include "components/RenderComponent.h"
 #include "entities/Tree.h"
 
@@ -28,6 +29,7 @@ std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
     };
 
     sapling->addComponent(std::make_unique<PositionComponent>(coords, sapling.get()));
+	sapling->addComponent(std::make_unique<OccupySpaceComponent>());
     sapling->addComponent(std::make_unique<GrowComponent>(makeTreeFunc, secondsToGrow));
     sapling->addComponent(std::make_unique<RenderComponent>(','));
 

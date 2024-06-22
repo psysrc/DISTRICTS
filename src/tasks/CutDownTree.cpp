@@ -7,12 +7,11 @@
 
 using namespace Tasks;
 
-CutDownTree::CutDownTree(DeprecatedTile *pTile, District *pDistrict) : Task(pTile, "Cut down tree", 10), pDistrict(pDistrict) {}
+CutDownTree::CutDownTree(DeprecatedTile *pTile, District *pDistrict, Entity* tree) : Task(pTile, "Cut down tree", 10), pDistrict(pDistrict), tree(tree) {}
 
 CutDownTree::~CutDownTree() {}
 
 void CutDownTree::onCompletion(District*)
 {
-	// Remove the tree from the tile
-	pDistrict->deleteEntity(getTile()->getEntity());
+	pDistrict->deleteEntity(tree);
 }

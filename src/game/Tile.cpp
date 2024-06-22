@@ -15,11 +15,6 @@ TileCoordinates DeprecatedTile::getCoordinates() const
 	return coordinates;
 }
 
-Entity *DeprecatedTile::getEntity() const
-{
-	return pEntity;
-}
-
 void DeprecatedTile::setEntity(Entity *pEntity)
 {
 	this->pEntity = pEntity;

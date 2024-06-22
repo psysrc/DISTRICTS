@@ -4,6 +4,10 @@
 #include "game/Tile.h"
 #include "deprecated/TileHelpers.h"
 #include "components/TileComponent.h"
+#include "components/PositionComponent.h"
+#include "game/District.h"
+#include "components/OccupySpaceComponent.h"
+#include <algorithm>
 
 bool OccupyRules::canOccupy(District *pDistrict, Entity *pEntity, DeprecatedTile *pTile)
 {
@@ -15,8 +19,12 @@ bool OccupyRules::canOccupy(District *pDistrict, Entity *pEntity, DeprecatedTile
         return false;
     }
 
-    if (pTile->getEntity() != nullptr)
+    const auto& entities = pDistrict->entitiesAtPosition(pTile->getCoordinates());
+    if (std::find_if(entities.begin(), entities.end(), [](Entity* e) { return e->hasComponent<OccupySpaceComponent>(); }) != entities.end())
+    {
         return false;
+    }
+
 
     return true;
 }

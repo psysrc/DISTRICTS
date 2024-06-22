@@ -5,6 +5,7 @@
 
 class District;
 class DeprecatedTile;
+class Entity;
 
 namespace Tasks
 {
@@ -12,12 +13,13 @@ namespace Tasks
 	class CutDownTree : public Task
 	{
 	public:
-		CutDownTree(DeprecatedTile *, District *);
+		CutDownTree(DeprecatedTile *, District *, Entity *);
 		virtual ~CutDownTree();
 
 	protected:
 		virtual void onCompletion(District*) override;
 		District *pDistrict;
+		Entity* tree;
 	};
 
 }

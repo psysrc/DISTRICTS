@@ -20,13 +20,14 @@ namespace Cmds
 
 		if (pSelectedTile != nullptr) // Did the player make a selection?
 		{
-			Entity *pEntity = pSelectedTile->getEntity();
-			if (pEntity != nullptr) // Does the tile have an entity on it?
+			if (!pSelectedTile->hasTask<Tasks::CutDownTree>())  // Does the position already have a task?
 			{
-				if (pEntity->hasComponent<CanBeCutDownComponent>()) // Can the entity be cut down?
+				const auto &entities = pDistrict->entitiesAtPosition(pSelectedTile->getCoordinates());
+				const auto it = std::find_if(entities.begin(), entities.end(), [](Entity *e)
+											 { return e->hasComponent<CanBeCutDownComponent>(); });
+				if (it != entities.end())
 				{
-					if (!pSelectedTile->hasTask<Tasks::CutDownTree>())
-						pDistrict->makeTask<Tasks::CutDownTree>(pSelectedTile, pDistrict);
+					pDistrict->makeTask<Tasks::CutDownTree>(pSelectedTile, pDistrict, *it);
 				}
 			}
 		}
