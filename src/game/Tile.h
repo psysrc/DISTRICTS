@@ -26,7 +26,6 @@ public:
 private:
 	TileCoordinates coordinates;
 	Entity *pEntity;
-	int drawColour;
 	std::vector<Tasks::Task *> tasks;
 };
 
