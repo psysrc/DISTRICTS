@@ -24,7 +24,10 @@ namespace Cmds
 			if (deprecatedGetTileEntity(pDistrict, pSelectedTile)->getComponent<TileComponent>()->property == TileProperty::Water)
 			{
 				if (!pSelectedTile->hasTask<Tasks::BuildBridge>())
-					pDistrict->makeTask<Tasks::BuildBridge>(pSelectedTile);
+				{
+					auto task = std::make_shared<Tasks::BuildBridge>(pSelectedTile);
+					pDistrict->addTask(task);
+				}
 			}
 		}
 	}

@@ -207,6 +207,11 @@ std::shared_ptr<Task> District::getOldestTask() const
 	return tasks.front();
 }
 
+void District::addTask(std::shared_ptr<Tasks::Task> task)
+{
+	tasksToAdd.push_back(std::move(task));
+}
+
 /*
  * Prompts the district to update entities and tasks, adding and deleting where necessary.
  */

@@ -5,8 +5,6 @@
 #include <vector>
 #include "tasks/Task.h"
 
-class Entity;
-
 class DeprecatedTile
 {
 public:

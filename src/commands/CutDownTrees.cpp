@@ -27,7 +27,8 @@ namespace Cmds
 											 { return e->hasComponent<CanBeCutDownComponent>(); });
 				if (it != entities.end())
 				{
-					pDistrict->makeTask<Tasks::CutDownTree>(pSelectedTile, pDistrict, *it);
+					auto task = std::make_shared<Tasks::CutDownTree>(pSelectedTile, pDistrict, *it);
+					pDistrict->addTask(task);
 				}
 			}
 		}
