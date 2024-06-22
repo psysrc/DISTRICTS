@@ -50,6 +50,8 @@ public:
 	std::vector<Tile *> getNeighbourTiles(Tile *, bool = true) const;
 	std::vector<TileCoordinates> getNeighbourCoordinates(TileCoordinates, bool = true) const;
 
+	const std::unordered_set<Entity*>& entitiesAtPosition(TileCoordinates);
+
 private:
 	std::string districtName;
 	PositionLookup positionLookup;
