@@ -477,23 +477,16 @@ namespace UI
 		bool returnTile = false;
 		bool cancel = false;
 
-		char symbolToDraw = '?';
-
 		while (true)
 		{
 			// Remember what this grid position looked like before we highlighted it
 			DeprecatedTile *pCurrentTile = pDistrict->getTile(row, column);
 
-			// Remember the tile so we can get its old colour back
+			// Remember the current character data so we can render it back to the screen later
 			chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
 
 			// Highlight the current grid position
-			if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<RenderComponent>())
-				symbolToDraw = pCurrentTile->getEntity()->getComponent<RenderComponent>()->renderSymbol;
-			else
-				symbolToDraw = ' ';
-
-			renderGridPosition(row, column, COLOUR_HIGHLIGHTED, symbolToDraw);
+			renderGridPosition(row, column, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
 
 			wrefresh(mapWindow);
 
@@ -530,12 +523,7 @@ namespace UI
 			}
 
 			// Revert previous grid position to normal
-			if (pCurrentTile->getEntity() && pCurrentTile->getEntity()->getComponent<RenderComponent>())
-				symbolToDraw = pCurrentTile->getEntity()->getComponent<RenderComponent>()->renderSymbol;
-			else
-				symbolToDraw = ' ';
-
-			renderGridPosition(pCurrentTile->getCoordinates().x, pCurrentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), symbolToDraw);
+			renderGridPosition(pCurrentTile->getCoordinates().x, pCurrentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
 
 			// Return tile or cancel if necessary
 			if (returnTile)
