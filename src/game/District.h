@@ -19,17 +19,6 @@ namespace Tasks
 
 class District
 {
-private:
-	std::string districtName;
-	PositionLookup positionLookup;
-	std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
-	std::vector<std::unique_ptr<Entity>> entities;		  // All entities in the district
-	std::vector<std::unique_ptr<Entity>> entitiesToAdd;	  // All entities to add at the end of a game tick
-	std::vector<Entity *> entitiesToDelete;				  // All entities to delete at the end of a game tick
-	std::vector<std::shared_ptr<Tasks::Task>> tasks;	  // All tasks in the district
-	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd; // All tasks to add at the end of a game tick
-	std::vector<Tasks::Task *> tasksToDelete;			  // All tasks to delete at the end of a game tick
-
 public:
 	static const unsigned short districtSize = 32;
 
@@ -60,6 +49,17 @@ public:
 	Tile *getTile(TileCoordinates) const;
 	std::vector<Tile *> getNeighbourTiles(Tile *, bool = true) const;
 	std::vector<TileCoordinates> getNeighbourCoordinates(TileCoordinates, bool = true) const;
+
+private:
+	std::string districtName;
+	PositionLookup positionLookup;
+	std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
+	std::vector<std::unique_ptr<Entity>> entities;		  // All entities in the district
+	std::vector<std::unique_ptr<Entity>> entitiesToAdd;	  // All entities to add at the end of a game tick
+	std::vector<Entity *> entitiesToDelete;				  // All entities to delete at the end of a game tick
+	std::vector<std::shared_ptr<Tasks::Task>> tasks;	  // All tasks in the district
+	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd; // All tasks to add at the end of a game tick
+	std::vector<Tasks::Task *> tasksToDelete;			  // All tasks to delete at the end of a game tick
 };
 
 /*

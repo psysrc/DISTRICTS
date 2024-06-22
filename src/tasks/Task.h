@@ -11,16 +11,6 @@ namespace Tasks
 
 	class Task
 	{
-	private:
-		const ID_t id;
-		Tile *pTile;
-		std::string name;
-		bool completed;
-		int workRemaining;
-
-	protected:
-		virtual void onCompletion() = 0;
-
 	public:
 		Task(Tile *, std::string, int);
 		virtual ~Task();
@@ -30,6 +20,16 @@ namespace Tasks
 		bool isCompleted() const;
 		int getWorkRemaining() const;
 		void workOn();
+
+	protected:
+		virtual void onCompletion() = 0;
+
+	private:
+		const ID_t id;
+		Tile *pTile;
+		std::string name;
+		bool completed;
+		int workRemaining;
 	};
 
 }

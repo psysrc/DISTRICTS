@@ -9,6 +9,11 @@ class GameSystem;
 
 class Game
 {
+public:
+	Game();
+	~Game();
+	void play();
+
 private:
 	bool gameIsOver;
 	bool gameIsPaused;
@@ -18,11 +23,6 @@ private:
 
 	bool handleCommands();
 	void gameOver() const;
-
-public:
-	Game();
-	~Game();
-	void play();
 };
 
 #endif /* GAME_H_ */

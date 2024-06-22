@@ -11,7 +11,6 @@ class Tile;
 
 namespace UI
 {
-
     bool initialise();
     void terminate();
     void displayActivityMessage(const char *const str);

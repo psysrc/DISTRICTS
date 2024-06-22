@@ -8,12 +8,13 @@ class Tile;
 class Entity;
 class District;
 
-class PathFinding {
+class PathFinding
+{
 public:
 	PathFinding() = delete;
 	~PathFinding() = delete;
-	static std::unique_ptr<Path> findPath(District*, Entity*, Tile*, Tile*, bool = false);
-	static float euclideanDistance(Tile*, Tile*);
+	static std::unique_ptr<Path> findPath(District *, Entity *, Tile *, Tile *, bool = false);
+	static float euclideanDistance(Tile *, Tile *);
 };
 
 #endif /* SRC_PATHFINDING_H_ */
