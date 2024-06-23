@@ -29,6 +29,7 @@ namespace UI
     void showErrorScreen(const std::exception& error);
     void renderTile(TileCoordinates, int colourPair);
 	void renderEntity(TileCoordinates, char symbol);
+    void renderEmptyDistrict();
 }
 
 #endif /* SRC_UI_H_ */

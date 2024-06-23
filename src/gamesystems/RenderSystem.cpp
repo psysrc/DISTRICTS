@@ -15,6 +15,8 @@ RenderSystem::~RenderSystem() {}
 
 void RenderSystem::run(District *pDistrict)
 {
+    UI::renderEmptyDistrict();
+
     for (const auto &entity : pDistrict->getEntities())
     {
         PositionComponent *positionComponent = entity->getComponent<PositionComponent>();

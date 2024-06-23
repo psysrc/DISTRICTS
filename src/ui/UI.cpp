@@ -236,7 +236,6 @@ namespace UI
 		rotatePlaySpinner();
 
 		wrefresh(mapWindow);
-		werase(mapWindow);
 	}
 
 	/*
@@ -250,6 +249,14 @@ namespace UI
 		// Draw the tile
 		waddch(mapWindow, symbol);
 		waddch(mapWindow, ' ');
+	}
+
+	/*
+		Clear the district window without refreshing the screen.
+	*/
+	void renderEmptyDistrict()
+	{
+		werase(mapWindow);
 	}
 
 	/*
