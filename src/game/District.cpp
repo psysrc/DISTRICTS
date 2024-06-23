@@ -11,10 +11,12 @@
 #include <unordered_map>
 #include <components/TileComponent.h>
 #include "game/TileCoordinates.h"
+#include "entities/Chicken.h"
 
 #define BIOME_GEN true
 #define TREE_GEN true
 #define CITIZEN_GEN true
+#define CHICKEN_GEN true
 
 District::District() : District(DistrictNameGenerator::generateName()) {}
 
@@ -67,31 +69,17 @@ District::District(const std::string &name) : districtName(name)
 
 	if (CITIZEN_GEN)
 	{
-		int citizenX = -1, citizenY = -1;
-		Entity* citizenTile = nullptr;
+		TileCoordinates coords(-1, -1);
 
-		// Make a new citizen and place them on a walkable tile
-		auto citizen = makeCitizen(TileCoordinates(-1, -1));
-
-		// Keep choosing random tiles until one is found in which the citizen can enter
-		do
+		do  // Keep choosing random tiles until one is found which the entity can occupy
 		{
-			citizenX = rand() % District::districtSize;
-			citizenY = rand() % District::districtSize;
-			const auto& entities = entitiesAtPosition(TileCoordinates(citizenX, citizenY));
-			const auto it = std::find_if(entities.begin(), entities.end(), [](Entity* e){ return e->hasComponent<TileComponent>(); });
+			coords.x = rand() % District::districtSize;
+			coords.y = rand() % District::districtSize;
 
-			if (it == entities.end())
-			{
-				throw std::runtime_error("No tile entities at some random position");
-			}
+		} while (!OccupyRules::canOccupy(this, coords));
 
-			citizenTile = *it;
-
-		} while (!OccupyRules::canOccupy(this, citizenTile));
-
-		citizen->getComponent<PositionComponent>()->setPosition(TileCoordinates(citizenX, citizenY));
-		addEntity(std::move(citizen));
+		// Make a new citizen and place them on the tile
+		addEntity(makeCitizen(coords));
 	}
 
 	if (TREE_GEN)
@@ -117,6 +105,25 @@ District::District(const std::string &name) : districtName(name)
 					}
 				}
 			}
+		}
+	}
+
+	if (CHICKEN_GEN)
+	{
+		constexpr int numChickens = 10;
+		for (int i = 0; i < numChickens; ++i)
+		{
+			TileCoordinates coords(-1, -1);
+
+			do  // Keep choosing random tiles until one is found which the entity can occupy
+			{
+				coords.x = rand() % District::districtSize;
+				coords.y = rand() % District::districtSize;
+
+			} while (!OccupyRules::canOccupy(this, coords));
+
+			// Make a new chicken and place them on the tile
+			addEntity(makeChicken(coords));
 		}
 	}
 }
