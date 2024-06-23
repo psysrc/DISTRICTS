@@ -1,6 +1,5 @@
 #include "District.h"
 
-#include "game/Tile.h"
 #include "entities/Tree.h"
 #include "entities/Sapling.h"
 #include <algorithm>
@@ -11,6 +10,7 @@
 #include "helpers/DistrictNameGenerator.h"
 #include <unordered_map>
 #include <components/TileComponent.h>
+#include "game/TileCoordinates.h"
 
 #define BIOME_GEN true
 #define TREE_GEN true
@@ -22,18 +22,11 @@ District::District(const std::string &name) : districtName(name)
 {
 	PositionComponent::positionLookup = &positionLookup;
 
-	// Create the 2D array of Tiles
-	tiles = std::vector<std::vector<std::unique_ptr<DeprecatedTile>>>(District::districtSize);
 	auto tileMap = std::unordered_map<TileCoordinates, TileProperty::TileProperty>();
-
-	for (int x = 0; x < District::districtSize; x++)
-		tiles[x] = std::vector<std::unique_ptr<DeprecatedTile>>(District::districtSize);
-
 	for (int y = 0; y < District::districtSize; y++)
 	{
 		for (int x = 0; x < District::districtSize; x++)
 		{
-			tiles[x][y] = std::make_unique<DeprecatedTile>(TileCoordinates(x, y));
 			tileMap[TileCoordinates(x, y)] = TileProperty::Plains;
 		}
 	}
@@ -73,6 +66,7 @@ District::District(const std::string &name) : districtName(name)
 	}
 
 	int citizenX = -1, citizenY = -1;
+	Entity* citizenTile = nullptr;
 
 	if (CITIZEN_GEN)
 	{
@@ -84,9 +78,19 @@ District::District(const std::string &name) : districtName(name)
 		{
 			citizenX = rand() % District::districtSize;
 			citizenY = rand() % District::districtSize;
-		} while (!OccupyRules::canOccupy(this, citizen.get(), tiles[citizenX][citizenY].get()));
+			const auto& entities = entitiesAtPosition(TileCoordinates(citizenX, citizenY));
+			const auto it = std::find_if(entities.begin(), entities.end(), [](Entity* e){ return e->hasComponent<TileComponent>(); });
 
-		citizen->getComponent<PositionComponent>()->setPosition(tiles[citizenX][citizenY]->getCoordinates());
+			if (it == entities.end())
+			{
+				throw std::runtime_error("No tile entities at some random position");
+			}
+
+			citizenTile = *it;
+
+		} while (!OccupyRules::canOccupy(this, citizen.get(), citizenTile));
+
+		citizen->getComponent<PositionComponent>()->setPosition(TileCoordinates(citizenX, citizenY));
 		addEntity(std::move(citizen));
 	}
 
@@ -103,12 +107,12 @@ District::District(const std::string &name) : districtName(name)
 
 					if (treeChance < 5)  // 5% chance of growing a tree
 					{
-						auto tree = makeTree(tiles[x][y]->getCoordinates());
+						auto tree = makeTree(TileCoordinates(x, y));
 						addEntity(std::move(tree));
 					}
 					else if (treeChance < 6)  // 1% chance of growing a sapling
 					{
-						auto sapling = makeSapling(tiles[x][y]->getCoordinates());
+						auto sapling = makeSapling(TileCoordinates(x, y));
 						addEntity(std::move(sapling));
 					}
 				}
@@ -207,59 +211,6 @@ void District::deleteEntity(Entity *pEntity)
 std::string District::getName() const
 {
 	return districtName;
-}
-
-const std::vector<std::vector<std::unique_ptr<DeprecatedTile>>> &District::getTiles() const
-{
-	return tiles;
-}
-
-/*
- * Returns the tile at the given coordinates.
- * Returns nullptr if the coordinates are out of range.
- */
-DeprecatedTile *District::getTile(short x, short y) const
-{
-	return getTile(TileCoordinates(x, y));
-}
-
-/*
- * Returns the tile at the given coordinates.
- * Returns nullptr if the coordinates are out of range.
- */
-DeprecatedTile *District::getTile(TileCoordinates coords) const
-{
-	if (validTileCoordinates(coords))
-		return tiles[coords.x][coords.y].get();
-	else
-		return nullptr;
-}
-
-/**
- * Returns all valid neighbours of the given tile.
- * Diagonals are included by default. To only include directly adjacent tiles, set includeDiagonals to false.
- * Throws std::logic_error if the provided tile is nullptr.
- * The vector returned is guaranteed to be non-empty and its contents are guaranteed not to be nullptr.
- */
-std::vector<DeprecatedTile *> District::getNeighbourTiles(DeprecatedTile *tile, bool includeDiagonals) const
-{
-	if (tile == nullptr)
-		throw std::logic_error("District::getNeighbourTiles - provided tile is nullptr");
-
-	TileCoordinates tileCoords = tile->getCoordinates();
-	std::vector<DeprecatedTile *> neighbours;
-
-	for (short x = -1; x <= 1; x++)
-		for (short y = -1; y <= 1; y++)
-			if (!(x == 0 && y == 0)) // Ignore the tile we're currently calculating neighbours for
-			{
-				TileCoordinates neighbourCoordinates(tileCoords.x + x, tileCoords.y + y);
-				if (validTileCoordinates(neighbourCoordinates)) // Check we are within the bounds of the district
-					if (includeDiagonals || (x == 0 || y == 0)) // Always include adjacent tiles, but only include diagonals if required
-						neighbours.push_back(getTile(neighbourCoordinates));
-			}
-
-	return neighbours;
 }
 
 std::vector<TileCoordinates> District::getNeighbourCoordinates(TileCoordinates coordinates, bool includeDiagonals) const

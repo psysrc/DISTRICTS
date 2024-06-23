@@ -1,11 +1,10 @@
 #include "commands/CutDownTrees.h"
 
 #include "ui/UI.h"
-#include "game/Tile.h"
+#include "game/TileCoordinates.h"
 #include "game/District.h"
 #include "entities/Tree.h"
 #include "components/CanBeCutDownComponent.h"
-#include "deprecated/TileHelpers.h"
 #include "components/PositionComponent.h"
 #include "components/TaskComponent.h"
 
@@ -18,12 +17,11 @@ namespace Cmds
 
 	void CutDownTrees::execute(District *pDistrict)
 	{
-		DeprecatedTile *pSelectedTile = UI::selectTile(pDistrict);
+		const auto selection = UI::selectTileCoordinates(pDistrict);
 
-		if (pSelectedTile != nullptr) // Did the player make a selection?
+		if (selection.has_value()) // Did the player make a selection?
 		{
-			auto tile = deprecatedGetTileEntity(pDistrict, pSelectedTile);
-			const auto coords = tile->getComponent<PositionComponent>()->getPosition();
+			auto coords = selection.value();
 			const auto &entities = pDistrict->entitiesAtPosition(coords);
 
 			const auto it = std::find_if(entities.begin(), entities.end(),

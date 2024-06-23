@@ -1,30 +1,36 @@
 #include "OccupyRules.h"
 
 #include "entities/Entity.h"
-#include "game/Tile.h"
-#include "deprecated/TileHelpers.h"
+#include "game/TileCoordinates.h"
 #include "components/TileComponent.h"
 #include "components/PositionComponent.h"
 #include "game/District.h"
 #include "components/OccupySpaceComponent.h"
 #include <algorithm>
 
-bool OccupyRules::canOccupy(District *pDistrict, Entity *pEntity, DeprecatedTile *pTile)
+bool OccupyRules::canOccupy(District *district, const Entity *entity, const Entity *tile)
 {
-    if (!pEntity || !pTile)
+    if (!entity || !tile)
         return false;
 
-    if (deprecatedGetTileEntity(pDistrict, pTile)->getComponent<TileComponent>()->property == TileProperty::Water)
+    if (tile->getComponent<TileComponent>()->property == TileProperty::Water)
     {
         return false;
     }
 
-    const auto& entities = pDistrict->entitiesAtPosition(pTile->getCoordinates());
+    const auto& entities = district->entitiesAtPosition(tile->getComponent<PositionComponent>()->getPosition());
     if (std::find_if(entities.begin(), entities.end(), [](Entity* e) { return e->hasComponent<OccupySpaceComponent>(); }) != entities.end())
     {
         return false;
     }
 
-
     return true;
+}
+
+bool OccupyRules::canOccupy(District * district, const Entity * entity, TileCoordinates coordinates)
+{
+    const auto& entities = district->entitiesAtPosition(coordinates);
+    const auto it = std::find_if(entities.begin(), entities.end(), [](Entity* e){ return e->hasComponent<TileComponent>(); });
+
+    return canOccupy(district, entity, *it);
 }

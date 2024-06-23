@@ -1,10 +1,9 @@
 #include <commands/BuildBridge.h>
 
 #include "ui/UI.h"
-#include "game/Tile.h"
+#include "game/TileCoordinates.h"
 #include "game/District.h"
 #include "components/TaskComponent.h"
-#include "deprecated/TileHelpers.h"
 #include "components/TileComponent.h"
 #include <components/PositionComponent.h>
 #include <sstream>
@@ -18,11 +17,18 @@ namespace Cmds
 
 	void BuildBridge::execute(District *pDistrict)
 	{
-		DeprecatedTile *pSelectedTile = UI::selectTile(pDistrict);
+		const auto selection = UI::selectTileCoordinates(pDistrict);
 
-		if (pSelectedTile != nullptr)  // Check that the player selected a tile
+		if (selection.has_value())  // Check that the player selected a tile
 		{
-			Entity* tile = deprecatedGetTileEntity(pDistrict, pSelectedTile);
+			auto coords = selection.value();
+			const auto &entities = pDistrict->entitiesAtPosition(coords);
+
+			const auto it = std::find_if(entities.begin(), entities.end(),
+										 [](Entity *e)
+										 { return e->hasComponent<TileComponent>(); });
+
+			const auto tile = *it;
 
 			// Check that the tile is water
 			if (tile->getComponent<TileComponent>()->property == TileProperty::Water)

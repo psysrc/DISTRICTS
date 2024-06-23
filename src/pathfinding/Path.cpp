@@ -2,10 +2,12 @@
 
 #include <stdexcept>
 
-Path::Path(const std::vector<DeprecatedTile *> newPath) : currentStep(newPath.size() - 1), path(newPath)
+Path::Path(const std::vector<TileCoordinates> newPath) : currentStep(newPath.size() - 1), path(newPath)
 {
 	if (newPath.empty())
+	{
 		throw std::logic_error("Tried to create an empty Path object");
+	}
 }
 
 Path::~Path()
@@ -14,11 +16,11 @@ Path::~Path()
 }
 
 /**
- * Move current() to the next tile in the path, returning that tile.
- * Calling this method on the last tile of the path will finish the path.
- * If the path is finished, this method and current() will return nullptr.
+ * Move current() to the next tile in the path, returning that tile's coordinates.
+ * Calling this method on the last set of coordinates of the path will finish the path.
+ * If the path is already finished before calling this method, this method returns an empty std::optional.
  */
-DeprecatedTile *Path::next()
+std::optional<TileCoordinates> Path::next()
 {
 	if (currentStep == 0)
 	{
@@ -34,20 +36,22 @@ DeprecatedTile *Path::next()
 
 /**
  * Returns the current tile along the path.
- * If the path is finished, this method and next() will return nullptr.
+ * If the path is finished, this method will return an empty std::optional.
  */
-DeprecatedTile *Path::current() const
+std::optional<TileCoordinates> Path::current() const
 {
 	if (finished)
-		return nullptr;
+	{
+		return {};
+	}
 
 	return path[currentStep];
 }
 
 /**
- * Always returns the last tile in the path (the 'destination'), even if the path has been finished.
+ * Return the last tile in the path (the 'destination'), even if the path has been finished.
  */
-DeprecatedTile *Path::end() const
+TileCoordinates Path::end() const
 {
 	return path.front();
 }

@@ -2,7 +2,6 @@
 #define WALKCOMPONENT_H_
 
 #include "components/Component.h"
-#include "game/Tile.h"
 #include "pathfinding/Path.h"
 
 struct WalkComponent : public Component
@@ -11,7 +10,7 @@ struct WalkComponent : public Component
 
     virtual ~WalkComponent() = default;
 
-    DeprecatedTile *pDestination = nullptr;
+    // DeprecatedTile *pDestination = nullptr;
     std::unique_ptr<Path> upPath = nullptr;
 };
 

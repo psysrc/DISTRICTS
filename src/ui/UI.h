@@ -5,9 +5,10 @@
 #include <memory>
 #include <string>
 #include "ui/MainMenuSelections.h"
+#include "game/TileCoordinates.h"
+#include <optional>
 
 class District;
-class DeprecatedTile;
 
 namespace UI
 {
@@ -24,7 +25,7 @@ namespace UI
     void unpause();
     bool letPlayerPause();
     Cmds::PlayerCommand *getPlayerCommand();
-    DeprecatedTile *selectTile(District *);
+    std::optional<TileCoordinates> selectTileCoordinates(District *);
     void showErrorScreen(const std::exception& error);
     void renderTile(int row, int column, int colourPair);
 	void renderEntity(int row, int column, char symbol);

@@ -3,7 +3,7 @@
 #include <ncurses.h>
 #include <unordered_map>
 #include <iostream>
-#include "game/Tile.h"
+#include "game/TileCoordinates.h"
 #include "game/District.h"
 #include "commands/Quit.h"
 #include "commands/PauseToggle.h"
@@ -464,9 +464,9 @@ namespace UI
 	}
 
 	/*
-	 * Prompts the user to select a tile in the district.
+	 * Prompts the user to select a tile coordinate in the district.
 	 */
-	DeprecatedTile *selectTile(District *pDistrict)
+	std::optional<TileCoordinates> selectTileCoordinates(District *)  // TODO: Remove paramter
 	{
 		displayDebugMessage("Please select a tile.");
 
@@ -479,11 +479,9 @@ namespace UI
 
 		while (true)
 		{
-			// Remember what this grid position looked like before we highlighted it
-			DeprecatedTile *pCurrentTile = pDistrict->getTile(row, column);
-
-			// Remember the current character data so we can render it back to the screen later
+			// Remember the current tile data so we can render it back to the screen later
 			chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
+			TileCoordinates previousCoords(row, column);
 
 			// Highlight the current grid position
 			renderGridPosition(row, column, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
@@ -523,18 +521,18 @@ namespace UI
 			}
 
 			// Revert previous grid position to normal
-			renderGridPosition(pCurrentTile->getCoordinates().x, pCurrentTile->getCoordinates().y, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
+			renderGridPosition(previousCoords.x, previousCoords.y, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
 
 			// Return tile or cancel if necessary
 			if (returnTile)
 			{
 				wrefresh(mapWindow);
-				return pCurrentTile;
+				return previousCoords;
 			}
 			else if (cancel)
 			{
 				wrefresh(mapWindow);
-				return nullptr;
+				return {};
 			}
 		}
 	}

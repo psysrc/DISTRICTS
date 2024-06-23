@@ -2,21 +2,21 @@
 #define SRC_PATH_H_
 
 #include <vector>
-
-class DeprecatedTile;
+#include <optional>
+#include "game/TileCoordinates.h"
 
 class Path
 {
 public:
-	Path(const std::vector<DeprecatedTile *>);
+	Path(const std::vector<TileCoordinates>);
 	~Path();
-	DeprecatedTile *next();
-	DeprecatedTile *current() const;
-	DeprecatedTile *end() const;
+	std::optional<TileCoordinates> next();
+	std::optional<TileCoordinates> current() const;
+	TileCoordinates end() const;
 
 private:
 	std::size_t currentStep;
-	std::vector<DeprecatedTile *> path;
+	std::vector<TileCoordinates> path;
 	bool finished = false;
 };
 
