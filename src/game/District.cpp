@@ -88,7 +88,7 @@ District::District(const std::string &name) : districtName(name)
 
 			citizenTile = *it;
 
-		} while (!OccupyRules::canOccupy(this, citizen.get(), citizenTile));
+		} while (!OccupyRules::canOccupy(this, citizenTile));
 
 		citizen->getComponent<PositionComponent>()->setPosition(TileCoordinates(citizenX, citizenY));
 		addEntity(std::move(citizen));

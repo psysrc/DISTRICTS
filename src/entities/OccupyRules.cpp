@@ -8,9 +8,9 @@
 #include "components/OccupySpaceComponent.h"
 #include <algorithm>
 
-bool OccupyRules::canOccupy(District *district, const Entity *entity, const Entity *tile)
+bool OccupyRules::canOccupy(District *district, const Entity *tile)
 {
-    if (!entity || !tile)
+    if (!tile)
         return false;
 
     if (tile->getComponent<TileComponent>()->property == TileProperty::Water)
@@ -27,10 +27,10 @@ bool OccupyRules::canOccupy(District *district, const Entity *entity, const Enti
     return true;
 }
 
-bool OccupyRules::canOccupy(District * district, const Entity * entity, TileCoordinates coordinates)
+bool OccupyRules::canOccupy(District * district, TileCoordinates coordinates)
 {
     const auto& entities = district->entitiesAtPosition(coordinates);
     const auto it = std::find_if(entities.begin(), entities.end(), [](Entity* e){ return e->hasComponent<TileComponent>(); });
 
-    return canOccupy(district, entity, *it);
+    return canOccupy(district, *it);
 }

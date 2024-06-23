@@ -98,7 +98,7 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 			if (closedSet.contains(pNeighbour)) // If this neighbour is in the closed set, ignore it (already fully explored)
 				continue;
 
-			if (!OccupyRules::canOccupy(pDistrict, pEntity, pNeighbour)) // If the entity cannot occupy the tile, ignore it
+			if (!OccupyRules::canOccupy(pDistrict, pNeighbour)) // If the entity cannot occupy the tile, ignore it
 				continue;
 
 			if (openSet.find(pNeighbour) == openSet.end())
