@@ -525,9 +525,6 @@ namespace UI
 			// Return tile or cancel if necessary
 			if (returnTile)
 			{
-				std::stringstream msg;
-				msg << "Selected tile x=" << previousCoords.x << " y=" << previousCoords.y << ".";
-				displayDebugMessage(msg.str());
 				wrefresh(mapWindow);
 				return previousCoords;
 			}
