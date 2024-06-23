@@ -12,7 +12,7 @@ struct WorkerComponent : public Component
     virtual ~WorkerComponent() = default;
 
     bool working;
-    std::weak_ptr<Tasks::Task> wpCurrentTask;
+    std::weak_ptr<Tasks::DeprecatedTask> wpCurrentTask;
 
 };
 

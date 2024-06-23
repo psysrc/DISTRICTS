@@ -28,7 +28,7 @@ void CitizenSystem::run(District *pDistrict)
 
             if (!pWlkC->pDestination)
             {
-                if (std::shared_ptr<Tasks::Task> spCurrentTask = pWrkC->wpCurrentTask.lock())
+                if (std::shared_ptr<Tasks::DeprecatedTask> spCurrentTask = pWrkC->wpCurrentTask.lock())
                 {
                     // If citizen has no destination but has a task, set destination to its current task
                     pWlkC->pDestination = spCurrentTask->getTile();

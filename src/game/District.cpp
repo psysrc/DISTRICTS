@@ -187,7 +187,7 @@ void District::createBiome(TileCoordinates coords, TileProperty::TileProperty bi
  * Returns the most recently added task in this district.
  * Returns nullptr if there are no tasks.
  */
-std::shared_ptr<Task> District::getLatestTask() const
+std::shared_ptr<DeprecatedTask> District::getLatestTask() const
 {
 	if (tasks.empty())
 		return nullptr;
@@ -199,7 +199,7 @@ std::shared_ptr<Task> District::getLatestTask() const
  * Returns the oldest task created in this district.
  * Returns nullptr if there are no tasks.
  */
-std::shared_ptr<Task> District::getOldestTask() const
+std::shared_ptr<DeprecatedTask> District::getOldestTask() const
 {
 	if (tasks.empty())
 		return nullptr;
@@ -207,7 +207,7 @@ std::shared_ptr<Task> District::getOldestTask() const
 	return tasks.front();
 }
 
-void District::addTask(std::shared_ptr<Tasks::Task> task)
+void District::addTask(std::shared_ptr<Tasks::DeprecatedTask> task)
 {
 	tasksToAdd.push_back(std::move(task));
 }
@@ -228,7 +228,7 @@ void District::update()
 	entitiesToAdd.clear();
 
 	// Remove all tasks that need deleting
-	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this](std::shared_ptr<Task> &upT) -> bool
+	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this](std::shared_ptr<DeprecatedTask> &upT) -> bool
 							   { return std::find(tasksToDelete.begin(), tasksToDelete.end(), upT.get()) != tasksToDelete.end(); }),
 				tasks.end());
 	tasksToDelete.clear();
@@ -246,7 +246,7 @@ void District::deleteEntity(Entity *pEntity)
 	entitiesToDelete.push_back(pEntity);
 }
 
-void District::deleteTask(Tasks::Task *pTask)
+void District::deleteTask(Tasks::DeprecatedTask *pTask)
 {
 	if (pTask == nullptr)
 		return;

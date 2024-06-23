@@ -11,16 +11,16 @@ public:
 	DeprecatedTile(TileCoordinates);
 	~DeprecatedTile();
 	TileCoordinates getCoordinates() const;
-	const std::vector<Tasks::Task *> &getTasks() const;
+	const std::vector<Tasks::DeprecatedTask *> &getTasks() const;
 	template <class T>
 	bool hasTask() const;
-	void addTask(Tasks::Task *);
-	void removeTask(Tasks::Task *);
+	void addTask(Tasks::DeprecatedTask *);
+	void removeTask(Tasks::DeprecatedTask *);
 	bool operator==(const DeprecatedTile &b) const;
 
 private:
 	TileCoordinates coordinates;
-	std::vector<Tasks::Task *> tasks;
+	std::vector<Tasks::DeprecatedTask *> tasks;
 };
 
 /**
@@ -29,12 +29,12 @@ private:
 template <class T>
 bool DeprecatedTile::hasTask() const
 {
-	static_assert(std::is_base_of<Tasks::Task, T>::value, "T must extend Task");
+	static_assert(std::is_base_of<Tasks::DeprecatedTask, T>::value, "T must extend DeprecatedTask");
 
 	bool taskTypeExists = false;
 
 	// Check all existing tasks on this tile
-	for (Tasks::Task *pExistingTask : getTasks())
+	for (Tasks::DeprecatedTask *pExistingTask : getTasks())
 	{
 		// Check if a task of the given type already exists
 		if (dynamic_cast<T *>(pExistingTask) != nullptr)

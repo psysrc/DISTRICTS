@@ -7,8 +7,8 @@ ID_t uniqueEntityID()
 	return nextEntityID++;
 }
 
-// Returns a new unique ID for a Task
-ID_t uniqueTaskID()
+// Returns a new unique ID for a DeprecatedTask
+ID_t uniqueDeprecatedTaskID()
 {
 	static ID_t nextTaskID = NullID + 1;
 	return nextTaskID++;

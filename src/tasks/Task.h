@@ -10,11 +10,11 @@ class District;
 namespace Tasks
 {
 
-	class Task
+	class DeprecatedTask
 	{
 	public:
-		Task(DeprecatedTile *, std::string, int);
-		virtual ~Task();
+		DeprecatedTask(DeprecatedTile *, std::string, int);
+		virtual ~DeprecatedTask();
 		ID_t getID() const;
 		DeprecatedTile *getTile() const;
 		std::string getName() const;

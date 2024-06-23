@@ -10,7 +10,7 @@ class Entity;
 namespace Tasks
 {
 
-	class CutDownTree : public Task
+	class CutDownTree : public DeprecatedTask
 	{
 	public:
 		CutDownTree(DeprecatedTile *, District *, Entity *);

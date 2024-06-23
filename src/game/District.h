@@ -14,7 +14,7 @@
 
 namespace Tasks
 {
-	class Task;
+	class DeprecatedTask;
 }
 
 class District
@@ -33,10 +33,10 @@ public:
 	const std::vector<std::unique_ptr<Entity>> &getEntities() const;
 	void deleteEntity(Entity *entity);
 
-	void addTask(std::shared_ptr<Tasks::Task> task);
-	std::shared_ptr<Tasks::Task> getLatestTask() const;
-	std::shared_ptr<Tasks::Task> getOldestTask() const;
-	void deleteTask(Tasks::Task *task);
+	void addTask(std::shared_ptr<Tasks::DeprecatedTask> task);
+	std::shared_ptr<Tasks::DeprecatedTask> getLatestTask() const;
+	std::shared_ptr<Tasks::DeprecatedTask> getOldestTask() const;
+	void deleteTask(Tasks::DeprecatedTask *task);
 
 	static bool validTileCoordinates(TileCoordinates);
 	const std::vector<std::vector<std::unique_ptr<DeprecatedTile>>> &getTiles() const;
@@ -54,9 +54,9 @@ private:
 	std::vector<std::unique_ptr<Entity>> entities;		  // All entities in the district
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;	  // All entities to add at the end of a game tick
 	std::vector<Entity *> entitiesToDelete;				  // All entities to delete at the end of a game tick
-	std::vector<std::shared_ptr<Tasks::Task>> tasks;	  // All tasks in the district
-	std::vector<std::shared_ptr<Tasks::Task>> tasksToAdd; // All tasks to add at the end of a game tick
-	std::vector<Tasks::Task *> tasksToDelete;			  // All tasks to delete at the end of a game tick
+	std::vector<std::shared_ptr<Tasks::DeprecatedTask>> tasks;	  // All tasks in the district
+	std::vector<std::shared_ptr<Tasks::DeprecatedTask>> tasksToAdd; // All tasks to add at the end of a game tick
+	std::vector<Tasks::DeprecatedTask *> tasksToDelete;			  // All tasks to delete at the end of a game tick
 };
 
 #endif /* DISTRICT_H_ */

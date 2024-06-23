@@ -4,38 +4,38 @@
 
 using namespace Tasks;
 
-Task::Task(DeprecatedTile *pTile, std::string taskName, int work)
-	: id(uniqueTaskID()), pTile(pTile), name(taskName), completed(false), workRemaining(work)
+DeprecatedTask::DeprecatedTask(DeprecatedTile *pTile, std::string taskName, int work)
+	: id(uniqueDeprecatedTaskID()), pTile(pTile), name(taskName), completed(false), workRemaining(work)
 {
 	pTile->addTask(this);
 }
 
-Task::~Task()
+DeprecatedTask::~DeprecatedTask()
 {
 	pTile->removeTask(this);
 }
 
-ID_t Task::getID() const
+ID_t DeprecatedTask::getID() const
 {
 	return id;
 }
 
-DeprecatedTile *Task::getTile() const
+DeprecatedTile *DeprecatedTask::getTile() const
 {
 	return pTile;
 }
 
-std::string Task::getName() const
+std::string DeprecatedTask::getName() const
 {
 	return name;
 }
 
-bool Task::isCompleted() const
+bool DeprecatedTask::isCompleted() const
 {
 	return completed;
 }
 
-int Task::getWorkRemaining() const
+int DeprecatedTask::getWorkRemaining() const
 {
 	return workRemaining;
 }
@@ -44,7 +44,7 @@ int Task::getWorkRemaining() const
  * Perform one unit of work on this task.
  * Calling this when the task is already completed is a no-op.
  */
-void Task::workOn(District *pDistrict)
+void DeprecatedTask::workOn(District *pDistrict)
 {
 	if (completed)
 		return;

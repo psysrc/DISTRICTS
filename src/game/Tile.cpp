@@ -15,17 +15,17 @@ TileCoordinates DeprecatedTile::getCoordinates() const
 	return coordinates;
 }
 
-const std::vector<Tasks::Task *> &DeprecatedTile::getTasks() const
+const std::vector<Tasks::DeprecatedTask *> &DeprecatedTile::getTasks() const
 {
 	return tasks;
 }
 
-void DeprecatedTile::addTask(Tasks::Task *pTask)
+void DeprecatedTile::addTask(Tasks::DeprecatedTask *pTask)
 {
 	tasks.push_back(pTask);
 }
 
-void DeprecatedTile::removeTask(Tasks::Task *pTask)
+void DeprecatedTile::removeTask(Tasks::DeprecatedTask *pTask)
 {
 	tasks.erase(std::find(tasks.begin(), tasks.end(), pTask));
 }
