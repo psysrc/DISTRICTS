@@ -471,8 +471,7 @@ namespace UI
 		displayDebugMessage("Please select a tile.");
 
 		// Start in the middle
-		int x = District::districtSize / 2;
-		int y = District::districtSize / 2;
+		TileCoordinates coords(District::districtSize / 2, District::districtSize / 2);
 
 		bool returnTile = false;
 		bool cancel = false;
@@ -480,11 +479,11 @@ namespace UI
 		while (true)
 		{
 			// Remember the current tile data so we can render it back to the screen later
-			chtype normalDisplay = mvwinch(mapWindow, y, x * 2);
-			TileCoordinates previousCoords(y, x);
+			chtype normalDisplay = mvwinch(mapWindow, coords.y, coords.x * 2);
+			TileCoordinates previousCoords(coords);
 
 			// Highlight the current grid position
-			renderGridPosition(y, x, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
+			renderGridPosition(coords.y, coords.x, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
 
 			wrefresh(mapWindow);
 
@@ -495,20 +494,20 @@ namespace UI
 			switch (command)
 			{
 			case KEY_LEFT:
-				if (x > 0)
-					x--;
+				if (coords.x > 0)
+					coords.x--;
 				break;
 			case KEY_RIGHT:
-				if (x < District::districtSize - 1)
-					x++;
+				if (coords.x < District::districtSize - 1)
+					coords.x++;
 				break;
 			case KEY_UP:
-				if (y > 0)
-					y--;
+				if (coords.y > 0)
+					coords.y--;
 				break;
 			case KEY_DOWN:
-				if (y < District::districtSize - 1)
-					y++;
+				if (coords.y < District::districtSize - 1)
+					coords.y++;
 				break;
 			case '\n': // ENTER
 				returnTile = true;
@@ -521,7 +520,7 @@ namespace UI
 			}
 
 			// Revert previous grid position to normal
-			renderGridPosition(previousCoords.x, previousCoords.y, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
+			renderGridPosition(previousCoords.y, previousCoords.x, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
 
 			// Return tile or cancel if necessary
 			if (returnTile)
