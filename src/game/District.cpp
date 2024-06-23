@@ -65,11 +65,11 @@ District::District(const std::string &name) : districtName(name)
 		addEntity(std::move(tile));
 	}
 
-	int citizenX = -1, citizenY = -1;
-	Entity* citizenTile = nullptr;
-
 	if (CITIZEN_GEN)
 	{
+		int citizenX = -1, citizenY = -1;
+		Entity* citizenTile = nullptr;
+
 		// Make a new citizen and place them on a walkable tile
 		auto citizen = makeCitizen(TileCoordinates(-1, -1));
 
@@ -101,7 +101,7 @@ District::District(const std::string &name) : districtName(name)
 		{
 			for (int y = 0; y < District::districtSize; y++)
 			{
-				if (tileMap[TileCoordinates(x, y)] == TileProperty::Plains && !(x == citizenX && y == citizenY))
+				if (OccupyRules::canOccupy(this, TileCoordinates(x, y)) && tileMap[TileCoordinates(x, y)] == TileProperty::Plains)
 				{
 					int treeChance = rand() % 100;
 
