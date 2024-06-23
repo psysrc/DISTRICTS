@@ -38,7 +38,7 @@ namespace UI
 		KeyCommand('a', new Cmds::CutDownTrees),
 		KeyCommand('b', new Cmds::BuildBridge)};
 
-	void renderGridPosition(int row, int column, int colourPair, char symbol);
+	void renderGridPosition(int y, int x, int colourPair, char symbol);
 	static void clearAll();
 	static void refresh();
 	static void updateDistrictName();
@@ -80,7 +80,7 @@ namespace UI
 		init_pair(COLOUR_BRIDGE, COLOR_BLACK, COLOR_YELLOW);
 
 		// Define the windows in the terminal
-		// Parameters are: row count (height), column count (width), row origin, column origin
+		// Parameters are: row count (height / y), column count (width / x), row origin, column origin
 		mapWindow = newwin(District::districtSize, District::districtSize * 2, 0, 0);
 		activityWindow = newwin(8, District::districtSize * 2, District::districtSize + 1, 0);
 		districtNameWindow = newwin(3, 32, 0, (District::districtSize * 2) + 2);
@@ -242,10 +242,10 @@ namespace UI
 	/*
 	 * Renders an entity at the provided grid position.
 	 */
-	void renderEntity(int row, int column, char symbol)
+	void renderEntity(int y, int x, char symbol)
 	{
 		// Move the cursor to the correct position
-		wmove(mapWindow, row, column * 2);
+		wmove(mapWindow, y, x * 2);
 
 		// Draw the tile
 		waddch(mapWindow, symbol);
@@ -255,20 +255,20 @@ namespace UI
 	/*
 	 * Renders a tile at the provided grid position.
 	 */
-	void renderTile(int row, int column, int colourPair)
+	void renderTile(int y, int x, int colourPair)
 	{
 		// Update the colours of this tile, keeping any entity symbols intact
 		constexpr int numCharacters = 2;
-		mvwchgat(mapWindow, row, column * 2, numCharacters, A_COLOR, colourPair, nullptr);
+		mvwchgat(mapWindow, y, x * 2, numCharacters, A_COLOR, colourPair, nullptr);
 	}
 
 	/*
 	 * Renders an arbitrary grid position.
 	 */
-	void renderGridPosition(int row, int column, int colourPair, char symbol)
+	void renderGridPosition(int y, int x, int colourPair, char symbol)
 	{
 		// Move the cursor to the correct position
-		wmove(mapWindow, row, column * 2);
+		wmove(mapWindow, y, x * 2);
 
 		// Draw the tile
 		wattron(mapWindow, COLOR_PAIR(colourPair));
@@ -359,7 +359,7 @@ namespace UI
 		mvwaddstr(promptWindow, 5, 0, "Available commands:");
 		mvwaddstr(promptWindow, 6, 0, "~~~~~~~~~~~~~~~~~~~");
 
-		int row = 7;
+		int y = 7;
 
 		for (KeyCommand kc : commandKeyMap)
 		{
@@ -369,9 +369,9 @@ namespace UI
 			std::stringstream ss;
 			ss << kc.first << " : " << kc.second->getDescription();
 
-			mvwaddstr(promptWindow, row, 1, ss.str().c_str());
+			mvwaddstr(promptWindow, y, 1, ss.str().c_str());
 
-			row++;
+			y++;
 		}
 
 		wrefresh(promptWindow);
@@ -471,8 +471,8 @@ namespace UI
 		displayDebugMessage("Please select a tile.");
 
 		// Start in the middle
-		int row = District::districtSize / 2;
-		int column = District::districtSize / 2;
+		int x = District::districtSize / 2;
+		int y = District::districtSize / 2;
 
 		bool returnTile = false;
 		bool cancel = false;
@@ -480,11 +480,11 @@ namespace UI
 		while (true)
 		{
 			// Remember the current tile data so we can render it back to the screen later
-			chtype normalDisplay = mvwinch(mapWindow, row, column * 2);
-			TileCoordinates previousCoords(row, column);
+			chtype normalDisplay = mvwinch(mapWindow, y, x * 2);
+			TileCoordinates previousCoords(y, x);
 
 			// Highlight the current grid position
-			renderGridPosition(row, column, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
+			renderGridPosition(y, x, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
 
 			wrefresh(mapWindow);
 
@@ -495,20 +495,20 @@ namespace UI
 			switch (command)
 			{
 			case KEY_LEFT:
-				if (column > 0)
-					column--;
+				if (x > 0)
+					x--;
 				break;
 			case KEY_RIGHT:
-				if (column < District::districtSize - 1)
-					column++;
+				if (x < District::districtSize - 1)
+					x++;
 				break;
 			case KEY_UP:
-				if (row > 0)
-					row--;
+				if (y > 0)
+					y--;
 				break;
 			case KEY_DOWN:
-				if (row < District::districtSize - 1)
-					row++;
+				if (y < District::districtSize - 1)
+					y++;
 				break;
 			case '\n': // ENTER
 				returnTile = true;
@@ -526,6 +526,9 @@ namespace UI
 			// Return tile or cancel if necessary
 			if (returnTile)
 			{
+				std::stringstream msg;
+				msg << "Selected tile x=" << previousCoords.x << " y=" << previousCoords.y << ".";
+				displayDebugMessage(msg.str());
 				wrefresh(mapWindow);
 				return previousCoords;
 			}
