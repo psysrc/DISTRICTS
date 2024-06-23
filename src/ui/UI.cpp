@@ -38,7 +38,7 @@ namespace UI
 		KeyCommand('a', new Cmds::CutDownTrees),
 		KeyCommand('b', new Cmds::BuildBridge)};
 
-	void renderGridPosition(int y, int x, int colourPair, char symbol);
+	void renderGridPosition(TileCoordinates coords, int colourPair, char symbol);
 	static void clearAll();
 	static void refresh();
 	static void updateDistrictName();
@@ -242,10 +242,10 @@ namespace UI
 	/*
 	 * Renders an entity at the provided grid position.
 	 */
-	void renderEntity(int y, int x, char symbol)
+	void renderEntity(TileCoordinates coords, char symbol)
 	{
 		// Move the cursor to the correct position
-		wmove(mapWindow, y, x * 2);
+		wmove(mapWindow, coords.y, coords.x * 2);
 
 		// Draw the tile
 		waddch(mapWindow, symbol);
@@ -255,20 +255,20 @@ namespace UI
 	/*
 	 * Renders a tile at the provided grid position.
 	 */
-	void renderTile(int y, int x, int colourPair)
+	void renderTile(TileCoordinates coords, int colourPair)
 	{
 		// Update the colours of this tile, keeping any entity symbols intact
 		constexpr int numCharacters = 2;
-		mvwchgat(mapWindow, y, x * 2, numCharacters, A_COLOR, colourPair, nullptr);
+		mvwchgat(mapWindow, coords.y, coords.x * 2, numCharacters, A_COLOR, colourPair, nullptr);
 	}
 
 	/*
 	 * Renders an arbitrary grid position.
 	 */
-	void renderGridPosition(int y, int x, int colourPair, char symbol)
+	void renderGridPosition(TileCoordinates coords, int colourPair, char symbol)
 	{
 		// Move the cursor to the correct position
-		wmove(mapWindow, y, x * 2);
+		wmove(mapWindow, coords.y, coords.x * 2);
 
 		// Draw the tile
 		wattron(mapWindow, COLOR_PAIR(colourPair));
@@ -483,7 +483,7 @@ namespace UI
 			TileCoordinates previousCoords(coords);
 
 			// Highlight the current grid position
-			renderGridPosition(coords.y, coords.x, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
+			renderGridPosition(coords, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
 
 			wrefresh(mapWindow);
 
@@ -520,7 +520,7 @@ namespace UI
 			}
 
 			// Revert previous grid position to normal
-			renderGridPosition(previousCoords.y, previousCoords.x, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
+			renderGridPosition(previousCoords, PAIR_NUMBER(normalDisplay), normalDisplay & A_CHARTEXT);
 
 			// Return tile or cancel if necessary
 			if (returnTile)

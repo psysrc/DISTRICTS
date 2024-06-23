@@ -23,7 +23,7 @@ void RenderSystem::run(District *pDistrict)
         if (positionComponent && renderComponent)
         {
             auto coords = positionComponent->getPosition();
-            UI::renderEntity(coords.y, coords.x, renderComponent->renderSymbol);
+            UI::renderEntity(coords, renderComponent->renderSymbol);
         }
     }
 
@@ -36,7 +36,7 @@ void RenderSystem::run(District *pDistrict)
         {
             auto coords = positionComponent->getPosition();
             auto renderColour = getTileColour(tileComponent->property);
-            UI::renderTile(coords.y, coords.x, renderColour);
+            UI::renderTile(coords, renderColour);
         }
     }
 }

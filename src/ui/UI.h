@@ -27,8 +27,8 @@ namespace UI
     Cmds::PlayerCommand *getPlayerCommand();
     std::optional<TileCoordinates> selectTileCoordinates(District *);
     void showErrorScreen(const std::exception& error);
-    void renderTile(int y, int x, int colourPair);  // TODO: Make these TileCoordinates
-	void renderEntity(int y, int x, char symbol);
+    void renderTile(TileCoordinates, int colourPair);
+	void renderEntity(TileCoordinates, char symbol);
 }
 
 #endif /* SRC_UI_H_ */
