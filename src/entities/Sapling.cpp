@@ -5,16 +5,17 @@
 #include "components/OccupySpaceComponent.h"
 #include "components/RenderComponent.h"
 #include "entities/Tree.h"
+#include "game/TickSpeed.h"
 
 
-constexpr int maxSecondsToGrow = 6 * 60;
-constexpr int minSecondsToGrow = 2 * 60;
+constexpr int maxTicksToGrow = 60 * ticksPerSecond;
+constexpr int minTicksToGrow = 5 * ticksPerSecond;
 
 std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
 {
     std::unique_ptr<Entity> sapling = std::make_unique<Entity>();
 
-    int secondsToGrow = minSecondsToGrow + (rand() % (maxSecondsToGrow - minSecondsToGrow + 1));
+    const int ticksToGrow = minTicksToGrow + (rand() % (maxTicksToGrow - minTicksToGrow + 1));
 
     GrowComponent::MakeNextEntityMethod_t makeTreeFunc = [](const Entity& self)
     {
@@ -30,7 +31,7 @@ std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
 
     sapling->addComponent(std::make_unique<PositionComponent>(coords, sapling.get()));
 	sapling->addComponent(std::make_unique<OccupySpaceComponent>());
-    sapling->addComponent(std::make_unique<GrowComponent>(makeTreeFunc, secondsToGrow));
+    sapling->addComponent(std::make_unique<GrowComponent>(makeTreeFunc, ticksToGrow));
     sapling->addComponent(std::make_unique<RenderComponent>(','));
 
     return sapling;
