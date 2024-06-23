@@ -11,12 +11,12 @@
 #include <unordered_map>
 #include <components/TileComponent.h>
 #include "game/TileCoordinates.h"
-#include "entities/Chicken.h"
+#include "entities/Pigeon.h"
 
 #define BIOME_GEN true
 #define TREE_GEN true
 #define CITIZEN_GEN true
-#define CHICKEN_GEN true
+#define PIGEON_GEN true
 
 District::District() : District(DistrictNameGenerator::generateName()) {}
 
@@ -108,10 +108,10 @@ District::District(const std::string &name) : districtName(name)
 		}
 	}
 
-	if (CHICKEN_GEN)
+	if (PIGEON_GEN)
 	{
-		constexpr int numChickens = 10;
-		for (int i = 0; i < numChickens; ++i)
+		constexpr int numPigeons = 10;
+		for (int i = 0; i < numPigeons; ++i)
 		{
 			TileCoordinates coords(-1, -1);
 
@@ -122,8 +122,8 @@ District::District(const std::string &name) : districtName(name)
 
 			} while (!OccupyRules::canOccupy(this, coords));
 
-			// Make a new chicken and place them on the tile
-			addEntity(makeChicken(coords));
+			// Make a new pigeon and place them on the tile
+			addEntity(makePigeon(coords));
 		}
 	}
 }
