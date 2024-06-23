@@ -3,7 +3,6 @@
 
 #include "components/Component.h"
 #include <memory>
-#include "tasks/Task.h"
 
 struct WorkerComponent : public Component
 {
@@ -12,7 +11,7 @@ struct WorkerComponent : public Component
     virtual ~WorkerComponent() = default;
 
     bool working;
-    std::weak_ptr<Tasks::DeprecatedTask> wpCurrentTask;
+    // std::weak_ptr<Tasks::DeprecatedTask> wpCurrentTask;
 
 };
 

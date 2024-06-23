@@ -8,6 +8,5 @@ typedef unsigned int ID_t;
 const int NullID = 0;
 
 ID_t uniqueEntityID();
-ID_t uniqueDeprecatedTaskID();
 
 #endif /* ID_H_ */

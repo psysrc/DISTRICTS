@@ -4,7 +4,6 @@
 #include "entities/Tree.h"
 #include "entities/Sapling.h"
 #include <algorithm>
-#include "tasks/Task.h"
 #include "entities/Citizen.h"
 #include "components/PositionComponent.h"
 #include "components/GrowComponent.h"
@@ -16,8 +15,6 @@
 #define BIOME_GEN true
 #define TREE_GEN true
 #define CITIZEN_GEN true
-
-using namespace Tasks;
 
 District::District() : District(DistrictNameGenerator::generateName()) {}
 
@@ -184,35 +181,6 @@ void District::createBiome(TileCoordinates coords, TileProperty::TileProperty bi
 }
 
 /*
- * Returns the most recently added task in this district.
- * Returns nullptr if there are no tasks.
- */
-std::shared_ptr<DeprecatedTask> District::getLatestTask() const
-{
-	if (tasks.empty())
-		return nullptr;
-
-	return tasks.back();
-}
-
-/*
- * Returns the oldest task created in this district.
- * Returns nullptr if there are no tasks.
- */
-std::shared_ptr<DeprecatedTask> District::getOldestTask() const
-{
-	if (tasks.empty())
-		return nullptr;
-
-	return tasks.front();
-}
-
-void District::addTask(std::shared_ptr<Tasks::DeprecatedTask> task)
-{
-	tasksToAdd.push_back(std::move(task));
-}
-
-/*
  * Prompts the district to update entities and tasks, adding and deleting where necessary.
  */
 void District::update()
@@ -226,16 +194,6 @@ void District::update()
 	// Add all entities that were created this game tick
 	entities.insert(entities.end(), std::make_move_iterator(entitiesToAdd.begin()), std::make_move_iterator(entitiesToAdd.end()));
 	entitiesToAdd.clear();
-
-	// Remove all tasks that need deleting
-	tasks.erase(std::remove_if(tasks.begin(), tasks.end(), [this](std::shared_ptr<DeprecatedTask> &upT) -> bool
-							   { return std::find(tasksToDelete.begin(), tasksToDelete.end(), upT.get()) != tasksToDelete.end(); }),
-				tasks.end());
-	tasksToDelete.clear();
-
-	// Add all tasks that were created this game tick
-	tasks.insert(tasks.end(), std::make_move_iterator(tasksToAdd.begin()), std::make_move_iterator(tasksToAdd.end()));
-	tasksToAdd.clear();
 }
 
 void District::deleteEntity(Entity *pEntity)
@@ -244,14 +202,6 @@ void District::deleteEntity(Entity *pEntity)
 		return;
 
 	entitiesToDelete.push_back(pEntity);
-}
-
-void District::deleteTask(Tasks::DeprecatedTask *pTask)
-{
-	if (pTask == nullptr)
-		return;
-
-	tasksToDelete.push_back(pTask);
 }
 
 std::string District::getName() const
