@@ -3,9 +3,11 @@
 #include "ui/UI.h"
 #include "game/Tile.h"
 #include "game/District.h"
-#include "tasks/BuildBridge.h"
+#include "components/TaskComponent.h"
 #include "deprecated/TileHelpers.h"
 #include "components/TileComponent.h"
+#include <components/PositionComponent.h>
+#include <sstream>
 
 namespace Cmds
 {
@@ -20,13 +22,19 @@ namespace Cmds
 
 		if (pSelectedTile != nullptr)  // Check that the player selected a tile
 		{
+			Entity* tile = deprecatedGetTileEntity(pDistrict, pSelectedTile);
+
 			// Check that the tile is water
-			if (deprecatedGetTileEntity(pDistrict, pSelectedTile)->getComponent<TileComponent>()->property == TileProperty::Water)
+			if (tile->getComponent<TileComponent>()->property == TileProperty::Water)
 			{
-				if (!pSelectedTile->hasTask<Tasks::BuildBridge>())
+				if (!tile->hasComponent<TaskComponent>())
 				{
-					auto task = std::make_shared<Tasks::BuildBridge>(pSelectedTile);
-					pDistrict->addTask(task);
+					auto onCompletion = [tile]()
+					{
+						tile->getComponent<TileComponent>()->property = TileProperty::Bridge;
+					};
+
+					tile->addComponent(std::make_unique<TaskComponent>(25, onCompletion));
 				}
 			}
 		}
