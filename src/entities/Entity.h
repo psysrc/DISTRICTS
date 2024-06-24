@@ -19,6 +19,9 @@ public:
 	void addComponent(std::unique_ptr<Component>);
 
 	template <class C>
+	void removeComponent();
+
+	template <class C>
 	bool hasComponent() const;
 
 	template <class C>
@@ -28,6 +31,27 @@ private:
 	const ID_t id;
 	std::vector<std::unique_ptr<Component>> components;
 };
+
+template <class C>
+void Entity::removeComponent()
+{
+	static_assert(std::is_base_of<Component, C>::value, "C must extend Component");
+
+	// Find if a component exists within the entity which has the same type as the provided component
+	auto compIt = std::find_if(components.begin(), components.end(), [](const std::unique_ptr<Component> &comp) -> bool
+							   { return (typeid(*comp) == typeid(C)); });
+
+	// Remove the component if found
+	if (compIt != components.end())
+	{
+		components.erase(compIt);
+	}
+	else
+	{
+		throw std::runtime_error("Tried to remove a component from an entity, but the entity does not have a component of that type: "
+			+ std::string(typeid(C).name()));
+	}
+}
 
 /**
  * Returns whether or not the entity contains the given component type.
