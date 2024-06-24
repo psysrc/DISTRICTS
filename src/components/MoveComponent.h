@@ -7,11 +7,14 @@
 
 struct MoveComponent : public Component
 {
-    MoveComponent(TileCoordinates destination) : destination(destination) {}
+    MoveComponent(TileCoordinates destination, bool strictDestination) :
+        destination(destination), strictDestination(strictDestination) {}
 
     virtual ~MoveComponent() = default;
 
     TileCoordinates destination;
+    bool strictDestination;
+    std::unique_ptr<Path> path;
 };
 
 #endif /* MOVE_COMPONENT_H_ */
