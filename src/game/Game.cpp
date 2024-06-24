@@ -12,10 +12,11 @@
 #include "gamesystems/WorkSystem.h"
 #include "gamesystems/CitizenSystem.h"
 #include "gamesystems/MoveSystem.h"
+#include "gamesystems/WanderSystem.h"
 #include "game/TickSpeed.h"
 #include "components/CitizenComponent.h"
-#include <components/NameComponent.h>
-#include <gamesystems/RenderSystem.h>
+#include "components/NameComponent.h"
+#include "gamesystems/RenderSystem.h"
 
 using namespace std::chrono;
 
@@ -32,6 +33,7 @@ Game::Game()
 	preUpdateGameSystems.push_back(std::make_unique<GrowSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<WorkSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<CitizenSystem>());
+	preUpdateGameSystems.push_back(std::make_unique<WanderSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
 
 	postUpdateGameSystems.push_back(std::make_unique<RenderSystem>());
