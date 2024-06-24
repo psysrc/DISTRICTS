@@ -34,8 +34,8 @@ Game::Game()
 	preUpdateGameSystems.push_back(std::make_unique<GrowSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<WorkSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<CitizenSystem>());
+	preUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
 
-	postUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
 	postUpdateGameSystems.push_back(std::make_unique<RenderSystem>());
 }
 
@@ -60,8 +60,7 @@ void Game::play()
 	UI::unpause(); // Unpause the game to start with
 
 	// Execute District::update() and post-update gamesystems as soon as the game is started
-	// This is required to initially update all PositionComponents' position
-	// Otherwise the first tick of the game will show no entities, and suddenly they'll pop into existence
+	// Otherwise the first tick of the game will show no entities or district, then suddenly they'll pop into existence
 	spDistrict->update();
 	for (std::unique_ptr<GameSystem> &system : postUpdateGameSystems)
 		system->run(spDistrict.get());
