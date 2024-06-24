@@ -554,7 +554,7 @@ namespace UI
 		// Brief pause so the user doesn't accidentally close the error screen before they can read it
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 
-		mvaddstr(6, 0, "Press any key to return to the main menu.");
+		mvaddstr(10, 0, "Press any key to return to the main menu.");
 
 		flushinp(); // Flush the input buffer
 		getch();	// Get a key from the player

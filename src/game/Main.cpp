@@ -52,10 +52,9 @@ int main(int argc, char *argv[])
 
 void playNewGame()
 {
-	Game newGame;
-
 	try
 	{
+		Game newGame;
 		newGame.play();
 	}
 	catch (const std::exception &ex)
