@@ -9,7 +9,6 @@
 #include "commands/PauseToggle.h"
 #include "commands/Quit.h"
 #include "gamesystems/GrowSystem.h"
-#include "gamesystems/WalkSystem.h"
 #include "gamesystems/WorkSystem.h"
 #include "gamesystems/CitizenSystem.h"
 #include "gamesystems/MoveSystem.h"
@@ -30,7 +29,6 @@ Game::Game()
 
 	spDistrict = std::make_shared<District>();
 
-	preUpdateGameSystems.push_back(std::make_unique<WalkSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<GrowSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<WorkSystem>());
 	preUpdateGameSystems.push_back(std::make_unique<CitizenSystem>());
