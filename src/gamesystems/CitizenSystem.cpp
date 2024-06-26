@@ -3,7 +3,6 @@
 #include <memory>
 #include "game/District.h"
 #include "components/CitizenComponent.h"
-#include "components/WalkComponent.h"
 #include "components/WorkerComponent.h"
 
 CitizenSystem::CitizenSystem() {}
