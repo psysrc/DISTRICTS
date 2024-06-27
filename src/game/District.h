@@ -24,6 +24,7 @@ public:
 	void update();
 
 	void addEntity(std::unique_ptr<Entity> entity);
+	Entity* getEntity(ID_t) const;
 	const std::vector<std::unique_ptr<Entity>> &getEntities() const;
 	void deleteEntity(Entity *entity);
 

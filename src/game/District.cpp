@@ -138,6 +138,13 @@ void District::addEntity(std::unique_ptr<Entity> entity)
 	entitiesToAdd.push_back(std::move(entity));
 }
 
+Entity* District::getEntity(ID_t id) const
+{
+	const auto it = std::find_if(entities.begin(), entities.end(), [id](const std::unique_ptr<Entity>& e){ return e->getID() == id; });
+
+	return (it == entities.end()) ? nullptr : (*it).get();
+}
+
 const std::vector<std::unique_ptr<Entity>> &District::getEntities() const
 {
 	return entities;
