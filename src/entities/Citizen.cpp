@@ -2,7 +2,6 @@
 
 #include "components/PositionComponent.h"
 #include "components/RenderComponent.h"
-#include "components/WorkerComponent.h"
 #include "components/CitizenComponent.h"
 #include "helpers/CitizenNameGenerator.h"
 #include "components/NameComponent.h"
@@ -20,11 +19,8 @@ std::unique_ptr<Entity> makeCitizen(TileCoordinates coords, const std::string &n
 	citizen->addComponent(std::make_unique<NameComponent>(name));
 	citizen->addComponent(std::make_unique<PositionComponent>(coords, citizen.get()));
 	citizen->addComponent(std::make_unique<OccupySpaceComponent>());
-	citizen->addComponent(std::make_unique<WorkerComponent>());
 	citizen->addComponent(std::make_unique<CitizenComponent>());
 	citizen->addComponent(std::make_unique<RenderComponent>('C'));
-
-	citizen->getComponent<WorkerComponent>()->working = true;
 
 	return citizen;
 }
