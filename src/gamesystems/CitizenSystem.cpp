@@ -3,36 +3,32 @@
 #include <memory>
 #include "game/District.h"
 #include "components/CitizenComponent.h"
-#include "components/WorkerComponent.h"
+#include <components/WorkOnTaskComponent.h>
 
 CitizenSystem::CitizenSystem() {}
 
 CitizenSystem::~CitizenSystem() {}
 
-void CitizenSystem::run(District *)
+void CitizenSystem::run(District * district)
 {
-    // for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
-    // {
-    //     CitizenComponent *pCitC = upEntity->getComponent<CitizenComponent>();
-    //     WalkComponent *pWlkC = upEntity->getComponent<WalkComponent>();
-    //     WorkerComponent *pWrkC = upEntity->getComponent<WorkerComponent>();
+    for (const std::unique_ptr<Entity> &entity : district->getEntities())
+    {
+        CitizenComponent *cmptCitizen = entity->getComponent<CitizenComponent>();
+        if (!cmptCitizen)
+            continue;
 
-    //     if (pCitC != nullptr && pWlkC != nullptr && pWrkC != nullptr)
-    //     {
-    //         // Get a new task if this citizen has none
-    //         if (!pWrkC->wpCurrentTask.lock())
-    //         {
-    //             pWrkC->wpCurrentTask = pDistrict->getOldestTask();
-    //         }
+        // If the citizen is already working on a task then ignore it
+        if (entity->hasComponent<WorkOnTaskComponent>())
+            continue;
 
-    //         if (!pWlkC->pDestination)
-    //         {
-    //             if (std::shared_ptr<Tasks::DeprecatedTask> spCurrentTask = pWrkC->wpCurrentTask.lock())
-    //             {
-    //                 // If citizen has no destination but has a task, set destination to its current task
-    //                 pWlkC->pDestination = spCurrentTask->getTile();
-    //             }
-    //         }
-    //     }
-    // }
+        const auto& districtTasks = district->getTasks();
+
+        // If the district has no tasks, there is nothing the Citizen can do
+        if (districtTasks.empty())
+            continue;
+
+        // Set the Citizen going with the task
+        const auto taskEntity = *(districtTasks.begin());
+        entity->addComponent(std::make_unique<WorkOnTaskComponent>(taskEntity->getID()));
+    }
 }
