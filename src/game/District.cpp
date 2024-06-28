@@ -244,7 +244,7 @@ std::vector<TileCoordinates> District::getNeighbourCoordinates(TileCoordinates c
 	return neighbours;
 }
 
-const std::unordered_set<Entity*>& District::entitiesAtPosition(TileCoordinates position)
+const std::unordered_set<Entity*>& District::getEntitiesAtPosition(TileCoordinates position)
 {
 	return positionLookup[position];
 }

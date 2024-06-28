@@ -22,7 +22,7 @@ namespace Cmds
 		if (selection.has_value()) // Did the player make a selection?
 		{
 			auto coords = selection.value();
-			const auto &entities = pDistrict->entitiesAtPosition(coords);
+			const auto &entities = pDistrict->getEntitiesAtPosition(coords);
 
 			const auto it = std::find_if(entities.begin(), entities.end(),
 										 [](Entity *e)

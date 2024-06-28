@@ -31,6 +31,7 @@ public:
 	static bool validTileCoordinates(TileCoordinates);
 	std::vector<TileCoordinates> getNeighbourCoordinates(TileCoordinates, bool = true) const;
 
+	const std::unordered_set<Entity*>& getEntitiesAtPosition(TileCoordinates);
 	const std::unordered_set<Entity*>& entitiesAtPosition(TileCoordinates);
 
 private:
