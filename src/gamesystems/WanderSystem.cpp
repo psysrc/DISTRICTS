@@ -11,16 +11,16 @@ WanderSystem::WanderSystem() {}
 
 WanderSystem::~WanderSystem() {}
 
-unsigned int generateNewRandomWaitTime(RandomWanderComponent* cmptWander)
+unsigned int generateNewRandomWaitTime(RandomWanderComponent *cmptWander)
 {
     return cmptWander->minTicksToWait + (rand() % (cmptWander->maxTicksToWait - cmptWander->minTicksToWait + 1));
 }
 
-TileCoordinates generateNewRandomAccessibleLocation(District* district, Entity* entity, TileCoordinates position)
+TileCoordinates generateNewRandomAccessibleLocation(District *district, Entity *entity, TileCoordinates position)
 {
     TileCoordinates destination;
 
-    do  // Keep choosing random tiles until one is found which the entity can move to
+    do // Keep choosing random tiles until one is found which the entity can move to
     {
         destination.x = rand() % District::districtSize;
         destination.y = rand() % District::districtSize;
@@ -30,32 +30,29 @@ TileCoordinates generateNewRandomAccessibleLocation(District* district, Entity* 
     return destination;
 }
 
-void WanderSystem::run(District *district)
+void WanderSystem::processEntity(District *district, const std::unique_ptr<Entity> &entity)
 {
-    for (const auto &entity : district->getEntities())
+    RandomWanderComponent *cmptWander = entity->getComponent<RandomWanderComponent>();
+    if (!cmptWander)
+        return;
+
+    PositionComponent *cmptPosition = entity->getComponent<PositionComponent>();
+    if (!cmptPosition)
+        return;
+
+    // Ignore entities that are already wandering around
+    if (entity->hasComponent<MoveComponent>())
+        return;
+
+    if (cmptWander->ticksLeftToWait > 0)
     {
-        RandomWanderComponent *cmptWander = entity->getComponent<RandomWanderComponent>();
-        if (!cmptWander)
-            continue;
+        --(cmptWander->ticksLeftToWait);
+    }
+    else
+    {
+        const TileCoordinates destination = generateNewRandomAccessibleLocation(district, entity.get(), cmptPosition->getPosition());
+        entity->addComponent(std::make_unique<MoveComponent>(destination, false));
 
-        PositionComponent *cmptPosition = entity->getComponent<PositionComponent>();
-        if (!cmptPosition)
-            continue;
-
-        // Ignore entities that are already wandering around
-        if (entity->hasComponent<MoveComponent>())
-            continue;
-
-        if (cmptWander->ticksLeftToWait > 0)
-        {
-            --(cmptWander->ticksLeftToWait);
-        }
-        else
-        {
-            const TileCoordinates destination = generateNewRandomAccessibleLocation(district, entity.get(), cmptPosition->getPosition());
-            entity->addComponent(std::make_unique<MoveComponent>(destination, false));
-
-            cmptWander->ticksLeftToWait = generateNewRandomWaitTime(cmptWander);
-        }
+        cmptWander->ticksLeftToWait = generateNewRandomWaitTime(cmptWander);
     }
 }

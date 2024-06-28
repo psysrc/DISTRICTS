@@ -9,23 +9,20 @@ GrowSystem::GrowSystem() {}
 
 GrowSystem::~GrowSystem() {}
 
-void GrowSystem::run(District *pDistrict)
+void GrowSystem::processEntity(District *district, const std::unique_ptr<Entity> &entity)
 {
-	for (const std::unique_ptr<Entity> &upEntity : pDistrict->getEntities())
+	GrowComponent *growComponent = entity->getComponent<GrowComponent>();
+	if (growComponent)
 	{
-		GrowComponent *growComponent = upEntity->getComponent<GrowComponent>();
-		if (growComponent)
+		growComponent->ticksToGrow--;
+
+		if (growComponent->ticksToGrow <= 0)
 		{
-			growComponent->ticksToGrow--;
+			auto newEntity = growComponent->makeNextEntity(*entity.get());
 
-			if (growComponent->ticksToGrow <= 0)
-			{
-				auto newEntity = growComponent->makeNextEntity(*upEntity.get());
+			district->deleteEntity(entity.get());
 
-				pDistrict->deleteEntity(upEntity.get());
-
-				pDistrict->addEntity(std::move(newEntity));
-			}
+			district->addEntity(std::move(newEntity));
 		}
 	}
 }

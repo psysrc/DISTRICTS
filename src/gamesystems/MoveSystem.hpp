@@ -8,7 +8,9 @@ class MoveSystem : public GameSystem
 public:
     MoveSystem();
     virtual ~MoveSystem();
-    virtual void run(District *pDistrict) override;
+
+protected:
+    virtual void processEntity(District *, const std::unique_ptr<Entity> &) override;
 };
 
 #endif /* MOVESYSTEM_H_ */

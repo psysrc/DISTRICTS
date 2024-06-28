@@ -8,7 +8,7 @@ class RenderSystem : public GameSystem
 public:
     RenderSystem();
     virtual ~RenderSystem();
-    virtual void run(District *pDistrict) override;
+    virtual void run(District *) override;
 };
 
 #endif /* RENDER_SYSTEM_H_ */

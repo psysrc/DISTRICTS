@@ -113,22 +113,33 @@ void Game::play()
 		// Get the time before the game tick is executed
 		execStart = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-		// Run all pre-update gamesystems on the district
-		for (std::unique_ptr<GameSystem> &system : preUpdateGameSystems)
-			system->run(spDistrict.get());
+		runPreUpdateGameSystems();
 
-		// Update the district
-		spDistrict->update();
+		spDistrict->update(); // Update the district
 
-		// Run all post-update gamesystems on the district
-		for (std::unique_ptr<GameSystem> &system : postUpdateGameSystems)
-			system->run(spDistrict.get());
+		runPostUpdateGameSystems();
 
 		// Update the UI
 		UI::update();
 	}
 
 	gameOver();
+}
+
+void Game::runPreUpdateGameSystems()
+{
+	for (std::unique_ptr<GameSystem> &system : preUpdateGameSystems)
+	{
+		system->run(spDistrict.get());
+	}
+}
+
+void Game::runPostUpdateGameSystems()
+{
+	for (std::unique_ptr<GameSystem> &system : postUpdateGameSystems)
+	{
+		system->run(spDistrict.get());
+	}
 }
 
 /*

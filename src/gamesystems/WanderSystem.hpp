@@ -8,7 +8,9 @@ class WanderSystem : public GameSystem
 public:
     WanderSystem();
     virtual ~WanderSystem();
-    virtual void run(District *pDistrict) override;
+
+protected:
+    virtual void processEntity(District *, const std::unique_ptr<Entity> &) override;
 };
 
 #endif /* WANDER_SYSTEM_H_ */

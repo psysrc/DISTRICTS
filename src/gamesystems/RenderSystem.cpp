@@ -13,11 +13,11 @@ RenderSystem::RenderSystem() {}
 
 RenderSystem::~RenderSystem() {}
 
-void RenderSystem::run(District *pDistrict)
+void RenderSystem::run(District *district)
 {
     UI::renderEmptyDistrict();
 
-    for (const auto &entity : pDistrict->getEntities())
+    for (const auto &entity : district->getEntities())
     {
         PositionComponent *positionComponent = entity->getComponent<PositionComponent>();
         RenderComponent *renderComponent = entity->getComponent<RenderComponent>();
@@ -29,7 +29,7 @@ void RenderSystem::run(District *pDistrict)
         }
     }
 
-    for (const auto &entity : pDistrict->getEntities())
+    for (const auto &entity : district->getEntities())
     {
         PositionComponent *positionComponent = entity->getComponent<PositionComponent>();
         TileComponent *tileComponent = entity->getComponent<TileComponent>();
@@ -46,16 +46,16 @@ void RenderSystem::run(District *pDistrict)
 int getTileColour(TileProperty::TileProperty property)
 {
     switch (property)
-	{
-	case TileProperty::Plains:
-		return COLOUR_PLAINS;
-	case TileProperty::Stone:
-		return COLOUR_STONE;
-	case TileProperty::Water:
-		return COLOUR_WATER;
-	case TileProperty::Bridge:
-		return COLOUR_BRIDGE;
-	default:
-		return COLOUR_UNKNOWN;
-	}
+    {
+    case TileProperty::Plains:
+        return COLOUR_PLAINS;
+    case TileProperty::Stone:
+        return COLOUR_STONE;
+    case TileProperty::Water:
+        return COLOUR_WATER;
+    case TileProperty::Bridge:
+        return COLOUR_BRIDGE;
+    default:
+        return COLOUR_UNKNOWN;
+    }
 }

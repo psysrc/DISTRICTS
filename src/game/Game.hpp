@@ -23,6 +23,8 @@ private:
 
 	bool handleCommands();
 	void gameOver() const;
+	void runPreUpdateGameSystems();
+	void runPostUpdateGameSystems();
 };
 
 #endif /* GAME_H_ */

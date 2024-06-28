@@ -8,7 +8,9 @@ class GrowSystem : public GameSystem
 public:
     GrowSystem();
     virtual ~GrowSystem();
-    virtual void run(District *pDistrict) override;
+
+protected:
+    virtual void processEntity(District *, const std::unique_ptr<Entity> &) override;
 };
 
 #endif /* GROWSYSTEM_H_ */
