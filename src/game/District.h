@@ -10,6 +10,7 @@
 #include "game/TileProperty.h"
 #include <unordered_map>
 #include "game/PositionLookup.h"
+#include "game/TaskLookup.h"
 
 class District
 {
@@ -32,14 +33,16 @@ public:
 	std::vector<TileCoordinates> getNeighbourCoordinates(TileCoordinates, bool = true) const;
 
 	const std::unordered_set<Entity*>& getEntitiesAtPosition(TileCoordinates);
-	const std::unordered_set<Entity*>& entitiesAtPosition(TileCoordinates);
+	const std::vector<Entity*>& getTasks() const;
 
 private:
 	std::string districtName;
-	PositionLookup positionLookup;
 	std::vector<std::unique_ptr<Entity>> entities;		  // All entities in the district
 	std::vector<std::unique_ptr<Entity>> entitiesToAdd;	  // All entities to add at the end of a game tick
 	std::vector<Entity *> entitiesToDelete;				  // All entities to delete at the end of a game tick
+
+	PositionLookup positionLookup;
+	TaskLookup taskLookup;
 };
 
 #endif /* DISTRICT_H_ */

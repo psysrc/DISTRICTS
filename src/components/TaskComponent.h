@@ -3,16 +3,25 @@
 
 #include "components/Component.h"
 #include <functional>
+#include "game/TaskLookup.h"
+#include "entities/Entity.h"
 
 struct TaskComponent : public Component
 {
-    TaskComponent(int work, std::function<void()> onCompletion)
-        : workRemaining(work), onCompletion(onCompletion) {}
+    static TaskLookup* taskLookup;
 
-    virtual ~TaskComponent() = default;
+    TaskComponent(Entity* entity, int work, std::function<void()> onCompletion);
+
+    virtual ~TaskComponent();
 
     unsigned int workRemaining;
     std::function<void()> onCompletion;
+
+private:
+    void registerLookup();
+    void unregisterLookup();
+
+    Entity* const entity;
 };
 
 #endif /* TASK_COMPONENT_H_ */

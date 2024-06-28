@@ -40,7 +40,7 @@ namespace Cmds
 						tile->getComponent<TileComponent>()->property = TileProperty::Bridge;
 					};
 
-					tile->addComponent(std::make_unique<TaskComponent>(25, onCompletion));
+					tile->addComponent(std::make_unique<TaskComponent>(tile, 25, onCompletion));
 				}
 			}
 		}

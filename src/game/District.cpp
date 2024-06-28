@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "entities/Citizen.h"
 #include "components/PositionComponent.h"
+#include "components/TaskComponent.h"
 #include "components/GrowComponent.h"
 #include "entities/OccupyRules.h"
 #include "helpers/DistrictNameGenerator.h"
@@ -23,6 +24,7 @@ District::District() : District(DistrictNameGenerator::generateName()) {}
 District::District(const std::string &name) : districtName(name)
 {
 	PositionComponent::positionLookup = &positionLookup;
+	TaskComponent::taskLookup = &taskLookup;
 
 	auto tileMap = std::unordered_map<TileCoordinates, TileProperty::TileProperty>();
 	for (int y = 0; y < District::districtSize; y++)
@@ -131,6 +133,7 @@ District::District(const std::string &name) : districtName(name)
 District::~District()
 {
 	PositionComponent::positionLookup = nullptr;
+	TaskComponent::taskLookup = nullptr;
 }
 
 void District::addEntity(std::unique_ptr<Entity> entity)
@@ -247,4 +250,9 @@ std::vector<TileCoordinates> District::getNeighbourCoordinates(TileCoordinates c
 const std::unordered_set<Entity*>& District::getEntitiesAtPosition(TileCoordinates position)
 {
 	return positionLookup[position];
+}
+
+const std::vector<Entity*>& District::getTasks() const
+{
+	return taskLookup;
 }

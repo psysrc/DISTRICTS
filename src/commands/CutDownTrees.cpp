@@ -38,7 +38,7 @@ namespace Cmds
 						pDistrict->deleteEntity(tree);
 					};
 
-					tree->addComponent(std::make_unique<TaskComponent>(10, onCompletion));
+					tree->addComponent(std::make_unique<TaskComponent>(tree, 10, onCompletion));
 				}
 			}
 		}
