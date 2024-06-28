@@ -1,4 +1,4 @@
-#include <commands/PauseToggle.h>
+#include "commands/PauseToggle.hpp"
 
 namespace Cmds
 {

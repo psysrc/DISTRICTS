@@ -1,9 +1,9 @@
-#include "gamesystems/GrowSystem.h"
+#include "gamesystems/GrowSystem.hpp"
 
-#include "game/District.h"
-#include "entities/Entity.h"
-#include "components/GrowComponent.h"
-#include "components/PositionComponent.h"
+#include "game/District.hpp"
+#include "entities/Entity.hpp"
+#include "components/GrowComponent.hpp"
+#include "components/PositionComponent.hpp"
 
 GrowSystem::GrowSystem() {}
 

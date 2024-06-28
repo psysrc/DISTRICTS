@@ -1,11 +1,11 @@
-#include "gamesystems/RenderSystem.h"
+#include "gamesystems/RenderSystem.hpp"
 
-#include "game/District.h"
-#include "components/PositionComponent.h"
-#include "components/TileComponent.h"
-#include "components/RenderComponent.h"
-#include "ui/UI.h"
-#include "ui/TileColours.h"
+#include "game/District.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/TileComponent.hpp"
+#include "components/RenderComponent.hpp"
+#include "ui/UI.hpp"
+#include "ui/TileColours.hpp"
 
 int getTileColour(TileProperty::TileProperty property);
 

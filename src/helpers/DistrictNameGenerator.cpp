@@ -1,5 +1,5 @@
-#include "helpers/DistrictNameGenerator.h"
-#include "helpers/Filesystem.h"
+#include "helpers/DistrictNameGenerator.hpp"
+#include "helpers/Filesystem.hpp"
 #include <stdexcept>
 #include <cstdlib>
 #include <fstream>

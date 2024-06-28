@@ -1,11 +1,11 @@
-#include "gamesystems/WanderSystem.h"
+#include "gamesystems/WanderSystem.hpp"
 
-#include "game/District.h"
-#include "entities/Entity.h"
-#include "components/RandomWanderComponent.h"
-#include "components/PositionComponent.h"
-#include "components/MoveComponent.h"
-#include "pathfinding/PathFinding.h"
+#include "game/District.hpp"
+#include "entities/Entity.hpp"
+#include "components/RandomWanderComponent.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/MoveComponent.hpp"
+#include "pathfinding/PathFinding.hpp"
 
 WanderSystem::WanderSystem() {}
 

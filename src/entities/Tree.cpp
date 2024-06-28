@@ -1,9 +1,9 @@
-#include "entities/Tree.h"
+#include "entities/Tree.hpp"
 
-#include "components/PositionComponent.h"
-#include "components/RenderComponent.h"
-#include "components/OccupySpaceComponent.h"
-#include "components/CanBeCutDownComponent.h"
+#include "components/PositionComponent.hpp"
+#include "components/RenderComponent.hpp"
+#include "components/OccupySpaceComponent.hpp"
+#include "components/CanBeCutDownComponent.hpp"
 
 std::unique_ptr<Entity> makeTree(TileCoordinates coords)
 {

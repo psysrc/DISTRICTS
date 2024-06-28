@@ -1,4 +1,4 @@
-#include <commands/Quit.h>
+#include "commands/Quit.hpp"
 
 namespace Cmds
 {

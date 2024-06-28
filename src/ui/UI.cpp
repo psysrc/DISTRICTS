@@ -1,23 +1,23 @@
-#include "UI.h"
+#include "UI.hpp"
 
 #include <ncurses.h>
 #include <unordered_map>
 #include <iostream>
-#include "game/TileCoordinates.h"
-#include "game/District.h"
-#include "commands/Quit.h"
-#include "commands/PauseToggle.h"
-#include "commands/CutDownTrees.h"
-#include "commands/BuildBridge.h"
+#include "game/TileCoordinates.hpp"
+#include "game/District.hpp"
+#include "commands/Quit.hpp"
+#include "commands/PauseToggle.hpp"
+#include "commands/CutDownTrees.hpp"
+#include "commands/BuildBridge.hpp"
 #include <sstream>
-#include "components/RenderComponent.h"
+#include "components/RenderComponent.hpp"
 #include <memory>
-#include "TitleArt.h"
-#include "game/VersionInfo.h"
+#include "TitleArt.hpp"
+#include "game/VersionInfo.hpp"
 #include <string>
 #include <vector>
 #include <sstream>
-#include "ui/TileColours.h"
+#include "ui/TileColours.hpp"
 #include <thread>
 #include <chrono>
 

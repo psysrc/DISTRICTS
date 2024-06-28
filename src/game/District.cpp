@@ -1,18 +1,18 @@
-#include "District.h"
+#include "District.hpp"
 
-#include "entities/Tree.h"
-#include "entities/Sapling.h"
+#include "entities/Tree.hpp"
+#include "entities/Sapling.hpp"
 #include <algorithm>
-#include "entities/Citizen.h"
-#include "components/PositionComponent.h"
-#include "components/TaskComponent.h"
-#include "components/GrowComponent.h"
-#include "entities/OccupyRules.h"
-#include "helpers/DistrictNameGenerator.h"
+#include "entities/Citizen.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/TaskComponent.hpp"
+#include "components/GrowComponent.hpp"
+#include "entities/OccupyRules.hpp"
+#include "helpers/DistrictNameGenerator.hpp"
 #include <unordered_map>
-#include <components/TileComponent.h>
-#include "game/TileCoordinates.h"
-#include "entities/Pigeon.h"
+#include "components/TileComponent.hpp"
+#include "game/TileCoordinates.hpp"
+#include "entities/Pigeon.hpp"
 
 #define BIOME_GEN true
 #define TREE_GEN true

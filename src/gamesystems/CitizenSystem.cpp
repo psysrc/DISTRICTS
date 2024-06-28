@@ -1,9 +1,9 @@
-#include "gamesystems/CitizenSystem.h"
+#include "gamesystems/CitizenSystem.hpp"
 
 #include <memory>
-#include "game/District.h"
-#include "components/CitizenComponent.h"
-#include <components/WorkOnTaskComponent.h>
+#include "game/District.hpp"
+#include "components/CitizenComponent.hpp"
+#include "components/WorkOnTaskComponent.hpp"
 
 CitizenSystem::CitizenSystem() {}
 

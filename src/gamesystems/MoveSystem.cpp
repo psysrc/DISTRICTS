@@ -1,10 +1,10 @@
-#include "gamesystems/MoveSystem.h"
+#include "gamesystems/MoveSystem.hpp"
 
-#include "game/District.h"
-#include "components/PositionComponent.h"
-#include "components/MoveComponent.h"
-#include "entities/OccupyRules.h"
-#include "pathfinding/PathFinding.h"
+#include "game/District.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/MoveComponent.hpp"
+#include "entities/OccupyRules.hpp"
+#include "pathfinding/PathFinding.hpp"
 
 MoveSystem::MoveSystem() {}
 

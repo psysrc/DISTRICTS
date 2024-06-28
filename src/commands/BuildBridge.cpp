@@ -1,11 +1,11 @@
-#include <commands/BuildBridge.h>
+#include "commands/BuildBridge.hpp"
 
-#include "ui/UI.h"
-#include "game/TileCoordinates.h"
-#include "game/District.h"
-#include "components/TaskComponent.h"
-#include "components/TileComponent.h"
-#include <components/PositionComponent.h>
+#include "ui/UI.hpp"
+#include "game/TileCoordinates.hpp"
+#include "game/District.hpp"
+#include "components/TaskComponent.hpp"
+#include "components/TileComponent.hpp"
+#include "components/PositionComponent.hpp"
 #include <sstream>
 
 namespace Cmds

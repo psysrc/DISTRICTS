@@ -1,5 +1,5 @@
-#include "helpers/CitizenNameGenerator.h"
-#include "helpers/Filesystem.h"
+#include "helpers/CitizenNameGenerator.hpp"
+#include "helpers/Filesystem.hpp"
 #include <stdexcept>
 #include <fstream>
 

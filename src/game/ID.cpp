@@ -1,4 +1,4 @@
-#include "game/ID.h"
+#include "game/ID.hpp"
 
 // Returns a new unique ID for an Entity
 ID_t uniqueEntityID()

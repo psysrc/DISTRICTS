@@ -1,4 +1,4 @@
-#include "components/TaskComponent.h"
+#include "components/TaskComponent.hpp"
 
 TaskComponent::TaskComponent(Entity* entity, int work, std::function<void()> onCompletion)
     : workRemaining(work), onCompletion(onCompletion), entity(entity)

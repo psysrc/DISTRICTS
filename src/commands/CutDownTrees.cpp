@@ -1,12 +1,12 @@
-#include "commands/CutDownTrees.h"
+#include "commands/CutDownTrees.hpp"
 
-#include "ui/UI.h"
-#include "game/TileCoordinates.h"
-#include "game/District.h"
-#include "entities/Tree.h"
-#include "components/CanBeCutDownComponent.h"
-#include "components/PositionComponent.h"
-#include "components/TaskComponent.h"
+#include "ui/UI.hpp"
+#include "game/TileCoordinates.hpp"
+#include "game/District.hpp"
+#include "entities/Tree.hpp"
+#include "components/CanBeCutDownComponent.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/TaskComponent.hpp"
 
 namespace Cmds
 {

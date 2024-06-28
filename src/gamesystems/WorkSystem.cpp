@@ -1,13 +1,13 @@
-#include "gamesystems/WorkSystem.h"
+#include "gamesystems/WorkSystem.hpp"
 
 #include <memory>
-#include "entities/Entity.h"
-#include "game/District.h"
-#include "components/WorkOnTaskComponent.h"
-#include "components/PositionComponent.h"
-#include "components/MoveComponent.h"
-#include "components/TaskComponent.h"
-#include "pathfinding/PathFinding.h"
+#include "entities/Entity.hpp"
+#include "game/District.hpp"
+#include "components/WorkOnTaskComponent.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/MoveComponent.hpp"
+#include "components/TaskComponent.hpp"
+#include "pathfinding/PathFinding.hpp"
 
 WorkSystem::WorkSystem() {}
 

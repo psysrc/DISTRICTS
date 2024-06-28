@@ -1,4 +1,4 @@
-#include "helpers/Filesystem.h"
+#include "helpers/Filesystem.hpp"
 
 std::string Filesystem::executableDirectory;
 

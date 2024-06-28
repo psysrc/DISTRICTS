@@ -1,11 +1,11 @@
-#include "entities/Citizen.h"
+#include "entities/Citizen.hpp"
 
-#include "components/PositionComponent.h"
-#include "components/RenderComponent.h"
-#include "components/CitizenComponent.h"
-#include "helpers/CitizenNameGenerator.h"
-#include "components/NameComponent.h"
-#include "components/OccupySpaceComponent.h"
+#include "components/PositionComponent.hpp"
+#include "components/RenderComponent.hpp"
+#include "components/CitizenComponent.hpp"
+#include "helpers/CitizenNameGenerator.hpp"
+#include "components/NameComponent.hpp"
+#include "components/OccupySpaceComponent.hpp"
 
 std::unique_ptr<Entity> makeCitizen(TileCoordinates coords)
 {

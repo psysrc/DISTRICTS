@@ -1,9 +1,9 @@
-#include "entities/Pigeon.h"
+#include "entities/Pigeon.hpp"
 
-#include "components/PositionComponent.h"
-#include "components/OccupySpaceComponent.h"
-#include "components/RenderComponent.h"
-#include "components/RandomWanderComponent.h"
+#include "components/PositionComponent.hpp"
+#include "components/OccupySpaceComponent.hpp"
+#include "components/RenderComponent.hpp"
+#include "components/RandomWanderComponent.hpp"
 
 std::unique_ptr<Entity> makePigeon(TileCoordinates coords)
 {

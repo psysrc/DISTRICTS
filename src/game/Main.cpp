@@ -1,8 +1,8 @@
 #include <iostream>
-#include "game/Game.h"
-#include "ui/UI.h"
-#include "ui/MainMenuSelections.h"
-#include "helpers/Filesystem.h"
+#include "game/Game.hpp"
+#include "ui/UI.hpp"
+#include "ui/MainMenuSelections.hpp"
+#include "helpers/Filesystem.hpp"
 
 void playNewGame();
 

@@ -1,11 +1,11 @@
-#include "OccupyRules.h"
+#include "OccupyRules.hpp"
 
-#include "entities/Entity.h"
-#include "game/TileCoordinates.h"
-#include "components/TileComponent.h"
-#include "components/PositionComponent.h"
-#include "game/District.h"
-#include "components/OccupySpaceComponent.h"
+#include "entities/Entity.hpp"
+#include "game/TileCoordinates.hpp"
+#include "components/TileComponent.hpp"
+#include "components/PositionComponent.hpp"
+#include "game/District.hpp"
+#include "components/OccupySpaceComponent.hpp"
 #include <algorithm>
 
 bool OccupyRules::canOccupy(District *district, const Entity *tile)

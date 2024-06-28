@@ -1,11 +1,11 @@
-#include "entities/Sapling.h"
+#include "entities/Sapling.hpp"
 
-#include "components/GrowComponent.h"
-#include "components/PositionComponent.h"
-#include "components/OccupySpaceComponent.h"
-#include "components/RenderComponent.h"
-#include "entities/Tree.h"
-#include "game/TickSpeed.h"
+#include "components/GrowComponent.hpp"
+#include "components/PositionComponent.hpp"
+#include "components/OccupySpaceComponent.hpp"
+#include "components/RenderComponent.hpp"
+#include "entities/Tree.hpp"
+#include "game/TickSpeed.hpp"
 
 
 constexpr int maxTicksToGrow = 60 * ticksPerSecond;

@@ -1,4 +1,4 @@
-#include "components/PositionComponent.h"
+#include "components/PositionComponent.hpp"
 
 PositionComponent::PositionComponent(TileCoordinates coords, Entity* entity) : position(coords), entity(entity)
 {

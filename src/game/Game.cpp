@@ -1,22 +1,22 @@
-#include "Game.h"
+#include "Game.hpp"
 
 #include <chrono>
-#include "game/District.h"
-#include "commands/PlayerCommand.h"
+#include "game/District.hpp"
+#include "commands/PlayerCommand.hpp"
 #include <iostream>
 #include <thread> // sleep_for(), std::thread
-#include "ui/UI.h"
-#include "commands/PauseToggle.h"
-#include "commands/Quit.h"
-#include "gamesystems/GrowSystem.h"
-#include "gamesystems/WorkSystem.h"
-#include "gamesystems/CitizenSystem.h"
-#include "gamesystems/MoveSystem.h"
-#include "gamesystems/WanderSystem.h"
-#include "game/TickSpeed.h"
-#include "components/CitizenComponent.h"
-#include "components/NameComponent.h"
-#include "gamesystems/RenderSystem.h"
+#include "ui/UI.hpp"
+#include "commands/PauseToggle.hpp"
+#include "commands/Quit.hpp"
+#include "gamesystems/GrowSystem.hpp"
+#include "gamesystems/WorkSystem.hpp"
+#include "gamesystems/CitizenSystem.hpp"
+#include "gamesystems/MoveSystem.hpp"
+#include "gamesystems/WanderSystem.hpp"
+#include "game/TickSpeed.hpp"
+#include "components/CitizenComponent.hpp"
+#include "components/NameComponent.hpp"
+#include "gamesystems/RenderSystem.hpp"
 
 using namespace std::chrono;
 

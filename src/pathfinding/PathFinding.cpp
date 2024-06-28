@@ -1,14 +1,14 @@
-#include "PathFinding.h"
+#include "PathFinding.hpp"
 
 #include <unordered_map>
 #include <unordered_set>
 #include <set>
-#include "game/TileCoordinates.h"
+#include "game/TileCoordinates.hpp"
 #include <cmath>
 #include <bits/stdc++.h>
-#include "pathfinding/Path.h"
-#include "entities/OccupyRules.h"
-#include "game/District.h"
+#include "pathfinding/Path.hpp"
+#include "entities/OccupyRules.hpp"
+#include "game/District.hpp"
 
 /*
  * Finds a path between 'from' and 'to', for the given entity.
