@@ -8,12 +8,13 @@
 class Logger
 {
 public:
-    Logger();
+    Logger(LogLevel);
     ~Logger();
 
     void log(const LogLevel level, const std::string&);
 
 private:
+    LogLevel currentLogLevel;
     std::ofstream logFile;
 };
 

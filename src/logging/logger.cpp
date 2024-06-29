@@ -6,9 +6,8 @@
 
 std::string getCurrentTimeRFC3339();
 
-Logger::Logger() : logFile(Filesystem::executableDirectory + "DISTRICTS.log")
+Logger::Logger(LogLevel level) : currentLogLevel(level), logFile(Filesystem::executableDirectory + "DISTRICTS.log")
 {
-
 }
 
 Logger::~Logger()
@@ -16,13 +15,16 @@ Logger::~Logger()
     logFile.flush();
 }
 
-void Logger::log(const LogLevel level, const std::string& message)
+void Logger::log(const LogLevel level, const std::string &message)
 {
-    logFile
-        << getCurrentTimeRFC3339() << '|'
-        << logLevelToString(level) << '|'
-        << message
-        << '\n';
+    if (level >= currentLogLevel)
+    {
+        logFile
+            << getCurrentTimeRFC3339() << '|'
+            << logLevelToString(level) << '|'
+            << message
+            << '\n';
+    }
 }
 
 std::string getCurrentTimeRFC3339()
