@@ -21,12 +21,14 @@
 
 using namespace std::chrono;
 
-Game::Game()
-{
-	glog_info("Game is starting");
+Game::Game() : Game(system_clock::to_time_t(system_clock::now())) {}
 
-	// Seed the random number generator with the current system time
-	srand(system_clock::to_time_t(system_clock::now()));
+Game::Game(unsigned int seed)
+{
+	glog_debug("Initialising new game");
+
+	glog_info("Game seed: " + std::to_string(seed));
+	srand(seed);
 
 	gameIsOver = false;
 	gameIsPaused = false;
@@ -44,7 +46,7 @@ Game::Game()
 
 Game::~Game()
 {
-	glog_info("Game is ending");
+	glog_debug("Unloading game");
 }
 
 /*

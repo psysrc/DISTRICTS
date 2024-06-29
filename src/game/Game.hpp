@@ -11,7 +11,9 @@ class Game
 {
 public:
 	Game();
+	Game(unsigned int seed);
 	~Game();
+
 	void play();
 
 private:

@@ -3,6 +3,7 @@
 #include "ui/UI.hpp"
 #include "ui/MainMenuSelections.hpp"
 #include "helpers/Filesystem.hpp"
+#include "logging/global.hpp"
 
 void playNewGame();
 
@@ -13,6 +14,8 @@ int main(int argc, char *argv[])
 	{
 		Filesystem::initialise(argv[0]);
 	}
+
+	glog_info("Program has started");
 
 	// Initialise the UI, exit if it fails
 	if (!UI::initialise())
@@ -25,6 +28,7 @@ int main(int argc, char *argv[])
 	while (returnCode == -1)
 	{
 		MainMenuSelection::MainMenuSelection selection = UI::mainMenu();
+		glog_debug("Main menu selection: " + std::to_string(selection));
 
 		switch (selection)
 		{
@@ -47,11 +51,15 @@ int main(int argc, char *argv[])
 		std::cerr << "ERROR: DISTRICTS did not close correctly (return code " << returnCode << "). Please notify the developer!" << std::endl;
 	}
 
+	glog_info("Program is exiting");
+
 	return returnCode;
 }
 
 void playNewGame()
 {
+	glog_info("Starting a new game");
+
 	try
 	{
 		Game newGame;
@@ -61,4 +69,6 @@ void playNewGame()
 	{
 		UI::showErrorScreen(ex);
 	}
+
+	glog_info("Game has ended, returning to main menu");
 }
