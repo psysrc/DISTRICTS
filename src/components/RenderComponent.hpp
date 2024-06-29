@@ -3,6 +3,9 @@
 
 #include "components/Component.hpp"
 
+/**
+ * This component contains data that allows an entity to be rendered to the UI foreground.
+ */
 struct RenderComponent : public Component
 {
     RenderComponent(char symbol) : renderSymbol(symbol) {}

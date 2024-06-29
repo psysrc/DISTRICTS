@@ -3,6 +3,9 @@
 
 #include "gamesystems/GameSystem.hpp"
 
+/**
+ * Handles the rendering of the whole district to the UI.
+ */
 class RenderSystem : public GameSystem
 {
 public:

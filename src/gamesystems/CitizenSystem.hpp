@@ -3,6 +3,10 @@
 
 #include "gamesystems/GameSystem.hpp"
 
+/**
+ * Controls the logic for all Citizens in the district.
+ * For example, some citizens might go look for work to do in the district, or go eat food, etc.
+ */
 class CitizenSystem : public GameSystem
 {
 public:

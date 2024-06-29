@@ -3,6 +3,9 @@
 
 #include "gamesystems/GameSystem.hpp"
 
+/**
+ * Handles the movement of entities.
+ */
 class MoveSystem : public GameSystem
 {
 public:

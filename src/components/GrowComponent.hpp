@@ -5,6 +5,10 @@
 #include "game/TickSpeed.hpp"
 #include <functional>
 
+/**
+ * A feature of an entity that means it will eventually turn into ("grow into") another entity.
+ * For example, a tree sapling eventually grows into a full tree. Or a baby animal turns into a fully grown animal.
+ */
 struct GrowComponent : public Component
 {
     // A function which returns a new entity to "grow" into, given the current entity

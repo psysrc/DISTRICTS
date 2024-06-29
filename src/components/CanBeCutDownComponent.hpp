@@ -3,6 +3,10 @@
 
 #include "components/Component.hpp"
 
+/**
+ * Indicates that an entity can be "cut down". This may be to acquire resources or to remove the entity.
+ * This is a core feature of trees.
+ */
 struct CanBeCutDownComponent : public Component
 {
     CanBeCutDownComponent() {}

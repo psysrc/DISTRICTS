@@ -3,6 +3,10 @@
 
 #include "gamesystems/GameSystem.hpp"
 
+/**
+ * Handles the logic for growing Entities into other Entities.
+ * For example, maturing saplings into full trees.
+ */
 class GrowSystem : public GameSystem
 {
 public:

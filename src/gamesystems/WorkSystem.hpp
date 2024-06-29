@@ -3,6 +3,9 @@
 
 #include "gamesystems/GameSystem.hpp"
 
+/**
+ * Manages entities that want to work on a task.
+ */
 class WorkSystem : public GameSystem
 {
 public:

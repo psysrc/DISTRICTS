@@ -5,6 +5,10 @@
 #include "game/TileCoordinates.hpp"
 #include "pathfinding/Path.hpp"
 
+/**
+ * If an entity has a MoveComponent, it will move towards its destination.
+ * More specifically, its position will be updated over time.
+ */
 struct MoveComponent : public Component
 {
     MoveComponent(TileCoordinates destination, bool strictDestination) :

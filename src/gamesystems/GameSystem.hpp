@@ -6,6 +6,10 @@
 class District;
 class Entity;
 
+/**
+ * Base class for all GameSystems in the DISTRICTS ECS (Entity Component System).
+ * GameSystems contain the core logic of the game, and act upon Components that are attached to Entities.
+ */
 class GameSystem
 {
 public:

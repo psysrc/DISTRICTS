@@ -3,6 +3,9 @@
 
 #include "components/Component.hpp"
 
+/**
+ * With this component, the entity will randomly move around the district.
+ */
 struct RandomWanderComponent : public Component
 {
     RandomWanderComponent(unsigned int minWait, unsigned int maxWait)

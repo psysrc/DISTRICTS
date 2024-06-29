@@ -5,6 +5,9 @@
 #include "game/TileCoordinates.hpp"
 #include "game/PositionLookup.hpp"
 
+/**
+ *  If an entity exists in physical space and has a well defined location, it will have a `PositionComponent`.
+ */
 struct PositionComponent : public Component
 {
     static PositionLookup* positionLookup;

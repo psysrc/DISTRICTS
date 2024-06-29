@@ -3,6 +3,9 @@
 
 #include "gamesystems/GameSystem.hpp"
 
+/**
+ * Handles the logic to make entities randomly wander around the district.
+ */
 class WanderSystem : public GameSystem
 {
 public:
