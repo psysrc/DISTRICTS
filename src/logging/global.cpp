@@ -4,5 +4,5 @@ void glog(const std::string& message)
 {
     static Logger glogger;
 
-    glogger.log(message);
+    glogger.log(DEBUG, message);
 }

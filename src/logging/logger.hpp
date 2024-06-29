@@ -3,6 +3,7 @@
 
 #include <string>
 #include <fstream>
+#include "logging/levels.hpp"
 
 class Logger
 {
@@ -10,7 +11,7 @@ public:
     Logger();
     ~Logger();
 
-    void log(const std::string&);
+    void log(const LogLevel level, const std::string&);
 
 private:
     std::ofstream logFile;
