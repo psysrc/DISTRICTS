@@ -50,7 +50,7 @@ void MoveSystem::processEntity(District *district, const std::unique_ptr<Entity>
     }
 
     // If the entity cannot occupy the next tile along the path, generate a new path
-    if (!OccupyRules::canOccupy(district, next.value()))
+    if (!OccupyRules::canOccupy(district, entity.get(), next.value()))
     {
         cmptMove->path = PathFinding::findPath(
             district, entity.get(), cmptPosition->getPosition(), cmptMove->destination, cmptMove->strictDestination);
@@ -71,7 +71,7 @@ void MoveSystem::processEntity(District *district, const std::unique_ptr<Entity>
         }
     }
 
-    if (!OccupyRules::canOccupy(district, next.value()))
+    if (!OccupyRules::canOccupy(district, entity.get(), next.value()))
         throw std::runtime_error("Just generated a brand new path for an entity, but the entity cannot occupy the next tile along the path");
 
     // Move the entity along the path

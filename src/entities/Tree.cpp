@@ -4,6 +4,7 @@
 #include "components/RenderComponent.hpp"
 #include "components/OccupySpaceComponent.hpp"
 #include "components/CanBeCutDownComponent.hpp"
+#include "components/TerrestrialComponent.hpp"
 
 std::unique_ptr<Entity> makeTree(TileCoordinates coords)
 {
@@ -11,6 +12,7 @@ std::unique_ptr<Entity> makeTree(TileCoordinates coords)
 
     tree->addComponent(std::make_unique<PositionComponent>(coords, tree.get()));
     tree->addComponent(std::make_unique<OccupySpaceComponent>());
+    tree->addComponent(std::make_unique<TerrestrialComponent>());
     tree->addComponent(std::make_unique<CanBeCutDownComponent>());
     tree->addComponent(std::make_unique<RenderComponent>('$'));
 

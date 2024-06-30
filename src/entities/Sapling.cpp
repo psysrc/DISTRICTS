@@ -4,6 +4,7 @@
 #include "components/PositionComponent.hpp"
 #include "components/OccupySpaceComponent.hpp"
 #include "components/RenderComponent.hpp"
+#include "components/TerrestrialComponent.hpp"
 #include "entities/Tree.hpp"
 #include "game/TickSpeed.hpp"
 
@@ -31,6 +32,7 @@ std::unique_ptr<Entity> makeSapling(TileCoordinates coords)
 
     sapling->addComponent(std::make_unique<PositionComponent>(coords, sapling.get()));
 	sapling->addComponent(std::make_unique<OccupySpaceComponent>());
+	sapling->addComponent(std::make_unique<TerrestrialComponent>());
     sapling->addComponent(std::make_unique<GrowComponent>(makeTreeFunc, ticksToGrow));
     sapling->addComponent(std::make_unique<RenderComponent>(','));
 

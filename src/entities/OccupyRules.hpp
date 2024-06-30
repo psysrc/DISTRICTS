@@ -10,8 +10,8 @@ class District;
 class OccupyRules
 {
 public:
-    static bool canOccupy(District * district, const Entity * tile);
-    static bool canOccupy(District * district, TileCoordinates coordinates);
+    static bool canOccupy(District * district, const Entity* entity, const Entity * tile);
+    static bool canOccupy(District * district, const Entity* entity, TileCoordinates coordinates);
 };
 
 #endif /* OCCUPYRULES_H_ */

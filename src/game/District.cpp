@@ -13,11 +13,13 @@
 #include "components/TileComponent.hpp"
 #include "game/TileCoordinates.hpp"
 #include "entities/Pigeon.hpp"
+#include "entities/Duck.hpp"
 
 #define BIOME_GEN true
 #define TREE_GEN true
 #define CITIZEN_GEN true
 #define PIGEON_GEN true
+#define DUCK_GEN true
 
 District::District() : District(DistrictNameGenerator::generateName()) {}
 
@@ -71,6 +73,7 @@ District::District(const std::string &name) : districtName(name)
 
 	if (CITIZEN_GEN)
 	{
+		auto citizen = makeCitizen(TileCoordinates(-1, -1));
 		TileCoordinates coords(-1, -1);
 
 		do  // Keep choosing random tiles until one is found which the entity can occupy
@@ -78,32 +81,45 @@ District::District(const std::string &name) : districtName(name)
 			coords.x = rand() % District::districtSize;
 			coords.y = rand() % District::districtSize;
 
-		} while (!OccupyRules::canOccupy(this, coords));
+		} while (!OccupyRules::canOccupy(this, citizen.get(), coords));
 
-		// Make a new citizen and place them on the tile
-		addEntity(makeCitizen(coords));
+		// Place the entity on the tile
+		citizen->getComponent<PositionComponent>()->setPosition(coords);
+		addEntity(std::move(citizen));
 	}
 
 	if (TREE_GEN)
 	{
-		// Every Plains tile has a chance to grow a Tree or Sapling, as long as the Citizen isn't already occupying it
+		// Every Plains tile has a chance to grow a Tree or Sapling
 		for (int x = 0; x < District::districtSize; x++)
 		{
 			for (int y = 0; y < District::districtSize; y++)
 			{
-				if (OccupyRules::canOccupy(this, TileCoordinates(x, y)) && tileMap[TileCoordinates(x, y)] == TileProperty::Plains)
+				const TileCoordinates coords = TileCoordinates(x, y);
+
+				if (tileMap[coords] == TileProperty::Plains)
 				{
-					int treeChance = rand() % 100;
+					const int treeChance = rand() % 100;
+					std::unique_ptr<Entity> entity;
 
 					if (treeChance < 2)  // 2% chance of growing a tree
 					{
-						auto tree = makeTree(TileCoordinates(x, y));
-						addEntity(std::move(tree));
+						entity = makeTree(TileCoordinates(-1, -1));
 					}
 					else if (treeChance < 10)  // 8% chance of growing a sapling
 					{
-						auto sapling = makeSapling(TileCoordinates(x, y));
-						addEntity(std::move(sapling));
+						entity = makeSapling(TileCoordinates(-1, -1));
+					}
+					else
+					{
+						continue;
+					}
+
+					// Only keep the entity if it can occupy the tile
+					if (OccupyRules::canOccupy(this, entity.get(), coords))
+					{
+						entity->getComponent<PositionComponent>()->setPosition(coords);
+						addEntity(std::move(entity));
 					}
 				}
 			}
@@ -115,6 +131,7 @@ District::District(const std::string &name) : districtName(name)
 		constexpr int numPigeons = 10;
 		for (int i = 0; i < numPigeons; ++i)
 		{
+			auto pigeon = makePigeon(TileCoordinates(-1, -1));
 			TileCoordinates coords(-1, -1);
 
 			do  // Keep choosing random tiles until one is found which the entity can occupy
@@ -122,10 +139,32 @@ District::District(const std::string &name) : districtName(name)
 				coords.x = rand() % District::districtSize;
 				coords.y = rand() % District::districtSize;
 
-			} while (!OccupyRules::canOccupy(this, coords));
+			} while (!OccupyRules::canOccupy(this, pigeon.get(), coords));
 
-			// Make a new pigeon and place them on the tile
-			addEntity(makePigeon(coords));
+			// Place the entity on the tile
+			pigeon->getComponent<PositionComponent>()->setPosition(coords);
+			addEntity(std::move(pigeon));
+		}
+	}
+
+	if (DUCK_GEN)
+	{
+		constexpr int numDucks = 3;
+		for (int i = 0; i < numDucks; ++i)
+		{
+			auto duck = makeDuck(TileCoordinates(-1, -1));
+			TileCoordinates coords(-1, -1);
+
+			do  // Keep choosing random tiles until one is found which the entity can occupy
+			{
+				coords.x = rand() % District::districtSize;
+				coords.y = rand() % District::districtSize;
+
+			} while (!OccupyRules::canOccupy(this, duck.get(), coords));
+
+			// Place the entity on the tile
+			duck->getComponent<PositionComponent>()->setPosition(coords);
+			addEntity(std::move(duck));
 		}
 	}
 }
