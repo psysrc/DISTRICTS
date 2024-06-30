@@ -6,7 +6,8 @@
 
 std::string getCurrentTimeRFC3339();
 
-Logger::Logger(LogLevel level) : currentLogLevel(level), logFile(Filesystem::executableDirectory + "DISTRICTS.log")
+Logger::Logger(LogLevel level)
+    : currentLogLevel(level), logFile(Filesystem::executableDirectory + "DISTRICTS.log", std::ios_base::app)
 {
 }
 
