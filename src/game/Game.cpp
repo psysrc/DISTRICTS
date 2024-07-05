@@ -42,6 +42,8 @@ Game::Game(unsigned int seed)
 	preUpdateGameSystems.push_back(std::make_unique<MoveSystem>());
 
 	postUpdateGameSystems.push_back(std::make_unique<RenderSystem>());
+
+	calendar = SettlersAgeCalendar();
 }
 
 Game::~Game()
@@ -124,6 +126,9 @@ void Game::play()
 		spDistrict->update(); // Update the district
 
 		runPostUpdateGameSystems();
+
+		calendar.advance();
+		UI::displayDebugMessage(std::to_string(calendar.to_usat()));
 
 		// Update the UI
 		UI::update();

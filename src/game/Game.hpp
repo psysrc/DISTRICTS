@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <calendar/SettlersAgeCalendar.hpp>
 
 class District;
 class GameSystem;
@@ -22,6 +23,7 @@ private:
 	std::shared_ptr<District> spDistrict;
 	std::vector<std::unique_ptr<GameSystem>> preUpdateGameSystems;
 	std::vector<std::unique_ptr<GameSystem>> postUpdateGameSystems;
+	SettlersAgeCalendar calendar;
 
 	bool handleCommands();
 	void gameOver() const;
