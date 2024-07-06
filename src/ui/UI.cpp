@@ -183,6 +183,8 @@ namespace UI
 
 	static void updateHeaderWindow()
 	{
+		wclear(headerWindow);
+
 		auto spCurrentDistrict = wpCurrentDistrict.lock();
 
 		std::string districtText;
