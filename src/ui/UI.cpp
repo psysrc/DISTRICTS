@@ -24,10 +24,10 @@
 namespace UI
 {
 
-	static WINDOW *mapWindow;
+	static WINDOW *districtWindow;
 	static WINDOW *activityWindow;
-	static WINDOW *districtNameWindow;
-	static WINDOW *promptWindow;
+	static WINDOW *headerWindow;
+	static WINDOW *actionWindow;
 	static std::weak_ptr<District> wpCurrentDistrict;
 	static bool paused;
 
@@ -81,10 +81,10 @@ namespace UI
 
 		// Define the windows in the terminal
 		// Parameters are: row count (height / y), column count (width / x), row origin, column origin
-		mapWindow = newwin(District::districtSize, District::districtSize * 2, 0, 0);
+		districtWindow = newwin(District::districtSize, District::districtSize * 2, 0, 0);
 		activityWindow = newwin(8, District::districtSize * 2, District::districtSize + 1, 0);
-		districtNameWindow = newwin(3, 32, 0, (District::districtSize * 2) + 2);
-		promptWindow = newwin(District::districtSize - 3, 32, 3, (District::districtSize * 2) + 2);
+		headerWindow = newwin(3, 32, 0, (District::districtSize * 2) + 2);
+		actionWindow = newwin(District::districtSize - 3, 32, 3, (District::districtSize * 2) + 2);
 
 		// Make the activity and debug windows automatically scroll up after writing to the bottom row
 		scrollok(activityWindow, TRUE);
@@ -105,10 +105,10 @@ namespace UI
 		clearAll();
 
 		// Delete the windows that were in use
-		delwin(mapWindow);
+		delwin(districtWindow);
 		delwin(activityWindow);
-		delwin(districtNameWindow);
-		delwin(promptWindow);
+		delwin(headerWindow);
+		delwin(actionWindow);
 
 		endwin(); // End of ncurses activity
 	}
@@ -118,10 +118,10 @@ namespace UI
 	 */
 	static void clearAll()
 	{
-		wclear(mapWindow);
+		wclear(districtWindow);
 		wclear(activityWindow);
-		wclear(districtNameWindow);
-		wclear(promptWindow);
+		wclear(headerWindow);
+		wclear(actionWindow);
 
 		refresh();
 	}
@@ -169,10 +169,10 @@ namespace UI
 	static void refresh()
 	{
 		// Refresh all windows to the virtual screen
-		wnoutrefresh(mapWindow);
+		wnoutrefresh(districtWindow);
 		wnoutrefresh(activityWindow);
-		wnoutrefresh(districtNameWindow);
-		wnoutrefresh(promptWindow);
+		wnoutrefresh(headerWindow);
+		wnoutrefresh(actionWindow);
 
 		// Refresh the physical screen from the virtual screen
 		doupdate();
@@ -190,11 +190,11 @@ namespace UI
 
 		std::string text = "District " + spCurrentDistrict->getName();
 
-		mvwaddstr(districtNameWindow, 0, 0, "--------------------------------");
-		mvwaddstr(districtNameWindow, 1, 0, text.c_str());
-		mvwaddstr(districtNameWindow, 2, 0, "--------------------------------");
+		mvwaddstr(headerWindow, 0, 0, "--------------------------------");
+		mvwaddstr(headerWindow, 1, 0, text.c_str());
+		mvwaddstr(headerWindow, 2, 0, "--------------------------------");
 
-		wrefresh(districtNameWindow);
+		wrefresh(headerWindow);
 	}
 
 	/*
@@ -213,8 +213,8 @@ namespace UI
 		if (playSpinIndex >= 4)
 			playSpinIndex = 0;
 
-		mvwaddch(promptWindow, 1, 15, playSpinSprites[playSpinIndex]);
-		wrefresh(promptWindow);
+		mvwaddch(actionWindow, 1, 15, playSpinSprites[playSpinIndex]);
+		wrefresh(actionWindow);
 	}
 
 	/*
@@ -235,7 +235,7 @@ namespace UI
 	{
 		rotatePlaySpinner();
 
-		wrefresh(mapWindow);
+		wrefresh(districtWindow);
 	}
 
 	/*
@@ -244,11 +244,11 @@ namespace UI
 	void renderEntity(TileCoordinates coords, char symbol)
 	{
 		// Move the cursor to the correct position
-		wmove(mapWindow, coords.y, coords.x * 2);
+		wmove(districtWindow, coords.y, coords.x * 2);
 
 		// Draw the tile
-		waddch(mapWindow, symbol);
-		waddch(mapWindow, ' ');
+		waddch(districtWindow, symbol);
+		waddch(districtWindow, ' ');
 	}
 
 	/*
@@ -256,7 +256,7 @@ namespace UI
 	*/
 	void renderEmptyDistrict()
 	{
-		werase(mapWindow);
+		werase(districtWindow);
 	}
 
 	/*
@@ -266,7 +266,7 @@ namespace UI
 	{
 		// Update the colours of this tile, keeping any entity symbols intact
 		constexpr int numCharacters = 2;
-		mvwchgat(mapWindow, coords.y, coords.x * 2, numCharacters, A_COLOR, colourPair, nullptr);
+		mvwchgat(districtWindow, coords.y, coords.x * 2, numCharacters, A_COLOR, colourPair, nullptr);
 	}
 
 	/*
@@ -275,13 +275,13 @@ namespace UI
 	void renderGridPosition(TileCoordinates coords, int colourPair, char symbol)
 	{
 		// Move the cursor to the correct position
-		wmove(mapWindow, coords.y, coords.x * 2);
+		wmove(districtWindow, coords.y, coords.x * 2);
 
 		// Draw the tile
-		wattron(mapWindow, COLOR_PAIR(colourPair));
-		waddch(mapWindow, symbol);
-		waddch(mapWindow, ' ');
-		wattroff(mapWindow, COLOR_PAIR(colourPair));
+		wattron(districtWindow, COLOR_PAIR(colourPair));
+		waddch(districtWindow, symbol);
+		waddch(districtWindow, ' ');
+		wattroff(districtWindow, COLOR_PAIR(colourPair));
 	}
 
 	/*
@@ -358,13 +358,13 @@ namespace UI
 	 */
 	void pause()
 	{
-		wclear(promptWindow);
+		wclear(actionWindow);
 
-		mvwaddstr(promptWindow, 1, 9, "- GAME PAUSED -");
-		mvwaddstr(promptWindow, 2, 4, "Press <SPACE> to unpause");
+		mvwaddstr(actionWindow, 1, 9, "- GAME PAUSED -");
+		mvwaddstr(actionWindow, 2, 4, "Press <SPACE> to unpause");
 
-		mvwaddstr(promptWindow, 5, 0, "Available commands:");
-		mvwaddstr(promptWindow, 6, 0, "~~~~~~~~~~~~~~~~~~~");
+		mvwaddstr(actionWindow, 5, 0, "Available commands:");
+		mvwaddstr(actionWindow, 6, 0, "~~~~~~~~~~~~~~~~~~~");
 
 		int y = 7;
 
@@ -376,12 +376,12 @@ namespace UI
 			std::stringstream ss;
 			ss << kc.first << " : " << kc.second->getDescription();
 
-			mvwaddstr(promptWindow, y, 1, ss.str().c_str());
+			mvwaddstr(actionWindow, y, 1, ss.str().c_str());
 
 			y++;
 		}
 
-		wrefresh(promptWindow);
+		wrefresh(actionWindow);
 
 		paused = true;
 	}
@@ -391,11 +391,11 @@ namespace UI
 	 */
 	void unpause()
 	{
-		wclear(promptWindow);
+		wclear(actionWindow);
 
-		mvwaddstr(promptWindow, 2, 5, "Press <SPACE> to pause");
+		mvwaddstr(actionWindow, 2, 5, "Press <SPACE> to pause");
 
-		wrefresh(promptWindow);
+		wrefresh(actionWindow);
 
 		paused = false;
 	}
@@ -486,13 +486,13 @@ namespace UI
 		while (true)
 		{
 			// Remember the current tile data so we can render it back to the screen later
-			chtype normalDisplay = mvwinch(mapWindow, coords.y, coords.x * 2);
+			chtype normalDisplay = mvwinch(districtWindow, coords.y, coords.x * 2);
 			TileCoordinates previousCoords(coords);
 
 			// Highlight the current grid position
 			renderGridPosition(coords, COLOUR_HIGHLIGHTED, normalDisplay & A_CHARTEXT);
 
-			wrefresh(mapWindow);
+			wrefresh(districtWindow);
 
 			// Get user input
 			// They will either want to move the current highlighted tile, select it, or cancel this select operation
@@ -532,12 +532,12 @@ namespace UI
 			// Return tile or cancel if necessary
 			if (returnTile)
 			{
-				wrefresh(mapWindow);
+				wrefresh(districtWindow);
 				return previousCoords;
 			}
 			else if (cancel)
 			{
-				wrefresh(mapWindow);
+				wrefresh(districtWindow);
 				return {};
 			}
 		}
