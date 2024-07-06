@@ -7,6 +7,7 @@
 #include "ui/MainMenuSelections.hpp"
 #include "game/TileCoordinates.hpp"
 #include <optional>
+#include "calendar/SettlersAgeCalendar.hpp"
 
 class District;
 
@@ -30,6 +31,7 @@ namespace UI
     void renderTile(TileCoordinates, int colourPair);
 	void renderEntity(TileCoordinates, char symbol);
     void renderEmptyDistrict();
+    void setCalendar(std::shared_ptr<SettlersAgeCalendar>);
 }
 
 #endif /* SRC_UI_H_ */

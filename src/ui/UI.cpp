@@ -20,6 +20,7 @@
 #include "ui/TileColours.hpp"
 #include <thread>
 #include <chrono>
+#include "calendar/SettlersAgeCalendar.hpp"
 
 namespace UI
 {
@@ -30,6 +31,7 @@ namespace UI
 	static WINDOW *actionWindow;
 	static std::weak_ptr<District> wpCurrentDistrict;
 	static bool paused;
+	static std::weak_ptr<SettlersAgeCalendar> calendar;
 
 	typedef std::pair<char, Cmds::PlayerCommand *> KeyCommand;
 	static std::unordered_map<char, Cmds::PlayerCommand *> commandKeyMap{
@@ -41,7 +43,6 @@ namespace UI
 	void renderGridPosition(TileCoordinates coords, int colourPair, char symbol);
 	static void clearAll();
 	static void refresh();
-	static void updateDistrictName();
 	static void rotatePlaySpinner();
 
 	/*
@@ -80,11 +81,13 @@ namespace UI
 		init_pair(COLOUR_BRIDGE, COLOR_BLACK, COLOR_YELLOW);
 
 		// Define the windows in the terminal
+		constexpr unsigned int headerWindowHeight = 4;
+
 		// Parameters are: row count (height / y), column count (width / x), row origin, column origin
 		districtWindow = newwin(District::districtSize, District::districtSize * 2, 0, 0);
 		activityWindow = newwin(8, District::districtSize * 2, District::districtSize + 1, 0);
-		headerWindow = newwin(3, 32, 0, (District::districtSize * 2) + 2);
-		actionWindow = newwin(District::districtSize - 3, 32, 3, (District::districtSize * 2) + 2);
+		headerWindow = newwin(headerWindowHeight, 32, 0, (District::districtSize * 2) + 2);
+		actionWindow = newwin(District::districtSize - headerWindowHeight, 32, headerWindowHeight, (District::districtSize * 2) + 2);
 
 		// Make the activity and debug windows automatically scroll up after writing to the bottom row
 		scrollok(activityWindow, TRUE);
@@ -178,21 +181,37 @@ namespace UI
 		doupdate();
 	}
 
-	/*
-	 * Updates the UI with the name of the current district.
-	 */
-	static void updateDistrictName()
+	static void updateHeaderWindow()
 	{
 		auto spCurrentDistrict = wpCurrentDistrict.lock();
 
-		if (!spCurrentDistrict)
-			return;
+		std::string districtText;
 
-		std::string text = "District " + spCurrentDistrict->getName();
+		if (spCurrentDistrict)
+		{
+			districtText = "District " + spCurrentDistrict->getName();
+		}
+		else
+		{
+			districtText = "No district active";
+		}
+
+		std::string datetimeString;
+
+		auto cal = calendar.lock();
+		if (cal)
+		{
+			datetimeString = "Date: " + cal->to_string();
+		}
+		else
+		{
+			datetimeString = "No date information";
+		}
 
 		mvwaddstr(headerWindow, 0, 0, "--------------------------------");
-		mvwaddstr(headerWindow, 1, 0, text.c_str());
-		mvwaddstr(headerWindow, 2, 0, "--------------------------------");
+		mvwaddstr(headerWindow, 1, 0, districtText.c_str());
+		mvwaddstr(headerWindow, 2, 0, datetimeString.c_str());
+		mvwaddstr(headerWindow, 3, 0, "--------------------------------");
 
 		wrefresh(headerWindow);
 	}
@@ -224,7 +243,15 @@ namespace UI
 	void currentDistrict(std::shared_ptr<District> spDistrict)
 	{
 		wpCurrentDistrict = spDistrict;
-		updateDistrictName();
+		update();
+	}
+
+	/**
+	 *
+	 */
+	void setCalendar(std::shared_ptr<SettlersAgeCalendar> cal)
+	{
+		calendar = cal;
 		update();
 	}
 
@@ -233,6 +260,8 @@ namespace UI
 	 */
 	void update()
 	{
+		updateHeaderWindow();
+
 		rotatePlaySpinner();
 
 		wrefresh(districtWindow);

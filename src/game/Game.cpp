@@ -45,7 +45,7 @@ Game::Game(unsigned int seed)
 
 	constexpr unsigned int fiveHundredYearsInTicks = 500 * SettlersAgeCalendar::ticksPerYear;
 	const unsigned int usat = rand() % fiveHundredYearsInTicks;
-	calendar = SettlersAgeCalendar(usat);
+	calendar = std::make_shared<SettlersAgeCalendar>(usat);
 }
 
 Game::~Game()
@@ -76,6 +76,7 @@ void Game::play()
 		system->run(spDistrict.get());
 
 	UI::currentDistrict(spDistrict); // Set the current district and update
+	UI::setCalendar(calendar);
 
 	// Get the name of the first citizen in the district
 	std::string citizenName = "<unknown>";
@@ -129,8 +130,7 @@ void Game::play()
 
 		runPostUpdateGameSystems();
 
-		calendar.advance();
-		UI::displayDebugMessage(calendar.to_string());
+		calendar->advance();
 
 		// Update the UI
 		UI::update();
