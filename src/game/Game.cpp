@@ -128,7 +128,7 @@ void Game::play()
 		runPostUpdateGameSystems();
 
 		calendar.advance();
-		UI::displayDebugMessage(std::to_string(calendar.to_usat()));
+		UI::displayDebugMessage(calendar.to_string());
 
 		// Update the UI
 		UI::update();

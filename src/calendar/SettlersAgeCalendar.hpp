@@ -1,6 +1,8 @@
 #ifndef SETTLERS_AGE_CALENDAR_H_
 #define SETTLERS_AGE_CALENDAR_H_
 
+#include <string>
+
 class SettlersAgeCalendar
 {
 public:
@@ -10,12 +12,15 @@ public:
 
     void advance();
     unsigned int to_usat() const;
+    std::string to_string() const;
 
 private:
-    static const unsigned int minutesPerHour = 36;
-    static const unsigned int hoursPerDay = 12;
-    static const unsigned int daysPerMonth = 24;
-    static const unsigned int monthsPerYear = 6;
+    static constexpr unsigned int minutesPerHour = 36;
+    static constexpr unsigned int hoursPerDay = 12;
+    static constexpr unsigned int daysPerMonth = 24;
+    static constexpr unsigned int monthsPerYear = 6;
+
+    static constexpr unsigned int hoursOfLightPerDay = 6;
 
     unsigned int usat;  // Universal Settler's Age Time (USAT)
     unsigned int years;

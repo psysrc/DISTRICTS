@@ -1,4 +1,16 @@
 #include "calendar/SettlersAgeCalendar.hpp"
+#include <sstream>
+#include <unordered_map>
+
+static const std::unordered_map<unsigned int, const std::string> monthNames {
+    {0, "Farrar"},
+    {1, "Fairfax"},
+    {2, "Jameson"},
+    {3, "Norvell"},
+    {4, "Selden"},
+    {5, "Allerton"},
+};
+
 
 /**
  * Create a calendar starting at 0 USAT.
@@ -48,4 +60,19 @@ void SettlersAgeCalendar::advance()
 unsigned int SettlersAgeCalendar::to_usat() const
 {
     return usat;
+}
+
+/**
+ * Convert calendar to a human-readable string.
+ * Example: `Fairfax 12 311SA, 3-26L`
+ */
+std::string SettlersAgeCalendar::to_string() const
+{
+    std::stringstream str;
+
+    const char lightOrNight = (hours < hoursOfLightPerDay) ? 'L' : 'N';
+
+    str << monthNames.at(months) << " " << (days + 1) << " " << (years + 1) << "SA, " << (hours + 1) << "-" << (minutes + 1) << lightOrNight;
+
+    return str.str();
 }
