@@ -7,6 +7,7 @@ class SettlersAgeCalendar
 {
 public:
     SettlersAgeCalendar();
+    SettlersAgeCalendar(unsigned int usat);
 
     ~SettlersAgeCalendar() = default;
 

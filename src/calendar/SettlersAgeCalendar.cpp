@@ -21,6 +21,32 @@ SettlersAgeCalendar::SettlersAgeCalendar() : usat(0), years(0), months(0), days(
 }
 
 /**
+ * Create a calendar starting at the given USAT.
+ */
+SettlersAgeCalendar::SettlersAgeCalendar(unsigned int usat) : usat(usat)
+{
+    unsigned int usatRemaining = usat;
+
+    minutes = usatRemaining % minutesPerHour;
+    usatRemaining -= minutes;
+    usatRemaining /= minutesPerHour;
+
+    hours = usatRemaining % hoursPerDay;
+    usatRemaining -= hours;
+    usatRemaining /= hoursPerDay;
+
+    days = usatRemaining % daysPerMonth;
+    usatRemaining -= days;
+    usatRemaining /= daysPerMonth;
+
+    months = usatRemaining % monthsPerYear;
+    usatRemaining -= months;
+    usatRemaining /= monthsPerYear;
+
+    years = usatRemaining;
+}
+
+/**
  * Advance the calendar by one unit of USAT time.
  */
 void SettlersAgeCalendar::advance()
