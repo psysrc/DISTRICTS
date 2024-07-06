@@ -96,9 +96,7 @@ std::string SettlersAgeCalendar::to_string() const
 {
     std::stringstream str;
 
-    const std::string lightOrNight = (hours < hoursOfLightPerDay) ? "(L)" : "(N)";
-
-    str << monthNames.at(months) << " " << (days + 1) << " " << (years + 1) << "SA, " << (hours + 1) << "hr " << lightOrNight;
+    str << monthNames.at(months) << " " << (days + 1) << " " << (years + 1) << "SA, " << (hours + 1) << "hr";
 
     return str.str();
 }

@@ -20,8 +20,6 @@ public:
     static constexpr unsigned int daysPerMonth = 20;
     static constexpr unsigned int monthsPerYear = 6;
 
-    static constexpr unsigned int hoursOfLightPerDay = 6;
-
     static constexpr unsigned int ticksPerDay = ticksPerHour * hoursPerDay;
     static constexpr unsigned int ticksPerMonth = ticksPerDay * daysPerMonth;
     static constexpr unsigned int ticksPerYear = ticksPerMonth * monthsPerYear;
