@@ -15,7 +15,7 @@ static const std::unordered_map<unsigned int, const std::string> monthNames {
 /**
  * Create a calendar starting at 0 USAT.
  */
-SettlersAgeCalendar::SettlersAgeCalendar() : usat(0), years(0), months(0), days(0), hours(0), minutes(0)
+SettlersAgeCalendar::SettlersAgeCalendar() : usat(0), years(0), months(0), days(0), hours(0), ticks(0)
 {
 
 }
@@ -27,9 +27,9 @@ SettlersAgeCalendar::SettlersAgeCalendar(unsigned int usat) : usat(usat)
 {
     unsigned int usatRemaining = usat;
 
-    minutes = usatRemaining % minutesPerHour;
-    usatRemaining -= minutes;
-    usatRemaining /= minutesPerHour;
+    ticks = usatRemaining % ticksPerHour;
+    usatRemaining -= ticks;
+    usatRemaining /= ticksPerHour;
 
     hours = usatRemaining % hoursPerDay;
     usatRemaining -= hours;
@@ -53,12 +53,12 @@ void SettlersAgeCalendar::advance()
 {
     ++usat;
 
-    ++minutes;
+    ++ticks;
 
-    if (minutes < minutesPerHour)
+    if (ticks < ticksPerHour)
         return;
 
-    minutes = 0;
+    ticks = 0;
     ++hours;
 
     if (hours < hoursPerDay)
@@ -96,9 +96,9 @@ std::string SettlersAgeCalendar::to_string() const
 {
     std::stringstream str;
 
-    const char lightOrNight = (hours < hoursOfLightPerDay) ? 'L' : 'N';
+    const std::string lightOrNight = (hours < hoursOfLightPerDay) ? "(L)" : "(N)";
 
-    str << monthNames.at(months) << " " << (days + 1) << " " << (years + 1) << "SA, " << (hours + 1) << "-" << (minutes + 1) << lightOrNight;
+    str << monthNames.at(months) << " " << (days + 1) << " " << (years + 1) << "SA, " << (hours + 1) << "hr " << lightOrNight;
 
     return str.str();
 }

@@ -43,7 +43,7 @@ Game::Game(unsigned int seed)
 
 	postUpdateGameSystems.push_back(std::make_unique<RenderSystem>());
 
-	constexpr unsigned int fiveHundredYearsInTicks = 31104000;
+	constexpr unsigned int fiveHundredYearsInTicks = 500 * SettlersAgeCalendar::ticksPerYear;
 	const unsigned int usat = rand() % fiveHundredYearsInTicks;
 	calendar = SettlersAgeCalendar(usat);
 }
