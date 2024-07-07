@@ -21,12 +21,12 @@ struct TileCoordinates
 template <>
 struct std::hash<TileCoordinates>
 {
-  std::size_t operator()(const TileCoordinates& k) const
-  {
-    // Compute individual hash values for first and second, and combine them using XOR and bit shifting:
+	std::size_t operator()(const TileCoordinates &k) const
+	{
+		// Compute individual hash values for first and second, and combine them using XOR and bit shifting:
 
-    return ((std::hash<short>()(k.x) ^ (std::hash<short>()(k.y) << 1)) >> 1);
-  }
+		return ((std::hash<short>()(k.x) ^ (std::hash<short>()(k.y) << 1)) >> 1);
+	}
 };
 
 #endif /* TILECOORDINATES_H_ */
