@@ -18,7 +18,7 @@ unsigned int generateNewRandomWaitTime(RandomWanderComponent *cmptWander)
 
 TileCoordinates generateNewRandomAccessibleLocation(District *district, Entity *entity, TileCoordinates position)
 {
-    TileCoordinates destination;
+    TileCoordinates destination(-1, -1);
 
     do // Keep choosing random tiles until one is found which the entity can move to
     {

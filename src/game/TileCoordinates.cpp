@@ -1,7 +1,5 @@
 #include "game/TileCoordinates.hpp"
 
-TileCoordinates::TileCoordinates() : x(0), y(0) {}
-
 TileCoordinates::TileCoordinates(short x, short y) : x(x), y(y) {}
 
 TileCoordinates::~TileCoordinates() {}

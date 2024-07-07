@@ -27,13 +27,13 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 	if (!District::validTileCoordinates(from) || !District::validTileCoordinates(to))
 		return nullptr;
 
-	std::unordered_map<TileCoordinates, TileCoordinates> pathVia;	// The immediately-preceding coordinates along the currently known best path
-	std::unordered_map<TileCoordinates, float> pathLength;		// Best path length currently known
-	std::unordered_map<TileCoordinates, float> fScore;			// pathLength + distance_heuristic
+	std::unordered_map<TileCoordinates, TileCoordinates> pathVia; // The immediately-preceding coordinates along the currently known best path
+	std::unordered_map<TileCoordinates, float> pathLength;		  // Best path length currently known
+	std::unordered_map<TileCoordinates, float> fScore;			  // pathLength + distance_heuristic
 
 	// Open set of all tiles left to explore (with custom lambda comparator to keep the correct priority)
 	auto fScoreComp = [&fScore](TileCoordinates a, TileCoordinates b) -> bool
-		{ return fScore[a] < fScore[b]; };
+	{ return fScore[a] < fScore[b]; };
 	std::set<TileCoordinates, decltype(fScoreComp)> openSet(fScoreComp);
 
 	// Closed set of all explored tiles
@@ -79,10 +79,10 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 			while (pCurrent != from)
 			{
 				pathFound.push_back(pCurrent);
-				pCurrent = pathVia[pCurrent];
+				pCurrent = pathVia.at(pCurrent);
 			}
 
-			pathFound.push_back(from);  // Add the starting tile
+			pathFound.push_back(from); // Add the starting tile
 
 			return std::move(std::make_unique<Path>(pathFound));
 		}
@@ -125,8 +125,8 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 			{
 				openSet.erase(pNeighbour); // Remove the neighbour from the open set
 
-				pathVia[pNeighbour] = pNext;													  // New best path goes through 'next'
-				pathLength[pNeighbour] = pathLengthNew;											  // New best path length
+				pathVia.insert(std::make_pair(pNeighbour, pNext));								 // New best path goes through 'next'
+				pathLength[pNeighbour] = pathLengthNew;											 // New best path length
 				fScore[pNeighbour] = pathLength[pNeighbour] + euclideanDistance(pNeighbour, to); // Update the fScore
 
 				// Re-insert the tile to update its correct priority within the open set

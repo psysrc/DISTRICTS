@@ -5,7 +5,6 @@
 
 struct TileCoordinates
 {
-	TileCoordinates();
 	TileCoordinates(short x, short y);
 
 	~TileCoordinates();
