@@ -6,6 +6,8 @@
 #include "components/PositionComponent.hpp"
 #include "components/MoveComponent.hpp"
 #include "pathfinding/PathFinding.hpp"
+#include "entities/OccupyRules.hpp"
+#include <optional>
 
 WanderSystem::WanderSystem() {}
 
@@ -16,18 +18,30 @@ unsigned int generateNewRandomWaitTime(RandomWanderComponent *cmptWander)
     return cmptWander->minTicksToWait + (rand() % (cmptWander->maxTicksToWait - cmptWander->minTicksToWait + 1));
 }
 
-TileCoordinates generateNewRandomAccessibleLocation(District *district, Entity *entity, TileCoordinates position)
+std::optional<TileCoordinates> generateNewRandomAccessibleLocation(District *district, Entity *entity, TileCoordinates position)
 {
-    TileCoordinates destination(-1, -1);
+    constexpr unsigned int maxAttempts = 10;
+    unsigned int numAttempts = 0;
 
-    do // Keep choosing random tiles until one is found which the entity can move to
+    std::optional<TileCoordinates> potentialDestination;
+
+    while (numAttempts < maxAttempts)
     {
-        destination.x = rand() % District::districtSize;
-        destination.y = rand() % District::districtSize;
+        ++numAttempts;
 
-    } while (!PathFinding::findPath(district, entity, position, destination, false));
+        const TileCoordinates destination(rand() % District::districtSize, rand() % District::districtSize);
 
-    return destination;
+        if (OccupyRules::canOccupy(district, entity, destination))
+        {
+            if (PathFinding::findPath(district, entity, position, destination, true))
+            {
+                potentialDestination = destination;
+                break;
+            }
+        }
+    }
+
+    return potentialDestination;
 }
 
 void WanderSystem::processEntity(District *district, const std::unique_ptr<Entity> &entity)
@@ -50,9 +64,12 @@ void WanderSystem::processEntity(District *district, const std::unique_ptr<Entit
     }
     else
     {
-        const TileCoordinates destination = generateNewRandomAccessibleLocation(district, entity.get(), cmptPosition->getPosition());
-        entity->addComponent(std::make_unique<MoveComponent>(destination, false));
-
         cmptWander->ticksLeftToWait = generateNewRandomWaitTime(cmptWander);
+
+        const auto possibleDestination = generateNewRandomAccessibleLocation(district, entity.get(), cmptPosition->getPosition());
+        if (possibleDestination.has_value())
+        {
+            entity->addComponent(std::make_unique<MoveComponent>(possibleDestination.value(), false));
+        }
     }
 }
