@@ -5,20 +5,14 @@
 
 struct TileCoordinates
 {
-	TileCoordinates() : x(0), y(0) {}
-	TileCoordinates(short x, short y) : x(x), y(y) {}
+	TileCoordinates();
+	TileCoordinates(short x, short y);
 
-	~TileCoordinates() {}
+	~TileCoordinates();
 
-	bool operator==(const TileCoordinates &b) const
-	{
-		return (x == b.x) && (y == b.y);
-	}
-
-	bool operator!=(const TileCoordinates &b) const
-	{
-		return !(*this == b);
-	}
+	bool operator==(const TileCoordinates &) const;
+	bool operator!=(const TileCoordinates &) const;
+	bool operator<(const TileCoordinates &) const;
 
 	short x;
 	short y;
