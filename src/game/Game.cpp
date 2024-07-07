@@ -58,10 +58,10 @@ Game::~Game()
  */
 void Game::play()
 {
-	const milliseconds gameTick(1000 / ticksPerSecond); // Time per game tick
-	milliseconds execStart;								// Time at the start of game tick
-	milliseconds execEnd;								// Time at the end of game tick
-	milliseconds execDuration;							// Duration of the game tick
+	constexpr milliseconds gameTick(1000 / ticksPerSecond); // Time per game tick
+	milliseconds execStart;									// Time at the start of game tick
+	milliseconds execEnd;									// Time at the end of game tick
+	milliseconds execDuration;								// Duration of the game tick
 
 	// execStart won't be calculated until the end of each pause, but each pause needs the execStart from the previous tick
 	// It therefore needs initialising here before the game loop starts
@@ -126,13 +126,12 @@ void Game::play()
 
 		runPreUpdateGameSystems();
 
-		spDistrict->update(); // Update the district
+		spDistrict->update();
 
 		runPostUpdateGameSystems();
 
 		calendar->advance();
 
-		// Update the UI
 		UI::update();
 	}
 
