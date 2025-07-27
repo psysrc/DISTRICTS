@@ -22,9 +22,10 @@
 #include <chrono>
 #include "calendar/SettlersAgeCalendar.hpp"
 
+
+
 namespace UI
 {
-
 	static WINDOW *districtWindow;
 	static WINDOW *activityWindow;
 	static WINDOW *headerWindow;
@@ -142,9 +143,9 @@ namespace UI
 	 */
 	void displayActivityMessage(const char *str)
 	{
-		wmove(activityWindow, activityWindow->_maxy, 0); // Move to the bottom line of the window
-		waddstr(activityWindow, str);					 // Print the line
-		waddstr(activityWindow, "\n");					 // Carriage return to scroll the window up
+		wmove(activityWindow, getmaxy(activityWindow) - 1, 0);	// Move to the bottom line of the window
+		waddstr(activityWindow, str);		// Print the line
+		waddstr(activityWindow, "\n");		// Carriage return to scroll the window up
 
 		wrefresh(activityWindow);
 	}

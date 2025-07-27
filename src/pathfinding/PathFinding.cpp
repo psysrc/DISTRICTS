@@ -84,7 +84,7 @@ std::unique_ptr<Path> PathFinding::findPath(District *pDistrict, Entity *pEntity
 
 			pathFound.push_back(from); // Add the starting tile
 
-			return std::move(std::make_unique<Path>(pathFound));
+			return std::make_unique<Path>(pathFound);
 		}
 
 		closedSet.insert(pNext);
